@@ -66,14 +66,27 @@
     }
   }
 
-  // --- Expand / Collapse ---
+  function collapseAllExcept(keepCard) {
+    cards.forEach(function (c) {
+      if (c !== keepCard && c.classList.contains('expanded')) {
+        c.classList.remove('expanded');
+        var btn = c.querySelector('.expand-card-btn');
+        if (btn) btn.textContent = 'Download ▾';
+      }
+    });
+  }
+
+  // --- Expand / Collapse (accordion) ---
   document.addEventListener('click', function (e) {
     var expandBtn = e.target.closest('.expand-card-btn');
     if (expandBtn) {
       var card = expandBtn.closest('.dataset-card');
       if (card) {
+        var opening = !card.classList.contains('expanded');
+        collapseAllExcept(card);
         card.classList.toggle('expanded');
         expandBtn.textContent = card.classList.contains('expanded') ? 'Download ▴' : 'Download ▾';
+        if (opening) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
       return;
     }
@@ -85,7 +98,14 @@
     if (e.target.closest('.dataset-actions') || e.target.closest('a')) return;
 
     var card = (header || toggle).closest('.dataset-card');
-    if (card) card.classList.toggle('expanded');
+    if (card) {
+      var opening = !card.classList.contains('expanded');
+      collapseAllExcept(card);
+      card.classList.toggle('expanded');
+      var btn = card.querySelector('.expand-card-btn');
+      if (btn) btn.textContent = card.classList.contains('expanded') ? 'Download ▴' : 'Download ▾';
+      if (opening) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   });
 
   // --- Hash routing ---
