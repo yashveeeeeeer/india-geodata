@@ -273,7 +273,17 @@ main { flex: 1; }
 .dataset-card.expanded .dataset-files { max-height: 3000px; }
 
 /* --- File Table --- */
-.file-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 12px; }
+.file-table-wrap {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+}
+.file-table-wrap::-webkit-scrollbar { width: 6px; }
+.file-table-wrap::-webkit-scrollbar-thumb { background: var(--color-muted); border-radius: 3px; }
+.file-table-wrap::-webkit-scrollbar-track { background: var(--color-bg-light); }
+.file-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 .file-table thead th {
   text-align: left;
   font-weight: 600;
@@ -283,6 +293,10 @@ main { flex: 1; }
   padding: 6px 8px;
   border-bottom: 2px solid var(--color-border);
   font-size: 0.72rem;
+  position: sticky;
+  top: 0;
+  background: var(--color-bg);
+  z-index: 1;
 }
 .file-table tbody tr:nth-child(even) { background: var(--color-bg-light); }
 .file-table tbody td { padding: 6px 8px; vertical-align: middle; }

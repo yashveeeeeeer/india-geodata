@@ -91,6 +91,7 @@ title: Home
               <p>SHRUG provides socioeconomic data for 500,000+ villages and 8,000+ towns — census, economic census, nightlights, forest cover, elections, and more.</p>
             </div>
             {% elsif item.files.size > 0 %}
+            <div class="file-table-wrap">
             <table class="file-table">
               <thead>
                 <tr><th>File</th><th>Format</th><th>Size</th><th></th></tr>
@@ -106,6 +107,7 @@ title: Home
                 {% endfor %}
               </tbody>
             </table>
+            </div>
             {% if item.release_url %}
             <p class="release-link"><a href="{{ item.release_url }}" target="_blank" rel="noopener">View all files on GitHub Releases &rarr;</a></p>
             {% endif %}
