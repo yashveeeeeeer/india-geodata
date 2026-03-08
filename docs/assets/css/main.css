@@ -129,13 +129,10 @@ main { flex: 1; }
 /* --- Category Pills --- */
 .category-pills {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 16px 0;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  -webkit-overflow-scrolling: touch;
 }
-.category-pills::-webkit-scrollbar { height: 0; }
 .pill {
   flex-shrink: 0;
   padding: 6px 14px;
