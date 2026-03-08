@@ -6,7 +6,7 @@ abstract: >-
   Unified repository of India's openly-licensed geospatial data,
   covering administrative boundaries, electoral maps, census geometries,
   environmental zones, infrastructure networks, urban municipal data,
-  postal boundaries, and police jurisdictions.
+  postal boundaries, police jurisdictions, and satellite remote sensing.
 repository-code: "https://github.com/yashveeeeeer/india-geodata"
 license: CC-BY-4.0
 date-released: "2026-03-07"
@@ -18,6 +18,9 @@ keywords:
   - open data
   - geodata
   - mapping
+  - nighttime lights
+  - VIIRS
+  - remote sensing
 references:
   - type: dataset
     title: "Indian Admin Boundaries"
@@ -36,3 +39,18 @@ references:
     authors:
       - name: "Ministry of Rural Development"
     repository-code: "https://github.com/datameet/pmgsy-geosadak"
+  - type: dataset
+    title: "India District Nightlights VIIRS"
+    authors:
+      - name: "yashveeeeeer"
+    repository-code: "https://github.com/yashveeeeeer/india-district-nightlights-viirs"
+    license: MIT
+  - type: dataset
+    title: "SHRUG: Socioeconomic High-resolution Rural-Urban Geographic Platform for India"
+    authors:
+      - family-names: "Asher"
+        given-names: "Sam"
+      - family-names: "Novosad"
+        given-names: "Paul"
+    url: "https://www.devdatalab.org/shrug"
+    license: CC-BY-NC-SA-4.0

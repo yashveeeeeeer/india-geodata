@@ -12,6 +12,8 @@
   storage: release
   release_tag: admin/blocks
   url: data/administrative/blocks
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/blocks
 - name: admin-country
   title: India Country Boundary
   description: National boundary of India.
@@ -23,6 +25,47 @@
   storage: repo
   release_tag: null
   url: data/administrative/country
+  files:
+  - name: india-composite.geojson
+    format: geojson
+    size: 10.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/india-composite.geojson
+  - name: india-land-simplified.geojson
+    format: geojson
+    size: 44 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/india-land-simplified.geojson
+  - name: india-osm.geojson
+    format: geojson
+    size: 6.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/india-osm.geojson
+  - name: india-soi.geojson
+    format: geojson
+    size: 11.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/india-soi.geojson
+  - name: disputed/india-disputed-lsib.geojson
+    format: geojson
+    size: 648 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/disputed/india-disputed-lsib.geojson
+  - name: disputed/pok-alhasan.geojson
+    format: geojson
+    size: 73 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/disputed/pok-alhasan.geojson
+  - name: disputed/pok-districts-alhasan.geojson
+    format: geojson
+    size: 142 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/disputed/pok-districts-alhasan.geojson
+  - name: disputed/shaksgam-ne.geojson
+    format: geojson
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/country/disputed/shaksgam-ne.geojson
 - name: admin-districts
   title: Districts
   description: Boundaries of all districts of India.
@@ -37,6 +80,73 @@
   storage: both
   release_tag: admin/districts
   url: data/administrative/districts
+  files:
+  - name: census-2001/2001_Dist.dbf
+    format: shapefile
+    size: 76 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.dbf
+  - name: census-2001/2001_Dist.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.prj
+  - name: census-2001/2001_Dist.sbn
+    format: sbn
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.sbn
+  - name: census-2001/2001_Dist.sbx
+    format: sbx
+    size: 604 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.sbx
+  - name: census-2001/2001_Dist.shp
+    format: shapefile
+    size: 9.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.shp
+  - name: census-2001/2001_Dist.shp.xml
+    format: xml
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.shp.xml
+  - name: census-2001/2001_Dist.shx
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2001/2001_Dist.shx
+  - name: census-2011/2011_Dist.dbf
+    format: shapefile
+    size: 53 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2011/2011_Dist.dbf
+  - name: census-2011/2011_Dist.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2011/2011_Dist.prj
+  - name: census-2011/2011_Dist.sbn
+    format: sbn
+    size: 7 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2011/2011_Dist.sbn
+  - name: census-2011/2011_Dist.sbx
+    format: sbx
+    size: 604 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2011/2011_Dist.sbx
+  - name: census-2011/2011_Dist.shp
+    format: shapefile
+    size: 9.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2011/2011_Dist.shp
+  - name: census-2011/2011_Dist.shx
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/districts/census-2011/2011_Dist.shx
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/districts
 - name: admin-divisions
   title: Revenue Divisions
   description: Boundaries of revenue divisions of India.
@@ -48,6 +158,87 @@
   storage: repo
   release_tag: null
   url: data/administrative/divisions
+  files:
+  - name: assam.topo.json
+    format: json
+    size: 45 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/assam.topo.json
+  - name: bihar.topo.json
+    format: json
+    size: 64 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/bihar.topo.json
+  - name: chhattisgarh.topo.json
+    format: json
+    size: 45 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/chhattisgarh.topo.json
+  - name: gujarat-divisions.topo.json
+    format: json
+    size: 860 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/gujarat-divisions.topo.json
+  - name: haryana.topo.json
+    format: json
+    size: 32 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/haryana.topo.json
+  - name: himachal-pradesh.topo.json
+    format: json
+    size: 25 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/himachal-pradesh.topo.json
+  - name: jharkhand.topo.json
+    format: json
+    size: 44 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/jharkhand.topo.json
+  - name: karnataka.topo.json
+    format: json
+    size: 72 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/karnataka.topo.json
+  - name: kerala.topo.json
+    format: json
+    size: 30 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/kerala.topo.json
+  - name: madhya-pradesh.topo.json
+    format: json
+    size: 158 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/madhya-pradesh.topo.json
+  - name: maharashtra.topo.json
+    format: json
+    size: 111 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/maharashtra.topo.json
+  - name: manipur.topo.json
+    format: json
+    size: 17 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/manipur.topo.json
+  - name: odisha.topo.json
+    format: json
+    size: 54 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/odisha.topo.json
+  - name: punjab.topo.json
+    format: json
+    size: 31 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/punjab.topo.json
+  - name: rajasthan.topo.json
+    format: json
+    size: 85 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/rajasthan.topo.json
+  - name: tamilnadu.topo.json
+    format: json
+    size: 62 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/divisions/tamilnadu.topo.json
 - name: admin-habitations
   title: Habitations
   description: Point locations and boundaries of habitations across India.
@@ -62,6 +253,8 @@
   storage: release
   release_tag: admin/habitations
   url: data/administrative/habitations
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/habitations
 - name: admin-panchayats
   title: Gram Panchayats
   description: Boundaries of gram panchayats (local self-government bodies) across
@@ -77,6 +270,8 @@
   storage: release
   release_tag: admin/panchayats
   url: data/administrative/panchayats
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/panchayats
 - name: admin-states
   title: States and Union Territories
   description: Boundaries of all states and union territories of India.
@@ -91,6 +286,33 @@
   storage: both
   release_tag: admin/states
   url: data/administrative/states
+  files:
+  - name: datameet/Admin2.cpg
+    format: shapefile
+    size: 5 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/states/datameet/Admin2.cpg
+  - name: datameet/Admin2.dbf
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/states/datameet/Admin2.dbf
+  - name: datameet/Admin2.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/states/datameet/Admin2.prj
+  - name: datameet/Admin2.shp
+    format: shapefile
+    size: 16.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/states/datameet/Admin2.shp
+  - name: datameet/Admin2.shx
+    format: shapefile
+    size: 388 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/administrative/states/datameet/Admin2.shx
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/states
 - name: admin-subdistricts
   title: Sub-Districts (Tehsils/Talukas)
   description: Boundaries of all sub-districts (tehsils, talukas, mandals) of India.
@@ -105,6 +327,8 @@
   storage: release
   release_tag: admin/subdistricts
   url: data/administrative/subdistricts
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/subdistricts
 - name: admin-villages
   title: Villages
   description: Boundaries of all census villages of India.
@@ -119,6 +343,8 @@
   storage: release
   release_tag: admin/villages
   url: data/administrative/villages
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/admin/villages
 - name: census-2011
   title: Census 2011 Boundaries and Data
   description: Administrative boundaries and demographic data from the 2011 Census
@@ -134,6 +360,8 @@
   storage: release
   release_tag: census/2011
   url: data/census/census-2011
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/census/2011
 - name: census-historical
   title: Historical Census Data
   description: Historical census boundaries and population data from pre-2011 census
@@ -148,6 +376,28 @@
   storage: both
   release_tag: census/historical
   url: data/census/historical
+  files:
+  - name: District_Timeseries_1951-2024.csv
+    format: csv
+    size: 131 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/census/historical/District_Timeseries_1951-2024.csv
+  - name: District_name_changes_1951_to_2021.csv
+    format: csv
+    size: 9 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/census/historical/District_name_changes_1951_to_2021.csv
+  - name: District_splits_and_carveouts_1951_to_2024.csv
+    format: csv
+    size: 43 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/census/historical/District_splits_and_carveouts_1951_to_2024.csv
+  - name: New_districts_created_1951_to_2024.csv
+    format: csv
+    size: 26 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/census/historical/New_districts_created_1951_to_2024.csv
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/census/historical
 - name: electoral-ac
   title: Assembly Constituencies
   description: Boundaries of state legislative assembly constituencies of India.
@@ -162,6 +412,483 @@
   storage: both
   release_tag: electoral/constituencies
   url: data/electoral/assembly-constituencies
+  files:
+  - name: eci-statewise/S01_AC.dbf
+    format: shapefile
+    size: 90 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S01_AC.dbf
+  - name: eci-statewise/S01_AC.shp
+    format: shapefile
+    size: 917 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S01_AC.shp
+  - name: eci-statewise/S01_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S01_AC.shx
+  - name: eci-statewise/S02_AC.dbf
+    format: shapefile
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S02_AC.dbf
+  - name: eci-statewise/S02_AC.shp
+    format: shapefile
+    size: 148 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S02_AC.shp
+  - name: eci-statewise/S02_AC.shx
+    format: shapefile
+    size: 580 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S02_AC.shx
+  - name: eci-statewise/S03_AC.dbf
+    format: shapefile
+    size: 39 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S03_AC.dbf
+  - name: eci-statewise/S03_AC.shp
+    format: shapefile
+    size: 253 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S03_AC.shp
+  - name: eci-statewise/S03_AC.shx
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S03_AC.shx
+  - name: eci-statewise/S04_AC.dbf
+    format: shapefile
+    size: 74 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S04_AC.dbf
+  - name: eci-statewise/S04_AC.shp
+    format: shapefile
+    size: 567 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S04_AC.shp
+  - name: eci-statewise/S04_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S04_AC.shx
+  - name: eci-statewise/S05_AC.dbf
+    format: shapefile
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S05_AC.dbf
+  - name: eci-statewise/S05_AC.shp
+    format: shapefile
+    size: 79 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S05_AC.shp
+  - name: eci-statewise/S05_AC.shx
+    format: shapefile
+    size: 420 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S05_AC.shx
+  - name: eci-statewise/S06_AC.dbf
+    format: shapefile
+    size: 56 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S06_AC.dbf
+  - name: eci-statewise/S06_AC.shp
+    format: shapefile
+    size: 741 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S06_AC.shp
+  - name: eci-statewise/S06_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S06_AC.shx
+  - name: eci-statewise/S07_AC.dbf
+    format: shapefile
+    size: 28 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S07_AC.dbf
+  - name: eci-statewise/S07_AC.shp
+    format: shapefile
+    size: 212 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S07_AC.shp
+  - name: eci-statewise/S07_AC.shx
+    format: shapefile
+    size: 820 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S07_AC.shx
+  - name: eci-statewise/S08_AC.dbf
+    format: shapefile
+    size: 21 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S08_AC.dbf
+  - name: eci-statewise/S08_AC.shp
+    format: shapefile
+    size: 150 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S08_AC.shp
+  - name: eci-statewise/S08_AC.shx
+    format: shapefile
+    size: 644 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S08_AC.shx
+  - name: eci-statewise/S09_AC.dbf
+    format: shapefile
+    size: 24 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S09_AC.dbf
+  - name: eci-statewise/S09_AC.shp
+    format: shapefile
+    size: 121 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S09_AC.shp
+  - name: eci-statewise/S09_AC.shx
+    format: shapefile
+    size: 708 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S09_AC.shx
+  - name: eci-statewise/S10_AC.dbf
+    format: shapefile
+    size: 68 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S10_AC.dbf
+  - name: eci-statewise/S10_AC.shp
+    format: shapefile
+    size: 904 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S10_AC.shp
+  - name: eci-statewise/S10_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S10_AC.shx
+  - name: eci-statewise/S11_AC.dbf
+    format: shapefile
+    size: 43 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S11_AC.dbf
+  - name: eci-statewise/S11_AC.shp
+    format: shapefile
+    size: 246 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S11_AC.shp
+  - name: eci-statewise/S11_AC.shx
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S11_AC.shx
+  - name: eci-statewise/S12_AC.dbf
+    format: shapefile
+    size: 70 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S12_AC.dbf
+  - name: eci-statewise/S12_AC.shp
+    format: shapefile
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S12_AC.shp
+  - name: eci-statewise/S12_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S12_AC.shx
+  - name: eci-statewise/S13_AC.dbf
+    format: shapefile
+    size: 88 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S13_AC.dbf
+  - name: eci-statewise/S13_AC.shp
+    format: shapefile
+    size: 989 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S13_AC.shp
+  - name: eci-statewise/S13_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S13_AC.shx
+  - name: eci-statewise/S14_AC.dbf
+    format: shapefile
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S14_AC.dbf
+  - name: eci-statewise/S14_AC.shp
+    format: shapefile
+    size: 88 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S14_AC.shp
+  - name: eci-statewise/S14_AC.shx
+    format: shapefile
+    size: 580 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S14_AC.shx
+  - name: eci-statewise/S15_AC.dbf
+    format: shapefile
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S15_AC.dbf
+  - name: eci-statewise/S15_AC.shp
+    format: shapefile
+    size: 88 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S15_AC.shp
+  - name: eci-statewise/S15_AC.shx
+    format: shapefile
+    size: 580 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S15_AC.shx
+  - name: eci-statewise/S16_AC.dbf
+    format: shapefile
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S16_AC.dbf
+  - name: eci-statewise/S16_AC.shp
+    format: shapefile
+    size: 89 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S16_AC.shp
+  - name: eci-statewise/S16_AC.shx
+    format: shapefile
+    size: 420 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S16_AC.shx
+  - name: eci-statewise/S17_AC.dbf
+    format: shapefile
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S17_AC.dbf
+  - name: eci-statewise/S17_AC.shp
+    format: shapefile
+    size: 76 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S17_AC.shp
+  - name: eci-statewise/S17_AC.shx
+    format: shapefile
+    size: 580 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S17_AC.shx
+  - name: eci-statewise/S18_AC.dbf
+    format: shapefile
+    size: 45 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S18_AC.dbf
+  - name: eci-statewise/S18_AC.shp
+    format: shapefile
+    size: 511 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S18_AC.shp
+  - name: eci-statewise/S18_AC.shx
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S18_AC.shx
+  - name: eci-statewise/S19_AC.dbf
+    format: shapefile
+    size: 36 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S19_AC.dbf
+  - name: eci-statewise/S19_AC.shp
+    format: shapefile
+    size: 265 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S19_AC.shp
+  - name: eci-statewise/S19_AC.shx
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S19_AC.shx
+  - name: eci-statewise/S20_AC.dbf
+    format: shapefile
+    size: 61 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S20_AC.dbf
+  - name: eci-statewise/S20_AC.shp
+    format: shapefile
+    size: 931 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S20_AC.shp
+  - name: eci-statewise/S20_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S20_AC.shx
+  - name: eci-statewise/S21_AC.dbf
+    format: shapefile
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S21_AC.dbf
+  - name: eci-statewise/S21_AC.shp
+    format: shapefile
+    size: 77 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S21_AC.shp
+  - name: eci-statewise/S21_AC.shx
+    format: shapefile
+    size: 356 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S21_AC.shx
+  - name: eci-statewise/S22_AC.dbf
+    format: shapefile
+    size: 72 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S22_AC.dbf
+  - name: eci-statewise/S22_AC.shp
+    format: shapefile
+    size: 679 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S22_AC.shp
+  - name: eci-statewise/S22_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S22_AC.shx
+  - name: eci-statewise/S23_AC.dbf
+    format: shapefile
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S23_AC.dbf
+  - name: eci-statewise/S23_AC.shp
+    format: shapefile
+    size: 85 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S23_AC.shp
+  - name: eci-statewise/S23_AC.shx
+    format: shapefile
+    size: 580 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S23_AC.shx
+  - name: eci-statewise/S24_AC.dbf
+    format: shapefile
+    size: 123 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S24_AC.dbf
+  - name: eci-statewise/S24_AC.shp
+    format: shapefile
+    size: 1.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S24_AC.shp
+  - name: eci-statewise/S24_AC.shx
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S24_AC.shx
+  - name: eci-statewise/S25_AC.dbf
+    format: shapefile
+    size: 90 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S25_AC.dbf
+  - name: eci-statewise/S25_AC.shp
+    format: shapefile
+    size: 545 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S25_AC.shp
+  - name: eci-statewise/S25_AC.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S25_AC.shx
+  - name: eci-statewise/S26_AC.dbf
+    format: shapefile
+    size: 28 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S26_AC.dbf
+  - name: eci-statewise/S26_AC.shp
+    format: shapefile
+    size: 381 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S26_AC.shp
+  - name: eci-statewise/S26_AC.shx
+    format: shapefile
+    size: 820 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S26_AC.shx
+  - name: eci-statewise/S27_AC.dbf
+    format: shapefile
+    size: 25 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S27_AC.dbf
+  - name: eci-statewise/S27_AC.shp
+    format: shapefile
+    size: 391 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S27_AC.shp
+  - name: eci-statewise/S27_AC.shx
+    format: shapefile
+    size: 748 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S27_AC.shx
+  - name: eci-statewise/S28_AC.dbf
+    format: shapefile
+    size: 30 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S28_AC.dbf
+  - name: eci-statewise/S28_AC.shp
+    format: shapefile
+    size: 413 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S28_AC.shp
+  - name: eci-statewise/S28_AC.shx
+    format: shapefile
+    size: 660 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/S28_AC.shx
+  - name: eci-statewise/U05_AC.dbf
+    format: shapefile
+    size: 22 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/U05_AC.dbf
+  - name: eci-statewise/U05_AC.shp
+    format: shapefile
+    size: 100 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/U05_AC.shp
+  - name: eci-statewise/U05_AC.shx
+    format: shapefile
+    size: 660 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/U05_AC.shx
+  - name: eci-statewise/U07_AC.dbf
+    format: shapefile
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/U07_AC.dbf
+  - name: eci-statewise/U07_AC.shp
+    format: shapefile
+    size: 26 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/U07_AC.shp
+  - name: eci-statewise/U07_AC.shx
+    format: shapefile
+    size: 340 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/eci-statewise/U07_AC.shx
+  - name: national/India_AC.dbf
+    format: shapefile
+    size: 5.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/national/India_AC.dbf
+  - name: national/India_AC.prj
+    format: shapefile
+    size: 143 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/national/India_AC.prj
+  - name: national/India_AC.shp
+    format: shapefile
+    size: 6.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/national/India_AC.shp
+  - name: national/India_AC.shp.xml
+    format: xml
+    size: 11 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/national/India_AC.shp.xml
+  - name: national/India_AC.shx
+    format: shapefile
+    size: 33 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/assembly-constituencies/national/India_AC.shx
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/electoral/constituencies
 - name: electoral-pc
   title: Parliamentary Constituencies
   description: Boundaries of Lok Sabha parliamentary constituencies of India.
@@ -176,6 +903,573 @@
   storage: both
   release_tag: electoral/constituencies
   url: data/electoral/parliamentary-constituencies
+  files:
+  - name: eci-statewise/S01_PC.dbf
+    format: shapefile
+    size: 9 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S01_PC.dbf
+  - name: eci-statewise/S01_PC.shp
+    format: shapefile
+    size: 165 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S01_PC.shp
+  - name: eci-statewise/S01_PC.shx
+    format: shapefile
+    size: 436 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S01_PC.shx
+  - name: eci-statewise/S02_PC.dbf
+    format: shapefile
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S02_PC.dbf
+  - name: eci-statewise/S02_PC.shp
+    format: shapefile
+    size: 17 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S02_PC.shp
+  - name: eci-statewise/S02_PC.shx
+    format: shapefile
+    size: 116 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S02_PC.shx
+  - name: eci-statewise/S03_PC.dbf
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S03_PC.dbf
+  - name: eci-statewise/S03_PC.shp
+    format: shapefile
+    size: 67 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S03_PC.shp
+  - name: eci-statewise/S03_PC.shx
+    format: shapefile
+    size: 212 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S03_PC.shx
+  - name: eci-statewise/S04_PC.dbf
+    format: shapefile
+    size: 9 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S04_PC.dbf
+  - name: eci-statewise/S04_PC.shp
+    format: shapefile
+    size: 126 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S04_PC.shp
+  - name: eci-statewise/S04_PC.shx
+    format: shapefile
+    size: 420 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S04_PC.shx
+  - name: eci-statewise/S05_PC.dbf
+    format: shapefile
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S05_PC.dbf
+  - name: eci-statewise/S05_PC.shp
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S05_PC.shp
+  - name: eci-statewise/S05_PC.shx
+    format: shapefile
+    size: 116 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S05_PC.shx
+  - name: eci-statewise/S06_PC.dbf
+    format: shapefile
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S06_PC.dbf
+  - name: eci-statewise/S06_PC.shp
+    format: shapefile
+    size: 267 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S06_PC.shp
+  - name: eci-statewise/S06_PC.shx
+    format: shapefile
+    size: 308 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S06_PC.shx
+  - name: eci-statewise/S07_PC.dbf
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S07_PC.dbf
+  - name: eci-statewise/S07_PC.shp
+    format: shapefile
+    size: 72 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S07_PC.shp
+  - name: eci-statewise/S07_PC.shx
+    format: shapefile
+    size: 180 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S07_PC.shx
+  - name: eci-statewise/S08_PC.dbf
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S08_PC.dbf
+  - name: eci-statewise/S08_PC.shp
+    format: shapefile
+    size: 35 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S08_PC.shp
+  - name: eci-statewise/S08_PC.shx
+    format: shapefile
+    size: 132 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S08_PC.shx
+  - name: eci-statewise/S09_PC.dbf
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S09_PC.dbf
+  - name: eci-statewise/S09_PC.shp
+    format: shapefile
+    size: 61 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S09_PC.shp
+  - name: eci-statewise/S09_PC.shx
+    format: shapefile
+    size: 148 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S09_PC.shx
+  - name: eci-statewise/S10_PC.dbf
+    format: shapefile
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S10_PC.dbf
+  - name: eci-statewise/S10_PC.shp
+    format: shapefile
+    size: 118 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S10_PC.shp
+  - name: eci-statewise/S10_PC.shx
+    format: shapefile
+    size: 324 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S10_PC.shx
+  - name: eci-statewise/S11_PC.dbf
+    format: shapefile
+    size: 4 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S11_PC.dbf
+  - name: eci-statewise/S11_PC.shp
+    format: shapefile
+    size: 90 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S11_PC.shp
+  - name: eci-statewise/S11_PC.shx
+    format: shapefile
+    size: 260 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S11_PC.shx
+  - name: eci-statewise/S12_PC.dbf
+    format: shapefile
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S12_PC.dbf
+  - name: eci-statewise/S12_PC.shp
+    format: shapefile
+    size: 218 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S12_PC.shp
+  - name: eci-statewise/S12_PC.shx
+    format: shapefile
+    size: 332 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S12_PC.shx
+  - name: eci-statewise/S13_PC.dbf
+    format: shapefile
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S13_PC.dbf
+  - name: eci-statewise/S13_PC.shp
+    format: shapefile
+    size: 226 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S13_PC.shp
+  - name: eci-statewise/S13_PC.shx
+    format: shapefile
+    size: 484 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S13_PC.shx
+  - name: eci-statewise/S14_PC.dbf
+    format: shapefile
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S14_PC.dbf
+  - name: eci-statewise/S14_PC.shp
+    format: shapefile
+    size: 27 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S14_PC.shp
+  - name: eci-statewise/S14_PC.shx
+    format: shapefile
+    size: 116 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S14_PC.shx
+  - name: eci-statewise/S15_PC.dbf
+    format: shapefile
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S15_PC.dbf
+  - name: eci-statewise/S15_PC.shp
+    format: shapefile
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S15_PC.shp
+  - name: eci-statewise/S15_PC.shx
+    format: shapefile
+    size: 116 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S15_PC.shx
+  - name: eci-statewise/S16_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S16_PC.dbf
+  - name: eci-statewise/S16_PC.shp
+    format: shapefile
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S16_PC.shp
+  - name: eci-statewise/S16_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S16_PC.shx
+  - name: eci-statewise/S17_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S17_PC.dbf
+  - name: eci-statewise/S17_PC.shp
+    format: shapefile
+    size: 11 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S17_PC.shp
+  - name: eci-statewise/S17_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S17_PC.shx
+  - name: eci-statewise/S18_PC.dbf
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S18_PC.dbf
+  - name: eci-statewise/S18_PC.shp
+    format: shapefile
+    size: 109 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S18_PC.shp
+  - name: eci-statewise/S18_PC.shx
+    format: shapefile
+    size: 268 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S18_PC.shx
+  - name: eci-statewise/S19_PC.dbf
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S19_PC.dbf
+  - name: eci-statewise/S19_PC.shp
+    format: shapefile
+    size: 74 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S19_PC.shp
+  - name: eci-statewise/S19_PC.shx
+    format: shapefile
+    size: 204 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S19_PC.shx
+  - name: eci-statewise/S20_PC.dbf
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S20_PC.dbf
+  - name: eci-statewise/S20_PC.shp
+    format: shapefile
+    size: 165 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S20_PC.shp
+  - name: eci-statewise/S20_PC.shx
+    format: shapefile
+    size: 300 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S20_PC.shx
+  - name: eci-statewise/S21_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S21_PC.dbf
+  - name: eci-statewise/S21_PC.shp
+    format: shapefile
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S21_PC.shp
+  - name: eci-statewise/S21_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S21_PC.shx
+  - name: eci-statewise/S22_PC.dbf
+    format: shapefile
+    size: 8 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S22_PC.dbf
+  - name: eci-statewise/S22_PC.shp
+    format: shapefile
+    size: 261 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S22_PC.shp
+  - name: eci-statewise/S22_PC.shx
+    format: shapefile
+    size: 412 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S22_PC.shx
+  - name: eci-statewise/S23_PC.dbf
+    format: shapefile
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S23_PC.dbf
+  - name: eci-statewise/S23_PC.shp
+    format: shapefile
+    size: 9 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S23_PC.shp
+  - name: eci-statewise/S23_PC.shx
+    format: shapefile
+    size: 116 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S23_PC.shx
+  - name: eci-statewise/S24_PC.dbf
+    format: shapefile
+    size: 17 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S24_PC.dbf
+  - name: eci-statewise/S24_PC.shp
+    format: shapefile
+    size: 552 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S24_PC.shp
+  - name: eci-statewise/S24_PC.shx
+    format: shapefile
+    size: 740 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S24_PC.shx
+  - name: eci-statewise/S25_PC.dbf
+    format: shapefile
+    size: 9 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S25_PC.dbf
+  - name: eci-statewise/S25_PC.shp
+    format: shapefile
+    size: 175 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S25_PC.shp
+  - name: eci-statewise/S25_PC.shx
+    format: shapefile
+    size: 436 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S25_PC.shx
+  - name: eci-statewise/S26_PC.dbf
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S26_PC.dbf
+  - name: eci-statewise/S26_PC.shp
+    format: shapefile
+    size: 80 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S26_PC.shp
+  - name: eci-statewise/S26_PC.shx
+    format: shapefile
+    size: 188 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S26_PC.shx
+  - name: eci-statewise/S27_PC.dbf
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S27_PC.dbf
+  - name: eci-statewise/S27_PC.shp
+    format: shapefile
+    size: 83 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S27_PC.shp
+  - name: eci-statewise/S27_PC.shx
+    format: shapefile
+    size: 212 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S27_PC.shx
+  - name: eci-statewise/S28_PC.dbf
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S28_PC.dbf
+  - name: eci-statewise/S28_PC.shp
+    format: shapefile
+    size: 25 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S28_PC.shp
+  - name: eci-statewise/S28_PC.shx
+    format: shapefile
+    size: 140 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/S28_PC.shx
+  - name: eci-statewise/U01_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U01_PC.dbf
+  - name: eci-statewise/U01_PC.shp
+    format: shapefile
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U01_PC.shp
+  - name: eci-statewise/U01_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U01_PC.shx
+  - name: eci-statewise/U02_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U02_PC.dbf
+  - name: eci-statewise/U02_PC.shp
+    format: shapefile
+    size: 15 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U02_PC.shp
+  - name: eci-statewise/U02_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U02_PC.shx
+  - name: eci-statewise/U03_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U03_PC.dbf
+  - name: eci-statewise/U03_PC.shp
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U03_PC.shp
+  - name: eci-statewise/U03_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U03_PC.shx
+  - name: eci-statewise/U04_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U04_PC.dbf
+  - name: eci-statewise/U04_PC.shp
+    format: shapefile
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U04_PC.shp
+  - name: eci-statewise/U04_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U04_PC.shx
+  - name: eci-statewise/U05_PC.dbf
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U05_PC.dbf
+  - name: eci-statewise/U05_PC.shp
+    format: shapefile
+    size: 78 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U05_PC.shp
+  - name: eci-statewise/U05_PC.shx
+    format: shapefile
+    size: 156 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U05_PC.shx
+  - name: eci-statewise/U06_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U06_PC.dbf
+  - name: eci-statewise/U06_PC.shp
+    format: shapefile
+    size: 4 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U06_PC.shp
+  - name: eci-statewise/U06_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U06_PC.shx
+  - name: eci-statewise/U07_PC.dbf
+    format: shapefile
+    size: 563 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U07_PC.dbf
+  - name: eci-statewise/U07_PC.shp
+    format: shapefile
+    size: 34 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U07_PC.shp
+  - name: eci-statewise/U07_PC.shx
+    format: shapefile
+    size: 108 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/eci-statewise/U07_PC.shx
+  - name: national/india_pc_2019.cpg
+    format: shapefile
+    size: 5 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.cpg
+  - name: national/india_pc_2019.dbf
+    format: shapefile
+    size: 276 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.dbf
+  - name: national/india_pc_2019.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.prj
+  - name: national/india_pc_2019.sbn
+    format: sbn
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.sbn
+  - name: national/india_pc_2019.sbx
+    format: sbx
+    size: 580 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.sbx
+  - name: national/india_pc_2019.shp
+    format: shapefile
+    size: 48.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.shp
+  - name: national/india_pc_2019.shx
+    format: shapefile
+    size: 4 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019.shx
+  - name: national/india_pc_2019_simplified.geojson
+    format: geojson
+    size: 1.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/electoral/parliamentary-constituencies/national/india_pc_2019_simplified.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/electoral/constituencies
 - name: env-coastal
   title: Coastal Zone Boundaries
   description: Coastal regulation zones and shoreline boundaries of India.
@@ -190,6 +1484,8 @@
   storage: release
   release_tag: environment/coastal
   url: data/environment/coastal
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/environment/coastal
 - name: env-forests
   title: Forest Boundaries
   description: Forest cover and reserve forest boundaries across India.
@@ -204,6 +1500,8 @@
   storage: release
   release_tag: environment/forests
   url: data/environment/forests
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/environment/forests
 - name: env-landuse
   title: Land Use / Land Cover
   description: Land use and land cover classification data for India.
@@ -216,6 +1514,41 @@
   storage: repo
   release_tag: null
   url: data/environment/landuse
+  files:
+  - name: hyderabad/Hyderabad_Landuse.geojson
+    format: geojson
+    size: 13.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/landuse/hyderabad/Hyderabad_Landuse.geojson
+  - name: hyderabad/Hyderabad_Landuse.zip
+    format: zip
+    size: 3.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/landuse/hyderabad/Hyderabad_Landuse.zip
+  - name: hyderabad/Readme.md
+    format: md
+    size: 662 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/landuse/hyderabad/Readme.md
+- name: shrug
+  title: SHRUG — Socioeconomic High-resolution Rural-Urban Geographic Platform
+  description: Open-access platform with socioeconomic, environmental, and geospatial
+    data for 500,000+ Indian villages and 8,000+ towns, spanning 25 years. Includes
+    census demographics, economic census, nighttime lights, forest cover, elections,
+    and open boundary polygons.
+  category: external
+  level: village
+  formats:
+  - csv
+  - dta
+  - shapefile
+  license_id: CC-BY-NC-SA-4.0
+  storage: external
+  release_tag: null
+  url: data/external/shrug
+  external_url: https://www.devdatalab.org/shrug_download/
+  external_docs: https://docs.devdatalab.org/
+  files: []
 - name: infra-rural-roads
   title: Rural Roads (PMGSY)
   description: Rural road network data from the Pradhan Mantri Gram Sadak Yojana program.
@@ -228,6 +1561,708 @@
   storage: both
   release_tag: infra/rural-roads-large
   url: data/infrastructure/rural-roads
+  files:
+  - name: block-boundaries/AndhraPradesh.zip
+    format: zip
+    size: 6.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/AndhraPradesh.zip
+  - name: block-boundaries/ArunachalPradesh.zip
+    format: zip
+    size: 830 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/ArunachalPradesh.zip
+  - name: block-boundaries/Assam.zip
+    format: zip
+    size: 2.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Assam.zip
+  - name: block-boundaries/Bihar.zip
+    format: zip
+    size: 3.9 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Bihar.zip
+  - name: block-boundaries/Chhattisgarh.zip
+    format: zip
+    size: 13.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Chhattisgarh.zip
+  - name: block-boundaries/Gujarat.zip
+    format: zip
+    size: 5.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Gujarat.zip
+  - name: block-boundaries/Haryana.zip
+    format: zip
+    size: 946 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Haryana.zip
+  - name: block-boundaries/HimachalPradesh.zip
+    format: zip
+    size: 1.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/HimachalPradesh.zip
+  - name: block-boundaries/JammuAndKashmir.zip
+    format: zip
+    size: 435 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/JammuAndKashmir.zip
+  - name: block-boundaries/Jharkhand.zip
+    format: zip
+    size: 4.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Jharkhand.zip
+  - name: block-boundaries/Karnataka.zip
+    format: zip
+    size: 2.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Karnataka.zip
+  - name: block-boundaries/Kerala.zip
+    format: zip
+    size: 1.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Kerala.zip
+  - name: block-boundaries/Ladakh.zip
+    format: zip
+    size: 169 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Ladakh.zip
+  - name: block-boundaries/MadhyaPradesh.zip
+    format: zip
+    size: 21.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/MadhyaPradesh.zip
+  - name: block-boundaries/Maharashtra.zip
+    format: zip
+    size: 14.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Maharashtra.zip
+  - name: block-boundaries/Manipur.zip
+    format: zip
+    size: 551 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Manipur.zip
+  - name: block-boundaries/Meghalaya.zip
+    format: zip
+    size: 744 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Meghalaya.zip
+  - name: block-boundaries/Mizoram.zip
+    format: zip
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Mizoram.zip
+  - name: block-boundaries/Nagaland.zip
+    format: zip
+    size: 3.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Nagaland.zip
+  - name: block-boundaries/Odisha.zip
+    format: zip
+    size: 31.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Odisha.zip
+  - name: block-boundaries/Punjab.zip
+    format: zip
+    size: 954 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Punjab.zip
+  - name: block-boundaries/Rajasthan.zip
+    format: zip
+    size: 3.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Rajasthan.zip
+  - name: block-boundaries/Sikkim.zip
+    format: zip
+    size: 295 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Sikkim.zip
+  - name: block-boundaries/Tamilnadu.zip
+    format: zip
+    size: 6.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Tamilnadu.zip
+  - name: block-boundaries/Telangana.zip
+    format: zip
+    size: 6.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Telangana.zip
+  - name: block-boundaries/Tripura.zip
+    format: zip
+    size: 758 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Tripura.zip
+  - name: block-boundaries/UttarPradesh.zip
+    format: zip
+    size: 7.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/UttarPradesh.zip
+  - name: block-boundaries/Uttarakhand.zip
+    format: zip
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/Uttarakhand.zip
+  - name: block-boundaries/WestBengal.zip
+    format: zip
+    size: 3.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/block-boundaries/WestBengal.zip
+  - name: facilities/AndhraPradesh.zip
+    format: zip
+    size: 1.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/AndhraPradesh.zip
+  - name: facilities/ArunachalPradesh.zip
+    format: zip
+    size: 133 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/ArunachalPradesh.zip
+  - name: facilities/Assam.zip
+    format: zip
+    size: 1.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Assam.zip
+  - name: facilities/Bihar.zip
+    format: zip
+    size: 1.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Bihar.zip
+  - name: facilities/Chhattisgarh.zip
+    format: zip
+    size: 918 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Chhattisgarh.zip
+  - name: facilities/Gujarat.zip
+    format: zip
+    size: 1.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Gujarat.zip
+  - name: facilities/Haryana.zip
+    format: zip
+    size: 695 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Haryana.zip
+  - name: facilities/HimachalPradesh.zip
+    format: zip
+    size: 452 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/HimachalPradesh.zip
+  - name: facilities/JammuAndKashmir.zip
+    format: zip
+    size: 513 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/JammuAndKashmir.zip
+  - name: facilities/Jharkhand.zip
+    format: zip
+    size: 635 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Jharkhand.zip
+  - name: facilities/Karnataka.zip
+    format: zip
+    size: 2.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Karnataka.zip
+  - name: facilities/Kerala.zip
+    format: zip
+    size: 1.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Kerala.zip
+  - name: facilities/Ladakh.zip
+    format: zip
+    size: 34 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Ladakh.zip
+  - name: facilities/MadhyaPradesh.zip
+    format: zip
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/MadhyaPradesh.zip
+  - name: facilities/Maharashtra.zip
+    format: zip
+    size: 2.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Maharashtra.zip
+  - name: facilities/Manipur.zip
+    format: zip
+    size: 187 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Manipur.zip
+  - name: facilities/Meghalaya.zip
+    format: zip
+    size: 118 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Meghalaya.zip
+  - name: facilities/Mizoram.zip
+    format: zip
+    size: 56 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Mizoram.zip
+  - name: facilities/Nagaland.zip
+    format: zip
+    size: 84 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Nagaland.zip
+  - name: facilities/Odisha.zip
+    format: zip
+    size: 1.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Odisha.zip
+  - name: facilities/Punjab.zip
+    format: zip
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Punjab.zip
+  - name: facilities/Rajasthan.zip
+    format: zip
+    size: 1.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Rajasthan.zip
+  - name: facilities/Sikkim.zip
+    format: zip
+    size: 40 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Sikkim.zip
+  - name: facilities/Tamilnadu.zip
+    format: zip
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Tamilnadu.zip
+  - name: facilities/Telangana.zip
+    format: zip
+    size: 1.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Telangana.zip
+  - name: facilities/Tripura.zip
+    format: zip
+    size: 183 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Tripura.zip
+  - name: facilities/UttarPradesh.zip
+    format: zip
+    size: 4.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/UttarPradesh.zip
+  - name: facilities/Uttarakhand.zip
+    format: zip
+    size: 910 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/Uttarakhand.zip
+  - name: facilities/WestBengal.zip
+    format: zip
+    size: 1.9 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/facilities/WestBengal.zip
+  - name: habitations/AndhraPradesh.zip
+    format: zip
+    size: 1.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/AndhraPradesh.zip
+  - name: habitations/ArunachalPradesh.zip
+    format: zip
+    size: 184 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/ArunachalPradesh.zip
+  - name: habitations/Assam.zip
+    format: zip
+    size: 1.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Assam.zip
+  - name: habitations/Bihar.zip
+    format: zip
+    size: 3.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Bihar.zip
+  - name: habitations/Chhattisgarh.zip
+    format: zip
+    size: 952 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Chhattisgarh.zip
+  - name: habitations/Gujarat.zip
+    format: zip
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Gujarat.zip
+  - name: habitations/Haryana.zip
+    format: zip
+    size: 252 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Haryana.zip
+  - name: habitations/HimachalPradesh.zip
+    format: zip
+    size: 630 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/HimachalPradesh.zip
+  - name: habitations/JammuAndKashmir.zip
+    format: zip
+    size: 420 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/JammuAndKashmir.zip
+  - name: habitations/Jharkhand.zip
+    format: zip
+    size: 1.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Jharkhand.zip
+  - name: habitations/Karnataka.zip
+    format: zip
+    size: 2.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Karnataka.zip
+  - name: habitations/Kerala.zip
+    format: zip
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Kerala.zip
+  - name: habitations/Ladakh.zip
+    format: zip
+    size: 25 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Ladakh.zip
+  - name: habitations/MadhyaPradesh.zip
+    format: zip
+    size: 2.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/MadhyaPradesh.zip
+  - name: habitations/Maharashtra.zip
+    format: zip
+    size: 2.9 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Maharashtra.zip
+  - name: habitations/Manipur.zip
+    format: zip
+    size: 101 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Manipur.zip
+  - name: habitations/Meghalaya.zip
+    format: zip
+    size: 214 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Meghalaya.zip
+  - name: habitations/Mizoram.zip
+    format: zip
+    size: 21 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Mizoram.zip
+  - name: habitations/Nagaland.zip
+    format: zip
+    size: 52 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Nagaland.zip
+  - name: habitations/Odisha.zip
+    format: zip
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Odisha.zip
+  - name: habitations/Punjab.zip
+    format: zip
+    size: 430 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Punjab.zip
+  - name: habitations/Rajasthan.zip
+    format: zip
+    size: 1.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Rajasthan.zip
+  - name: habitations/Sikkim.zip
+    format: zip
+    size: 36 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Sikkim.zip
+  - name: habitations/Tamilnadu.zip
+    format: zip
+    size: 2.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Tamilnadu.zip
+  - name: habitations/Telangana.zip
+    format: zip
+    size: 734 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Telangana.zip
+  - name: habitations/Tripura.zip
+    format: zip
+    size: 298 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Tripura.zip
+  - name: habitations/UttarPradesh.zip
+    format: zip
+    size: 7.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/UttarPradesh.zip
+  - name: habitations/Uttarakhand.zip
+    format: zip
+    size: 541 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/Uttarakhand.zip
+  - name: habitations/WestBengal.zip
+    format: zip
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/habitations/WestBengal.zip
+  - name: road-network/AndhraPradesh.zip
+    format: zip
+    size: 39.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/AndhraPradesh.zip
+  - name: road-network/ArunachalPradesh.zip
+    format: zip
+    size: 22.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/ArunachalPradesh.zip
+  - name: road-network/Assam.zip
+    format: zip
+    size: 38.9 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Assam.zip
+  - name: road-network/Chhattisgarh.zip
+    format: zip
+    size: 14.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Chhattisgarh.zip
+  - name: road-network/Gujarat.zip
+    format: zip
+    size: 40.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Gujarat.zip
+  - name: road-network/Haryana.zip
+    format: zip
+    size: 5.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Haryana.zip
+  - name: road-network/HimachalPradesh.zip
+    format: zip
+    size: 37.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/HimachalPradesh.zip
+  - name: road-network/JammuAndKashmir.zip
+    format: zip
+    size: 16.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/JammuAndKashmir.zip
+  - name: road-network/Jharkhand.zip
+    format: zip
+    size: 35.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Jharkhand.zip
+  - name: road-network/Karnataka-split.zip
+    format: zip
+    size: 29.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Karnataka-split.zip
+  - name: road-network/Kerala.zip
+    format: zip
+    size: 37.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Kerala.zip
+  - name: road-network/Ladakh.zip
+    format: zip
+    size: 3.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Ladakh.zip
+  - name: road-network/MadhyaPradesh.zip
+    format: zip
+    size: 32.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/MadhyaPradesh.zip
+  - name: road-network/Manipur.zip
+    format: zip
+    size: 11.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Manipur.zip
+  - name: road-network/Meghalaya.zip
+    format: zip
+    size: 10.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Meghalaya.zip
+  - name: road-network/Mizoram.zip
+    format: zip
+    size: 4.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Mizoram.zip
+  - name: road-network/Nagaland.zip
+    format: zip
+    size: 22.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Nagaland.zip
+  - name: road-network/Odisha.zip
+    format: zip
+    size: 36.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Odisha.zip
+  - name: road-network/Punjab.zip
+    format: zip
+    size: 8.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Punjab.zip
+  - name: road-network/Sikkim.zip
+    format: zip
+    size: 14.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Sikkim.zip
+  - name: road-network/Tamilnadu.zip
+    format: zip
+    size: 43.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Tamilnadu.zip
+  - name: road-network/Telangana.zip
+    format: zip
+    size: 25.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Telangana.zip
+  - name: road-network/Tripura.zip
+    format: zip
+    size: 16.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/Tripura.zip
+  - name: road-network/UttarPradesh.zip
+    format: zip
+    size: 47.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-network/UttarPradesh.zip
+  - name: road-proposals/AndhraPradesh.zip
+    format: zip
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/AndhraPradesh.zip
+  - name: road-proposals/ArunachalPradesh.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/ArunachalPradesh.zip
+  - name: road-proposals/Assam.zip
+    format: zip
+    size: 585 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Assam.zip
+  - name: road-proposals/Bihar.zip
+    format: zip
+    size: 533 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Bihar.zip
+  - name: road-proposals/Chhattisgarh.zip
+    format: zip
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Chhattisgarh.zip
+  - name: road-proposals/Gujarat.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Gujarat.zip
+  - name: road-proposals/Haryana.zip
+    format: zip
+    size: 379 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Haryana.zip
+  - name: road-proposals/HimachalPradesh.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/HimachalPradesh.zip
+  - name: road-proposals/JammuAndKashmir.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/JammuAndKashmir.zip
+  - name: road-proposals/Jharkhand.zip
+    format: zip
+    size: 438 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Jharkhand.zip
+  - name: road-proposals/Karnataka.zip
+    format: zip
+    size: 1.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Karnataka.zip
+  - name: road-proposals/Kerala.zip
+    format: zip
+    size: 306 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Kerala.zip
+  - name: road-proposals/Ladakh.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Ladakh.zip
+  - name: road-proposals/MadhyaPradesh.zip
+    format: zip
+    size: 2.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/MadhyaPradesh.zip
+  - name: road-proposals/Maharashtra.zip
+    format: zip
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Maharashtra.zip
+  - name: road-proposals/Manipur.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Manipur.zip
+  - name: road-proposals/Meghalaya.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Meghalaya.zip
+  - name: road-proposals/Mizoram.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Mizoram.zip
+  - name: road-proposals/Nagaland.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Nagaland.zip
+  - name: road-proposals/Odisha.zip
+    format: zip
+    size: 1.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Odisha.zip
+  - name: road-proposals/Punjab.zip
+    format: zip
+    size: 198 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Punjab.zip
+  - name: road-proposals/Rajasthan.zip
+    format: zip
+    size: 657 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Rajasthan.zip
+  - name: road-proposals/Sikkim.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Sikkim.zip
+  - name: road-proposals/Tamilnadu.zip
+    format: zip
+    size: 8 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Tamilnadu.zip
+  - name: road-proposals/Telangana.zip
+    format: zip
+    size: 557 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Telangana.zip
+  - name: road-proposals/Tripura.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Tripura.zip
+  - name: road-proposals/UttarPradesh.zip
+    format: zip
+    size: 5.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/UttarPradesh.zip
+  - name: road-proposals/Uttarakhand.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/Uttarakhand.zip
+  - name: road-proposals/WestBengal.zip
+    format: zip
+    size: 772 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/WestBengal.zip
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/rural-roads-large
 - name: police-jurisdictions
   title: Police Station Jurisdictions
   description: Boundaries of police station jurisdictions across Indian states.
@@ -242,6 +2277,8 @@
   storage: release
   release_tag: police/jurisdictions
   url: data/police
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/police/jurisdictions
 - name: postal-pincodes
   title: Postal PIN Code Boundaries
   description: Approximate boundaries and point locations for postal PIN codes of
@@ -258,6 +2295,176 @@
   storage: both
   release_tag: postal/boundaries
   url: data/postal
+  files:
+  - name: pincodes-datameet/india_pincodes.cpg.zip
+    format: zip
+    size: 181 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.cpg.zip
+  - name: pincodes-datameet/india_pincodes.dbf.zip
+    format: zip
+    size: 389 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.dbf.zip
+  - name: pincodes-datameet/india_pincodes.prj.zip
+    format: zip
+    size: 295 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.prj.zip
+  - name: pincodes-datameet/india_pincodes.sbn.zip
+    format: zip
+    size: 111 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.sbn.zip
+  - name: pincodes-datameet/india_pincodes.sbx.zip
+    format: zip
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.sbx.zip
+  - name: pincodes-datameet/india_pincodes.shp.z01
+    format: z01
+    size: 10.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shp.z01
+  - name: pincodes-datameet/india_pincodes.shp.z02
+    format: z02
+    size: 10.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shp.z02
+  - name: pincodes-datameet/india_pincodes.shp.z03
+    format: z03
+    size: 10.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shp.z03
+  - name: pincodes-datameet/india_pincodes.shp.z04
+    format: z04
+    size: 10.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shp.z04
+  - name: pincodes-datameet/india_pincodes.shp.z05
+    format: z05
+    size: 10.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shp.z05
+  - name: pincodes-datameet/india_pincodes.shp.zip
+    format: zip
+    size: 8.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shp.zip
+  - name: pincodes-datameet/india_pincodes.shx.zip
+    format: zip
+    size: 103 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shx.zip
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/postal/boundaries
+- name: nightlights-viirs
+  title: District-Level Nighttime Lights (VIIRS)
+  description: Annual district-level nighttime light statistics for 641 Indian districts
+    (2012-2024), derived from NOAA VIIRS DNB satellite imagery. Includes mean, median,
+    sum, min, max, standard deviation, and log-transformed radiance values.
+  category: remote-sensing
+  level: district
+  formats:
+  - csv
+  - geojson
+  license_id: MIT
+  storage: both
+  release_tag: remote-sensing/nightlights
+  url: data/remote-sensing/nightlights
+  files:
+  - name: nightlights_district_panel.csv
+    format: csv
+    size: 1.5 MB
+    storage: repo
+    description: Panel dataset — 8,334 rows (641 districts x 13 years) with nightlight
+      statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/remote-sensing/nightlights/nightlights_district_panel.csv
+  - name: india-nightlights-timelapse.gif
+    format: gif
+    size: 796 KB
+    storage: repo
+    description: Animated timelapse visualization of nighttime lights across India
+      (2012-2024)
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/remote-sensing/nightlights/india-nightlights-timelapse.gif
+  - name: nightlights_districts_2012.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2012 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2012.geojson
+  - name: nightlights_districts_2013.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2013 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2013.geojson
+  - name: nightlights_districts_2014.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2014 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2014.geojson
+  - name: nightlights_districts_2015.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2015 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2015.geojson
+  - name: nightlights_districts_2016.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2016 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2016.geojson
+  - name: nightlights_districts_2017.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2017 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2017.geojson
+  - name: nightlights_districts_2018.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2018 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2018.geojson
+  - name: nightlights_districts_2019.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2019 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2019.geojson
+  - name: nightlights_districts_2020.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2020 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2020.geojson
+  - name: nightlights_districts_2021.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2021 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2021.geojson
+  - name: nightlights_districts_2022.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2022 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2022.geojson
+  - name: nightlights_districts_2023.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2023 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2023.geojson
+  - name: nightlights_districts_2024.geojson
+    format: geojson
+    size: 27 MB
+    storage: release
+    description: District polygons with 2024 nightlight statistics
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/nightlights/nightlights_districts_2024.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/remote-sensing/nightlights
 - name: soi-reference
   title: Survey of India Reference Data
   description: Reference maps and boundary data from the Survey of India.
@@ -270,6 +2477,458 @@
   storage: repo
   release_tag: null
   url: data/survey-of-india
+  files:
+  - name: India-Districts-2011Census.dbf
+    format: shapefile
+    size: 53 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-Districts-2011Census.dbf
+  - name: India-Districts-2011Census.prj
+    format: shapefile
+    size: 143 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-Districts-2011Census.prj
+  - name: India-Districts-2011Census.shp
+    format: shapefile
+    size: 9.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-Districts-2011Census.shp
+  - name: India-Districts-2011Census.shx
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-Districts-2011Census.shx
+  - name: India-States.dbf
+    format: shapefile
+    size: 965 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-States.dbf
+  - name: India-States.prj
+    format: shapefile
+    size: 143 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-States.prj
+  - name: India-States.shp
+    format: shapefile
+    size: 5.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-States.shp
+  - name: India-States.shx
+    format: shapefile
+    size: 388 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/India-States.shx
+  - name: index-maps-old-system/OldSystem_1M_Index.dbf
+    format: shapefile
+    size: 565 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_1M_Index.dbf
+  - name: index-maps-old-system/OldSystem_1M_Index.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_1M_Index.prj
+  - name: index-maps-old-system/OldSystem_1M_Index.shp
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_1M_Index.shp
+  - name: index-maps-old-system/OldSystem_1M_Index.shx
+    format: shapefile
+    size: 412 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_1M_Index.shx
+  - name: index-maps-old-system/OldSystem_250K_Index.dbf
+    format: shapefile
+    size: 7 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_250K_Index.dbf
+  - name: index-maps-old-system/OldSystem_250K_Index.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_250K_Index.prj
+  - name: index-maps-old-system/OldSystem_250K_Index.shp
+    format: shapefile
+    size: 53 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_250K_Index.shp
+  - name: index-maps-old-system/OldSystem_250K_Index.shx
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_250K_Index.shx
+  - name: index-maps-old-system/OldSystem_50K_Index.dbf
+    format: shapefile
+    size: 160 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_50K_Index.dbf
+  - name: index-maps-old-system/OldSystem_50K_Index.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_50K_Index.prj
+  - name: index-maps-old-system/OldSystem_50K_Index.shp
+    format: shapefile
+    size: 679 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_50K_Index.shp
+  - name: index-maps-old-system/OldSystem_50K_Index.shx
+    format: shapefile
+    size: 40 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-old-system/OldSystem_50K_Index.shx
+  - name: index-maps-osm/OSM_1M_Index.dbf
+    format: shapefile
+    size: 954 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_1M_Index.dbf
+  - name: index-maps-osm/OSM_1M_Index.prj
+    format: shapefile
+    size: 143 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_1M_Index.prj
+  - name: index-maps-osm/OSM_1M_Index.shp
+    format: shapefile
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_1M_Index.shp
+  - name: index-maps-osm/OSM_1M_Index.shx
+    format: shapefile
+    size: 364 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_1M_Index.shx
+  - name: index-maps-osm/OSM_250K_Index.dbf
+    format: shapefile
+    size: 7 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_250K_Index.dbf
+  - name: index-maps-osm/OSM_250K_Index.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_250K_Index.prj
+  - name: index-maps-osm/OSM_250K_Index.shp
+    format: shapefile
+    size: 52 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_250K_Index.shp
+  - name: index-maps-osm/OSM_250K_Index.shx
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_250K_Index.shx
+  - name: index-maps-osm/OSM_50K_Index.dbf
+    format: shapefile
+    size: 115 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_50K_Index.dbf
+  - name: index-maps-osm/OSM_50K_Index.prj
+    format: shapefile
+    size: 145 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_50K_Index.prj
+  - name: index-maps-osm/OSM_50K_Index.shp
+    format: shapefile
+    size: 679 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_50K_Index.shp
+  - name: index-maps-osm/OSM_50K_Index.shx
+    format: shapefile
+    size: 40 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/index-maps-osm/OSM_50K_Index.shx
+  - name: india-boundary/IndiaBoundary.cpg
+    format: shapefile
+    size: 5 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.cpg
+  - name: india-boundary/IndiaBoundary.dbf
+    format: shapefile
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.dbf
+  - name: india-boundary/IndiaBoundary.prj
+    format: shapefile
+    size: 425 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.prj
+  - name: india-boundary/IndiaBoundary.sbn
+    format: sbn
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.sbn
+  - name: india-boundary/IndiaBoundary.sbx
+    format: sbx
+    size: 188 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.sbx
+  - name: india-boundary/IndiaBoundary.shp
+    format: shapefile
+    size: 6.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.shp
+  - name: india-boundary/IndiaBoundary.shp.xml
+    format: xml
+    size: 481 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.shp.xml
+  - name: india-boundary/IndiaBoundary.shx
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/india-boundary/IndiaBoundary.shx
+  - name: outline-maps/18m_india.pdf
+    format: pdf
+    size: 3.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/18m_india.pdf
+  - name: outline-maps/18m_india_Rivers_1.pdf
+    format: pdf
+    size: 3.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/18m_india_Rivers_1.pdf
+  - name: outline-maps/19m_india.pdf
+    format: pdf
+    size: 2.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/19m_india.pdf
+  - name: outline-maps/19m_india_Rivers_1.pdf
+    format: pdf
+    size: 3.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/19m_india_Rivers_1.pdf
+  - name: outline-maps/20m_india.pdf
+    format: pdf
+    size: 2.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/20m_india.pdf
+  - name: outline-maps/20m_india_Rivers_1.pdf
+    format: pdf
+    size: 2.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/20m_india_Rivers_1.pdf
+  - name: outline-maps/21m_india_Rivers.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/21m_india_Rivers.pdf
+  - name: outline-maps/22m_india_Rivers.pdf
+    format: pdf
+    size: 2.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/22m_india_Rivers.pdf
+  - name: outline-maps/23mnew.pdf
+    format: pdf
+    size: 2.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/23mnew.pdf
+  - name: outline-maps/25m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/25m_india.pdf
+  - name: outline-maps/25m_india_Rivers.pdf
+    format: pdf
+    size: 2.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/25m_india_Rivers.pdf
+  - name: outline-maps/26m_india.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/26m_india.pdf
+  - name: outline-maps/26m_india_Rivers.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/26m_india_Rivers.pdf
+  - name: outline-maps/27m_india_Rivers.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/27m_india_Rivers.pdf
+  - name: outline-maps/29m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/29m_india.pdf
+  - name: outline-maps/29m_india_Rivers.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/29m_india_Rivers.pdf
+  - name: outline-maps/30m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/30m_india.pdf
+  - name: outline-maps/30m_india_Rivers.pdf
+    format: pdf
+    size: 2.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/30m_india_Rivers.pdf
+  - name: outline-maps/31m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/31m_india.pdf
+  - name: outline-maps/31m_india_Rivers.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/31m_india_Rivers.pdf
+  - name: outline-maps/32m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/32m_india.pdf
+  - name: outline-maps/32m_india_Rivers.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/32m_india_Rivers.pdf
+  - name: outline-maps/33m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/33m_india.pdf
+  - name: outline-maps/33m_india_Rivers.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/33m_india_Rivers.pdf
+  - name: outline-maps/34m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/34m_india.pdf
+  - name: outline-maps/34m_india_Rivers.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/34m_india_Rivers.pdf
+  - name: outline-maps/35m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/35m_india.pdf
+  - name: outline-maps/35m_india_Rivers.pdf
+    format: pdf
+    size: 2.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/35m_india_Rivers.pdf
+  - name: outline-maps/36m_india.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/36m_india.pdf
+  - name: outline-maps/36m_india_Rivers.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/36m_india_Rivers.pdf
+  - name: outline-maps/outline21 new_1.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/outline21
+      new_1.pdf
+  - name: outline-maps/outline22_1.pdf
+    format: pdf
+    size: 2.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/outline22_1.pdf
+  - name: outline-maps/outline27_1.pdf
+    format: pdf
+    size: 2.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/outline27_1.pdf
+  - name: outline-maps/india-outline-vector/polymap15m_area.cpg
+    format: shapefile
+    size: 5 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.cpg
+  - name: outline-maps/india-outline-vector/polymap15m_area.dbf
+    format: shapefile
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.dbf
+  - name: outline-maps/india-outline-vector/polymap15m_area.prj
+    format: shapefile
+    size: 484 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.prj
+  - name: outline-maps/india-outline-vector/polymap15m_area.sbn
+    format: sbn
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.sbn
+  - name: outline-maps/india-outline-vector/polymap15m_area.sbx
+    format: sbx
+    size: 244 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.sbx
+  - name: outline-maps/india-outline-vector/polymap15m_area.shp
+    format: shapefile
+    size: 179 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.shp
+  - name: outline-maps/india-outline-vector/polymap15m_area.shp.DESKTOP-KNMFRJB.8700.4904.sr.lock
+    format: lock
+    size: 0 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.shp.DESKTOP-KNMFRJB.8700.4904.sr.lock
+  - name: outline-maps/india-outline-vector/polymap15m_area.shp.IBD05.8520.2836.sr.lock
+    format: lock
+    size: 0 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.shp.IBD05.8520.2836.sr.lock
+  - name: outline-maps/india-outline-vector/polymap15m_area.shp.xml
+    format: xml
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.shp.xml
+  - name: outline-maps/india-outline-vector/polymap15m_area.shx
+    format: shapefile
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/outline-maps/india-outline-vector/polymap15m_area.shx
+  - name: state-boundary/StateBoundary.cpg
+    format: shapefile
+    size: 5 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.cpg
+  - name: state-boundary/StateBoundary.dbf
+    format: shapefile
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.dbf
+  - name: state-boundary/StateBoundary.prj
+    format: shapefile
+    size: 425 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.prj
+  - name: state-boundary/StateBoundary.sbn
+    format: sbn
+    size: 516 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.sbn
+  - name: state-boundary/StateBoundary.sbx
+    format: sbx
+    size: 164 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.sbx
+  - name: state-boundary/StateBoundary.shp
+    format: shapefile
+    size: 17.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.shp
+  - name: state-boundary/StateBoundary.shx
+    format: shapefile
+    size: 396 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/survey-of-india/state-boundary/StateBoundary.shx
 - name: urban-localities
   title: Urban Localities
   description: Locality-level boundaries and points within urban areas of India.
@@ -284,6 +2943,8 @@
   storage: release
   release_tag: urban/boundaries
   url: data/urban/localities
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/urban/boundaries
 - name: urban-municipal
   title: Municipal Boundaries
   description: Boundaries of municipal corporations, municipalities, and town councils
@@ -298,6 +2959,718 @@
   storage: repo
   release_tag: null
   url: data/urban/municipal-boundaries
+  files:
+  - name: ahmedabad/AMC Facilities.kml
+    format: kml
+    size: 315 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/AMC
+      Facilities.kml
+  - name: ahmedabad/Library.geojson
+    format: geojson
+    size: 28 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Library.geojson
+  - name: ahmedabad/Municipal_gyms.geojson
+    format: geojson
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Municipal_gyms.geojson
+  - name: ahmedabad/Readme.md
+    format: md
+    size: 1003 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Readme.md
+  - name: ahmedabad/Swimming_pools.geojson
+    format: geojson
+    size: 7 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Swimming_pools.geojson
+  - name: ahmedabad/Ward_office.geojson
+    format: geojson
+    size: 27 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Ward_office.geojson
+  - name: ahmedabad/Wards.geojson
+    format: geojson
+    size: 1.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Wards.geojson
+  - name: ahmedabad/Zonal_office.geojson
+    format: geojson
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/ahmedabad/Zonal_office.geojson
+  - name: bangalore/BBMP.geojson
+    format: geojson
+    size: 2.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bangalore/BBMP.geojson
+  - name: bangalore/BBMP_oldWards.geojson
+    format: geojson
+    size: 1.8 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bangalore/BBMP_oldWards.geojson
+  - name: bangalore/BBMP_oldWards.kml
+    format: kml
+    size: 1.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bangalore/BBMP_oldWards.kml
+  - name: bangalore/Readme.md
+    format: md
+    size: 598 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bangalore/Readme.md
+  - name: bhopal/Bhopal_wards.geojson
+    format: geojson
+    size: 1.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Bhopal_wards.geojson
+  - name: bhopal/Planning_ Boundary_ 2031.geojson
+    format: geojson
+    size: 360 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Planning_
+      Boundary_ 2031.geojson
+  - name: bhopal/Readme.md
+    format: md
+    size: 834 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Readme.md
+  - name: bhopal/Ward Map of Bhopal.kml
+    format: kml
+    size: 384 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Ward
+      Map of Bhopal.kml
+  - name: bhopal/Ward_Offices.geojson
+    format: geojson
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Ward_Offices.geojson
+  - name: bhopal/Zone_Boundary.geojson
+    format: geojson
+    size: 862 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Zone_Boundary.geojson
+  - name: bhopal/Zone_Offices.geojson
+    format: geojson
+    size: 3 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhopal/Zone_Offices.geojson
+  - name: bhubaneswar/BDA_Boundary.GeoJSON
+    format: geojson
+    size: 696 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/BDA_Boundary.GeoJSON
+  - name: bhubaneswar/BDA_Boundary.kml
+    format: kml
+    size: 593 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/BDA_Boundary.kml
+  - name: bhubaneswar/BMC Boundary.GeoJSON
+    format: geojson
+    size: 390 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/BMC
+      Boundary.GeoJSON
+  - name: bhubaneswar/BMC Boundary.kml
+    format: kml
+    size: 334 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/BMC
+      Boundary.kml
+  - name: bhubaneswar/Police_Jurisdiction.geojson
+    format: geojson
+    size: 249 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/Police_Jurisdiction.geojson
+  - name: bhubaneswar/Police_Jurisdiction.kml
+    format: kml
+    size: 199 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/Police_Jurisdiction.kml
+  - name: bhubaneswar/Readme.md
+    format: md
+    size: 682 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/Readme.md
+  - name: bhubaneswar/Wards.GeoJSON
+    format: geojson
+    size: 707 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/Wards.GeoJSON
+  - name: bhubaneswar/Wards.kml
+    format: kml
+    size: 700 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bhubaneswar/Wards.kml
+  - name: bodh_gaya/Bodh_Gaya_Boundary-SHP.zip
+    format: zip
+    size: 22 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bodh_gaya/Bodh_Gaya_Boundary-SHP.zip
+  - name: bodh_gaya/Bodh_Gaya_Boundary.geojson
+    format: geojson
+    size: 79 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bodh_gaya/Bodh_Gaya_Boundary.geojson
+  - name: bodh_gaya/Bodh_Gaya_Wards-SHP.zip
+    format: zip
+    size: 22 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bodh_gaya/Bodh_Gaya_Wards-SHP.zip
+  - name: bodh_gaya/Bodh_Gaya_Wards.geojson
+    format: geojson
+    size: 150 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bodh_gaya/Bodh_Gaya_Wards.geojson
+  - name: bodh_gaya/Readme.md
+    format: md
+    size: 566 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/bodh_gaya/Readme.md
+  - name: chandigarh/Chandigarh_Boundary-SHP.zip
+    format: zip
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Chandigarh_Boundary-SHP.zip
+  - name: chandigarh/Chandigarh_Boundary.geojson
+    format: geojson
+    size: 22 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Chandigarh_Boundary.geojson
+  - name: chandigarh/Chandigarh_Sectors-SHP.zip
+    format: zip
+    size: 11 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Chandigarh_Sectors-SHP.zip
+  - name: chandigarh/Chandigarh_Sectors.geojson
+    format: geojson
+    size: 49 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Chandigarh_Sectors.geojson
+  - name: chandigarh/Chandigarh_Wards-SHP.zip
+    format: zip
+    size: 12 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Chandigarh_Wards-SHP.zip
+  - name: chandigarh/Chandigarh_Wards.geojson
+    format: geojson
+    size: 50 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Chandigarh_Wards.geojson
+  - name: chandigarh/Readme.md
+    format: md
+    size: 742 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chandigarh/Readme.md
+  - name: chennai/CMA.geojson
+    format: geojson
+    size: 41 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/CMA.geojson
+  - name: chennai/CMA.kml
+    format: kml
+    size: 33 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/CMA.kml
+  - name: chennai/Readme.md
+    format: md
+    size: 476 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/Readme.md
+  - name: chennai/Wards-2008.geojson
+    format: geojson
+    size: 169 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/Wards-2008.geojson
+  - name: chennai/Wards.geojson
+    format: geojson
+    size: 594 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/Wards.geojson
+  - name: chennai/Wards.kml
+    format: kml
+    size: 558 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/Wards.kml
+  - name: chennai/Zones.geojson
+    format: geojson
+    size: 196 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/Zones.geojson
+  - name: chennai/Zones.kml
+    format: kml
+    size: 158 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/chennai/Zones.kml
+  - name: coimbatore/Cbe2011Wards.geojson
+    format: geojson
+    size: 367 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/coimbatore/Cbe2011Wards.geojson
+  - name: coimbatore/CbeCensus2011Wards.geojson
+    format: geojson
+    size: 134 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/coimbatore/CbeCensus2011Wards.geojson
+  - name: coimbatore/ReadMe.md
+    format: md
+    size: 496 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/coimbatore/ReadMe.md
+  - name: delhi/Delhi_Boundary-SHP.zip
+    format: zip
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/delhi/Delhi_Boundary-SHP.zip
+  - name: delhi/Delhi_Boundary.geojson
+    format: geojson
+    size: 64 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/delhi/Delhi_Boundary.geojson
+  - name: delhi/Delhi_Wards-SHP.zip
+    format: zip
+    size: 162 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/delhi/Delhi_Wards-SHP.zip
+  - name: delhi/Delhi_Wards.geojson
+    format: geojson
+    size: 718 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/delhi/Delhi_Wards.geojson
+  - name: delhi/Readme.md
+    format: md
+    size: 749 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/delhi/Readme.md
+  - name: faridabad/Faridabad_Boundary-SHP.zip
+    format: zip
+    size: 7 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Faridabad_Boundary-SHP.zip
+  - name: faridabad/Faridabad_Boundary.geojson
+    format: geojson
+    size: 20 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Faridabad_Boundary.geojson
+  - name: faridabad/Faridabad_Wards-SHP.zip
+    format: zip
+    size: 20 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Faridabad_Wards-SHP.zip
+  - name: faridabad/Faridabad_Wards.geojson
+    format: geojson
+    size: 99 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Faridabad_Wards.geojson
+  - name: faridabad/Faridabad_Wards.kml
+    format: kml
+    size: 177 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Faridabad_Wards.kml
+  - name: faridabad/Layer1_Symbol_ae90e30_0.png
+    format: png
+    size: 99 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Layer1_Symbol_ae90e30_0.png
+  - name: faridabad/Readme.md
+    format: md
+    size: 638 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/faridabad/Readme.md
+  - name: hyderabad/Readme.md
+    format: md
+    size: 7 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/Readme.md
+  - name: hyderabad/ghmc-area.geojson
+    format: geojson
+    size: 75 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/ghmc-area.geojson
+  - name: hyderabad/ghmc-area.kml
+    format: kml
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/ghmc-area.kml
+  - name: hyderabad/ghmc-wards.geojson
+    format: geojson
+    size: 601 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/ghmc-wards.geojson
+  - name: hyderabad/ghmc-wards.kml
+    format: kml
+    size: 238 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/ghmc-wards.kml
+  - name: hyderabad/ghmc-zones.geojson
+    format: geojson
+    size: 158 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/ghmc-zones.geojson
+  - name: hyderabad/ghmc-zones.kml
+    format: kml
+    size: 43 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/hyderabad/ghmc-zones.kml
+  - name: jaipur/Jaipur_Assembly_constituency-SHP.zip
+    format: zip
+    size: 36 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Assembly_constituency-SHP.zip
+  - name: jaipur/Jaipur_Assembly_constituency.geojson
+    format: geojson
+    size: 161 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Assembly_constituency.geojson
+  - name: jaipur/Jaipur_Boundary-SHP.zip
+    format: zip
+    size: 19 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Boundary-SHP.zip
+  - name: jaipur/Jaipur_Boundary.geojson
+    format: geojson
+    size: 61 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Boundary.geojson
+  - name: jaipur/Jaipur_Wards-SHP.zip
+    format: zip
+    size: 72 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Wards-SHP.zip
+  - name: jaipur/Jaipur_Wards.geojson
+    format: geojson
+    size: 346 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Wards.geojson
+  - name: jaipur/Jaipur_Zones-SHP.zip
+    format: zip
+    size: 37 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Zones-SHP.zip
+  - name: jaipur/Jaipur_Zones.geojson
+    format: geojson
+    size: 161 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Jaipur_Zones.geojson
+  - name: jaipur/Readme.md
+    format: md
+    size: 906 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/jaipur/Readme.md
+  - name: kanpur/Kanpur_city_boundaries-SHP.zip
+    format: zip
+    size: 10 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/Kanpur_city_boundaries-SHP.zip
+  - name: kanpur/Kanpur_city_boundaries.geojson
+    format: geojson
+    size: 28 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/Kanpur_city_boundaries.geojson
+  - name: kanpur/Kanpur_city_zones-SHP.zip
+    format: zip
+    size: 23 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/Kanpur_city_zones-SHP.zip
+  - name: kanpur/Kanpur_city_zones.geojson
+    format: geojson
+    size: 70 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/Kanpur_city_zones.geojson
+  - name: kanpur/Kanpur_wards-SHP.zip
+    format: zip
+    size: 68 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/Kanpur_wards-SHP.zip
+  - name: kanpur/Kanpur_wards.geojson
+    format: geojson
+    size: 200 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/Kanpur_wards.geojson
+  - name: kanpur/kanpur_nagar_nigam.jpg
+    format: jpg
+    size: 18.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/kanpur_nagar_nigam.jpg
+  - name: kanpur/readme.md
+    format: md
+    size: 10 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kanpur/readme.md
+  - name: katihar/Katihar_Boundary-SHP.zip
+    format: zip
+    size: 11 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/katihar/Katihar_Boundary-SHP.zip
+  - name: katihar/Katihar_Boundary.geojson
+    format: geojson
+    size: 36 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/katihar/Katihar_Boundary.geojson
+  - name: katihar/Katihar_Wards-SHP.zip
+    format: zip
+    size: 88 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/katihar/Katihar_Wards-SHP.zip
+  - name: katihar/Katihar_Wards.geojson
+    format: geojson
+    size: 377 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/katihar/Katihar_Wards.geojson
+  - name: katihar/Readme.md
+    format: md
+    size: 546 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/katihar/Readme.md
+  - name: kishangarh/Kishangarh_Boundary-SHP.zip
+    format: zip
+    size: 6 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kishangarh/Kishangarh_Boundary-SHP.zip
+  - name: kishangarh/Kishangarh_Boundary.geojson
+    format: geojson
+    size: 12 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kishangarh/Kishangarh_Boundary.geojson
+  - name: kishangarh/Kishangarh_Wards-SHP.zip
+    format: zip
+    size: 24 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kishangarh/Kishangarh_Wards-SHP.zip
+  - name: kishangarh/Kishangarh_Wards.geojson
+    format: geojson
+    size: 76 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kishangarh/Kishangarh_Wards.geojson
+  - name: kishangarh/Readme.md
+    format: md
+    size: 709 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kishangarh/Readme.md
+  - name: kochi/KCH_Corporation_Boundary.geojson
+    format: geojson
+    size: 71 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kochi/KCH_Corporation_Boundary.geojson
+  - name: kochi/KCH_wards.geojson
+    format: geojson
+    size: 921 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kochi/KCH_wards.geojson
+  - name: kolkata/Readme.md
+    format: md
+    size: 504 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kolkata/Readme.md
+  - name: kolkata/kolkata.geojson
+    format: geojson
+    size: 2.7 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/kolkata/kolkata.geojson
+  - name: lucknow/Lucknow_city_boundary-SHP.zip
+    format: zip
+    size: 4 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_city_boundary-SHP.zip
+  - name: lucknow/Lucknow_city_boundary.geojson
+    format: geojson
+    size: 8 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_city_boundary.geojson
+  - name: lucknow/Lucknow_map.jpg
+    format: jpg
+    size: 8.3 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_map.jpg
+  - name: lucknow/Lucknow_ward_boundary-SHP.zip
+    format: zip
+    size: 95 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_ward_boundary-SHP.zip
+  - name: lucknow/Lucknow_ward_boundary.geojson
+    format: geojson
+    size: 323 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_ward_boundary.geojson
+  - name: lucknow/Lucknow_zone_boundary-SHP.zip
+    format: zip
+    size: 26 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_zone_boundary-SHP.zip
+  - name: lucknow/Lucknow_zone_boundary.geojson
+    format: geojson
+    size: 81 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/Lucknow_zone_boundary.geojson
+  - name: lucknow/readme.md
+    format: md
+    size: 11 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/lucknow/readme.md
+  - name: mira-bhayandar/Mira-Bhayandar.geojson
+    format: geojson
+    size: 13 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mira-bhayandar/Mira-Bhayandar.geojson
+  - name: mira-bhayandar/Readme.md
+    format: md
+    size: 481 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mira-bhayandar/Readme.md
+  - name: mmr/MMR.geojson
+    format: geojson
+    size: 320 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mmr/MMR.geojson
+  - name: mmr/MMR.kml
+    format: kml
+    size: 262 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mmr/MMR.kml
+  - name: mmr/Readme.md
+    format: md
+    size: 1 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mmr/Readme.md
+  - name: mumbai/BMC_Wards.geojson
+    format: geojson
+    size: 971 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mumbai/BMC_Wards.geojson
+  - name: mumbai/BMC_Wards.kml
+    format: kml
+    size: 848 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mumbai/BMC_Wards.kml
+  - name: mumbai/Readme.md
+    format: md
+    size: 534 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mumbai/Readme.md
+  - name: mumbai/bmc_electoral_wards_2017
+    format: unknown
+    size: 2.9 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mumbai/bmc_electoral_wards_2017
+  - name: mumbai/slumClusters.geojson
+    format: geojson
+    size: 3.2 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/mumbai/slumClusters.geojson
+  - name: nmmc/NMC_ElectoralWards.geojson
+    format: geojson
+    size: 415 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/nmmc/NMC_ElectoralWards.geojson
+  - name: nmmc/NMMCElection_final_ward 18032015.kml
+    format: kml
+    size: 1.0 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/nmmc/NMMCElection_final_ward
+      18032015.kml
+  - name: nmmc/Readme.md
+    format: md
+    size: 443 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/nmmc/Readme.md
+  - name: pcmc/Readme.md
+    format: md
+    size: 613 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pcmc/Readme.md
+  - name: pcmc/pcmc-electoral-wards.geojson
+    format: geojson
+    size: 164 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pcmc/pcmc-electoral-wards.geojson
+  - name: pune/Readme.md
+    format: md
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pune/Readme.md
+  - name: pune/pune-admin-wards_2017.geojson
+    format: geojson
+    size: 290 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pune/pune-admin-wards_2017.geojson
+  - name: pune/pune-electoral-wards_2012.geojson
+    format: geojson
+    size: 359 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pune/pune-electoral-wards_2012.geojson
+  - name: pune/pune-electoral-wards_2017.geojson
+    format: geojson
+    size: 99 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pune/pune-electoral-wards_2017.geojson
+  - name: pune/pune-electoral-wards_2022.geojson
+    format: geojson
+    size: 251 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/pune/pune-electoral-wards_2022.geojson
+  - name: purnia/Purnia_Boundary-SHP.zip
+    format: zip
+    size: 45 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/purnia/Purnia_Boundary-SHP.zip
+  - name: purnia/Purnia_Boundary.geojson
+    format: geojson
+    size: 170 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/purnia/Purnia_Boundary.geojson
+  - name: purnia/Purnia_Wards-SHP.zip
+    format: zip
+    size: 165 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/purnia/Purnia_Wards-SHP.zip
+  - name: purnia/Purnia_Wards.geojson
+    format: geojson
+    size: 666 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/purnia/Purnia_Wards.geojson
+  - name: purnia/Readme.md
+    format: md
+    size: 536 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/purnia/Readme.md
+  - name: vadodara/vadodara_wards.kml
+    format: kml
+    size: 55 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vadodara/vadodara_wards.kml
+  - name: vadodara/vardodara_wards.geojson
+    format: geojson
+    size: 143 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vadodara/vardodara_wards.geojson
+  - name: vijayawada/Readme.md
+    format: md
+    size: 574 B
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vijayawada/Readme.md
+  - name: vijayawada/Vijayawada_Boundary-SHP.zip
+    format: zip
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vijayawada/Vijayawada_Boundary-SHP.zip
+  - name: vijayawada/Vijayawada_Boundary.geojson
+    format: geojson
+    size: 12 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vijayawada/Vijayawada_Boundary.geojson
+  - name: vijayawada/Vijayawada_Wards-SHP.zip
+    format: zip
+    size: 27 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vijayawada/Vijayawada_Wards-SHP.zip
+  - name: vijayawada/Vijayawada_Wards.geojson
+    format: geojson
+    size: 142 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/urban/municipal-boundaries/vijayawada/Vijayawada_Wards.geojson
 - name: urban-slums
   title: Slum Boundaries
   description: Boundaries of notified and identified slum areas in Indian cities.
@@ -312,6 +3685,8 @@
   storage: release
   release_tag: urban/boundaries
   url: data/urban/slums
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/urban/boundaries
 - name: urban-wards
   title: Municipal Wards
   description: Ward-level boundaries of urban local bodies across India.
@@ -326,3 +3701,5 @@
   storage: release
   release_tag: urban/boundaries
   url: data/urban/wards
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/urban/boundaries

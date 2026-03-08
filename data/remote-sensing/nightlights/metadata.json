@@ -1,0 +1,173 @@
+{
+  "name": "nightlights-viirs",
+  "title": "District-Level Nighttime Lights (VIIRS)",
+  "description": "Annual district-level nighttime light statistics for 641 Indian districts (2012-2024), derived from NOAA VIIRS DNB satellite imagery. Includes mean, median, sum, min, max, standard deviation, and log-transformed radiance values.",
+  "category": "remote-sensing",
+  "level": "district",
+  "coverage": {
+    "spatial": "India — 641 districts, 35 states/UTs",
+    "temporal": "2012–2024 (annual)",
+    "admin_level": "district (Census 2011 boundaries)"
+  },
+  "sources": [
+    {
+      "name": "NOAA VIIRS DNB Monthly Composites",
+      "url": "https://eogdata.mines.edu/products/vnl/",
+      "authority": "NOAA / Earth Observation Group"
+    },
+    {
+      "name": "DataMeet District Boundaries (Census 2011)",
+      "url": "https://github.com/datameet/maps",
+      "authority": "DataMeet community"
+    },
+    {
+      "name": "india-district-nightlights-viirs pipeline",
+      "url": "https://github.com/yashveeeeeer/india-district-nightlights-viirs",
+      "authority": "yashveeeeeer"
+    }
+  ],
+  "license": {
+    "id": "MIT",
+    "name": "MIT License",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "formats": ["csv", "geojson"],
+  "coordinate_system": "EPSG:4326",
+  "files": [
+    {
+      "filename": "nightlights_district_panel.csv",
+      "format": "csv",
+      "size": "1.5 MB",
+      "storage": "repo",
+      "description": "Panel dataset — 8,334 rows (641 districts x 13 years) with nightlight statistics"
+    },
+    {
+      "filename": "india-nightlights-timelapse.gif",
+      "format": "gif",
+      "size": "796 KB",
+      "storage": "repo",
+      "description": "Animated timelapse visualization of nighttime lights across India (2012-2024)"
+    },
+    {
+      "filename": "nightlights_districts_2012.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2012 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2013.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2013 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2014.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2014 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2015.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2015 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2016.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2016 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2017.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2017 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2018.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2018 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2019.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2019 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2020.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2020 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2021.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2021 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2022.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2022 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2023.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2023 nightlight statistics"
+    },
+    {
+      "filename": "nightlights_districts_2024.geojson",
+      "format": "geojson",
+      "size": "27 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/nightlights",
+      "description": "District polygons with 2024 nightlight statistics"
+    }
+  ],
+  "attributes": [
+    {"name": "district_id", "type": "string", "description": "Census 2011 district code"},
+    {"name": "district_name", "type": "string", "description": "District name"},
+    {"name": "state_name", "type": "string", "description": "State or Union Territory name"},
+    {"name": "year", "type": "integer", "description": "Year of observation (2012-2024)"},
+    {"name": "mean", "type": "float", "description": "Mean nightlight radiance (nW/cm²/sr)"},
+    {"name": "median", "type": "float", "description": "Median nightlight radiance"},
+    {"name": "sum", "type": "float", "description": "Total radiance — proxy for economic activity"},
+    {"name": "min", "type": "float", "description": "Minimum nightlight radiance"},
+    {"name": "max", "type": "float", "description": "Maximum nightlight radiance"},
+    {"name": "std", "type": "float", "description": "Standard deviation of radiance"},
+    {"name": "valid_pixel_count", "type": "float", "description": "Number of valid satellite pixels in district"},
+    {"name": "log1p_mean", "type": "float", "description": "log(1 + mean) for econometric use"},
+    {"name": "log1p_median", "type": "float", "description": "log(1 + median) for econometric use"}
+  ],
+  "last_updated": "2026-03-08",
+  "upstream_repo": "https://github.com/yashveeeeeer/india-district-nightlights-viirs"
+}

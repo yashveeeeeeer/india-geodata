@@ -22,8 +22,10 @@ Browse and download at **[india-geodata](https://yashveeeeeer.github.io/india-ge
 | [Postal](data/postal/) | Pincode boundaries | Shapefile, Parquet, PMTiles | ~700 MB |
 | [Police](data/police/) | Station jurisdictions (select states) | Parquet, PMTiles | ~96 MB |
 | [Survey of India](data/survey-of-india/) | Index maps, Outline maps, Reference boundaries | Shapefile, PDF | ~119 MB |
+| [Remote Sensing](data/remote-sensing/) | District-level VIIRS nighttime lights (2012–2024) | CSV, GeoJSON | ~353 MB |
+| [External Datasets](data/external/) | SHRUG: socioeconomic data for 500K+ villages | CSV, Stata, Shapefile | [DDL portal](https://www.devdatalab.org/shrug_download/) |
 
-Total: approximately 1,240 files across 6 aggregated source collections.
+Total: approximately 1,260 files across 7 aggregated source collections and curated external links.
 
 ---
 
@@ -72,6 +74,8 @@ data/
   postal/             Pincode boundaries
   police/             Police station jurisdictions
   survey-of-india/    SOI index maps and reference boundaries
+  remote-sensing/     Satellite nighttime lights (VIIRS)
+  external/           Curated links to SHRUG and other platforms
 
 docs/                 GitHub Pages source
 scripts/              Validation, build, and download scripts
@@ -94,9 +98,12 @@ This repository consolidates data from the following open-data projects and gove
 | [datameet/pmgsy-geosadak](https://github.com/datameet/pmgsy-geosadak) | DataMeet | India OGL | Rural road network and habitation data |
 | [datameet/landuse_maps](https://github.com/datameet/landuse_maps) | DataMeet | CC-BY-SA 2.5 | Land use classification maps |
 | [datameet/INDIA_PINCODES](https://github.com/datameet/INDIA_PINCODES) | DataMeet | — | Postal code boundaries |
-| [datameet/Municipal_Spatial_Data](https://github.com/datameet/Municipal_Spatial_Data) | DataMeet | CC BY 4.0 | Municipal ward boundaries for 28 cities |
+| [datameet/Municipal_Spatial_Data](https://github.com/datameet/Municipal_Spatial_Data) | DataMeet | CC BY 4.0 | Municipal ward boundaries for 27 cities |
+| [NOAA VIIRS DNB](https://eogdata.mines.edu/products/vnl/) | NOAA / EOG | Public domain | Nighttime light satellite imagery |
+| [india-district-nightlights-viirs](https://github.com/yashveeeeeer/india-district-nightlights-viirs) | yashveeeeeer | MIT | District-level nightlight statistics pipeline |
+| [SHRUG](https://www.devdatalab.org/shrug) | Development Data Lab | CC BY-NC-SA 4.0 | Socioeconomic data for 500K+ villages (external link) |
 
-Government data sources include: Survey of India, Local Government Directory (MoPR), ISRO Bhuvan, Forest Survey of India, National Centre for Sustainable Coastal Management, GatiShakti, eGramSwaraj, Swachh Bharat Mission, and the Election Commission of India.
+Government data sources include: Survey of India, Local Government Directory (MoPR), ISRO Bhuvan, Forest Survey of India, National Centre for Sustainable Coastal Management, GatiShakti, eGramSwaraj, Swachh Bharat Mission, the Election Commission of India, and NOAA Earth Observation Group.
 
 ---
 

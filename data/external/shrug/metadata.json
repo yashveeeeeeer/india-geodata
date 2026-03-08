@@ -1,0 +1,33 @@
+{
+  "name": "shrug",
+  "title": "SHRUG — Socioeconomic High-resolution Rural-Urban Geographic Platform",
+  "description": "Open-access platform with socioeconomic, environmental, and geospatial data for 500,000+ Indian villages and 8,000+ towns, spanning 25 years. Includes census demographics, economic census, nighttime lights, forest cover, elections, and open boundary polygons.",
+  "category": "external",
+  "level": "village",
+  "coverage": {
+    "spatial": "India — 500,000+ villages, 8,000+ towns, all districts",
+    "temporal": "1991–present (varies by module)",
+    "admin_level": "village, town, subdistrict, district, constituency"
+  },
+  "sources": [
+    {
+      "name": "Development Data Lab",
+      "url": "https://www.devdatalab.org/",
+      "authority": "Sam Asher (Johns Hopkins SAIS) & Paul Novosad (Dartmouth College)"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-NC-SA-4.0",
+    "name": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  },
+  "formats": ["csv", "dta", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": "external",
+  "external_url": "https://www.devdatalab.org/shrug_download/",
+  "external_docs": "https://docs.devdatalab.org/",
+  "external_atlas": "https://www.devdatalab.org/atlas",
+  "files": [],
+  "attributes": [],
+  "last_updated": "2026-03-08"
+}
