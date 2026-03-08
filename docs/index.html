@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Home
+title: "Download India's Open Geospatial Data"
+description: "Browse and download 26 open-licensed GIS datasets for India — administrative boundaries, electoral maps, census geometries, forest cover, nighttime lights, rural roads, and more. Free Parquet, GeoJSON, Shapefile, and PMTiles formats."
 ---
 
 {% assign cats = "administrative,electoral,census,environment,infrastructure,urban,postal,police,survey-of-india,remote-sensing,external" | split: "," %}
@@ -137,3 +138,43 @@ title: Home
     {% endfor %}
   </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DataCatalog",
+  "name": "India Geodata",
+  "description": "A unified collection of India's openly-licensed geospatial data — administrative boundaries, electoral maps, census geometries, environmental zones, infrastructure networks, and more. Ready to download in Parquet, GeoJSON, Shapefile, and PMTiles formats.",
+  "url": "https://yashveeeeeer.github.io/india-geodata/",
+  "creator": {
+    "@type": "Person",
+    "name": "Yashveer Singh",
+    "url": "https://github.com/yashveeeeeer",
+    "sameAs": [
+      "https://x.com/yashv_r",
+      "https://www.linkedin.com/in/yashveersinghh/"
+    ]
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "keywords": ["India", "GIS", "geospatial", "boundaries", "shapefile", "GeoJSON", "Parquet", "PMTiles", "open data", "administrative boundaries", "census", "districts", "nightlights", "electoral map", "forest cover"],
+  "dataset": [
+    {% for item in site.data.catalog %}
+    {
+      "@type": "Dataset",
+      "name": "{{ item.title | escape }}",
+      "description": "{{ item.description | escape }}",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "India"
+      }{% if item.release_url %},
+      "distribution": [{
+        "@type": "DataDownload",
+        "contentUrl": "{{ item.release_url }}",
+        "encodingFormat": "{{ item.formats | join: ', ' }}"
+      }]{% endif %}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>

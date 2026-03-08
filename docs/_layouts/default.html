@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <meta name="description" content="{{ site.description }}">
+  {% seo %}
+  <meta name="keywords" content="India GIS data, India shapefile download, India district boundaries, India geospatial data, India administrative boundaries, census 2011 boundaries, India electoral map, India village boundaries, India tehsil map, VIIRS nightlights India, India open data, free India map data, GeoJSON India, Parquet India, PMTiles India, India block boundaries, India panchayat boundaries, India constituency map, India forest cover data, India pincode boundaries">
+  <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url | replace: 'index.html', '' }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
