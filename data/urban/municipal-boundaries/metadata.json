@@ -1,0 +1,31 @@
+{
+  "name": "urban-municipal",
+  "title": "Municipal Boundaries",
+  "description": "Boundaries of municipal corporations, municipalities, and town councils across India.",
+  "category": "urban",
+  "level": "municipal",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "DataMeet",
+      "url": "https://github.com/datameet/maps",
+      "authority": "DataMeet Community"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "formats": ["geojson", "kml", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "last_updated": "2024-08-15"
+}

@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "India Geodata"
+abstract: >-
+  Unified repository of India's openly-licensed geospatial data,
+  covering administrative boundaries, electoral maps, census geometries,
+  environmental zones, infrastructure networks, urban municipal data,
+  postal boundaries, and police jurisdictions.
+repository-code: "https://github.com/{owner}/india-geodata"
+license: CC-BY-4.0
+date-released: "2026-03-07"
+keywords:
+  - India
+  - GIS
+  - geospatial
+  - administrative boundaries
+  - open data
+  - geodata
+  - mapping
+references:
+  - type: dataset
+    title: "Indian Admin Boundaries"
+    authors:
+      - name: "ramSeraph"
+    repository-code: "https://github.com/ramSeraph/indian_admin_boundaries"
+    license: CC0-1.0
+  - type: dataset
+    title: "DataMeet Maps"
+    authors:
+      - name: "DataMeet India community"
+    repository-code: "https://github.com/datameet/maps"
+    license: CC-BY-4.0
+  - type: dataset
+    title: "PMGSY GeoSadak"
+    authors:
+      - name: "Ministry of Rural Development"
+    repository-code: "https://github.com/datameet/pmgsy-geosadak"

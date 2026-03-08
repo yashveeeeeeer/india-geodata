@@ -1,0 +1,30 @@
+{
+  "name": "env-forests",
+  "title": "Forest Boundaries",
+  "description": "Forest cover and reserve forest boundaries across India.",
+  "category": "environment",
+  "level": "forests",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2021-2024",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "Forest Survey of India", "url": "https://fsi.nic.in/", "authority": "Ministry of Environment, Forest and Climate Change" },
+    { "name": "Bharatmaps", "url": "https://bharatmaps.gov.in/", "authority": "National Informatics Centre" },
+    { "name": "PM GatiShakti", "url": "https://pmgatishakti.gov.in/", "authority": "DPIIT" },
+    { "name": "Survey of India", "url": "https://onlinemaps.surveyofindia.gov.in/", "authority": "Survey of India" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "environment/forests"
+  },
+  "last_updated": "2024-08-15"
+}

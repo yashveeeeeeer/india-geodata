@@ -1,0 +1,31 @@
+{
+  "name": "infra-rural-roads",
+  "title": "Rural Roads (PMGSY)",
+  "description": "Rural road network data from the Pradhan Mantri Gram Sadak Yojana program.",
+  "category": "infrastructure",
+  "level": "rural-roads",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Ministry of Rural Development (OMMAS/PMGSY)",
+      "url": "https://omms.nic.in/",
+      "authority": "Ministry of Rural Development"
+    }
+  ],
+  "license": {
+    "id": "OGL-India-2.0",
+    "name": "Open Government Licence - India",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": ["shapefile", "zip"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": "infra/rural-roads-large"
+  },
+  "last_updated": "2024-08-15"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "urban-slums",
+  "title": "Slum Boundaries",
+  "description": "Boundaries of notified and identified slum areas in Indian cities.",
+  "category": "urban",
+  "level": "slum",
+  "coverage": {
+    "spatial": "India (select cities)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "Municipal GIS Portals", "url": "https://smartcities.gov.in/", "authority": "Various Municipal Corporations" },
+    { "name": "Census of India 2011", "url": "https://censusindia.gov.in/", "authority": "Registrar General and Census Commissioner" },
+    { "name": "National Building Organisation", "url": "https://mohua.gov.in/", "authority": "Ministry of Housing and Urban Affairs" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "urban/boundaries"
+  },
+  "last_updated": "2024-08-15"
+}

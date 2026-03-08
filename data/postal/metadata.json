@@ -1,0 +1,29 @@
+{
+  "name": "postal-pincodes",
+  "title": "Postal PIN Code Boundaries",
+  "description": "Approximate boundaries and point locations for postal PIN codes of India.",
+  "category": "postal",
+  "level": "pincode",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "DataMeet", "url": "https://github.com/datameet/maps", "authority": "DataMeet Community" },
+    { "name": "data.gov.in", "url": "https://data.gov.in/", "authority": "National Informatics Centre" },
+    { "name": "Geo-Spatial Delhi Limited (GSDL)", "url": "https://gsdl.org.in/", "authority": "Delhi Government" }
+  ],
+  "license": {
+    "id": "CC0-1.0 / CC-BY-4.0",
+    "name": "Creative Commons Zero / Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile", "csv"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": "postal/boundaries"
+  },
+  "last_updated": "2024-08-15"
+}

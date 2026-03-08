@@ -1,0 +1,71 @@
+---
+layout: default
+title: Data Catalog
+---
+
+<h1>Data Catalog</h1>
+<p>Browse all available datasets. Filter by category or search by name.</p>
+
+<input type="text" class="search-box" id="searchBox" placeholder="Search datasets...">
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="administrative">Administrative</button>
+  <button class="filter-btn" data-filter="electoral">Electoral</button>
+  <button class="filter-btn" data-filter="census">Census</button>
+  <button class="filter-btn" data-filter="environment">Environment</button>
+  <button class="filter-btn" data-filter="infrastructure">Infrastructure</button>
+  <button class="filter-btn" data-filter="urban">Urban</button>
+  <button class="filter-btn" data-filter="postal">Postal</button>
+  <button class="filter-btn" data-filter="police">Police</button>
+  <button class="filter-btn" data-filter="survey-of-india">Survey of India</button>
+</div>
+
+<div class="dataset-list" id="datasetList">
+  {% for item in site.data.catalog %}
+  <div class="dataset-item" data-category="{{ item.category }}" data-name="{{ item.title | downcase }}">
+    <div class="dataset-info">
+      <h3><a href="https://github.com/{owner}/india-geodata/tree/main/{{ item.url }}">{{ item.title }}</a></h3>
+      <p>{{ item.description }}</p>
+      <div style="margin-top: 6px;">
+        {% for fmt in item.formats %}
+        <span class="tag">{{ fmt }}</span>
+        {% endfor %}
+        <span class="tag" style="background: #dbeafe; color: #1e40af;">{{ item.license_id }}</span>
+        {% if item.release_tag %}
+        <span class="tag" style="background: #fef3c7; color: #92400e;">release: {{ item.release_tag }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var searchBox = document.getElementById('searchBox');
+  var items = document.querySelectorAll('.dataset-item');
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var activeFilter = 'all';
+
+  function filterItems() {
+    var query = searchBox.value.toLowerCase();
+    items.forEach(function(item) {
+      var matchesCategory = activeFilter === 'all' || item.dataset.category === activeFilter;
+      var matchesSearch = !query || item.dataset.name.indexOf(query) !== -1;
+      item.style.display = matchesCategory && matchesSearch ? '' : 'none';
+    });
+  }
+
+  searchBox.addEventListener('input', filterItems);
+
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      filterItems();
+    });
+  });
+});
+</script>

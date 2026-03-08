@@ -1,0 +1,31 @@
+{
+  "name": "admin-divisions",
+  "title": "Revenue Divisions",
+  "description": "Boundaries of revenue divisions of India.",
+  "category": "administrative",
+  "level": "division",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": 2
+  },
+  "sources": [
+    {
+      "name": "DataMeet",
+      "url": "https://github.com/datameet/maps",
+      "authority": "DataMeet Community"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "formats": ["topojson"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "last_updated": "2024-08-15"
+}

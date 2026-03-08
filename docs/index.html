@@ -1,0 +1,104 @@
+---
+layout: default
+title: Home
+---
+
+<div class="hero">
+  <h1>India Geodata</h1>
+  <p>A unified, structured collection of India's openly-licensed geospatial data.
+    Administrative boundaries, electoral maps, census geometries, environmental zones,
+    infrastructure, and more.</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="number">1,240+</span>
+      <span class="label">Data files</span>
+    </div>
+    <div class="hero-stat">
+      <span class="number">24</span>
+      <span class="label">Datasets</span>
+    </div>
+    <div class="hero-stat">
+      <span class="number">35 GB</span>
+      <span class="label">Total data</span>
+    </div>
+    <div class="hero-stat">
+      <span class="number">9</span>
+      <span class="label">Categories</span>
+    </div>
+  </div>
+</div>
+
+<h2>Browse by category</h2>
+
+<div class="category-grid">
+  <a href="{{ '/catalog' | relative_url }}#administrative" class="category-card">
+    <h3>Administrative Boundaries</h3>
+    <p>Country, states, districts, subdistricts, blocks, panchayats, villages, habitations</p>
+    <div class="card-meta">9 datasets &middot; ~27 GB &middot; CC0 / CC BY 4.0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#electoral" class="category-card">
+    <h3>Electoral Boundaries</h3>
+    <p>Assembly and parliamentary constituencies from ECI and LGD</p>
+    <div class="card-meta">2 datasets &middot; ~300 MB &middot; CC BY 4.0 / CC0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#census" class="category-card">
+    <h3>Census</h3>
+    <p>Census 2011 administrative units and historical district boundaries (1941&ndash;2024)</p>
+    <div class="card-meta">2 datasets &middot; ~1.1 GB &middot; CC0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#environment" class="category-card">
+    <h3>Environment</h3>
+    <p>Forest boundaries, coastal regulation zones, land use classification</p>
+    <div class="card-meta">3 datasets &middot; ~7.7 GB &middot; CC0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#infrastructure" class="category-card">
+    <h3>Infrastructure</h3>
+    <p>PMGSY rural roads, block boundaries, habitations, facilities</p>
+    <div class="card-meta">1 dataset &middot; ~1.3 GB &middot; India OGL</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#urban" class="category-card">
+    <h3>Urban</h3>
+    <p>Municipal wards for 28 cities, slum boundaries, localities</p>
+    <div class="card-meta">4 datasets &middot; ~430 MB &middot; CC BY 4.0 / CC0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#postal" class="category-card">
+    <h3>Postal</h3>
+    <p>Pincode boundary data from multiple sources</p>
+    <div class="card-meta">1 dataset &middot; ~700 MB &middot; CC0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#police" class="category-card">
+    <h3>Police</h3>
+    <p>Station jurisdiction boundaries for select states</p>
+    <div class="card-meta">1 dataset &middot; ~96 MB &middot; CC0</div>
+  </a>
+
+  <a href="{{ '/catalog' | relative_url }}#survey-of-india" class="category-card">
+    <h3>Survey of India</h3>
+    <p>SOI index maps, outline maps, and reference boundaries</p>
+    <div class="card-meta">1 dataset &middot; ~119 MB &middot; CC BY 4.0</div>
+  </a>
+</div>
+
+<h2>Quick start</h2>
+
+<p>Small files are stored directly in this repository. Large files are distributed
+through <a href="https://github.com/{owner}/india-geodata/releases">GitHub Releases</a>.</p>
+
+<pre><code># Download all state boundary files
+gh release download admin/states --dir ./downloads/states
+
+# Download only parquet files for districts
+gh release download admin/districts --pattern "*.parquet" --dir ./downloads/districts
+
+# List all available releases
+gh release list</code></pre>
+
+<p>See the <a href="{{ '/downloads' | relative_url }}">Downloads</a> page for the complete download guide.</p>

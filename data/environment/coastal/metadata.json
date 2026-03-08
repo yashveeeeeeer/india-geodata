@@ -1,0 +1,28 @@
+{
+  "name": "env-coastal",
+  "title": "Coastal Zone Boundaries",
+  "description": "Coastal regulation zones and shoreline boundaries of India.",
+  "category": "environment",
+  "level": "coastal",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "National Centre for Sustainable Coastal Management", "url": "https://ncscm.res.in/", "authority": "Ministry of Environment, Forest and Climate Change" },
+    { "name": "Bharatmaps", "url": "https://bharatmaps.gov.in/", "authority": "National Informatics Centre" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "environment/coastal"
+  },
+  "last_updated": "2024-08-15"
+}

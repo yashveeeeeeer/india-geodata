@@ -1,0 +1,13 @@
+Government Open Data License - India
+
+Full text: https://data.gov.in/government-open-data-license-india
+
+Applies to: PMGSY Rural Connectivity Datasets (GeoSadak).
+
+Terms:
+  - Free to copy, reuse, and redistribute for commercial use
+  - Attribution required
+  - Compatible with CC-BY and ODbL datasets
+
+Citation: "Ministry of Rural Development, 2022. PMGSY Rural Connectivity
+Datasets, https://geosadak-pmgsy.nic.in/opendata/"

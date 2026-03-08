@@ -1,0 +1,30 @@
+{
+  "name": "admin-districts",
+  "title": "Districts",
+  "description": "Boundaries of all districts of India.",
+  "category": "administrative",
+  "level": "district",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": 2
+  },
+  "sources": [
+    { "name": "Local Government Directory", "url": "https://lgdirectory.gov.in/", "authority": "Ministry of Panchayati Raj" },
+    { "name": "Survey of India", "url": "https://onlinemaps.surveyofindia.gov.in/", "authority": "Survey of India" },
+    { "name": "Bhuvan", "url": "https://bhuvan.nrsc.gov.in/", "authority": "ISRO/NRSC" },
+    { "name": "DataMeet", "url": "https://github.com/datameet/maps", "authority": "DataMeet Community" }
+  ],
+  "license": {
+    "id": "CC0-1.0 / CC-BY-4.0",
+    "name": "Creative Commons Zero / Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": "admin/districts"
+  },
+  "last_updated": "2024-08-15"
+}

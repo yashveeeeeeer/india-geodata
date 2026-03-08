@@ -1,0 +1,29 @@
+{
+  "name": "admin-habitations",
+  "title": "Habitations",
+  "description": "Point locations and boundaries of habitations across India.",
+  "category": "administrative",
+  "level": "habitation",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": 7
+  },
+  "sources": [
+    { "name": "PMGSY (OMMAS)", "url": "https://omms.nic.in/", "authority": "Ministry of Rural Development" },
+    { "name": "Bhuvan", "url": "https://bhuvan.nrsc.gov.in/", "authority": "ISRO/NRSC" },
+    { "name": "National Habitation Survey", "url": "https://habitation.gov.in/", "authority": "Ministry of Drinking Water and Sanitation" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "admin/habitations"
+  },
+  "last_updated": "2024-08-15"
+}

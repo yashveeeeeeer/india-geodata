@@ -1,0 +1,28 @@
+{
+  "name": "admin-subdistricts",
+  "title": "Sub-Districts (Tehsils/Talukas)",
+  "description": "Boundaries of all sub-districts (tehsils, talukas, mandals) of India.",
+  "category": "administrative",
+  "level": "subdistrict",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": 3
+  },
+  "sources": [
+    { "name": "Local Government Directory", "url": "https://lgdirectory.gov.in/", "authority": "Ministry of Panchayati Raj" },
+    { "name": "Survey of India", "url": "https://onlinemaps.surveyofindia.gov.in/", "authority": "Survey of India" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "admin/subdistricts"
+  },
+  "last_updated": "2024-08-15"
+}

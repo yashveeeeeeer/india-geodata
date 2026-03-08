@@ -1,0 +1,27 @@
+name: Build and deploy site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'data/**/metadata.json'
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - run: python scripts/generate-catalog.py
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: docs
+      - uses: actions/deploy-pages@v4

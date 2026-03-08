@@ -1,0 +1,29 @@
+{
+  "name": "admin-villages",
+  "title": "Villages",
+  "description": "Boundaries of all census villages of India.",
+  "category": "administrative",
+  "level": "village",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": 6
+  },
+  "sources": [
+    { "name": "Local Government Directory", "url": "https://lgdirectory.gov.in/", "authority": "Ministry of Panchayati Raj" },
+    { "name": "Survey of India", "url": "https://onlinemaps.surveyofindia.gov.in/", "authority": "Survey of India" },
+    { "name": "Bhuvan", "url": "https://bhuvan.nrsc.gov.in/", "authority": "ISRO/NRSC" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "admin/villages"
+  },
+  "last_updated": "2024-08-15"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "electoral-ac",
+  "title": "Assembly Constituencies",
+  "description": "Boundaries of state legislative assembly constituencies of India.",
+  "category": "electoral",
+  "level": "assembly-constituency",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "Election Commission of India", "url": "https://eci.gov.in/", "authority": "Election Commission of India" },
+    { "name": "DataMeet", "url": "https://github.com/datameet/maps", "authority": "DataMeet Community" },
+    { "name": "Local Government Directory", "url": "https://lgdirectory.gov.in/", "authority": "Ministry of Panchayati Raj" }
+  ],
+  "license": {
+    "id": "CC0-1.0 / CC-BY-4.0",
+    "name": "Creative Commons Zero / Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": "electoral/constituencies"
+  },
+  "last_updated": "2024-08-15"
+}

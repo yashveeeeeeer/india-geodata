@@ -1,0 +1,28 @@
+{
+  "name": "census-2011",
+  "title": "Census 2011 Boundaries and Data",
+  "description": "Administrative boundaries and demographic data from the 2011 Census of India.",
+  "category": "census",
+  "level": "census-2011",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2011",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "Census of India 2011", "url": "https://censusindia.gov.in/", "authority": "Registrar General and Census Commissioner" },
+    { "name": "SHRUG", "url": "https://www.devdatalab.org/shrug", "authority": "Development Data Lab" }
+  ],
+  "license": {
+    "id": "CC0-1.0 / CC-BY-NC-SA-4.0",
+    "name": "Creative Commons Zero / Creative Commons Attribution-NonCommercial-ShareAlike 4.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "census/2011"
+  },
+  "last_updated": "2024-08-15"
+}

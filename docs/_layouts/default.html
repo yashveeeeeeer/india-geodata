@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="{{ '/' | relative_url }}" class="site-title">India Geodata</a>
+      <nav class="site-nav">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/catalog' | relative_url }}">Catalog</a>
+        <a href="{{ '/downloads' | relative_url }}">Downloads</a>
+        <a href="{{ '/about' | relative_url }}">About</a>
+        <a href="https://github.com/{owner}/india-geodata" class="nav-github">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>India Geodata — Open geospatial data for India.
+        Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.0.6/dist/pmtiles.js"></script>
+  <script src="https://unpkg.com/protomaps-leaflet@4.0.0/dist/protomaps-leaflet.min.js"></script>
+  {% if page.extra_js %}
+  <script src="{{ page.extra_js | relative_url }}"></script>
+  {% endif %}
+</body>
+</html>

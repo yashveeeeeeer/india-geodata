@@ -1,0 +1,29 @@
+{
+  "name": "urban-wards",
+  "title": "Municipal Wards",
+  "description": "Ward-level boundaries of urban local bodies across India.",
+  "category": "urban",
+  "level": "ward",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "Swachh Bharat Mission (SBM)", "url": "https://sbm.gov.in/", "authority": "Ministry of Housing and Urban Affairs" },
+    { "name": "AMRUT", "url": "https://amrut.gov.in/", "authority": "Ministry of Housing and Urban Affairs" },
+    { "name": "ArcGIS Living Atlas", "url": "https://livingatlas.arcgis.com/", "authority": "Esri" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "urban/boundaries"
+  },
+  "last_updated": "2024-08-15"
+}

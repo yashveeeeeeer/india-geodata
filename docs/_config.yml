@@ -1,0 +1,18 @@
+title: India Geodata
+description: Unified repository of India's openly-licensed geospatial data
+baseurl: "/india-geodata"
+url: ""
+
+markdown: kramdown
+highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"

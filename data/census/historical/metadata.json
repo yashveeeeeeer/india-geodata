@@ -1,0 +1,27 @@
+{
+  "name": "census-historical",
+  "title": "Historical Census Data",
+  "description": "Historical census boundaries and population data from pre-2011 census rounds.",
+  "category": "census",
+  "level": "historical",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "1951-2001",
+    "admin_level": null
+  },
+  "sources": [
+    { "name": "Census of India", "url": "https://censusindia.gov.in/", "authority": "Registrar General and Census Commissioner" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["csv", "parquet", "geojsonl.7z"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": "census/historical"
+  },
+  "last_updated": "2024-08-15"
+}

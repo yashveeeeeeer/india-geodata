@@ -1,0 +1,29 @@
+{
+  "name": "admin-panchayats",
+  "title": "Gram Panchayats",
+  "description": "Boundaries of gram panchayats (local self-government bodies) across India.",
+  "category": "administrative",
+  "level": "panchayat",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": 5
+  },
+  "sources": [
+    { "name": "Local Government Directory", "url": "https://lgdirectory.gov.in/", "authority": "Ministry of Panchayati Raj" },
+    { "name": "Bhuvan", "url": "https://bhuvan.nrsc.gov.in/", "authority": "ISRO/NRSC" },
+    { "name": "eGramSwaraj", "url": "https://egramswaraj.gov.in/", "authority": "Ministry of Panchayati Raj" }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "admin/panchayats"
+  },
+  "last_updated": "2024-08-15"
+}

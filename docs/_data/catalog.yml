@@ -1,0 +1,328 @@
+- name: admin-blocks
+  title: Blocks (Community Development Blocks)
+  description: Boundaries of all community development blocks of India.
+  category: administrative
+  level: block
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: admin/blocks
+  url: data/administrative/blocks
+- name: admin-country
+  title: India Country Boundary
+  description: National boundary of India.
+  category: administrative
+  level: country
+  formats:
+  - geojson
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/administrative/country
+- name: admin-districts
+  title: Districts
+  description: Boundaries of all districts of India.
+  category: administrative
+  level: district
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0 / CC-BY-4.0
+  storage: both
+  release_tag: admin/districts
+  url: data/administrative/districts
+- name: admin-divisions
+  title: Revenue Divisions
+  description: Boundaries of revenue divisions of India.
+  category: administrative
+  level: division
+  formats:
+  - topojson
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/administrative/divisions
+- name: admin-habitations
+  title: Habitations
+  description: Point locations and boundaries of habitations across India.
+  category: administrative
+  level: habitation
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: admin/habitations
+  url: data/administrative/habitations
+- name: admin-panchayats
+  title: Gram Panchayats
+  description: Boundaries of gram panchayats (local self-government bodies) across
+    India.
+  category: administrative
+  level: panchayat
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: admin/panchayats
+  url: data/administrative/panchayats
+- name: admin-states
+  title: States and Union Territories
+  description: Boundaries of all states and union territories of India.
+  category: administrative
+  level: state
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0 / CC-BY-4.0
+  storage: both
+  release_tag: admin/states
+  url: data/administrative/states
+- name: admin-subdistricts
+  title: Sub-Districts (Tehsils/Talukas)
+  description: Boundaries of all sub-districts (tehsils, talukas, mandals) of India.
+  category: administrative
+  level: subdistrict
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: admin/subdistricts
+  url: data/administrative/subdistricts
+- name: admin-villages
+  title: Villages
+  description: Boundaries of all census villages of India.
+  category: administrative
+  level: village
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: admin/villages
+  url: data/administrative/villages
+- name: census-2011
+  title: Census 2011 Boundaries and Data
+  description: Administrative boundaries and demographic data from the 2011 Census
+    of India.
+  category: census
+  level: census-2011
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0 / CC-BY-NC-SA-4.0
+  storage: release
+  release_tag: census/2011
+  url: data/census/census-2011
+- name: census-historical
+  title: Historical Census Data
+  description: Historical census boundaries and population data from pre-2011 census
+    rounds.
+  category: census
+  level: historical
+  formats:
+  - csv
+  - parquet
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: both
+  release_tag: census/historical
+  url: data/census/historical
+- name: electoral-ac
+  title: Assembly Constituencies
+  description: Boundaries of state legislative assembly constituencies of India.
+  category: electoral
+  level: assembly-constituency
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0 / CC-BY-4.0
+  storage: both
+  release_tag: electoral/constituencies
+  url: data/electoral/assembly-constituencies
+- name: electoral-pc
+  title: Parliamentary Constituencies
+  description: Boundaries of Lok Sabha parliamentary constituencies of India.
+  category: electoral
+  level: parliamentary-constituency
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0 / CC-BY-4.0
+  storage: both
+  release_tag: electoral/constituencies
+  url: data/electoral/parliamentary-constituencies
+- name: env-coastal
+  title: Coastal Zone Boundaries
+  description: Coastal regulation zones and shoreline boundaries of India.
+  category: environment
+  level: coastal
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: environment/coastal
+  url: data/environment/coastal
+- name: env-forests
+  title: Forest Boundaries
+  description: Forest cover and reserve forest boundaries across India.
+  category: environment
+  level: forests
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: environment/forests
+  url: data/environment/forests
+- name: env-landuse
+  title: Land Use / Land Cover
+  description: Land use and land cover classification data for India.
+  category: environment
+  level: landuse
+  formats:
+  - geojson
+  - shapefile
+  license_id: CC-BY-SA-2.5
+  storage: repo
+  release_tag: null
+  url: data/environment/landuse
+- name: infra-rural-roads
+  title: Rural Roads (PMGSY)
+  description: Rural road network data from the Pradhan Mantri Gram Sadak Yojana program.
+  category: infrastructure
+  level: rural-roads
+  formats:
+  - shapefile
+  - zip
+  license_id: OGL-India-2.0
+  storage: both
+  release_tag: infra/rural-roads-large
+  url: data/infrastructure/rural-roads
+- name: police-jurisdictions
+  title: Police Station Jurisdictions
+  description: Boundaries of police station jurisdictions across Indian states.
+  category: police
+  level: police-station
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: police/jurisdictions
+  url: data/police
+- name: postal-pincodes
+  title: Postal PIN Code Boundaries
+  description: Approximate boundaries and point locations for postal PIN codes of
+    India.
+  category: postal
+  level: pincode
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  - csv
+  license_id: CC0-1.0 / CC-BY-4.0
+  storage: both
+  release_tag: postal/boundaries
+  url: data/postal
+- name: soi-reference
+  title: Survey of India Reference Data
+  description: Reference maps and boundary data from the Survey of India.
+  category: survey-of-india
+  level: reference
+  formats:
+  - shapefile
+  - pdf
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/survey-of-india
+- name: urban-localities
+  title: Urban Localities
+  description: Locality-level boundaries and points within urban areas of India.
+  category: urban
+  level: locality
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: urban/boundaries
+  url: data/urban/localities
+- name: urban-municipal
+  title: Municipal Boundaries
+  description: Boundaries of municipal corporations, municipalities, and town councils
+    across India.
+  category: urban
+  level: municipal
+  formats:
+  - geojson
+  - kml
+  - shapefile
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/urban/municipal-boundaries
+- name: urban-slums
+  title: Slum Boundaries
+  description: Boundaries of notified and identified slum areas in Indian cities.
+  category: urban
+  level: slum
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: urban/boundaries
+  url: data/urban/slums
+- name: urban-wards
+  title: Municipal Wards
+  description: Ward-level boundaries of urban local bodies across India.
+  category: urban
+  level: ward
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - shapefile
+  license_id: CC0-1.0
+  storage: release
+  release_tag: urban/boundaries
+  url: data/urban/wards

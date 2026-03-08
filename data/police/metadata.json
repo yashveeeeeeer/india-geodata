@@ -1,0 +1,31 @@
+{
+  "name": "police-jurisdictions",
+  "title": "Police Station Jurisdictions",
+  "description": "Boundaries of police station jurisdictions across Indian states.",
+  "category": "police",
+  "level": "police-station",
+  "coverage": {
+    "spatial": "India (select states)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "State GIS Portals",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "Various State Police Departments"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": ["parquet", "pmtiles", "geojsonl.7z", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "police/jurisdictions"
+  },
+  "last_updated": "2024-08-15"
+}

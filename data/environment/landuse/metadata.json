@@ -1,0 +1,31 @@
+{
+  "name": "env-landuse",
+  "title": "Land Use / Land Cover",
+  "description": "Land use and land cover classification data for India.",
+  "category": "environment",
+  "level": "landuse",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "ArcGIS Online",
+      "url": "https://www.arcgis.com/",
+      "authority": "Esri"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-SA-2.5",
+    "name": "Creative Commons Attribution-ShareAlike 2.5",
+    "url": "https://creativecommons.org/licenses/by-sa/2.5/"
+  },
+  "formats": ["geojson", "shapefile"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "last_updated": "2024-08-15"
+}

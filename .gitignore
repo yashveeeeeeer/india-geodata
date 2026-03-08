@@ -1,0 +1,35 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Jekyll build
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Large geospatial formats — these belong in GitHub Releases, not in git
+*.parquet
+*.pmtiles
+*.geojsonl.7z
+
+# Temporary
+downloads/
+tmp/
