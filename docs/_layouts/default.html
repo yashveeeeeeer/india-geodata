@@ -3,42 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+  <title>{{ page.title }} | {{ site.title }}</title>
   <meta name="description" content="{{ site.description }}">
-  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="">
 </head>
 <body>
   <header class="site-header">
-    <div class="container">
-      <a href="{{ '/' | relative_url }}" class="site-title">India Geodata</a>
+    <div class="container header-inner">
+      <a href="{{ site.baseurl }}/" class="site-title">India Geodata</a>
       <nav class="site-nav">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/catalog' | relative_url }}">Catalog</a>
-        <a href="{{ '/downloads' | relative_url }}">Downloads</a>
-        <a href="{{ '/about' | relative_url }}">About</a>
-        <a href="https://github.com/yashveeeeeer/india-geodata" class="nav-github">GitHub</a>
+        <a href="{{ site.baseurl }}/">Home</a>
+        <a href="{{ site.baseurl }}/catalog">Catalog</a>
+        <a href="{{ site.baseurl }}/downloads">Downloads</a>
+        <a href="{{ site.baseurl }}/about">About</a>
+        <a href="https://github.com/yashveeeeeer/india-geodata" target="_blank" rel="noopener" class="nav-github">GitHub</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    {{ content }}
-  </main>
+  <main class="container">{{ content }}</main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>India Geodata — Open geospatial data for India.
-        Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-      </p>
+      <p>India Geodata is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+      <p>Built with open data from India's government portals and community projects.</p>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/pmtiles@3.0.6/dist/pmtiles.js"></script>
-  <script src="https://unpkg.com/protomaps-leaflet@4.0.0/dist/protomaps-leaflet.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <script src="https://unpkg.com/protomaps-leaflet@4.0.1/dist/protomaps-leaflet.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/catalog.js"></script>
   {% if page.extra_js %}
-  <script src="{{ page.extra_js | relative_url }}"></script>
+  {% for js in page.extra_js %}
+  <script src="{{ site.baseurl }}/{{ js }}"></script>
+  {% endfor %}
   {% endif %}
 </body>
 </html>
