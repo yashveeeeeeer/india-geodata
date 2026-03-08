@@ -1,121 +1,66 @@
 /* ==========================================================================
    India Geodata — Main Stylesheet
-   A unified repository of India's geospatial data
    https://yashveeeeeer.github.io/india-geodata/
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   0. Font Import
-   -------------------------------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-/* --------------------------------------------------------------------------
-   1. CSS Custom Properties
-   -------------------------------------------------------------------------- */
+/* --- Variables --- */
 :root {
-  --color-primary:    #1e3a5f;
+  --color-primary:       #1e3a5f;
   --color-primary-light: #2d5a8e;
-  --color-accent:     #f59e0b;
-  --color-accent-hover: #d97706;
-  --color-bg:         #ffffff;
-  --color-bg-light:   #f8fafc;
-  --color-text:       #1a1a2e;
-  --color-muted:      #64748b;
-  --color-border:     #e2e8f0;
-  --color-code-bg:    #1e293b;
+  --color-accent:        #f59e0b;
+  --color-accent-hover:  #d97706;
+  --color-bg:            #ffffff;
+  --color-bg-light:      #f8fafc;
+  --color-text:          #1a1a2e;
+  --color-muted:         #64748b;
+  --color-border:        #e2e8f0;
+  --color-code-bg:       #1e293b;
 
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
                  Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 
-  --font-size-base: 15px;
-  --line-height:    1.6;
-
-  --header-height:  60px;
-  --container-max:  1100px;
-  --radius:         8px;
-  --radius-sm:      4px;
-  --shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md:      0 4px 12px rgba(0, 0, 0, 0.12);
-  --transition:     0.2s ease;
+  --header-height: 56px;
+  --container-max: 960px;
+  --radius:    8px;
+  --radius-sm: 4px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --transition: 0.2s ease;
 }
 
-/* --------------------------------------------------------------------------
-   2. CSS Reset & Base
-   -------------------------------------------------------------------------- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: var(--font-size-base);
-  -webkit-text-size-adjust: 100%;
-}
-
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--font-family);
-  font-size: 1rem;
-  line-height: var(--line-height);
+  line-height: 1.6;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--color-accent); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--color-accent-hover); }
+ul, ol { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+code, pre { font-family: var(--font-mono); }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-a {
-  color: var(--color-accent);
-  text-decoration: none;
-  transition: color var(--transition);
-}
-
-a:hover {
-  color: var(--color-accent-hover);
-}
-
-ul, ol {
-  list-style: none;
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-code, pre {
-  font-family: var(--font-mono);
-}
-
-/* --------------------------------------------------------------------------
-   3. Header
-   -------------------------------------------------------------------------- */
+/* --- Header --- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background: var(--color-primary);
+  color: #fff;
   height: var(--header-height);
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }
-
 .header-inner {
   width: 100%;
   max-width: var(--container-max);
@@ -125,297 +70,50 @@ code, pre {
   align-items: center;
   justify-content: space-between;
 }
-
-.site-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #ffffff;
+.site-title {
+  color: #fff;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   text-decoration: none;
 }
-
-.site-logo:hover {
-  color: #ffffff;
-  opacity: 0.92;
-}
-
-.site-logo img {
-  height: 28px;
-  width: auto;
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
+.site-title:hover { color: #fff; opacity: 0.9; }
+.site-nav { display: flex; align-items: center; gap: 24px; }
 .site-nav a {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
   font-weight: 500;
-  text-decoration: none;
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
   transition: color var(--transition), border-color var(--transition);
 }
+.site-nav a:hover { color: #fff; border-bottom-color: var(--color-accent); }
 
-.site-nav a:hover,
-.site-nav a.active {
-  color: #ffffff;
-  border-bottom-color: var(--color-accent);
-}
+/* --- Container --- */
+.container { width: 100%; max-width: var(--container-max); margin: 0 auto; padding: 24px; }
+main { flex: 1; }
 
-/* --------------------------------------------------------------------------
-   4. Main Container
-   -------------------------------------------------------------------------- */
-.container {
-  width: 100%;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 24px;
-}
-
-main {
-  flex: 1;
-}
-
-/* --------------------------------------------------------------------------
-   5. Hero Section (Home Page)
-   -------------------------------------------------------------------------- */
+/* --- Hero --- */
 .hero {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-  color: #ffffff;
-  padding: 56px 24px 48px;
+  color: #fff;
+  padding: 48px 24px 40px;
   text-align: center;
 }
+.hero-inner { max-width: var(--container-max); margin: 0 auto; }
+.hero h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+.hero-subtitle { font-size: 1.05rem; color: rgba(255,255,255,0.82); max-width: 560px; margin: 0 auto 28px; }
+.hero-stats { display: flex; justify-content: center; gap: 48px; }
+.stat-item { text-align: center; }
+.stat-number { display: block; font-size: 1.8rem; font-weight: 700; color: var(--color-accent); line-height: 1.2; }
+.stat-label { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-.hero-inner {
-  max-width: var(--container-max);
-  margin: 0 auto;
-}
+/* --- Catalog Section --- */
+.catalog-section { max-width: var(--container-max); margin: 0 auto; padding: 32px 24px 48px; }
 
-.hero h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-
-.hero .subtitle {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.82);
-  max-width: 620px;
-  margin: 0 auto 32px;
-}
-
-.hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-bottom: 32px;
-}
-
-.hero-stat {
-  text-align: center;
-}
-
-.hero-stat .stat-number {
-  display: block;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-accent);
-  line-height: 1.2;
-}
-
-.hero-stat .stat-label {
-  display: block;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.hero-cta {
-  display: inline-block;
-  background-color: var(--color-accent);
-  color: var(--color-text);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 12px 28px;
-  border-radius: 24px;
-  text-decoration: none;
-  transition: background-color var(--transition), transform var(--transition);
-}
-
-.hero-cta:hover {
-  background-color: var(--color-accent-hover);
-  color: var(--color-text);
-  transform: translateY(-1px);
-}
-
-/* --------------------------------------------------------------------------
-   6. Category Cards Grid (Home Page)
-   -------------------------------------------------------------------------- */
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 32px;
-}
-
-.category-card {
-  background: var(--color-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding: 16px;
-  border-left: 4px solid var(--color-muted);
-  transition: transform var(--transition), box-shadow var(--transition);
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.category-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  color: inherit;
-}
-
-/* Per-category left-border colors via data attributes */
-.category-card[data-color="blue"]    { border-left-color: #3b82f6; }
-.category-card[data-color="green"]   { border-left-color: #22c55e; }
-.category-card[data-color="amber"]   { border-left-color: #f59e0b; }
-.category-card[data-color="red"]     { border-left-color: #ef4444; }
-.category-card[data-color="purple"]  { border-left-color: #8b5cf6; }
-.category-card[data-color="teal"]    { border-left-color: #14b8a6; }
-.category-card[data-color="pink"]    { border-left-color: #ec4899; }
-.category-card[data-color="orange"]  { border-left-color: #f97316; }
-.category-card[data-color="indigo"]  { border-left-color: #6366f1; }
-.category-card[data-color="cyan"]    { border-left-color: #06b6d4; }
-
-.category-card h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.category-card p {
-  font-size: 0.88rem;
-  color: var(--color-muted);
-  margin-bottom: 12px;
-}
-
-.category-card .card-stats {
-  display: flex;
-  gap: 16px;
-  font-size: 0.8rem;
-  color: var(--color-muted);
-}
-
-.category-card .card-stats span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* --------------------------------------------------------------------------
-   7. Featured Section (Home Page)
-   -------------------------------------------------------------------------- */
-.featured-section {
-  background: var(--color-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding: 24px;
-  margin-top: 40px;
-  text-align: center;
-}
-
-.featured-section h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.featured-section img {
-  max-width: 100%;
-  border-radius: var(--radius-sm);
-  margin: 0 auto;
-}
-
-.featured-section .caption {
-  font-size: 0.85rem;
-  color: var(--color-muted);
-  margin-top: 10px;
-}
-
-/* --------------------------------------------------------------------------
-   8. Catalog Page Layout
-   -------------------------------------------------------------------------- */
-.catalog-layout {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 28px;
-  align-items: start;
-}
-
-.catalog-sidebar {
-  position: sticky;
-  top: calc(var(--header-height) + 20px);
-  max-height: calc(100vh - var(--header-height) - 40px);
-  overflow-y: auto;
-}
-
-.catalog-sidebar h3 {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-muted);
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-.catalog-sidebar ul {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.catalog-sidebar a {
-  display: block;
-  padding: 8px 12px;
-  font-size: 0.88rem;
-  color: var(--color-text);
-  border-left: 3px solid transparent;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  transition: background-color var(--transition), border-color var(--transition);
-}
-
-.catalog-sidebar a:hover {
-  background-color: var(--color-bg-light);
-  color: var(--color-text);
-}
-
-.catalog-sidebar a.active {
-  background-color: #eff6ff;
-  border-left-color: var(--color-primary);
-  color: var(--color-primary);
-  font-weight: 600;
-}
-
-.catalog-main {
-  min-width: 0;
-}
-
-/* --------------------------------------------------------------------------
-   9. Search Box
-   -------------------------------------------------------------------------- */
+/* --- Search --- */
 .search-box {
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 16px;
   font-size: 0.93rem;
   font-family: var(--font-family);
   border: 1px solid var(--color-border);
@@ -424,43 +122,70 @@ main {
   color: var(--color-text);
   outline: none;
   transition: border-color var(--transition), box-shadow var(--transition);
-  margin-bottom: 20px;
 }
+.search-box::placeholder { color: var(--color-muted); }
+.search-box:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.12); }
 
-.search-box::placeholder {
+/* --- Category Pills --- */
+.category-pills {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.category-pills::-webkit-scrollbar { height: 0; }
+.pill {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-bg);
   color: var(--color-muted);
+  transition: all var(--transition);
+  white-space: nowrap;
 }
-
-.search-box:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+.pill:hover { border-color: var(--color-accent); color: var(--color-text); }
+.pill.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.pill-count {
+  font-size: 0.72rem;
+  background: rgba(0,0,0,0.08);
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
 }
+.pill.active .pill-count { background: rgba(255,255,255,0.2); }
 
-/* --------------------------------------------------------------------------
-   10. Result Count
-   -------------------------------------------------------------------------- */
-.result-count {
-  font-size: 0.85rem;
+/* --- Result Count --- */
+.result-count { font-size: 0.84rem; color: var(--color-muted); margin-bottom: 8px; }
+
+/* --- Category Groups --- */
+.category-group { margin-bottom: 36px; }
+.category-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  padding-top: 8px;
+}
+.category-summary {
+  font-size: 0.88rem;
   color: var(--color-muted);
   margin-bottom: 16px;
 }
 
-/* --------------------------------------------------------------------------
-   11. Dataset Cards
-   -------------------------------------------------------------------------- */
+/* --- Dataset Cards --- */
 .dataset-card {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  margin-bottom: 12px;
-  padding: 16px;
+  margin-bottom: 10px;
+  padding: 14px 16px;
   transition: box-shadow var(--transition);
 }
-
-.dataset-card:hover {
-  box-shadow: var(--shadow-sm);
-}
-
+.dataset-card:hover { box-shadow: var(--shadow-sm); }
 .dataset-header {
   display: flex;
   align-items: flex-start;
@@ -468,37 +193,68 @@ main {
   cursor: pointer;
   gap: 12px;
 }
+.dataset-title { font-size: 1rem; font-weight: 600; line-height: 1.4; }
+.dataset-desc { font-size: 0.86rem; color: var(--color-muted); margin-top: 3px; }
+.dataset-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
 
-.dataset-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  line-height: 1.4;
+/* --- Tags --- */
+.tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 10px;
+  line-height: 1.6;
+  white-space: nowrap;
 }
+.tag-geojson, .tag-geojsonl  { background: #d1fae5; color: #065f46; }
+.tag-parquet   { background: #dbeafe; color: #1e40af; }
+.tag-pmtiles   { background: #fed7aa; color: #9a3412; }
+.tag-shapefile { background: #e9d5ff; color: #6b21a8; }
+.tag-csv       { background: #f1f5f9; color: #475569; }
+.tag-zip       { background: #f1f5f9; color: #475569; }
+.tag-dta       { background: #f1f5f9; color: #475569; }
+.tag-gif       { background: #fce7f3; color: #9d174d; }
+.tag-license   { background: #dbeafe; color: #1e40af; }
+.tag-geojsonl7z { background: #d1fae5; color: #065f46; }
 
-.dataset-desc {
-  font-size: 0.9rem;
-  color: var(--color-muted);
-  margin-top: 4px;
-}
-
-.dataset-tags {
+/* --- Action Buttons --- */
+.dataset-actions {
   display: flex;
+  gap: 8px;
+  margin-top: 10px;
   flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
-  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.btn-download {
+  background: var(--color-accent);
+  color: var(--color-text);
+}
+.btn-download:hover {
+  background: var(--color-accent-hover);
+  color: var(--color-text);
+}
+.btn-github {
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  background: var(--color-bg);
+}
+.btn-github:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
 }
 
-.dataset-files {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
-}
-
-.dataset-card.expanded .dataset-files {
-  max-height: 2000px;
-}
-
+/* --- Expand / Collapse --- */
 .expand-toggle {
   display: flex;
   align-items: center;
@@ -508,513 +264,138 @@ main {
   border-radius: 50%;
   flex-shrink: 0;
   color: var(--color-muted);
-  transition: background-color var(--transition), transform var(--transition);
-  font-size: 0.85rem;
+  transition: background var(--transition), transform var(--transition);
 }
-
-.expand-toggle:hover {
-  background-color: var(--color-bg-light);
+.expand-toggle:hover { background: var(--color-bg-light); }
+.dataset-card.expanded .expand-toggle svg { transform: rotate(180deg); }
+.dataset-files {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
 }
+.dataset-card.expanded .dataset-files { max-height: 3000px; }
 
-.expand-toggle .chevron {
-  display: inline-block;
-  transition: transform 0.25s ease;
-}
-
-.dataset-card.expanded .expand-toggle .chevron {
-  transform: rotate(180deg);
-}
-
-/* --------------------------------------------------------------------------
-   12. Tags / Badges
-   -------------------------------------------------------------------------- */
-.tag {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 10px;
-  line-height: 1.6;
-  white-space: nowrap;
-}
-
-.tag-geojson   { background: #d1fae5; color: #065f46; }
-.tag-geojsonl  { background: #d1fae5; color: #065f46; }
-.tag-parquet   { background: #dbeafe; color: #1e40af; }
-.tag-pmtiles   { background: #fed7aa; color: #9a3412; }
-.tag-shapefile { background: #e9d5ff; color: #6b21a8; }
-.tag-csv       { background: #f1f5f9; color: #475569; }
-.tag-zip       { background: #f1f5f9; color: #475569; }
-.tag-license   { background: #dbeafe; color: #1e40af; }
-.tag-release   { background: #fef3c7; color: #92400e; }
-.tag-external  { background: #fce7f3; color: #9d174d; }
-
-/* --------------------------------------------------------------------------
-   13. File Download Table
-   -------------------------------------------------------------------------- */
-.file-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  margin-top: 14px;
-}
-
+/* --- File Table --- */
+.file-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 12px; }
 .file-table thead th {
   text-align: left;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--color-muted);
-  padding: 8px 10px;
+  padding: 6px 8px;
   border-bottom: 2px solid var(--color-border);
+  font-size: 0.72rem;
+}
+.file-table tbody tr:nth-child(even) { background: var(--color-bg-light); }
+.file-table tbody td { padding: 6px 8px; vertical-align: middle; }
+.btn-file-dl {
   font-size: 0.75rem;
-}
-
-.file-table tbody tr:nth-child(even) {
-  background-color: var(--color-bg-light);
-}
-
-.file-table tbody td {
-  padding: 8px 10px;
-  vertical-align: middle;
-  color: var(--color-text);
-}
-
-.file-table a {
+  font-weight: 600;
   color: var(--color-accent);
   text-decoration: none;
 }
+.btn-file-dl:hover { text-decoration: underline; }
 
-.file-table a:hover {
-  text-decoration: underline;
-  color: var(--color-accent-hover);
+/* --- External Notice --- */
+.external-notice { padding: 12px 0; font-size: 0.88rem; color: var(--color-muted); }
+
+/* --- Release Link --- */
+.release-link { margin-top: 10px; font-size: 0.84rem; }
+.release-link a { color: var(--color-accent); }
+.release-link a:hover { text-decoration: underline; }
+
+/* --- Footer --- */
+.site-footer {
+  background: var(--color-primary);
+  color: rgba(255,255,255,0.75);
+  text-align: center;
+  padding: 20px 24px;
+  margin-top: 0;
+  font-size: 0.84rem;
 }
+.site-footer a { color: var(--color-accent); }
+.site-footer a:hover { color: #fff; }
 
-.download-btn {
-  display: inline-block;
-  background-color: var(--color-accent);
-  color: var(--color-text);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: background-color var(--transition);
-}
-
-.download-btn:hover {
-  background-color: var(--color-accent-hover);
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-/* --------------------------------------------------------------------------
-   14. External Dataset Card
-   -------------------------------------------------------------------------- */
-.external-card .visit-btn {
-  display: inline-block;
-  border: 2px solid var(--color-accent);
-  color: var(--color-accent);
-  font-weight: 600;
-  font-size: 0.88rem;
-  padding: 8px 20px;
-  border-radius: 24px;
-  margin-top: 12px;
-  text-decoration: none;
-  transition: background-color var(--transition), color var(--transition);
-}
-
-.external-card .visit-btn:hover {
-  background-color: var(--color-accent);
-  color: var(--color-text);
-}
-
-/* --------------------------------------------------------------------------
-   15. Quick Start / Code Block (Home Page)
-   -------------------------------------------------------------------------- */
-.quickstart {
-  margin-top: 40px;
-}
-
-.quickstart h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-
-.code-block {
-  background-color: var(--color-code-bg);
-  color: #e2e8f0;
-  border-radius: var(--radius);
-  padding: 16px 20px;
-  overflow-x: auto;
-  font-size: 0.88rem;
-  line-height: 1.7;
-}
-
-.code-block code {
-  color: inherit;
-  font-family: var(--font-mono);
-}
-
-.code-block .comment {
-  color: #64748b;
-}
-
-.code-block .string {
-  color: #86efac;
-}
-
-.code-block .command {
-  color: #93c5fd;
-}
-
-/* --------------------------------------------------------------------------
-   16. Downloads Page Table
-   -------------------------------------------------------------------------- */
-.page-table-wrapper {
-  overflow-x: auto;
-  margin: 20px 0;
-}
-
-.page-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.page-table thead th {
-  text-align: left;
-  padding: 10px 14px;
-  font-weight: 600;
-  color: var(--color-text);
-  border-bottom: 2px solid var(--color-border);
-  background-color: var(--color-bg-light);
-  white-space: nowrap;
-}
-
-.page-table tbody td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--color-border);
-  vertical-align: top;
-}
-
-.page-table tbody tr:nth-child(even) {
-  background-color: var(--color-bg-light);
-}
-
-.page-table code {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-  background: #f1f5f9;
-  padding: 1px 5px;
-  border-radius: 3px;
-  color: #c2410c;
-}
-
-/* --------------------------------------------------------------------------
-   17. About Page / Prose Content
-   -------------------------------------------------------------------------- */
-.prose h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.prose h2 {
-  font-size: 1.5rem;
+/* ==========================================================================
+   About Page
+   ========================================================================== */
+.about-page { max-width: 640px; margin: 0 auto; padding: 40px 24px 60px; }
+.about-page h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; }
+.about-page h2 {
+  font-size: 1.15rem;
   font-weight: 600;
   margin-top: 36px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--color-border);
 }
+.about-page p { margin-bottom: 12px; font-size: 0.95rem; line-height: 1.7; color: var(--color-text); }
+.about-page a { color: var(--color-accent); text-decoration: underline; text-decoration-color: rgba(245,158,11,0.35); text-underline-offset: 2px; }
+.about-page a:hover { text-decoration-color: var(--color-accent); }
 
-.prose h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  margin-top: 28px;
-  margin-bottom: 8px;
-}
-
-.prose p {
-  margin-bottom: 14px;
-}
-
-.prose ul,
-.prose ol {
-  padding-left: 24px;
-  margin-bottom: 14px;
-}
-
-.prose ul {
-  list-style: disc;
-}
-
-.prose ol {
-  list-style: decimal;
-}
-
-.prose li {
-  margin-bottom: 4px;
-}
-
-.prose a {
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-decoration-color: rgba(245, 158, 11, 0.35);
-  text-underline-offset: 2px;
-}
-
-.prose a:hover {
-  text-decoration-color: var(--color-accent);
-}
-
-.prose blockquote {
-  border-left: 4px solid var(--color-accent);
-  padding: 10px 16px;
-  margin: 16px 0;
-  background: var(--color-bg-light);
-  color: var(--color-muted);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-
-.prose table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 16px 0;
-  font-size: 0.9rem;
-}
-
-.prose table th {
-  text-align: left;
-  padding: 10px 14px;
-  font-weight: 600;
-  border-bottom: 2px solid var(--color-border);
-  background: var(--color-bg-light);
-}
-
-.prose table td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.prose table tr:nth-child(even) {
-  background: var(--color-bg-light);
-}
-
-/* --------------------------------------------------------------------------
-   18. Footer
-   -------------------------------------------------------------------------- */
-.site-footer {
-  background-color: var(--color-primary);
-  color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding: 24px;
-  margin-top: 48px;
+.social-links { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
   font-size: 0.88rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all var(--transition);
 }
+.social-link:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.social-link svg { flex-shrink: 0; }
 
-.site-footer a {
-  color: var(--color-accent);
+.about-page pre {
+  background: var(--color-code-bg);
+  color: #e2e8f0;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  margin: 8px 0 12px;
 }
+.about-page pre code { color: inherit; }
 
-.site-footer a:hover {
-  color: #ffffff;
-}
-
-.site-footer .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 10px;
-}
-
-/* --------------------------------------------------------------------------
-   19. Utility Classes
-   -------------------------------------------------------------------------- */
-.text-muted   { color: var(--color-muted); }
-.text-accent  { color: var(--color-accent); }
-.text-center  { text-align: center; }
-.mt-0  { margin-top: 0; }
-.mt-1  { margin-top: 8px; }
-.mt-2  { margin-top: 16px; }
-.mt-3  { margin-top: 24px; }
-.mt-4  { margin-top: 32px; }
-.mb-0  { margin-bottom: 0; }
-.mb-1  { margin-bottom: 8px; }
-.mb-2  { margin-bottom: 16px; }
-.mb-3  { margin-bottom: 24px; }
-.hidden { display: none !important; }
-
-.section-heading {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.section-subheading {
-  font-size: 0.95rem;
-  color: var(--color-muted);
-  margin-bottom: 24px;
-}
-
-/* --------------------------------------------------------------------------
-   20. Responsive — Tablet & Mobile (max-width: 768px)
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
 @media (max-width: 768px) {
-  /* Header: stack vertically */
-  .site-header {
-    height: auto;
-    padding: 10px 0;
-  }
+  .site-header { height: auto; padding: 10px 0; }
+  .header-inner { flex-direction: column; gap: 6px; padding: 0 16px; }
+  .site-nav { gap: 16px; flex-wrap: wrap; justify-content: center; }
 
-  .header-inner {
-    flex-direction: column;
-    gap: 8px;
-    padding: 0 16px;
-  }
+  .hero { padding: 32px 16px 28px; }
+  .hero h1 { font-size: 1.6rem; }
+  .hero-subtitle { font-size: 0.92rem; }
+  .hero-stats { gap: 24px; }
+  .stat-number { font-size: 1.4rem; }
 
-  .site-nav {
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  .catalog-section { padding: 20px 16px 36px; }
+  .category-heading { font-size: 1.1rem; }
 
-  /* Hero: smaller text, 2-col stats */
-  .hero {
-    padding: 36px 16px 32px;
-  }
+  .dataset-card { padding: 12px; }
+  .dataset-title { font-size: 0.93rem; }
+  .dataset-actions { gap: 6px; }
+  .btn { font-size: 0.76rem; padding: 5px 10px; }
 
-  .hero h1 {
-    font-size: 1.75rem;
-  }
-
-  .hero .subtitle {
-    font-size: 0.95rem;
-  }
-
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .hero-stat .stat-number {
-    font-size: 1.5rem;
-  }
-
-  /* Category cards: single column */
-  .category-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Catalog layout: single column */
-  .catalog-layout {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .catalog-sidebar {
-    position: static;
-    max-height: none;
-    overflow-x: auto;
-    overflow-y: visible;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 12px;
-    margin-bottom: 8px;
-  }
-
-  .catalog-sidebar ul {
-    flex-direction: row;
-    gap: 4px;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 4px;
-  }
-
-  .catalog-sidebar a {
-    border-left: none;
-    border-bottom: 3px solid transparent;
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    padding: 6px 12px;
-    font-size: 0.82rem;
-  }
-
-  .catalog-sidebar a.active {
-    border-left: none;
-    border-bottom-color: var(--color-primary);
-  }
-
-  /* Container */
-  .container {
-    padding: 16px;
-  }
-
-  /* Tables: smaller font, scroll */
-  .page-table-wrapper {
-    margin: 12px -16px;
-    padding: 0 16px;
-  }
-
-  .page-table,
-  .file-table {
-    font-size: 0.8rem;
-  }
-
-  .page-table thead th,
-  .page-table tbody td {
-    padding: 8px 10px;
-  }
-
-  /* Dataset cards */
-  .dataset-title {
-    font-size: 1rem;
-  }
-
-  /* Prose */
-  .prose h1 {
-    font-size: 1.5rem;
-  }
-
-  .prose h2 {
-    font-size: 1.25rem;
-  }
-
-  /* Footer */
-  .site-footer .footer-links {
-    flex-direction: column;
-    gap: 8px;
-  }
+  .about-page { padding: 24px 16px 40px; }
+  .about-page h1 { font-size: 1.4rem; }
 }
 
-/* --------------------------------------------------------------------------
-   21. Responsive — Small phones (max-width: 480px)
-   -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
-  .hero h1 {
-    font-size: 1.45rem;
-  }
+  .hero h1 { font-size: 1.35rem; }
+  .hero-stats { flex-direction: column; gap: 12px; }
 
-  .hero-stats {
-    gap: 12px;
-  }
+  .dataset-header { flex-direction: column; gap: 6px; }
+  .expand-toggle { align-self: flex-end; }
+  .dataset-actions { flex-direction: column; }
+  .btn { justify-content: center; }
 
-  .hero-stat .stat-number {
-    font-size: 1.3rem;
-  }
-
-  .hero-cta {
-    width: 100%;
-    text-align: center;
-  }
-
-  .dataset-header {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .expand-toggle {
-    align-self: flex-end;
-  }
+  .social-links { flex-direction: column; }
 }

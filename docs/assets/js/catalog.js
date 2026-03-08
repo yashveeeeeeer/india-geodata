@@ -1,73 +1,32 @@
-/**
- * India Geodata — Catalog Page Interactivity
- * Handles category filtering, search, expand/collapse, and URL hash routing.
- */
-
 (function () {
   'use strict';
 
-  // ---------------------------------------------------------------------------
-  // DOM references
-  // ---------------------------------------------------------------------------
-  const sidebar       = document.querySelector('.catalog-sidebar');
-  const searchBox     = document.querySelector('.search-box');
-  const resultCount   = document.querySelector('.result-count');
-  const datasetCards  = document.querySelectorAll('.dataset-card');
-  const sidebarLinks  = sidebar ? sidebar.querySelectorAll('a[data-category]') : [];
-  const totalDatasets = datasetCards.length;
+  var searchBox     = document.getElementById('searchBox');
+  var resultCount   = document.getElementById('resultCount');
+  var pills         = document.querySelectorAll('.pill[data-category]');
+  var groups        = document.querySelectorAll('.category-group');
+  var cards         = document.querySelectorAll('.dataset-card');
+  var totalDatasets = cards.length;
+  var activeCategory = 'all';
+  var debounceTimer  = null;
 
-  // Current active category ('all' means show everything)
-  let activeCategory = 'all';
+  // --- Category pill click ---
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      activeCategory = pill.dataset.category;
+      pills.forEach(function (p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+      applyFilters();
 
-  // ---------------------------------------------------------------------------
-  // 1. Category Filtering
-  // ---------------------------------------------------------------------------
-
-  /**
-   * Filter visible dataset cards by category slug.
-   * @param {string} category — category slug or 'all'
-   */
-  function filterByCategory(category) {
-    activeCategory = category;
-
-    // Update sidebar active state
-    sidebarLinks.forEach(function (link) {
-      if (link.dataset.category === category) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
-
-    // Apply combined filter (category + search)
-    applyFilters();
-  }
-
-  // Sidebar link click handler
-  if (sidebar) {
-    sidebar.addEventListener('click', function (e) {
-      var link = e.target.closest('a[data-category]');
-      if (!link) return;
-      e.preventDefault();
-
-      var category = link.dataset.category;
-      filterByCategory(category);
-
-      // Update URL hash (omit hash for 'all')
-      if (category === 'all') {
+      if (activeCategory === 'all') {
         history.replaceState(null, '', window.location.pathname);
       } else {
-        history.replaceState(null, '', '#' + category);
+        history.replaceState(null, '', '#' + activeCategory);
       }
     });
-  }
+  });
 
-  // ---------------------------------------------------------------------------
-  // 2. Search Filtering (debounced)
-  // ---------------------------------------------------------------------------
-
-  var debounceTimer = null;
-
+  // --- Search ---
   if (searchBox) {
     searchBox.addEventListener('input', function () {
       clearTimeout(debounceTimer);
@@ -75,80 +34,67 @@
     });
   }
 
-  // ---------------------------------------------------------------------------
-  // 3. Combined filter logic
-  // ---------------------------------------------------------------------------
-
-  /**
-   * Show/hide cards based on the active category and the current search query.
-   * Updates the result count element.
-   */
+  // --- Combined filter ---
   function applyFilters() {
     var query = searchBox ? searchBox.value.trim().toLowerCase() : '';
     var visible = 0;
+    var visibleGroupCats = {};
 
-    datasetCards.forEach(function (card) {
-      var matchesCategory =
-        activeCategory === 'all' || card.dataset.category === activeCategory;
-
-      var name = (card.dataset.name || '').toLowerCase();
-      var desc = (card.dataset.description || '').toLowerCase();
+    cards.forEach(function (card) {
+      var cat = card.dataset.category;
+      var matchesCat = activeCategory === 'all' || cat === activeCategory;
+      var name = (card.dataset.name || '');
+      var desc = (card.dataset.description || '');
       var matchesSearch = !query || name.indexOf(query) !== -1 || desc.indexOf(query) !== -1;
 
-      if (matchesCategory && matchesSearch) {
+      if (matchesCat && matchesSearch) {
         card.style.display = '';
         visible++;
+        visibleGroupCats[cat] = true;
       } else {
         card.style.display = 'none';
       }
     });
 
-    // Update result count
+    groups.forEach(function (group) {
+      var cat = group.dataset.group;
+      group.style.display = visibleGroupCats[cat] ? '' : 'none';
+    });
+
     if (resultCount) {
       resultCount.textContent = 'Showing ' + visible + ' of ' + totalDatasets + ' datasets';
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // 4. Card Expand / Collapse
-  // ---------------------------------------------------------------------------
-
+  // --- Expand / Collapse ---
   document.addEventListener('click', function (e) {
-    // Match clicks on .expand-toggle or .dataset-header
     var header = e.target.closest('.dataset-header');
     var toggle = e.target.closest('.expand-toggle');
     if (!header && !toggle) return;
 
-    var card = (header || toggle).closest('.dataset-card');
-    if (!card) return;
+    if (e.target.closest('.dataset-actions') || e.target.closest('a')) return;
 
-    // Toggle expanded state
-    card.classList.toggle('expanded');
+    var card = (header || toggle).closest('.dataset-card');
+    if (card) card.classList.toggle('expanded');
   });
 
-  // ---------------------------------------------------------------------------
-  // 5. URL Hash Routing
-  // ---------------------------------------------------------------------------
-
+  // --- Hash routing ---
   function handleHash() {
     var hash = window.location.hash.replace('#', '').trim();
     if (hash) {
-      // Check that a sidebar link exists for this category
-      var matchingLink = sidebar
-        ? sidebar.querySelector('a[data-category="' + hash + '"]')
-        : null;
-      if (matchingLink) {
-        filterByCategory(hash);
+      var matchingPill = document.querySelector('.pill[data-category="' + hash + '"]');
+      if (matchingPill) {
+        activeCategory = hash;
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        matchingPill.classList.add('active');
+        applyFilters();
         return;
       }
     }
-    // Default: show all
-    filterByCategory('all');
+    activeCategory = 'all';
+    applyFilters();
   }
 
-  // Run on page load
   handleHash();
-
-  // Also listen for hash changes (e.g. browser back/forward)
   window.addEventListener('hashchange', handleHash);
 })();

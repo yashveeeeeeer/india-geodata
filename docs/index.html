@@ -3,147 +3,132 @@ layout: default
 title: Home
 ---
 
+{% assign cats = "administrative,electoral,census,environment,infrastructure,urban,postal,police,survey-of-india,remote-sensing,external" | split: "," %}
+
+{% assign cat_labels = "Administrative Boundaries,Electoral Boundaries,Census,Environment,Infrastructure,Urban,Postal,Police,Survey of India,Remote Sensing,External Datasets" | split: "," %}
+
+{% assign cat_summaries = "Country, state, district, subdistrict, block, panchayat, village, and habitation boundaries from LGD, SOI, and Bhuvan.|Assembly and parliamentary constituency boundaries from the Election Commission.|Census 2011 admin-unit geometries and historical district boundary series (1941–2024).|Forest cover, coastal regulation zones, and land use classification maps.|PMGSY rural road network and habitation point data from GeoSadak.|Municipal ward boundaries, slum areas, ULB boundaries, and locality maps for 28 cities.|India Post pincode polygon boundaries.|Police station jurisdiction boundaries for select states.|SOI topographic index maps, outline maps, and reference boundaries.|Satellite-derived district-level nighttime light data (VIIRS, 2012–2024).|Curated links to external open-data platforms." | split: "|" %}
+
 <section class="hero">
-  <h1>India Geodata</h1>
-  <p class="hero-subtitle">Unified repository of India's openly-licensed geospatial data</p>
-
-  <div class="hero-stats">
-    <div class="stat-item">
-      <span class="stat-number">1,240+</span>
-      <span class="stat-label">Data files</span>
+  <div class="hero-inner">
+    <h1>India Geodata</h1>
+    <p class="hero-subtitle">A unified collection of India's openly-licensed geospatial data — ready to download.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">{{ site.data.catalog | size }}</span>
+        <span class="stat-label">Datasets</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">11</span>
+        <span class="stat-label">Categories</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">35 GB+</span>
+        <span class="stat-label">Total data</span>
+      </div>
     </div>
-    <div class="stat-item">
-      <span class="stat-number">27</span>
-      <span class="stat-label">Datasets</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number">35 GB</span>
-      <span class="stat-label">Total data</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number">11</span>
-      <span class="stat-label">Categories</span>
-    </div>
-  </div>
-
-  <a href="{{ site.baseurl }}/catalog" class="cta-btn">Browse the catalog</a>
-</section>
-
-<section class="categories">
-  <h2>Browse by category</h2>
-  <div class="category-grid">
-
-    <a href="{{ site.baseurl }}/catalog#administrative" class="category-card" data-category="administrative">
-      <h3>Administrative Boundaries</h3>
-      <p>States, districts, blocks, villages, habitations</p>
-      <div class="card-meta">
-        <span>9 datasets</span>
-        <span>~27 GB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#electoral" class="category-card" data-category="electoral">
-      <h3>Electoral Boundaries</h3>
-      <p>Assembly and parliamentary constituencies</p>
-      <div class="card-meta">
-        <span>2 datasets</span>
-        <span>~300 MB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#census" class="category-card" data-category="census">
-      <h3>Census</h3>
-      <p>Census 2011 geometries and historical boundaries</p>
-      <div class="card-meta">
-        <span>2 datasets</span>
-        <span>~1.1 GB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#environment" class="category-card" data-category="environment">
-      <h3>Environment</h3>
-      <p>Forests, coastal zones, land use</p>
-      <div class="card-meta">
-        <span>3 datasets</span>
-        <span>~7.7 GB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#infrastructure" class="category-card" data-category="infrastructure">
-      <h3>Infrastructure</h3>
-      <p>Rural road networks (PMGSY)</p>
-      <div class="card-meta">
-        <span>1 dataset</span>
-        <span>~1.3 GB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#urban" class="category-card" data-category="urban">
-      <h3>Urban</h3>
-      <p>Municipal boundaries and ward maps</p>
-      <div class="card-meta">
-        <span>4 datasets</span>
-        <span>~430 MB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#postal" class="category-card" data-category="postal">
-      <h3>Postal</h3>
-      <p>Pincode boundaries</p>
-      <div class="card-meta">
-        <span>1 dataset</span>
-        <span>~700 MB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#police" class="category-card" data-category="police">
-      <h3>Police</h3>
-      <p>Police jurisdiction boundaries</p>
-      <div class="card-meta">
-        <span>1 dataset</span>
-        <span>~96 MB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#survey-of-india" class="category-card" data-category="survey-of-india">
-      <h3>Survey of India</h3>
-      <p>SOI topographic index maps</p>
-      <div class="card-meta">
-        <span>1 dataset</span>
-        <span>~119 MB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#remote-sensing" class="category-card" data-category="remote-sensing">
-      <h3>Remote Sensing</h3>
-      <p>Satellite nighttime lights (VIIRS)</p>
-      <div class="card-meta">
-        <span>1 dataset</span>
-        <span>~353 MB</span>
-      </div>
-    </a>
-
-    <a href="{{ site.baseurl }}/catalog#external" class="category-card" data-category="external">
-      <h3>External Datasets</h3>
-      <p>Curated links to SHRUG and other platforms</p>
-      <div class="card-meta">
-        <span>1 dataset</span>
-        <span>&mdash;</span>
-      </div>
-    </a>
-
   </div>
 </section>
 
-<section class="quickstart">
-  <h2>Quick start</h2>
-  <pre><code># Download state boundaries
-gh release download admin/states
+<section class="catalog-section">
+  <input type="text" class="search-box" id="searchBox" placeholder="Search datasets…">
 
-# Download only Parquet format
-gh release download admin/states --pattern "*.parquet"
+  <div class="category-pills" id="categoryPills">
+    <button class="pill active" data-category="all">All</button>
+    {% for cat in cats %}
+      {% assign cat_items = site.data.catalog | where: "category", cat %}
+      {% if cat_items.size > 0 %}
+      <button class="pill" data-category="{{ cat }}">{{ cat_labels[forloop.index0] }} <span class="pill-count">{{ cat_items.size }}</span></button>
+      {% endif %}
+    {% endfor %}
+  </div>
 
-# Download everything (~35 GB)
-python scripts/download-releases.py</code></pre>
-  <p>See the <a href="{{ site.baseurl }}/downloads">Downloads page</a> for the complete download guide.</p>
+  <p class="result-count" id="resultCount"></p>
+
+  <div id="datasetList">
+    {% for cat in cats %}
+      {% assign cat_items = site.data.catalog | where: "category", cat %}
+      {% if cat_items.size > 0 %}
+      <div class="category-group" data-group="{{ cat }}" id="{{ cat }}">
+        <h2 class="category-heading">{{ cat_labels[forloop.index0] }}</h2>
+        <p class="category-summary">{{ cat_summaries[forloop.index0] }}</p>
+
+        {% for item in cat_items %}
+        <div class="dataset-card"
+             data-category="{{ item.category }}"
+             data-name="{{ item.title | downcase }}"
+             data-description="{{ item.description | downcase }}">
+
+          <div class="dataset-header">
+            <div>
+              <h3 class="dataset-title">{{ item.title }}</h3>
+              <p class="dataset-desc">{{ item.description }}</p>
+              <div class="dataset-tags">
+                {% for fmt in item.formats %}
+                <span class="tag tag-{{ fmt | replace: '.', '' | replace: ' ', '-' }}">{{ fmt }}</span>
+                {% endfor %}
+                <span class="tag tag-license">{{ item.license_id }}</span>
+              </div>
+            </div>
+            <button class="expand-toggle" aria-label="Toggle file list">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+
+          <div class="dataset-actions">
+            {% if item.storage == "external" %}
+              <a href="{{ item.external_url }}" class="btn btn-download" target="_blank" rel="noopener">Download Portal</a>
+              {% if item.external_docs %}
+              <a href="{{ item.external_docs }}" class="btn btn-github" target="_blank" rel="noopener">Documentation</a>
+              {% endif %}
+            {% else %}
+              {% if item.release_url %}
+              <a href="{{ item.release_url }}" class="btn btn-download" target="_blank" rel="noopener">Download</a>
+              {% endif %}
+              <a href="https://github.com/yashveeeeeer/india-geodata/tree/main/{{ item.url }}" class="btn btn-github" target="_blank" rel="noopener">GitHub</a>
+              {% if item.name == "nightlights-viirs" %}
+              <a href="https://github.com/yashveeeeeer/india-district-nightlights-viirs" class="btn btn-github" target="_blank" rel="noopener">Source Repo</a>
+              {% endif %}
+            {% endif %}
+          </div>
+
+          <div class="dataset-files">
+            {% if item.storage == "external" %}
+            <div class="external-notice">
+              <p>This dataset is hosted externally by Development Data Lab.</p>
+              <p>SHRUG provides socioeconomic data for 500,000+ villages and 8,000+ towns — census, economic census, nightlights, forest cover, elections, and more.</p>
+            </div>
+            {% elsif item.files.size > 0 %}
+            <table class="file-table">
+              <thead>
+                <tr><th>File</th><th>Format</th><th>Size</th><th></th></tr>
+              </thead>
+              <tbody>
+                {% for file in item.files %}
+                <tr>
+                  <td>{{ file.name }}</td>
+                  <td><span class="tag tag-{{ file.format | replace: '.', '' }}">{{ file.format }}</span></td>
+                  <td>{{ file.size }}</td>
+                  <td>{% if file.download_url %}<a href="{{ file.download_url }}" class="btn-file-dl">Download</a>{% endif %}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% if item.release_url %}
+            <p class="release-link"><a href="{{ item.release_url }}" target="_blank" rel="noopener">View all files on GitHub Releases &rarr;</a></p>
+            {% endif %}
+            {% else %}
+              {% if item.release_url %}
+              <p class="release-link"><a href="{{ item.release_url }}" target="_blank" rel="noopener">View all files on GitHub Releases &rarr;</a></p>
+              {% else %}
+              <p class="release-link"><a href="https://github.com/yashveeeeeer/india-geodata/tree/main/{{ item.url }}" target="_blank">Browse files on GitHub &rarr;</a></p>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
 </section>

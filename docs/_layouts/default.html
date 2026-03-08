@@ -9,9 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin="">
 </head>
 <body>
   <header class="site-header">
@@ -19,8 +16,6 @@
       <a href="{{ site.baseurl }}/" class="site-title">India Geodata</a>
       <nav class="site-nav">
         <a href="{{ site.baseurl }}/">Home</a>
-        <a href="{{ site.baseurl }}/catalog">Catalog</a>
-        <a href="{{ site.baseurl }}/downloads">Downloads</a>
         <a href="{{ site.baseurl }}/about">About</a>
         <a href="https://github.com/yashveeeeeer/india-geodata" target="_blank" rel="noopener" class="nav-github">GitHub</a>
       </nav>
@@ -36,15 +31,8 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-          crossorigin=""></script>
-  <script src="https://unpkg.com/protomaps-leaflet@4.0.1/dist/protomaps-leaflet.min.js"></script>
+  {% if page.url == "/" %}
   <script src="{{ site.baseurl }}/assets/js/catalog.js"></script>
-  {% if page.extra_js %}
-  {% for js in page.extra_js %}
-  <script src="{{ site.baseurl }}/{{ js }}"></script>
-  {% endfor %}
   {% endif %}
 </body>
 </html>
