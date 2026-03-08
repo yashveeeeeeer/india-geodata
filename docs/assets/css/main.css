@@ -101,7 +101,7 @@ main { flex: 1; }
 }
 .hero-inner { max-width: var(--container-max); margin: 0 auto; }
 .hero h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-.hero-subtitle { font-size: 1.05rem; color: rgba(255,255,255,0.82); max-width: 560px; margin: 0 auto 28px; }
+.hero-subtitle { font-size: 1.05rem; color: rgba(255,255,255,0.82); max-width: 720px; margin: 0 auto 28px; }
 .hero-stats { display: flex; justify-content: center; gap: 48px; }
 .stat-item { text-align: center; }
 .stat-number { display: block; font-size: 1.8rem; font-weight: 700; color: var(--color-accent); line-height: 1.2; }

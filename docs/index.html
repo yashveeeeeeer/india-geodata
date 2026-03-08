@@ -31,8 +31,6 @@ title: Home
 </section>
 
 <section class="catalog-section">
-  <input type="text" class="search-box" id="searchBox" placeholder="Search datasets…">
-
   <div class="category-pills" id="categoryPills">
     <button class="pill active" data-category="all">All</button>
     {% for cat in cats %}
@@ -43,7 +41,6 @@ title: Home
     {% endfor %}
   </div>
 
-  <p class="result-count" id="resultCount"></p>
 
   <div id="datasetList">
     {% for cat in cats %}
