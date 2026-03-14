@@ -38,6 +38,8 @@ gh release download census/historical --repo <owner>/india-geodata --pattern "In
 
 ## Sources
 
+
+- India State Stories - FLAME University -- https://www.indiastatestory.in/datadownloads
 - Census of India (decadal census records)
 - Government of India gazette notifications (district creation orders)
 
