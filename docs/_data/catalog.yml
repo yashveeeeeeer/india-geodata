@@ -3081,7 +3081,152 @@
   storage: release
   release_tag: infra/soi-roads
   url: data/infrastructure/soi-roads
-  files: []
+  files:
+  - name: SOI_Bridges.geojsonl.7z
+    format: geojsonl.7z
+    size: 53.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Bridges.geojsonl.7z
+  - name: SOI_Bridges.parquet
+    format: parquet
+    size: 76.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Bridges.parquet
+  - name: SOI_Bridges.pmtiles
+    format: pmtiles
+    size: 102.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Bridges.pmtiles
+  - name: SOI_Causeways.geojsonl.7z
+    format: geojsonl.7z
+    size: 308 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Causeways.geojsonl.7z
+  - name: SOI_Causeways.parquet
+    format: parquet
+    size: 482 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Causeways.parquet
+  - name: SOI_Causeways.pmtiles
+    format: pmtiles
+    size: 2.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Causeways.pmtiles
+  - name: SOI_Culverts.geojsonl.7z
+    format: geojsonl.7z
+    size: 6.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Culverts.geojsonl.7z
+  - name: SOI_Culverts.parquet
+    format: parquet
+    size: 10.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Culverts.parquet
+  - name: SOI_Culverts.pmtiles
+    format: pmtiles
+    size: 17.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Culverts.pmtiles
+  - name: SOI_Fords.geojsonl.7z
+    format: geojsonl.7z
+    size: 2.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Fords.geojsonl.7z
+  - name: SOI_Fords.pmtiles
+    format: pmtiles
+    size: 13.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Fords.pmtiles
+  - name: SOI_Passes.geojsonl.7z
+    format: geojsonl.7z
+    size: 49 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Passes.geojsonl.7z
+  - name: SOI_Passes.parquet
+    format: parquet
+    size: 98 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Passes.parquet
+  - name: SOI_Passes.pmtiles
+    format: pmtiles
+    size: 106 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Passes.pmtiles
+  - name: SOI_Roads.geojsonl.7z
+    format: geojsonl.7z
+    size: 356.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Roads.geojsonl.7z
+  - name: SOI_Roads.parquet
+    format: parquet
+    size: 609.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Roads.parquet
+  - name: SOI_Roads.pmtiles
+    format: pmtiles
+    size: 753 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Roads.pmtiles
+  - name: SOI_Routes_over_glaciers.geojsonl.7z
+    format: geojsonl.7z
+    size: 52 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Routes_over_glaciers.geojsonl.7z
+  - name: SOI_Routes_over_glaciers.parquet
+    format: parquet
+    size: 100 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Routes_over_glaciers.parquet
+  - name: SOI_Routes_over_glaciers.pmtiles
+    format: pmtiles
+    size: 178 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Routes_over_glaciers.pmtiles
+  - name: SOI_Tolls.geojsonl.7z
+    format: geojsonl.7z
+    size: 64 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Tolls.geojsonl.7z
+  - name: SOI_Tolls.parquet
+    format: parquet
+    size: 121 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Tolls.parquet
+  - name: SOI_Tolls.pmtiles
+    format: pmtiles
+    size: 161 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Tolls.pmtiles
+  - name: SOI_Tracks.geojsonl.7z
+    format: geojsonl.7z
+    size: 259.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Tracks.geojsonl.7z
+  - name: SOI_Tracks.parquet
+    format: parquet
+    size: 527.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Tracks.parquet
+  - name: SOI_Tracks.pmtiles
+    format: pmtiles
+    size: 400.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Tracks.pmtiles
+  - name: SOI_Viaducts.geojsonl.7z
+    format: geojsonl.7z
+    size: 145 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Viaducts.geojsonl.7z
+  - name: SOI_Viaducts.parquet
+    format: parquet
+    size: 291 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Viaducts.parquet
+  - name: SOI_Viaducts.pmtiles
+    format: pmtiles
+    size: 413 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/soi-roads/SOI_Viaducts.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/soi-roads
 - name: infra-nic-roads
   title: NIC Roads (Bharatmaps)
@@ -3098,7 +3243,32 @@
   storage: release
   release_tag: infra/nic-roads
   url: data/infrastructure/nic-roads
-  files: []
+  files:
+  - name: NIC_Roads.00.parquet
+    format: parquet
+    size: 1.2 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/nic-roads/NIC_Roads.00.parquet
+  - name: NIC_Roads.01.parquet
+    format: parquet
+    size: 1.6 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/nic-roads/NIC_Roads.01.parquet
+  - name: NIC_Roads.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/nic-roads/NIC_Roads.geojsonl.7z
+  - name: NIC_Roads.parquet.meta.json
+    format: json
+    size: 3 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/nic-roads/NIC_Roads.parquet.meta.json
+  - name: NIC_Roads.pmtiles
+    format: pmtiles
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/nic-roads/NIC_Roads.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/nic-roads
 - name: infra-ml-roads
   title: ML Road Detections (Microsoft + Facebook)
@@ -3114,7 +3284,37 @@
   storage: release
   release_tag: infra/ml-roads
   url: data/infrastructure/ml-roads
-  files: []
+  files:
+  - name: fb_roads_india.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.1 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/ml-roads/fb_roads_india.geojsonl.7z
+  - name: fb_roads_india.parquet
+    format: parquet
+    size: 1.7 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/ml-roads/fb_roads_india.parquet
+  - name: fb_roads_india.pmtiles
+    format: pmtiles
+    size: 893.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/ml-roads/fb_roads_india.pmtiles
+  - name: ms_roads_india.geojsonl.7z
+    format: geojsonl.7z
+    size: 671.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/ml-roads/ms_roads_india.geojsonl.7z
+  - name: ms_roads_india.parquet
+    format: parquet
+    size: 592.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/ml-roads/ms_roads_india.parquet
+  - name: ms_roads_india.pmtiles
+    format: pmtiles
+    size: 453.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/ml-roads/ms_roads_india.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/ml-roads
 - name: infra-urban-roads
   title: Urban Roads
@@ -3130,7 +3330,67 @@
   storage: release
   release_tag: infra/urban-roads
   url: data/infrastructure/urban-roads
-  files: []
+  files:
+  - name: AMRUT_Bridges_and_Flyovers.geojsonl.7z
+    format: geojsonl.7z
+    size: 5.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/AMRUT_Bridges_and_Flyovers.geojsonl.7z
+  - name: AMRUT_Bridges_and_Flyovers.parquet
+    format: parquet
+    size: 10.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/AMRUT_Bridges_and_Flyovers.parquet
+  - name: AMRUT_Bridges_and_Flyovers.pmtiles
+    format: pmtiles
+    size: 24.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/AMRUT_Bridges_and_Flyovers.pmtiles
+  - name: AMRUT_Road_CLines.geojsonl.7z
+    format: geojsonl.7z
+    size: 372.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/AMRUT_Road_CLines.geojsonl.7z
+  - name: AMRUT_Road_CLines.parquet
+    format: parquet
+    size: 441.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/AMRUT_Road_CLines.parquet
+  - name: AMRUT_Road_CLines.pmtiles
+    format: pmtiles
+    size: 220.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/AMRUT_Road_CLines.pmtiles
+  - name: Bhuvan_NUIS_Urban_Roads.geojsonl.7z
+    format: geojsonl.7z
+    size: 50.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/Bhuvan_NUIS_Urban_Roads.geojsonl.7z
+  - name: Bhuvan_NUIS_Urban_Roads.parquet
+    format: parquet
+    size: 62.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/Bhuvan_NUIS_Urban_Roads.parquet
+  - name: Bhuvan_NUIS_Urban_Roads.pmtiles
+    format: pmtiles
+    size: 51.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/Bhuvan_NUIS_Urban_Roads.pmtiles
+  - name: TS_CDMA_Roads.geojsonl.7z
+    format: geojsonl.7z
+    size: 125.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/TS_CDMA_Roads.geojsonl.7z
+  - name: TS_CDMA_Roads.parquet
+    format: parquet
+    size: 143.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/TS_CDMA_Roads.parquet
+  - name: TS_CDMA_Roads.pmtiles
+    format: pmtiles
+    size: 243.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/urban-roads/TS_CDMA_Roads.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/urban-roads
 - name: infra-pmgsy-roads
   title: PMGSY Roads (Enhanced Formats)
@@ -3147,7 +3407,127 @@
   storage: release
   release_tag: infra/pmgsy-roads
   url: data/infrastructure/pmgsy-roads
-  files: []
+  files:
+  - name: GatiShakti_MORD_Bridges.geojsonl.7z
+    format: geojsonl.7z
+    size: 43 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/GatiShakti_MORD_Bridges.geojsonl.7z
+  - name: GatiShakti_MORD_Bridges.parquet
+    format: parquet
+    size: 65 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/GatiShakti_MORD_Bridges.parquet
+  - name: GatiShakti_MORD_Bridges.pmtiles
+    format: pmtiles
+    size: 378 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/GatiShakti_MORD_Bridges.pmtiles
+  - name: GatiShakti_PMGSY_Bridges.geojsonl.7z
+    format: geojsonl.7z
+    size: 78 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/GatiShakti_PMGSY_Bridges.geojsonl.7z
+  - name: GatiShakti_PMGSY_Bridges.parquet
+    format: parquet
+    size: 128 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/GatiShakti_PMGSY_Bridges.parquet
+  - name: GatiShakti_PMGSY_Bridges.pmtiles
+    format: pmtiles
+    size: 231 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/GatiShakti_PMGSY_Bridges.pmtiles
+  - name: pmgsy_roads.geojsonl.7z
+    format: geojsonl.7z
+    size: 549.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads.geojsonl.7z
+  - name: pmgsy_roads.parquet
+    format: parquet
+    size: 1.2 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads.parquet
+  - name: pmgsy_roads.pmtiles
+    format: pmtiles
+    size: 393.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads.pmtiles
+  - name: pmgsy_roads_candidates.geojsonl.7z
+    format: geojsonl.7z
+    size: 177.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_candidates.geojsonl.7z
+  - name: pmgsy_roads_candidates.parquet
+    format: parquet
+    size: 349.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_candidates.parquet
+  - name: pmgsy_roads_candidates.pmtiles
+    format: pmtiles
+    size: 115.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_candidates.pmtiles
+  - name: pmgsy_roads_proposals_i.geojsonl.7z
+    format: geojsonl.7z
+    size: 146.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_i.geojsonl.7z
+  - name: pmgsy_roads_proposals_i.parquet
+    format: parquet
+    size: 321.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_i.parquet
+  - name: pmgsy_roads_proposals_i.pmtiles
+    format: pmtiles
+    size: 111.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_i.pmtiles
+  - name: pmgsy_roads_proposals_ii.geojsonl.7z
+    format: geojsonl.7z
+    size: 8.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_ii.geojsonl.7z
+  - name: pmgsy_roads_proposals_ii.parquet
+    format: parquet
+    size: 17.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_ii.parquet
+  - name: pmgsy_roads_proposals_ii.pmtiles
+    format: pmtiles
+    size: 9.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_ii.pmtiles
+  - name: pmgsy_roads_proposals_iii.geojsonl.7z
+    format: geojsonl.7z
+    size: 19.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_iii.geojsonl.7z
+  - name: pmgsy_roads_proposals_iii.parquet
+    format: parquet
+    size: 42.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_iii.parquet
+  - name: pmgsy_roads_proposals_iii.pmtiles
+    format: pmtiles
+    size: 26.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_iii.pmtiles
+  - name: pmgsy_roads_proposals_rcplwea.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_rcplwea.geojsonl.7z
+  - name: pmgsy_roads_proposals_rcplwea.parquet
+    format: parquet
+    size: 2.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_rcplwea.parquet
+  - name: pmgsy_roads_proposals_rcplwea.pmtiles
+    format: pmtiles
+    size: 1.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/pmgsy-roads/pmgsy_roads_proposals_rcplwea.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/pmgsy-roads
 - name: infra-railways
   title: Indian Railways
@@ -3187,7 +3567,142 @@
   storage: release
   release_tag: infra/inland-waterways
   url: data/infrastructure/inland-waterways
-  files: []
+  files:
+  - name: SOI_Ferries.geojsonl.7z
+    format: geojsonl.7z
+    size: 850 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Ferries.geojsonl.7z
+  - name: SOI_Ferries.parquet
+    format: parquet
+    size: 1.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Ferries.parquet
+  - name: SOI_Ferries.pmtiles
+    format: pmtiles
+    size: 4.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Ferries.pmtiles
+  - name: SOI_Navigation_locks.geojsonl.7z
+    format: geojsonl.7z
+    size: 6 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Navigation_locks.geojsonl.7z
+  - name: SOI_Navigation_Locks.parquet
+    format: parquet
+    size: 14 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Navigation_Locks.parquet
+  - name: SOI_Navigation_locks.pmtiles
+    format: pmtiles
+    size: 24 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Navigation_locks.pmtiles
+  - name: SOI_Steamer_service.geojsonl.7z
+    format: geojsonl.7z
+    size: 106 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Steamer_service.geojsonl.7z
+  - name: SOI_Steamer_service.parquet
+    format: parquet
+    size: 196 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Steamer_service.parquet
+  - name: SOI_Steamer_service.pmtiles
+    format: pmtiles
+    size: 254 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Steamer_service.pmtiles
+  - name: SOI_Waterway_facilities.geojsonl.7z
+    format: geojsonl.7z
+    size: 12 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Waterway_facilities.geojsonl.7z
+  - name: SOI_Waterway_facilities.parquet
+    format: parquet
+    size: 31 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Waterway_facilities.parquet
+  - name: SOI_Waterway_facilities.pmtiles
+    format: pmtiles
+    size: 361 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/SOI_Waterway_facilities.pmtiles
+  - name: WRIS_Navigation_Canals.geojsonl.7z
+    format: geojsonl.7z
+    size: 21 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Navigation_Canals.geojsonl.7z
+  - name: WRIS_Navigation_Canals.parquet
+    format: parquet
+    size: 43 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Navigation_Canals.parquet
+  - name: WRIS_Navigation_Canals.pmtiles
+    format: pmtiles
+    size: 19 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Navigation_Canals.pmtiles
+  - name: WRIS_Spurs.geojsonl.7z
+    format: geojsonl.7z
+    size: 2 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Spurs.geojsonl.7z
+  - name: WRIS_Spurs.parquet
+    format: parquet
+    size: 6 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Spurs.parquet
+  - name: WRIS_Spurs.pmtiles
+    format: pmtiles
+    size: 11 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Spurs.pmtiles
+  - name: WRIS_Waterway_facilities.geojsonl.7z
+    format: geojsonl.7z
+    size: 6 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterway_facilities.geojsonl.7z
+  - name: WRIS_Waterway_facilities.parquet
+    format: parquet
+    size: 22 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterway_facilities.parquet
+  - name: WRIS_Waterway_facilities.pmtiles
+    format: pmtiles
+    size: 23 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterway_facilities.pmtiles
+  - name: WRIS_Waterways.geojsonl.7z
+    format: geojsonl.7z
+    size: 38 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterways.geojsonl.7z
+  - name: WRIS_Waterways.parquet
+    format: parquet
+    size: 74 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterways.parquet
+  - name: WRIS_Waterways.pmtiles
+    format: pmtiles
+    size: 30 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterways.pmtiles
+  - name: WRIS_Waterways_with_depth.geojsonl.7z
+    format: geojsonl.7z
+    size: 277 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterways_with_depth.geojsonl.7z
+  - name: WRIS_Waterways_with_depth.parquet
+    format: parquet
+    size: 600 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterways_with_depth.parquet
+  - name: WRIS_Waterways_with_depth.pmtiles
+    format: pmtiles
+    size: 455 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/inland-waterways/WRIS_Waterways_with_depth.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/inland-waterways
 - name: energy-power-plants
   title: Power Plants
