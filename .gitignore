@@ -33,3 +33,5 @@ _site/
 # Temporary
 downloads/
 tmp/
+temp_downloads/
+temp_transport/

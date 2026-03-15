@@ -1,0 +1,40 @@
+{
+  "name": "infra-pmgsy-roads",
+  "title": "PMGSY Roads (Enhanced Formats)",
+  "description": "PMGSY/GeoSadak rural road network in modern geospatial formats (Parquet, PMTiles, GeoJSONL) with road proposals by phase and bridge datasets from GatiShakti. Complements the existing shapefile-based rural-roads dataset.",
+  "category": "infrastructure",
+  "level": "pmgsy-roads",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "PMGSY GeoSadak Open Data",
+      "url": "https://geosadak-pmgsy.nic.in/OpenData",
+      "authority": "Ministry of Rural Development"
+    },
+    {
+      "name": "GatiShakti",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "DPIIT"
+    }
+  ],
+  "license": {
+    "id": "GODL",
+    "name": "Government Open Data License - India",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/pmgsy-roads"
+  },
+  "last_updated": "2026-03-15"
+}

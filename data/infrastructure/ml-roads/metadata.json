@@ -1,0 +1,40 @@
+{
+  "name": "infra-ml-roads",
+  "title": "ML Road Detections (Microsoft + Facebook)",
+  "description": "Machine-learning-detected road networks for India — Microsoft Road Detections and Facebook MapWithAI road extractions from satellite imagery.",
+  "category": "infrastructure",
+  "level": "ml-roads",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2023",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Microsoft Road Detections",
+      "url": "https://github.com/microsoft/RoadDetections",
+      "authority": "Microsoft"
+    },
+    {
+      "name": "Facebook MapWithAI",
+      "url": "https://github.com/facebookmicrosites/Open-Mapping-At-Facebook",
+      "authority": "Meta"
+    }
+  ],
+  "license": {
+    "id": "ODbL / MIT",
+    "name": "Open Database License / MIT License",
+    "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/ml-roads"
+  },
+  "last_updated": "2026-03-15"
+}

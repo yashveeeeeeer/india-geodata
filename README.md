@@ -17,15 +17,16 @@ Browse and download at **[india-geodata](https://yashveeeeeer.github.io/india-ge
 | [Electoral boundaries](data/electoral/) | Assembly Constituencies, Parliamentary Constituencies | Shapefile, GeoJSON, Parquet, PMTiles | ~300 MB |
 | [Census](data/census/) | 2011 admin units, Historical districts (1941–2024) | Parquet, PMTiles, CSV | ~1.1 GB |
 | [Environment](data/environment/) | Forests, Coastal Regulation Zones, Land use | Parquet, PMTiles, GeoJSON | ~7.7 GB |
-| [Infrastructure](data/infrastructure/) | Rural roads (PMGSY), Block boundaries, Habitations | Shapefile (ZIP) | ~1.3 GB |
+| [Infrastructure](data/infrastructure/) | Rural roads (PMGSY), National highways, SOI roads, NIC roads, ML roads, Urban roads, Railways, Inland waterways | Parquet, PMTiles, GeoJSONL, Shapefile, GeoJSON | ~20 GB |
+| [Energy](data/energy/) | Power plants (coal, diesel, hydro) | GeoJSON | ~128 KB |
 | [Urban](data/urban/) | Municipal wards (28 cities), Slums, ULB boundaries | GeoJSON, KML, Parquet, PMTiles | ~430 MB |
 | [Postal](data/postal/) | Pincode boundaries | Shapefile, Parquet, PMTiles | ~700 MB |
-| [Police](data/police/) | Station jurisdictions (select states) | Parquet, PMTiles | ~96 MB |
+| [Police](data/police/) | Station jurisdictions (select states), Station locations | Parquet, PMTiles, GeoJSON | ~101 MB |
 | [Survey of India](data/survey-of-india/) | Index maps, Outline maps, Reference boundaries | Shapefile, PDF | ~119 MB |
 | [Remote Sensing](data/remote-sensing/) | District-level VIIRS nighttime lights (2012–2024) | CSV, GeoJSON | ~353 MB |
 | [External Datasets](data/external/) | SHRUG: socioeconomic data for 500K+ villages | CSV, Stata, Shapefile | [DDL portal](https://www.devdatalab.org/shrug_download/) |
 
-Total: approximately 1,260 files across 7 aggregated source collections and curated external links.
+Total: approximately 1,500+ files across 9 aggregated source collections and curated external links.
 
 ---
 
@@ -69,16 +70,19 @@ data/
   electoral/          Assembly and Parliamentary Constituencies
   census/             Census 2011 boundaries, Historical district series
   environment/        Forests, Coastal zones, Land use
-  infrastructure/     Rural roads (PMGSY/GeoSadak)
+  infrastructure/     Rural roads (PMGSY/GeoSadak), National highways,
+                      SOI roads, NIC roads, ML roads, Urban roads,
+                      PMGSY enhanced formats, Railways, Inland waterways
+  energy/             Power plants
   urban/              Municipal wards, Slum boundaries, Localities
   postal/             Pincode boundaries
-  police/             Police station jurisdictions
+  police/             Police station jurisdictions, Station locations
   survey-of-india/    SOI index maps and reference boundaries
   remote-sensing/     Satellite nighttime lights (VIIRS)
   external/           Curated links to SHRUG and other platforms
 
 docs/                 GitHub Pages source
-scripts/              Validation, build, and download scripts
+scripts/              Validation, build, download, and transport scripts
 LICENSES/             License texts for all included data
 ```
 
@@ -102,8 +106,10 @@ This repository consolidates data from the following open-data projects and gove
 | [NOAA VIIRS DNB](https://eogdata.mines.edu/products/vnl/) | NOAA / EOG | Public domain | Nighttime light satellite imagery |
 | [india-district-nightlights-viirs](https://github.com/yashveeeeeer/india-district-nightlights-viirs) | yashveeeeeer | MIT | District-level nightlight statistics pipeline |
 | [SHRUG](https://www.devdatalab.org/shrug) | Development Data Lab | CC BY-NC-SA 4.0 | Socioeconomic data for 500K+ villages (external link) |
+| [indian_transport](https://github.com/ramSeraph/indian_transport) | ramSeraph | CC0 1.0 / ODbL / GODL | Roads (SOI, NIC, PMGSY, MoRTH, Urban, ML), Railways, Inland Waterways |
+| [INDIAN-SHAPEFILES](https://github.com/datta07/INDIAN-SHAPEFILES) | datta07 | — | Energy plants, Police stations, Railways, National highways (GeoJSON) |
 
-Government data sources include: Survey of India, Local Government Directory (MoPR), ISRO Bhuvan, Forest Survey of India, National Centre for Sustainable Coastal Management, GatiShakti, eGramSwaraj, Swachh Bharat Mission, the Election Commission of India, and NOAA Earth Observation Group.
+Government data sources include: Survey of India, Local Government Directory (MoPR), ISRO Bhuvan, Forest Survey of India, National Centre for Sustainable Coastal Management, GatiShakti, eGramSwaraj, Swachh Bharat Mission, the Election Commission of India, NOAA Earth Observation Group, Ministry of Road Transport and Highways (MoRTH), Indian Railways, and Water Resources Information System (WRIS).
 
 ---
 

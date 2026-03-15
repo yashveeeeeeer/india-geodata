@@ -1,0 +1,33 @@
+{
+  "name": "energy-power-plants",
+  "title": "Power Plants",
+  "description": "Point locations of power plants across India — coal, diesel, and hydroelectric — with plant name, district, state, installed capacity (MW), and fuel type attributes.",
+  "category": "energy",
+  "level": "power-plants",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2019",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "INDIAN-SHAPEFILES",
+      "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
+      "authority": "datta07"
+    }
+  ],
+  "license": {
+    "id": "Unspecified",
+    "name": "Unspecified",
+    "url": null
+  },
+  "formats": [
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "last_updated": "2026-03-15"
+}

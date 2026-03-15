@@ -1,0 +1,35 @@
+{
+  "name": "infra-nic-roads",
+  "title": "NIC Roads (Bharatmaps)",
+  "description": "Road network from the National Informatics Centre (NIC) Bharatmaps platform — comprehensive road polylines covering national, state, and district roads.",
+  "category": "infrastructure",
+  "level": "nic-roads",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "National Informatics Centre (NIC) Bharatmaps",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "NIC"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/nic-roads"
+  },
+  "last_updated": "2026-03-15"
+}

@@ -1,0 +1,56 @@
+{
+  "name": "infra-railways",
+  "title": "Indian Railways",
+  "description": "Comprehensive Indian railway data — track lines, stations, level crossings, sidings, metros, dedicated freight corridors, goods sheds, railway lands, and bridges from IR GeoPortal, Survey of India, GatiShakti, and Bhuvan.",
+  "category": "infrastructure",
+  "level": "railways",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Indian Railways GeoPortal",
+      "url": "https://gis.indianrailways.gov.in/",
+      "authority": "Indian Railways"
+    },
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    },
+    {
+      "name": "PM GatiShakti",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "DPIIT"
+    },
+    {
+      "name": "ISRO Bhuvan",
+      "url": "https://bhuvan.nrsc.gov.in/",
+      "authority": "ISRO"
+    },
+    {
+      "name": "INDIAN-SHAPEFILES",
+      "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
+      "authority": "datta07"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z",
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/railways"
+  },
+  "last_updated": "2026-03-15"
+}

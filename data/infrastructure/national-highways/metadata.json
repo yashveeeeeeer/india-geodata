@@ -1,0 +1,41 @@
+{
+  "name": "infra-national-highways",
+  "title": "National Highways (MoRTH)",
+  "description": "National highway network, toll plazas, and Multi-Modal Logistics Parks (MMLP) from the Ministry of Road Transport and Highways via GatiShakti, supplemented by a GeoJSON national highway dataset.",
+  "category": "infrastructure",
+  "level": "national-highways",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Ministry of Road Transport and Highways (MoRTH) via GatiShakti",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "MoRTH"
+    },
+    {
+      "name": "INDIAN-SHAPEFILES",
+      "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
+      "authority": "datta07"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z",
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/national-highways"
+  },
+  "last_updated": "2026-03-15"
+}

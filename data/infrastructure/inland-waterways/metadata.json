@@ -1,0 +1,40 @@
+{
+  "name": "infra-inland-waterways",
+  "title": "Inland Waterways",
+  "description": "Inland waterway routes, navigation canals, facilities (terminals, jetties, lighthouses, beacons), navigation locks, ferry routes, and steamer services from WRIS and Survey of India.",
+  "category": "infrastructure",
+  "level": "inland-waterways",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Water Resources Information System (WRIS)",
+      "url": "https://indiawris.gov.in/",
+      "authority": "Central Water Commission"
+    },
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/inland-waterways"
+  },
+  "last_updated": "2026-03-15"
+}

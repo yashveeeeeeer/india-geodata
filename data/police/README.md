@@ -1,46 +1,59 @@
-# Police Station Jurisdiction Boundaries
+# Police Data
 
-Police station jurisdiction boundary data for select Indian states.
-All files are distributed via GitHub Releases only.
+Police-related geospatial datasets for India.
 
-## Release Tag
+## Sub-datasets
 
-`police/jurisdictions`
+| Directory | Description | Source |
+|-----------|-------------|--------|
+| `jurisdictions/` (release only) | Police station jurisdiction boundaries for select states | State GIS portals via Bharatmaps |
+| `stations/` | Police station point locations across India | datta07/INDIAN-SHAPEFILES |
 
 ## Datasets
 
-| Dataset | State | Source |
-|---------|-------|--------|
-| TNGIS Police Boundaries | Tamil Nadu | TNGIS |
-| KGISMAPS Police Boundaries | Karnataka | KGISMAPS |
-| APSAC Police Boundaries | Andhra Pradesh | APSAC |
-| TRACGIS Police Boundaries | Telangana | TRACGIS |
-| Bhugoal Police Boundaries | Bihar | Bhugoal |
-| Rajdharaa Police Boundaries | Rajasthan | Rajdharaa |
-| GSDL Police Boundaries | Delhi | Geospatial Delhi Limited |
-| NCOG Marine Police | Marine zones | NCOG |
+### Police Station Jurisdictions
+
+Polygon boundaries for 8 states/regions. Available via release tag `police/jurisdictions`.
+
+| State | Source |
+|-------|--------|
+| Tamil Nadu | TNGIS |
+| Karnataka | KGISMAPS |
+| Andhra Pradesh | APSAC |
+| Telangana | TRACGIS |
+| Bihar | Bhugoal |
+| Rajasthan | Rajdharaa |
+| Delhi | Geospatial Delhi Limited |
+| Marine zones | NCOG |
 
 Each dataset is available in Parquet, PMTiles, and GeoJSONL.7z formats.
 
 **Total:** ~36 files, ~96 MB
 
+### Police Station Locations
+
+Point locations of police stations across India.
+
+| File | Format | Size |
+|------|--------|------|
+| INDIA_POLICE_STATIONS.geojson | GeoJSON | ~5 MB |
+
 ## Download
 
 ```bash
-gh release download police/jurisdictions --repo <owner>/india-geodata
+# Jurisdiction boundaries (release)
+gh release download police/jurisdictions --repo yashveeeeeer/india-geodata
+
+# Station locations (in repo)
+# Browse at data/police/stations/
 ```
 
 ## Sources
 
-- **TNGIS** -- Tamil Nadu Geographic Information System
-- **KGISMAPS** -- Karnataka GIS Maps
-- **APSAC** -- Andhra Pradesh State Agency for Comprehensive Geospatial Studies
-- **TRACGIS** -- Telangana State Remote Sensing Applications Centre
-- **Bhugoal** -- Bihar Geospatial Portal
-- **Rajdharaa** -- Rajasthan GIS Portal
-- **GSDL** -- Geospatial Delhi Limited
-- **NCOG** -- National Centre for Geo-informatics
+- **State GIS Portals** via Bharatmaps — https://bharatmaps.gov.in/
+- **INDIAN-SHAPEFILES** by datta07 — https://github.com/datta07/INDIAN-SHAPEFILES
 
 ## License
 
-**CC0** (Public Domain)
+- **Jurisdictions:** CC0 (Public Domain)
+- **Stations:** See source repository for details

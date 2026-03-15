@@ -1,0 +1,33 @@
+{
+  "name": "police-stations",
+  "title": "Police Station Locations",
+  "description": "Point locations of police stations across India with station name and district attributes. Complements the existing police jurisdiction boundary dataset.",
+  "category": "police",
+  "level": "police-stations",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2019",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "INDIAN-SHAPEFILES",
+      "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
+      "authority": "datta07"
+    }
+  ],
+  "license": {
+    "id": "Unspecified",
+    "name": "Unspecified",
+    "url": null
+  },
+  "formats": [
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "last_updated": "2026-03-15"
+}

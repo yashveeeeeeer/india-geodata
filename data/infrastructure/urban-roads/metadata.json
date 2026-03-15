@@ -1,0 +1,45 @@
+{
+  "name": "infra-urban-roads",
+  "title": "Urban Roads",
+  "description": "Urban road networks and bridge/flyover data from AMRUT cities, Bhuvan NUIS, and Telangana CDMA — covering city-level road center-lines and structures.",
+  "category": "infrastructure",
+  "level": "urban-roads",
+  "coverage": {
+    "spatial": "India (select cities and states)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "AMRUT / Bhuvan",
+      "url": "https://bhuvan.nrsc.gov.in/",
+      "authority": "ISRO / MoHUA"
+    },
+    {
+      "name": "Bhuvan NUIS",
+      "url": "https://bhuvan.nrsc.gov.in/",
+      "authority": "ISRO"
+    },
+    {
+      "name": "Telangana CDMA",
+      "url": "https://cdma.telangana.gov.in/",
+      "authority": "CDMA Telangana"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/urban-roads"
+  },
+  "last_updated": "2026-03-15"
+}

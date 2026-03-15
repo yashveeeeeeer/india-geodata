@@ -1,0 +1,35 @@
+{
+  "name": "infra-soi-roads",
+  "title": "SOI Roads and Transport Structures",
+  "description": "Road network and transport infrastructure from Survey of India topographic maps — includes roads, tracks, bridges, tolls, mountain passes, causeways, culverts, viaducts, fords, and glacier routes.",
+  "category": "infrastructure",
+  "level": "soi-roads",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "infra/soi-roads"
+  },
+  "last_updated": "2026-03-15"
+}

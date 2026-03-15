@@ -3018,6 +3018,195 @@
     storage: repo
     download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/infrastructure/rural-roads/road-proposals/WestBengal.zip
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/rural-roads-large
+- name: infra-national-highways
+  title: National Highways (MoRTH)
+  description: National highway network, toll plazas, and Multi-Modal Logistics Parks
+    (MMLP) from the Ministry of Road Transport and Highways via GatiShakti, supplemented
+    by a GeoJSON national highway dataset.
+  category: infrastructure
+  level: national-highways
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - geojson
+  license_id: CC0-1.0
+  storage: release
+  release_tag: infra/national-highways
+  url: data/infrastructure/national-highways
+  files:
+  - name: GatiShakti_MORTH_National_Highways.geojsonl.7z
+    format: geojsonl.7z
+    size: 49.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/national-highways/GatiShakti_MORTH_National_Highways.geojsonl.7z
+  - name: GatiShakti_MORTH_National_Highways.parquet
+    format: parquet
+    size: 56 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/national-highways/GatiShakti_MORTH_National_Highways.parquet
+  - name: GatiShakti_MORTH_National_Highways.pmtiles
+    format: pmtiles
+    size: 38.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/national-highways/GatiShakti_MORTH_National_Highways.pmtiles
+  - name: GatiShakti_MORTH_Toll_Plazas.parquet
+    format: parquet
+    size: 197 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/national-highways/GatiShakti_MORTH_Toll_Plazas.parquet
+  - name: GatiShakti_MORTH_Toll_Plazas.pmtiles
+    format: pmtiles
+    size: 332 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/national-highways/GatiShakti_MORTH_Toll_Plazas.pmtiles
+  - name: INDIA_NATIONAL_HIGHWAY.geojson
+    format: geojson
+    size: 95.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/national-highways/INDIA_NATIONAL_HIGHWAY.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/national-highways
+- name: infra-soi-roads
+  title: SOI Roads and Transport Structures
+  description: Road network and transport infrastructure from Survey of India topographic
+    maps — includes roads, tracks, bridges, tolls, mountain passes, causeways, culverts,
+    viaducts, fords, and glacier routes.
+  category: infrastructure
+  level: soi-roads
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: infra/soi-roads
+  url: data/infrastructure/soi-roads
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/soi-roads
+- name: infra-nic-roads
+  title: NIC Roads (Bharatmaps)
+  description: Road network from the National Informatics Centre (NIC) Bharatmaps
+    platform — comprehensive road polylines covering national, state, and district
+    roads.
+  category: infrastructure
+  level: nic-roads
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: infra/nic-roads
+  url: data/infrastructure/nic-roads
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/nic-roads
+- name: infra-ml-roads
+  title: ML Road Detections (Microsoft + Facebook)
+  description: Machine-learning-detected road networks for India — Microsoft Road
+    Detections and Facebook MapWithAI road extractions from satellite imagery.
+  category: infrastructure
+  level: ml-roads
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: ODbL / MIT
+  storage: release
+  release_tag: infra/ml-roads
+  url: data/infrastructure/ml-roads
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/ml-roads
+- name: infra-urban-roads
+  title: Urban Roads
+  description: Urban road networks and bridge/flyover data from AMRUT cities, Bhuvan
+    NUIS, and Telangana CDMA — covering city-level road center-lines and structures.
+  category: infrastructure
+  level: urban-roads
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: infra/urban-roads
+  url: data/infrastructure/urban-roads
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/urban-roads
+- name: infra-pmgsy-roads
+  title: PMGSY Roads (Enhanced Formats)
+  description: PMGSY/GeoSadak rural road network in modern geospatial formats (Parquet,
+    PMTiles, GeoJSONL) with road proposals by phase and bridge datasets from GatiShakti.
+    Complements the existing shapefile-based rural-roads dataset.
+  category: infrastructure
+  level: pmgsy-roads
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: GODL
+  storage: release
+  release_tag: infra/pmgsy-roads
+  url: data/infrastructure/pmgsy-roads
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/pmgsy-roads
+- name: infra-railways
+  title: Indian Railways
+  description: Comprehensive Indian railway data — track lines, stations, level crossings,
+    sidings, metros, dedicated freight corridors, goods sheds, railway lands, and bridges
+    from IR GeoPortal, Survey of India, GatiShakti, and Bhuvan.
+  category: infrastructure
+  level: railways
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - geojson
+  license_id: CC0-1.0
+  storage: release
+  release_tag: infra/railways
+  url: data/infrastructure/railways
+  files:
+  - name: INDIAN_RAILWAYS.geojson
+    format: geojson
+    size: 32.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/infra/railways/INDIAN_RAILWAYS.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/railways
+- name: infra-inland-waterways
+  title: Inland Waterways
+  description: Inland waterway routes, navigation canals, facilities (terminals, jetties,
+    lighthouses, beacons), navigation locks, ferry routes, and steamer services from
+    WRIS and Survey of India.
+  category: infrastructure
+  level: inland-waterways
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: infra/inland-waterways
+  url: data/infrastructure/inland-waterways
+  files: []
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/infra/inland-waterways
+- name: energy-power-plants
+  title: Power Plants
+  description: Point locations of power plants across India — coal, diesel, and hydroelectric
+    — with plant name, district, state, installed capacity (MW), and fuel type attributes.
+  category: energy
+  level: power-plants
+  formats:
+  - geojson
+  license_id: Unspecified
+  storage: repo
+  release_tag: null
+  url: data/energy/power-plants
+  files:
+  - name: INDIA_ENERGY_PLANTS.geojson
+    format: geojson
+    size: 128 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/energy/power-plants/INDIA_ENERGY_PLANTS.geojson
 - name: police-jurisdictions
   title: Police Station Jurisdictions
   description: Police station jurisdiction boundaries for select Indian states, useful
@@ -3215,6 +3404,24 @@
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/police/jurisdictions/TRACGIS_TG_Police_Station_Boundaries.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/police/jurisdictions
+- name: police-stations
+  title: Police Station Locations
+  description: Point locations of police stations across India with station name and
+    district attributes. Complements the existing police jurisdiction boundary dataset.
+  category: police
+  level: police-stations
+  formats:
+  - geojson
+  license_id: Unspecified
+  storage: repo
+  release_tag: null
+  url: data/police/stations
+  files:
+  - name: INDIA_POLICE_STATIONS.geojson
+    format: geojson
+    size: 5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/police/stations/INDIA_POLICE_STATIONS.geojson
 - name: postal-pincodes
   title: Postal PIN Code Boundaries
   description: Approximate polygon boundaries and point locations for India's 6-digit
