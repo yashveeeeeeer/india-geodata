@@ -1,0 +1,5196 @@
+[
+    {
+      "ID": 1,
+      "Vulnerability": 0.534,
+      "Hazard": 0.08,
+      "Exposure": 0.011,
+      "Risk": 0.001
+    },
+    {
+      "ID": 2,
+      "Vulnerability": 0.622,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 3,
+      "Vulnerability": 0.421,
+      "Hazard": 0.1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 4,
+      "Vulnerability": 0.631,
+      "Hazard": 0.14,
+      "Exposure": 0.009,
+      "Risk": 0.002
+    },
+    {
+      "ID": 5,
+      "Vulnerability": 0.58,
+      "Hazard": 0.12,
+      "Exposure": 0.031,
+      "Risk": 0.006
+    },
+    {
+      "ID": 6,
+      "Vulnerability": 0.371,
+      "Hazard": 0.66,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 7,
+      "Vulnerability": 0.62,
+      "Hazard": 0.06,
+      "Exposure": 0.02,
+      "Risk": 0.002
+    },
+    {
+      "ID": 8,
+      "Vulnerability": 0.549,
+      "Hazard": 0.24,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 9,
+      "Vulnerability": 0.422,
+      "Hazard": 0.22,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 10,
+      "Vulnerability": 0.553,
+      "Hazard": 0.54,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 11,
+      "Vulnerability": 0.535,
+      "Hazard": 0.8,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 12,
+      "Vulnerability": 0.43,
+      "Hazard": 0.56,
+      "Exposure": 0.006,
+      "Risk": 0.004
+    },
+    {
+      "ID": 13,
+      "Vulnerability": 0.581,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 14,
+      "Vulnerability": 0.557,
+      "Hazard": 0.24,
+      "Exposure": 0.177,
+      "Risk": 0.064
+    },
+    {
+      "ID": 15,
+      "Vulnerability": 0.559,
+      "Hazard": 0.1,
+      "Exposure": 0.02,
+      "Risk": 0.003
+    },
+    {
+      "ID": 16,
+      "Vulnerability": 0.496,
+      "Hazard": 0.84,
+      "Exposure": 0.195,
+      "Risk": 0.22
+    },
+    {
+      "ID": 17,
+      "Vulnerability": 0.443,
+      "Hazard": 0.26,
+      "Exposure": 0.296,
+      "Risk": 0.093
+    },
+    {
+      "ID": 18,
+      "Vulnerability": 0.484,
+      "Hazard": 0.38,
+      "Exposure": 0.002,
+      "Risk": 0.001
+    },
+    {
+      "ID": 19,
+      "Vulnerability": 0.518,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 20,
+      "Vulnerability": 0.411,
+      "Hazard": 0.26,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 21,
+      "Vulnerability": 0.29,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 22,
+      "Vulnerability": 0.494,
+      "Hazard": 0.24,
+      "Exposure": 0.262,
+      "Risk": 0.085
+    },
+    {
+      "ID": 23,
+      "Vulnerability": 0.528,
+      "Hazard": 0.2,
+      "Exposure": 0.133,
+      "Risk": 0.038
+    },
+    {
+      "ID": 24,
+      "Vulnerability": 0.413,
+      "Hazard": 0.26,
+      "Exposure": 0.158,
+      "Risk": 0.046
+    },
+    {
+      "ID": 25,
+      "Vulnerability": 0.451,
+      "Hazard": 0.08,
+      "Exposure": 0.035,
+      "Risk": 0.003
+    },
+    {
+      "ID": 26,
+      "Vulnerability": 0.524,
+      "Hazard": 0.92,
+      "Exposure": 0.03,
+      "Risk": 0.039
+    },
+    {
+      "ID": 27,
+      "Vulnerability": 0.689,
+      "Hazard": 0.66,
+      "Exposure": 0.009,
+      "Risk": 0.011
+    },
+    {
+      "ID": 28,
+      "Vulnerability": 0.516,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 29,
+      "Vulnerability": 0.601,
+      "Hazard": 0.72,
+      "Exposure": 0.007,
+      "Risk": 0.008
+    },
+    {
+      "ID": 30,
+      "Vulnerability": 0.503,
+      "Hazard": 0.3,
+      "Exposure": 0.061,
+      "Risk": 0.025
+    },
+    {
+      "ID": 31,
+      "Vulnerability": 0.578,
+      "Hazard": 0.34,
+      "Exposure": 0.383,
+      "Risk": 0.204
+    },
+    {
+      "ID": 32,
+      "Vulnerability": 0.63,
+      "Hazard": 0.48,
+      "Exposure": 0.188,
+      "Risk": 0.154
+    },
+    {
+      "ID": 33,
+      "Vulnerability": 0.533,
+      "Hazard": 0.08,
+      "Exposure": 0.037,
+      "Risk": 0.004
+    },
+    {
+      "ID": 34,
+      "Vulnerability": 0.353,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 35,
+      "Vulnerability": 0.445,
+      "Hazard": 0.5,
+      "Exposure": 0.082,
+      "Risk": 0.05
+    },
+    {
+      "ID": 36,
+      "Vulnerability": 0.793,
+      "Hazard": 0.3,
+      "Exposure": 0.366,
+      "Risk": 0.236
+    },
+    {
+      "ID": 37,
+      "Vulnerability": 0.486,
+      "Hazard": 0.6,
+      "Exposure": 0.033,
+      "Risk": 0.026
+    },
+    {
+      "ID": 38,
+      "Vulnerability": 0.721,
+      "Hazard": 0.3,
+      "Exposure": 0.042,
+      "Risk": 0.024
+    },
+    {
+      "ID": 39,
+      "Vulnerability": 0.589,
+      "Hazard": 0.66,
+      "Exposure": 0.095,
+      "Risk": 0.1
+    },
+    {
+      "ID": 40,
+      "Vulnerability": 0.46,
+      "Hazard": 0.32,
+      "Exposure": 0.066,
+      "Risk": 0.026
+    },
+    {
+      "ID": 41,
+      "Vulnerability": 0.641,
+      "Hazard": 0.44,
+      "Exposure": 0.466,
+      "Risk": 0.357
+    },
+    {
+      "ID": 42,
+      "Vulnerability": 0.35,
+      "Hazard": 0.52,
+      "Exposure": 0.026,
+      "Risk": 0.013
+    },
+    {
+      "ID": 43,
+      "Vulnerability": 0.52,
+      "Hazard": 0.46,
+      "Exposure": 0.02,
+      "Risk": 0.013
+    },
+    {
+      "ID": 44,
+      "Vulnerability": 0.767,
+      "Hazard": 0.7,
+      "Exposure": 0.005,
+      "Risk": 0.008
+    },
+    {
+      "ID": 45,
+      "Vulnerability": 0.767,
+      "Hazard": 0.86,
+      "Exposure": 0.144,
+      "Risk": 0.258
+    },
+    {
+      "ID": 46,
+      "Vulnerability": 0.55,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 47,
+      "Vulnerability": 0.648,
+      "Hazard": 0.26,
+      "Exposure": 0.031,
+      "Risk": 0.014
+    },
+    {
+      "ID": 48,
+      "Vulnerability": 0.533,
+      "Hazard": 0.48,
+      "Exposure": 0.013,
+      "Risk": 0.009
+    },
+    {
+      "ID": 49,
+      "Vulnerability": 0.588,
+      "Hazard": 0.18,
+      "Exposure": 0.203,
+      "Risk": 0.058
+    },
+    {
+      "ID": 50,
+      "Vulnerability": 0.57,
+      "Hazard": 0.66,
+      "Exposure": 0.023,
+      "Risk": 0.023
+    },
+    {
+      "ID": 51,
+      "Vulnerability": 0.361,
+      "Hazard": 0.54,
+      "Exposure": 0.032,
+      "Risk": 0.017
+    },
+    {
+      "ID": 52,
+      "Vulnerability": 0.714,
+      "Hazard": 0.52,
+      "Exposure": 0.334,
+      "Risk": 0.337
+    },
+    {
+      "ID": 53,
+      "Vulnerability": 0.592,
+      "Hazard": 0,
+      "Exposure": 0.053,
+      "Risk": 0
+    },
+    {
+      "ID": 54,
+      "Vulnerability": 0.631,
+      "Hazard": 0.14,
+      "Exposure": 0.014,
+      "Risk": 0.003
+    },
+    {
+      "ID": 55,
+      "Vulnerability": 0.445,
+      "Hazard": 0.52,
+      "Exposure": 0.019,
+      "Risk": 0.012
+    },
+    {
+      "ID": 56,
+      "Vulnerability": 0.598,
+      "Hazard": 0.06,
+      "Exposure": 0.26,
+      "Risk": 0.025
+    },
+    {
+      "ID": 57,
+      "Vulnerability": 0.502,
+      "Hazard": 0.56,
+      "Exposure": 0.073,
+      "Risk": 0.056
+    },
+    {
+      "ID": 58,
+      "Vulnerability": 0.327,
+      "Hazard": 0.24,
+      "Exposure": 0.023,
+      "Risk": 0.005
+    },
+    {
+      "ID": 59,
+      "Vulnerability": 0.563,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 60,
+      "Vulnerability": 0.594,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 61,
+      "Vulnerability": 0.363,
+      "Hazard": 0.72,
+      "Exposure": 0.009,
+      "Risk": 0.006
+    },
+    {
+      "ID": 62,
+      "Vulnerability": 0.665,
+      "Hazard": 0.42,
+      "Exposure": 0.129,
+      "Risk": 0.098
+    },
+    {
+      "ID": 63,
+      "Vulnerability": 0.558,
+      "Hazard": 0.92,
+      "Exposure": 0.178,
+      "Risk": 0.248
+    },
+    {
+      "ID": 64,
+      "Vulnerability": 0.533,
+      "Hazard": 0.12,
+      "Exposure": 0.16,
+      "Risk": 0.028
+    },
+    {
+      "ID": 65,
+      "Vulnerability": 0.498,
+      "Hazard": 0.18,
+      "Exposure": 0.047,
+      "Risk": 0.011
+    },
+    {
+      "ID": 66,
+      "Vulnerability": 0.664,
+      "Hazard": 0.26,
+      "Exposure": 0.026,
+      "Risk": 0.012
+    },
+    {
+      "ID": 67,
+      "Vulnerability": 0.45,
+      "Hazard": 0.8,
+      "Exposure": 0.038,
+      "Risk": 0.037
+    },
+    {
+      "ID": 68,
+      "Vulnerability": 0.653,
+      "Hazard": 0.1,
+      "Exposure": 0.027,
+      "Risk": 0.005
+    },
+    {
+      "ID": 69,
+      "Vulnerability": 0.526,
+      "Hazard": 0.58,
+      "Exposure": 0.008,
+      "Risk": 0.007
+    },
+    {
+      "ID": 70,
+      "Vulnerability": 0.596,
+      "Hazard": 0.42,
+      "Exposure": 0.144,
+      "Risk": 0.098
+    },
+    {
+      "ID": 71,
+      "Vulnerability": 0.477,
+      "Hazard": 0.08,
+      "Exposure": 0.005,
+      "Risk": 0.001
+    },
+    {
+      "ID": 72,
+      "Vulnerability": 0.559,
+      "Hazard": 0.72,
+      "Exposure": 0.031,
+      "Risk": 0.034
+    },
+    {
+      "ID": 73,
+      "Vulnerability": 0.558,
+      "Hazard": 0.74,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 74,
+      "Vulnerability": 0.544,
+      "Hazard": 0.04,
+      "Exposure": 0.006,
+      "Risk": 0
+    },
+    {
+      "ID": 75,
+      "Vulnerability": 0.767,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 76,
+      "Vulnerability": 0.627,
+      "Hazard": 0.92,
+      "Exposure": 0.031,
+      "Risk": 0.049
+    },
+    {
+      "ID": 77,
+      "Vulnerability": 0.409,
+      "Hazard": 0.4,
+      "Exposure": 0.224,
+      "Risk": 0.1
+    },
+    {
+      "ID": 78,
+      "Vulnerability": 0.371,
+      "Hazard": 0.32,
+      "Exposure": 0.018,
+      "Risk": 0.006
+    },
+    {
+      "ID": 79,
+      "Vulnerability": 0.39,
+      "Hazard": 0.58,
+      "Exposure": 0.016,
+      "Risk": 0.01
+    },
+    {
+      "ID": 80,
+      "Vulnerability": 0.614,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 81,
+      "Vulnerability": 0.387,
+      "Hazard": 0.16,
+      "Exposure": 0.012,
+      "Risk": 0.002
+    },
+    {
+      "ID": 82,
+      "Vulnerability": 0.06,
+      "Hazard": 0.34,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 83,
+      "Vulnerability": 0.479,
+      "Hazard": 0.32,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 84,
+      "Vulnerability": 0.314,
+      "Hazard": 0.34,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 85,
+      "Vulnerability": 0.612,
+      "Hazard": 0.28,
+      "Exposure": 0.097,
+      "Risk": 0.045
+    },
+    {
+      "ID": 86,
+      "Vulnerability": 0.586,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 87,
+      "Vulnerability": 0.374,
+      "Hazard": 0.92,
+      "Exposure": 0.002,
+      "Risk": 0.002
+    },
+    {
+      "ID": 88,
+      "Vulnerability": 0.748,
+      "Hazard": 0.48,
+      "Exposure": 0.013,
+      "Risk": 0.013
+    },
+    {
+      "ID": 89,
+      "Vulnerability": 0.705,
+      "Hazard": 0.54,
+      "Exposure": 0.025,
+      "Risk": 0.026
+    },
+    {
+      "ID": 90,
+      "Vulnerability": 0.345,
+      "Hazard": 0.34,
+      "Exposure": 0.016,
+      "Risk": 0.005
+    },
+    {
+      "ID": 91,
+      "Vulnerability": 0.503,
+      "Hazard": 0.42,
+      "Exposure": 0.014,
+      "Risk": 0.008
+    },
+    {
+      "ID": 92,
+      "Vulnerability": 0.564,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 93,
+      "Vulnerability": 0.408,
+      "Hazard": 0.96,
+      "Exposure": 0.004,
+      "Risk": 0.005
+    },
+    {
+      "ID": 94,
+      "Vulnerability": 0.403,
+      "Hazard": 0.02,
+      "Exposure": 0.01,
+      "Risk": 0
+    },
+    {
+      "ID": 95,
+      "Vulnerability": 0.695,
+      "Hazard": 0.12,
+      "Exposure": 0.031,
+      "Risk": 0.007
+    },
+    {
+      "ID": 96,
+      "Vulnerability": 0.371,
+      "Hazard": 0.6,
+      "Exposure": 0.046,
+      "Risk": 0.028
+    },
+    {
+      "ID": 97,
+      "Vulnerability": 0.52,
+      "Hazard": 0.22,
+      "Exposure": 0.033,
+      "Risk": 0.01
+    },
+    {
+      "ID": 98,
+      "Vulnerability": 0.54,
+      "Hazard": 0.52,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 99,
+      "Vulnerability": 0.465,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 100,
+      "Vulnerability": 0.435,
+      "Hazard": 0.12,
+      "Exposure": 0.073,
+      "Risk": 0.01
+    },
+    {
+      "ID": 101,
+      "Vulnerability": 0.663,
+      "Hazard": 0.58,
+      "Exposure": 0.174,
+      "Risk": 0.181
+    },
+    {
+      "ID": 102,
+      "Vulnerability": 0.616,
+      "Hazard": 0.36,
+      "Exposure": 0.011,
+      "Risk": 0.007
+    },
+    {
+      "ID": 103,
+      "Vulnerability": 0.358,
+      "Hazard": 0.96,
+      "Exposure": 0.034,
+      "Risk": 0.032
+    },
+    {
+      "ID": 104,
+      "Vulnerability": 0.535,
+      "Hazard": 0.96,
+      "Exposure": 0.002,
+      "Risk": 0.002
+    },
+    {
+      "ID": 105,
+      "Vulnerability": 0.636,
+      "Hazard": 0.7,
+      "Exposure": 0.019,
+      "Risk": 0.023
+    },
+    {
+      "ID": 106,
+      "Vulnerability": 0.503,
+      "Hazard": 0.62,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 107,
+      "Vulnerability": 0.331,
+      "Hazard": 0.64,
+      "Exposure": 0.003,
+      "Risk": 0.002
+    },
+    {
+      "ID": 108,
+      "Vulnerability": 0.356,
+      "Hazard": 0.32,
+      "Exposure": 0.012,
+      "Risk": 0.004
+    },
+    {
+      "ID": 109,
+      "Vulnerability": 0.49,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 110,
+      "Vulnerability": 0.526,
+      "Hazard": 0.18,
+      "Exposure": 0.009,
+      "Risk": 0.002
+    },
+    {
+      "ID": 111,
+      "Vulnerability": 0.119,
+      "Hazard": 0.3,
+      "Exposure": 0.011,
+      "Risk": 0.001
+    },
+    {
+      "ID": 112,
+      "Vulnerability": 0.632,
+      "Hazard": 0.98,
+      "Exposure": 0.004,
+      "Risk": 0.007
+    },
+    {
+      "ID": 113,
+      "Vulnerability": 0.571,
+      "Hazard": 0.5,
+      "Exposure": 0.249,
+      "Risk": 0.193
+    },
+    {
+      "ID": 114,
+      "Vulnerability": 0.334,
+      "Hazard": 0.46,
+      "Exposure": 0.015,
+      "Risk": 0.006
+    },
+    {
+      "ID": 115,
+      "Vulnerability": 0.567,
+      "Hazard": 0.78,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 116,
+      "Vulnerability": 0.355,
+      "Hazard": 0.58,
+      "Exposure": 0.022,
+      "Risk": 0.012
+    },
+    {
+      "ID": 117,
+      "Vulnerability": 0.621,
+      "Hazard": 0.82,
+      "Exposure": 0.028,
+      "Risk": 0.039
+    },
+    {
+      "ID": 118,
+      "Vulnerability": 0.403,
+      "Hazard": 0.36,
+      "Exposure": 0.014,
+      "Risk": 0.006
+    },
+    {
+      "ID": 119,
+      "Vulnerability": 0.493,
+      "Hazard": 0.12,
+      "Exposure": 0.302,
+      "Risk": 0.049
+    },
+    {
+      "ID": 120,
+      "Vulnerability": 0.632,
+      "Hazard": 0.46,
+      "Exposure": 0.028,
+      "Risk": 0.022
+    },
+    {
+      "ID": 121,
+      "Vulnerability": 0.608,
+      "Hazard": 0.02,
+      "Exposure": 0.017,
+      "Risk": 0.001
+    },
+    {
+      "ID": 122,
+      "Vulnerability": 0.655,
+      "Hazard": 0.2,
+      "Exposure": 0.045,
+      "Risk": 0.016
+    },
+    {
+      "ID": 123,
+      "Vulnerability": 0.501,
+      "Hazard": 0.26,
+      "Exposure": 0.024,
+      "Risk": 0.008
+    },
+    {
+      "ID": 124,
+      "Vulnerability": 0.59,
+      "Hazard": 0.38,
+      "Exposure": 0.007,
+      "Risk": 0.004
+    },
+    {
+      "ID": 125,
+      "Vulnerability": 0.615,
+      "Hazard": 0.72,
+      "Exposure": 0.022,
+      "Risk": 0.026
+    },
+    {
+      "ID": 126,
+      "Vulnerability": 0.501,
+      "Hazard": 0.18,
+      "Exposure": 0.012,
+      "Risk": 0.003
+    },
+    {
+      "ID": 127,
+      "Vulnerability": 0.35,
+      "Hazard": 0.24,
+      "Exposure": 0.04,
+      "Risk": 0.009
+    },
+    {
+      "ID": 128,
+      "Vulnerability": 0.614,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 129,
+      "Vulnerability": 0.502,
+      "Hazard": 0.32,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 130,
+      "Vulnerability": 0.397,
+      "Hazard": 0.64,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 131,
+      "Vulnerability": 0.539,
+      "Hazard": 0.48,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 132,
+      "Vulnerability": 0.334,
+      "Hazard": 0.82,
+      "Exposure": 0.005,
+      "Risk": 0.004
+    },
+    {
+      "ID": 133,
+      "Vulnerability": 0.443,
+      "Hazard": 0.38,
+      "Exposure": 0.014,
+      "Risk": 0.006
+    },
+    {
+      "ID": 134,
+      "Vulnerability": 0.452,
+      "Hazard": 1,
+      "Exposure": 0.121,
+      "Risk": 0.149
+    },
+    {
+      "ID": 135,
+      "Vulnerability": 0.546,
+      "Hazard": 0.3,
+      "Exposure": 0.048,
+      "Risk": 0.021
+    },
+    {
+      "ID": 136,
+      "Vulnerability": 0.603,
+      "Hazard": 0.36,
+      "Exposure": 0.074,
+      "Risk": 0.044
+    },
+    {
+      "ID": 137,
+      "Vulnerability": 0.608,
+      "Hazard": 0.36,
+      "Exposure": 0.199,
+      "Risk": 0.118
+    },
+    {
+      "ID": 138,
+      "Vulnerability": 0.52,
+      "Hazard": 0.38,
+      "Exposure": 0.097,
+      "Risk": 0.052
+    },
+    {
+      "ID": 139,
+      "Vulnerability": 0.576,
+      "Hazard": 0.26,
+      "Exposure": 0.134,
+      "Risk": 0.054
+    },
+    {
+      "ID": 140,
+      "Vulnerability": 0.661,
+      "Hazard": 0.04,
+      "Exposure": 0.008,
+      "Risk": 0.001
+    },
+    {
+      "ID": 141,
+      "Vulnerability": 0.48,
+      "Hazard": 0.22,
+      "Exposure": 0.004,
+      "Risk": 0.001
+    },
+    {
+      "ID": 142,
+      "Vulnerability": 0.346,
+      "Hazard": 0.36,
+      "Exposure": 0.091,
+      "Risk": 0.031
+    },
+    {
+      "ID": 143,
+      "Vulnerability": 0.689,
+      "Hazard": 0.34,
+      "Exposure": 0.023,
+      "Risk": 0.015
+    },
+    {
+      "ID": 144,
+      "Vulnerability": 0.401,
+      "Hazard": 0.58,
+      "Exposure": 0.012,
+      "Risk": 0.007
+    },
+    {
+      "ID": 145,
+      "Vulnerability": 0.595,
+      "Hazard": 0.18,
+      "Exposure": 0.205,
+      "Risk": 0.06
+    },
+    {
+      "ID": 146,
+      "Vulnerability": 0.59,
+      "Hazard": 0.28,
+      "Exposure": 0.449,
+      "Risk": 0.201
+    },
+    {
+      "ID": 147,
+      "Vulnerability": 0.653,
+      "Hazard": 0.56,
+      "Exposure": 0.193,
+      "Risk": 0.192
+    },
+    {
+      "ID": 148,
+      "Vulnerability": 0.425,
+      "Hazard": 0.22,
+      "Exposure": 0.008,
+      "Risk": 0.002
+    },
+    {
+      "ID": 149,
+      "Vulnerability": 0.762,
+      "Hazard": 0.46,
+      "Exposure": 0.022,
+      "Risk": 0.021
+    },
+    {
+      "ID": 150,
+      "Vulnerability": 0.728,
+      "Hazard": 0.64,
+      "Exposure": 0.033,
+      "Risk": 0.042
+    },
+    {
+      "ID": 151,
+      "Vulnerability": 0.532,
+      "Hazard": 0.98,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 152,
+      "Vulnerability": 0.675,
+      "Hazard": 0.1,
+      "Exposure": 0.199,
+      "Risk": 0.036
+    },
+    {
+      "ID": 153,
+      "Vulnerability": 0.381,
+      "Hazard": 0.38,
+      "Exposure": 0.474,
+      "Risk": 0.187
+    },
+    {
+      "ID": 154,
+      "Vulnerability": 0.584,
+      "Hazard": 0.64,
+      "Exposure": 0.008,
+      "Risk": 0.008
+    },
+    {
+      "ID": 155,
+      "Vulnerability": 0.552,
+      "Hazard": 0.56,
+      "Exposure": 0.011,
+      "Risk": 0.009
+    },
+    {
+      "ID": 156,
+      "Vulnerability": 0.684,
+      "Hazard": 0.4,
+      "Exposure": 0.124,
+      "Risk": 0.092
+    },
+    {
+      "ID": 157,
+      "Vulnerability": 0.45,
+      "Hazard": 0.4,
+      "Exposure": 0.05,
+      "Risk": 0.025
+    },
+    {
+      "ID": 158,
+      "Vulnerability": 0.572,
+      "Hazard": 0.78,
+      "Exposure": 0.002,
+      "Risk": 0.002
+    },
+    {
+      "ID": 159,
+      "Vulnerability": 0.586,
+      "Hazard": 0.32,
+      "Exposure": 0.039,
+      "Risk": 0.02
+    },
+    {
+      "ID": 160,
+      "Vulnerability": 0.276,
+      "Hazard": 0.02,
+      "Exposure": 0.042,
+      "Risk": 0.001
+    },
+    {
+      "ID": 161,
+      "Vulnerability": 0.387,
+      "Hazard": 0.4,
+      "Exposure": 0.064,
+      "Risk": 0.027
+    },
+    {
+      "ID": 162,
+      "Vulnerability": 0.291,
+      "Hazard": 0.54,
+      "Exposure": 0.009,
+      "Risk": 0.004
+    },
+    {
+      "ID": 163,
+      "Vulnerability": 0.64,
+      "Hazard": 0.44,
+      "Exposure": 0.273,
+      "Risk": 0.209
+    },
+    {
+      "ID": 164,
+      "Vulnerability": 0.531,
+      "Hazard": 0.3,
+      "Exposure": 0.067,
+      "Risk": 0.029
+    },
+    {
+      "ID": 165,
+      "Vulnerability": 0.589,
+      "Hazard": 0.74,
+      "Exposure": 0.011,
+      "Risk": 0.013
+    },
+    {
+      "ID": 166,
+      "Vulnerability": 0.536,
+      "Hazard": 0.18,
+      "Exposure": 0.08,
+      "Risk": 0.021
+    },
+    {
+      "ID": 167,
+      "Vulnerability": 0.622,
+      "Hazard": 0.26,
+      "Exposure": 0.025,
+      "Risk": 0.011
+    },
+    {
+      "ID": 168,
+      "Vulnerability": 0.73,
+      "Hazard": 0.8,
+      "Exposure": 0.014,
+      "Risk": 0.022
+    },
+    {
+      "ID": 169,
+      "Vulnerability": 0.341,
+      "Hazard": 0.52,
+      "Exposure": 0.031,
+      "Risk": 0.015
+    },
+    {
+      "ID": 170,
+      "Vulnerability": 0.369,
+      "Hazard": 0.72,
+      "Exposure": 0.004,
+      "Risk": 0.003
+    },
+    {
+      "ID": 171,
+      "Vulnerability": 0.672,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 172,
+      "Vulnerability": 0.264,
+      "Hazard": 0.66,
+      "Exposure": 0.036,
+      "Risk": 0.017
+    },
+    {
+      "ID": 173,
+      "Vulnerability": 0.709,
+      "Hazard": 0.68,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 174,
+      "Vulnerability": 0.662,
+      "Hazard": 0.46,
+      "Exposure": 0.028,
+      "Risk": 0.023
+    },
+    {
+      "ID": 175,
+      "Vulnerability": 0.393,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 176,
+      "Vulnerability": 0.591,
+      "Hazard": 0.02,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 177,
+      "Vulnerability": 0.744,
+      "Hazard": 0.44,
+      "Exposure": 0.206,
+      "Risk": 0.183
+    },
+    {
+      "ID": 178,
+      "Vulnerability": 0.6,
+      "Hazard": 0.24,
+      "Exposure": 0.039,
+      "Risk": 0.015
+    },
+    {
+      "ID": 179,
+      "Vulnerability": 0.412,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 180,
+      "Vulnerability": 0.687,
+      "Hazard": 0.86,
+      "Exposure": 0.03,
+      "Risk": 0.047
+    },
+    {
+      "ID": 181,
+      "Vulnerability": 0.559,
+      "Hazard": 0.74,
+      "Exposure": 0.047,
+      "Risk": 0.053
+    },
+    {
+      "ID": 182,
+      "Vulnerability": 0.444,
+      "Hazard": 0.76,
+      "Exposure": 0.005,
+      "Risk": 0.005
+    },
+    {
+      "ID": 183,
+      "Vulnerability": 0.577,
+      "Hazard": 0.3,
+      "Exposure": 0.323,
+      "Risk": 0.152
+    },
+    {
+      "ID": 184,
+      "Vulnerability": 0.666,
+      "Hazard": 0.56,
+      "Exposure": 0.003,
+      "Risk": 0.003
+    },
+    {
+      "ID": 185,
+      "Vulnerability": 0.533,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 186,
+      "Vulnerability": 0.41,
+      "Hazard": 0.54,
+      "Exposure": 0.024,
+      "Risk": 0.015
+    },
+    {
+      "ID": 187,
+      "Vulnerability": 0.462,
+      "Hazard": 0.36,
+      "Exposure": 0.03,
+      "Risk": 0.014
+    },
+    {
+      "ID": 188,
+      "Vulnerability": 0.654,
+      "Hazard": 0.9,
+      "Exposure": 0.022,
+      "Risk": 0.035
+    },
+    {
+      "ID": 189,
+      "Vulnerability": 0.294,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 190,
+      "Vulnerability": 0.508,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 191,
+      "Vulnerability": 0.433,
+      "Hazard": 0.18,
+      "Exposure": 0.011,
+      "Risk": 0.002
+    },
+    {
+      "ID": 192,
+      "Vulnerability": 0.405,
+      "Hazard": 0.42,
+      "Exposure": 0.015,
+      "Risk": 0.007
+    },
+    {
+      "ID": 193,
+      "Vulnerability": 0.589,
+      "Hazard": 0.04,
+      "Exposure": 0.041,
+      "Risk": 0.003
+    },
+    {
+      "ID": 194,
+      "Vulnerability": 0.589,
+      "Hazard": 0.54,
+      "Exposure": 0.04,
+      "Risk": 0.035
+    },
+    {
+      "ID": 195,
+      "Vulnerability": 0.467,
+      "Hazard": 0.38,
+      "Exposure": 0.003,
+      "Risk": 0.001
+    },
+    {
+      "ID": 196,
+      "Vulnerability": 0.373,
+      "Hazard": 0.96,
+      "Exposure": 0.019,
+      "Risk": 0.019
+    },
+    {
+      "ID": 197,
+      "Vulnerability": 0.34,
+      "Hazard": 0.62,
+      "Exposure": 0.011,
+      "Risk": 0.006
+    },
+    {
+      "ID": 198,
+      "Vulnerability": 0.633,
+      "Hazard": 0.42,
+      "Exposure": 0.113,
+      "Risk": 0.082
+    },
+    {
+      "ID": 199,
+      "Vulnerability": 0.513,
+      "Hazard": 1,
+      "Exposure": 0.033,
+      "Risk": 0.046
+    },
+    {
+      "ID": 200,
+      "Vulnerability": 0.535,
+      "Hazard": 0.22,
+      "Exposure": 0.48,
+      "Risk": 0.154
+    },
+    {
+      "ID": 201,
+      "Vulnerability": 0.612,
+      "Hazard": 0.22,
+      "Exposure": 0.095,
+      "Risk": 0.035
+    },
+    {
+      "ID": 202,
+      "Vulnerability": 0.439,
+      "Hazard": 0.68,
+      "Exposure": 0.016,
+      "Risk": 0.013
+    },
+    {
+      "ID": 203,
+      "Vulnerability": 0.509,
+      "Hazard": 0.24,
+      "Exposure": 0.023,
+      "Risk": 0.008
+    },
+    {
+      "ID": 204,
+      "Vulnerability": 0.46,
+      "Hazard": 1,
+      "Exposure": 0.011,
+      "Risk": 0.013
+    },
+    {
+      "ID": 205,
+      "Vulnerability": 0.427,
+      "Hazard": 0.28,
+      "Exposure": 0.094,
+      "Risk": 0.031
+    },
+    {
+      "ID": 206,
+      "Vulnerability": 0.623,
+      "Hazard": 0.66,
+      "Exposure": 0.02,
+      "Risk": 0.022
+    },
+    {
+      "ID": 207,
+      "Vulnerability": 0.497,
+      "Hazard": 0.34,
+      "Exposure": 0.098,
+      "Risk": 0.045
+    },
+    {
+      "ID": 208,
+      "Vulnerability": 0.591,
+      "Hazard": 0.78,
+      "Exposure": 0.303,
+      "Risk": 0.38
+    },
+    {
+      "ID": 209,
+      "Vulnerability": 0.504,
+      "Hazard": 0.36,
+      "Exposure": 0.051,
+      "Risk": 0.025
+    },
+    {
+      "ID": 210,
+      "Vulnerability": 0.69,
+      "Hazard": 0.24,
+      "Exposure": 0.236,
+      "Risk": 0.106
+    },
+    {
+      "ID": 211,
+      "Vulnerability": 0.646,
+      "Hazard": 0.98,
+      "Exposure": 0.066,
+      "Risk": 0.114
+    },
+    {
+      "ID": 212,
+      "Vulnerability": 0.53,
+      "Hazard": 0.94,
+      "Exposure": 0.009,
+      "Risk": 0.012
+    },
+    {
+      "ID": 213,
+      "Vulnerability": 0.704,
+      "Hazard": 0.68,
+      "Exposure": 0.002,
+      "Risk": 0.003
+    },
+    {
+      "ID": 214,
+      "Vulnerability": 0.244,
+      "Hazard": 0.2,
+      "Exposure": 0.031,
+      "Risk": 0.004
+    },
+    {
+      "ID": 215,
+      "Vulnerability": 0.51,
+      "Hazard": 0.94,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 216,
+      "Vulnerability": 0.412,
+      "Hazard": 0.54,
+      "Exposure": 0.005,
+      "Risk": 0.003
+    },
+    {
+      "ID": 217,
+      "Vulnerability": 0.673,
+      "Hazard": 0.7,
+      "Exposure": 0.015,
+      "Risk": 0.019
+    },
+    {
+      "ID": 218,
+      "Vulnerability": 0.638,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 219,
+      "Vulnerability": 0.535,
+      "Hazard": 0.9,
+      "Exposure": 0.05,
+      "Risk": 0.066
+    },
+    {
+      "ID": 220,
+      "Vulnerability": 0.527,
+      "Hazard": 0.6,
+      "Exposure": 0.008,
+      "Risk": 0.007
+    },
+    {
+      "ID": 221,
+      "Vulnerability": 0.628,
+      "Hazard": 0.14,
+      "Exposure": 0.015,
+      "Risk": 0.004
+    },
+    {
+      "ID": 222,
+      "Vulnerability": 0.75,
+      "Hazard": 0.2,
+      "Exposure": 0.029,
+      "Risk": 0.012
+    },
+    {
+      "ID": 223,
+      "Vulnerability": 0.452,
+      "Hazard": 0.92,
+      "Exposure": 0.016,
+      "Risk": 0.019
+    },
+    {
+      "ID": 224,
+      "Vulnerability": 0.366,
+      "Hazard": 0.52,
+      "Exposure": 0.002,
+      "Risk": 0.001
+    },
+    {
+      "ID": 225,
+      "Vulnerability": 0.213,
+      "Hazard": 0.3,
+      "Exposure": 0.067,
+      "Risk": 0.012
+    },
+    {
+      "ID": 226,
+      "Vulnerability": 0.48,
+      "Hazard": 0.88,
+      "Exposure": 0.073,
+      "Risk": 0.084
+    },
+    {
+      "ID": 227,
+      "Vulnerability": 0.634,
+      "Hazard": 0.92,
+      "Exposure": 0.034,
+      "Risk": 0.053
+    },
+    {
+      "ID": 228,
+      "Vulnerability": 0.551,
+      "Hazard": 0.44,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 229,
+      "Vulnerability": 0.11,
+      "Hazard": 0.3,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 230,
+      "Vulnerability": 0.669,
+      "Hazard": 0.18,
+      "Exposure": 0.083,
+      "Risk": 0.027
+    },
+    {
+      "ID": 231,
+      "Vulnerability": 0.555,
+      "Hazard": 0.5,
+      "Exposure": 0.203,
+      "Risk": 0.154
+    },
+    {
+      "ID": 232,
+      "Vulnerability": 0,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 233,
+      "Vulnerability": 0.443,
+      "Hazard": 0.8,
+      "Exposure": 0.026,
+      "Risk": 0.025
+    },
+    {
+      "ID": 234,
+      "Vulnerability": 0.679,
+      "Hazard": 0.46,
+      "Exposure": 0.006,
+      "Risk": 0.005
+    },
+    {
+      "ID": 235,
+      "Vulnerability": 0.716,
+      "Hazard": 0.68,
+      "Exposure": 0.003,
+      "Risk": 0.003
+    },
+    {
+      "ID": 236,
+      "Vulnerability": 0.369,
+      "Hazard": 0.34,
+      "Exposure": 0.222,
+      "Risk": 0.075
+    },
+    {
+      "ID": 237,
+      "Vulnerability": 0.514,
+      "Hazard": 0.56,
+      "Exposure": 0.028,
+      "Risk": 0.022
+    },
+    {
+      "ID": 238,
+      "Vulnerability": 0.524,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 239,
+      "Vulnerability": 0.565,
+      "Hazard": 0.74,
+      "Exposure": 0.015,
+      "Risk": 0.017
+    },
+    {
+      "ID": 240,
+      "Vulnerability": 0.695,
+      "Hazard": 0.32,
+      "Exposure": 0.011,
+      "Risk": 0.007
+    },
+    {
+      "ID": 241,
+      "Vulnerability": 0.614,
+      "Hazard": 0.16,
+      "Exposure": 0.159,
+      "Risk": 0.042
+    },
+    {
+      "ID": 242,
+      "Vulnerability": 0.611,
+      "Hazard": 0.82,
+      "Exposure": 0.071,
+      "Risk": 0.096
+    },
+    {
+      "ID": 243,
+      "Vulnerability": 0.88,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 244,
+      "Vulnerability": 0.699,
+      "Hazard": 0.4,
+      "Exposure": 0.014,
+      "Risk": 0.011
+    },
+    {
+      "ID": 245,
+      "Vulnerability": 0.421,
+      "Hazard": 0.62,
+      "Exposure": 0.02,
+      "Risk": 0.014
+    },
+    {
+      "ID": 246,
+      "Vulnerability": 0.263,
+      "Hazard": 0.62,
+      "Exposure": 0.003,
+      "Risk": 0.001
+    },
+    {
+      "ID": 247,
+      "Vulnerability": 0.712,
+      "Hazard": 0.36,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 248,
+      "Vulnerability": 0.592,
+      "Hazard": 0.64,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 249,
+      "Vulnerability": 0.412,
+      "Hazard": 0.16,
+      "Exposure": 0.138,
+      "Risk": 0.025
+    },
+    {
+      "ID": 250,
+      "Vulnerability": 0.6,
+      "Hazard": 0.26,
+      "Exposure": 0.253,
+      "Risk": 0.107
+    },
+    {
+      "ID": 251,
+      "Vulnerability": 0.289,
+      "Hazard": 0.68,
+      "Exposure": 0.046,
+      "Risk": 0.025
+    },
+    {
+      "ID": 252,
+      "Vulnerability": 0.332,
+      "Hazard": 0.54,
+      "Exposure": 0.157,
+      "Risk": 0.076
+    },
+    {
+      "ID": 253,
+      "Vulnerability": 0.661,
+      "Hazard": 0.46,
+      "Exposure": 0.302,
+      "Risk": 0.25
+    },
+    {
+      "ID": 254,
+      "Vulnerability": 0.446,
+      "Hazard": 0.3,
+      "Exposure": 0.234,
+      "Risk": 0.085
+    },
+    {
+      "ID": 255,
+      "Vulnerability": 0.584,
+      "Hazard": 0.3,
+      "Exposure": 0.052,
+      "Risk": 0.025
+    },
+    {
+      "ID": 256,
+      "Vulnerability": 0.549,
+      "Hazard": 0.68,
+      "Exposure": 0.014,
+      "Risk": 0.015
+    },
+    {
+      "ID": 257,
+      "Vulnerability": 0.454,
+      "Hazard": 0.52,
+      "Exposure": 0.169,
+      "Risk": 0.108
+    },
+    {
+      "ID": 258,
+      "Vulnerability": 0.487,
+      "Hazard": 0.08,
+      "Exposure": 0.057,
+      "Risk": 0.006
+    },
+    {
+      "ID": 259,
+      "Vulnerability": 0.728,
+      "Hazard": 0.58,
+      "Exposure": 0.019,
+      "Risk": 0.021
+    },
+    {
+      "ID": 260,
+      "Vulnerability": 0.539,
+      "Hazard": 0.04,
+      "Exposure": 0.038,
+      "Risk": 0.002
+    },
+    {
+      "ID": 261,
+      "Vulnerability": 0.238,
+      "Hazard": 0.58,
+      "Exposure": 0.008,
+      "Risk": 0.003
+    },
+    {
+      "ID": 262,
+      "Vulnerability": 0.412,
+      "Hazard": 0.74,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 263,
+      "Vulnerability": 0.254,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 264,
+      "Vulnerability": 0.381,
+      "Hazard": 0.34,
+      "Exposure": 0.031,
+      "Risk": 0.011
+    },
+    {
+      "ID": 265,
+      "Vulnerability": 0.77,
+      "Hazard": 0.46,
+      "Exposure": 0.031,
+      "Risk": 0.029
+    },
+    {
+      "ID": 266,
+      "Vulnerability": 0.625,
+      "Hazard": 0.56,
+      "Exposure": 0.14,
+      "Risk": 0.133
+    },
+    {
+      "ID": 267,
+      "Vulnerability": 0.343,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 268,
+      "Vulnerability": 0,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 269,
+      "Vulnerability": 0.544,
+      "Hazard": 0.88,
+      "Exposure": 0.011,
+      "Risk": 0.014
+    },
+    {
+      "ID": 270,
+      "Vulnerability": 0.587,
+      "Hazard": 0.04,
+      "Exposure": 0.443,
+      "Risk": 0.028
+    },
+    {
+      "ID": 271,
+      "Vulnerability": 0.26,
+      "Hazard": 0.1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 272,
+      "Vulnerability": 0,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 273,
+      "Vulnerability": 0.658,
+      "Hazard": 0.06,
+      "Exposure": 0.315,
+      "Risk": 0.034
+    },
+    {
+      "ID": 274,
+      "Vulnerability": 0.475,
+      "Hazard": 1,
+      "Exposure": 0.027,
+      "Risk": 0.035
+    },
+    {
+      "ID": 275,
+      "Vulnerability": 0.605,
+      "Hazard": 0.8,
+      "Exposure": 0.005,
+      "Risk": 0.006
+    },
+    {
+      "ID": 276,
+      "Vulnerability": 0.437,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 277,
+      "Vulnerability": 0.863,
+      "Hazard": 0.46,
+      "Exposure": 0.011,
+      "Risk": 0.012
+    },
+    {
+      "ID": 278,
+      "Vulnerability": 0.728,
+      "Hazard": 0.64,
+      "Exposure": 0.057,
+      "Risk": 0.073
+    },
+    {
+      "ID": 279,
+      "Vulnerability": 0.469,
+      "Hazard": 0.86,
+      "Exposure": 0.058,
+      "Risk": 0.063
+    },
+    {
+      "ID": 280,
+      "Vulnerability": 0.734,
+      "Hazard": 0.28,
+      "Exposure": 0.047,
+      "Risk": 0.027
+    },
+    {
+      "ID": 281,
+      "Vulnerability": 0.527,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 282,
+      "Vulnerability": 0.573,
+      "Hazard": 0.34,
+      "Exposure": 0.013,
+      "Risk": 0.007
+    },
+    {
+      "ID": 283,
+      "Vulnerability": 0.661,
+      "Hazard": 0.62,
+      "Exposure": 0.015,
+      "Risk": 0.016
+    },
+    {
+      "ID": 284,
+      "Vulnerability": 0.628,
+      "Hazard": 0.66,
+      "Exposure": 0.018,
+      "Risk": 0.02
+    },
+    {
+      "ID": 285,
+      "Vulnerability": 0.49,
+      "Hazard": 0.78,
+      "Exposure": 0.02,
+      "Risk": 0.02
+    },
+    {
+      "ID": 286,
+      "Vulnerability": 0.291,
+      "Hazard": 0.84,
+      "Exposure": 0.002,
+      "Risk": 0.001
+    },
+    {
+      "ID": 287,
+      "Vulnerability": 0.706,
+      "Hazard": 0.72,
+      "Exposure": 0.116,
+      "Risk": 0.16
+    },
+    {
+      "ID": 288,
+      "Vulnerability": 0.692,
+      "Hazard": 0.34,
+      "Exposure": 0.096,
+      "Risk": 0.061
+    },
+    {
+      "ID": 289,
+      "Vulnerability": 0.463,
+      "Hazard": 0.62,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 290,
+      "Vulnerability": 0.579,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 291,
+      "Vulnerability": 0.451,
+      "Hazard": 0.14,
+      "Exposure": 0.19,
+      "Risk": 0.033
+    },
+    {
+      "ID": 292,
+      "Vulnerability": 0.656,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 293,
+      "Vulnerability": 0.648,
+      "Hazard": 0.52,
+      "Exposure": 0.028,
+      "Risk": 0.026
+    },
+    {
+      "ID": 294,
+      "Vulnerability": 0.504,
+      "Hazard": 1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 295,
+      "Vulnerability": 0.601,
+      "Hazard": 0.2,
+      "Exposure": 0.176,
+      "Risk": 0.057
+    },
+    {
+      "ID": 296,
+      "Vulnerability": 0.573,
+      "Hazard": 0.06,
+      "Exposure": 0.027,
+      "Risk": 0.003
+    },
+    {
+      "ID": 297,
+      "Vulnerability": 0.566,
+      "Hazard": 0.82,
+      "Exposure": 0.022,
+      "Risk": 0.027
+    },
+    {
+      "ID": 298,
+      "Vulnerability": 0.322,
+      "Hazard": 0.38,
+      "Exposure": 0.072,
+      "Risk": 0.024
+    },
+    {
+      "ID": 299,
+      "Vulnerability": 0.343,
+      "Hazard": 0.44,
+      "Exposure": 0.037,
+      "Risk": 0.015
+    },
+    {
+      "ID": 300,
+      "Vulnerability": 0.329,
+      "Hazard": 0.44,
+      "Exposure": 0.031,
+      "Risk": 0.012
+    },
+    {
+      "ID": 301,
+      "Vulnerability": 0.511,
+      "Hazard": 0.56,
+      "Exposure": 0.023,
+      "Risk": 0.018
+    },
+    {
+      "ID": 302,
+      "Vulnerability": 0.51,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 303,
+      "Vulnerability": 0.497,
+      "Hazard": 0.56,
+      "Exposure": 0.011,
+      "Risk": 0.008
+    },
+    {
+      "ID": 304,
+      "Vulnerability": 0.384,
+      "Hazard": 0.24,
+      "Exposure": 0.008,
+      "Risk": 0.002
+    },
+    {
+      "ID": 305,
+      "Vulnerability": 0.595,
+      "Hazard": 0.76,
+      "Exposure": 0.144,
+      "Risk": 0.177
+    },
+    {
+      "ID": 306,
+      "Vulnerability": 0.625,
+      "Hazard": 0.62,
+      "Exposure": 0.026,
+      "Risk": 0.028
+    },
+    {
+      "ID": 307,
+      "Vulnerability": 0.524,
+      "Hazard": 0.52,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 308,
+      "Vulnerability": 0.438,
+      "Hazard": 0.44,
+      "Exposure": 0.01,
+      "Risk": 0.005
+    },
+    {
+      "ID": 309,
+      "Vulnerability": 0.71,
+      "Hazard": 0.38,
+      "Exposure": 0.056,
+      "Risk": 0.041
+    },
+    {
+      "ID": 310,
+      "Vulnerability": 0.309,
+      "Hazard": 0.06,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 311,
+      "Vulnerability": 0.511,
+      "Hazard": 0.12,
+      "Exposure": 0.012,
+      "Risk": 0.002
+    },
+    {
+      "ID": 312,
+      "Vulnerability": 0.566,
+      "Hazard": 0.58,
+      "Exposure": 0.034,
+      "Risk": 0.03
+    },
+    {
+      "ID": 313,
+      "Vulnerability": 0.494,
+      "Hazard": 0.5,
+      "Exposure": 0.093,
+      "Risk": 0.063
+    },
+    {
+      "ID": 314,
+      "Vulnerability": 0.855,
+      "Hazard": 0.64,
+      "Exposure": 0.288,
+      "Risk": 0.429
+    },
+    {
+      "ID": 315,
+      "Vulnerability": 0.417,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 316,
+      "Vulnerability": 0.493,
+      "Hazard": 0.92,
+      "Exposure": 0.048,
+      "Risk": 0.059
+    },
+    {
+      "ID": 317,
+      "Vulnerability": 0.495,
+      "Hazard": 0.34,
+      "Exposure": 0.096,
+      "Risk": 0.044
+    },
+    {
+      "ID": 318,
+      "Vulnerability": 0.659,
+      "Hazard": 0.2,
+      "Exposure": 0.133,
+      "Risk": 0.048
+    },
+    {
+      "ID": 319,
+      "Vulnerability": 0.715,
+      "Hazard": 0.66,
+      "Exposure": 0.033,
+      "Risk": 0.043
+    },
+    {
+      "ID": 320,
+      "Vulnerability": 0.692,
+      "Hazard": 0.5,
+      "Exposure": 0.048,
+      "Risk": 0.045
+    },
+    {
+      "ID": 321,
+      "Vulnerability": 0.509,
+      "Hazard": 0.38,
+      "Exposure": 0.032,
+      "Risk": 0.017
+    },
+    {
+      "ID": 322,
+      "Vulnerability": 0.401,
+      "Hazard": 0.36,
+      "Exposure": 0.029,
+      "Risk": 0.011
+    },
+    {
+      "ID": 323,
+      "Vulnerability": 0.579,
+      "Hazard": 0.82,
+      "Exposure": 0.015,
+      "Risk": 0.02
+    },
+    {
+      "ID": 324,
+      "Vulnerability": 0.4,
+      "Hazard": 0.98,
+      "Exposure": 0.009,
+      "Risk": 0.01
+    },
+    {
+      "ID": 325,
+      "Vulnerability": 0.636,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 326,
+      "Vulnerability": 0.71,
+      "Hazard": 0.56,
+      "Exposure": 0.01,
+      "Risk": 0.011
+    },
+    {
+      "ID": 327,
+      "Vulnerability": 0.678,
+      "Hazard": 0.58,
+      "Exposure": 0.172,
+      "Risk": 0.184
+    },
+    {
+      "ID": 328,
+      "Vulnerability": 0.303,
+      "Hazard": 0.52,
+      "Exposure": 0.02,
+      "Risk": 0.008
+    },
+    {
+      "ID": 329,
+      "Vulnerability": 0.458,
+      "Hazard": 0.42,
+      "Exposure": 0.101,
+      "Risk": 0.053
+    },
+    {
+      "ID": 330,
+      "Vulnerability": 0.29,
+      "Hazard": 0.26,
+      "Exposure": 0.013,
+      "Risk": 0.003
+    },
+    {
+      "ID": 331,
+      "Vulnerability": 0.125,
+      "Hazard": 0.06,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 332,
+      "Vulnerability": 0.406,
+      "Hazard": 1,
+      "Exposure": 0.027,
+      "Risk": 0.03
+    },
+    {
+      "ID": 333,
+      "Vulnerability": 0.656,
+      "Hazard": 0.46,
+      "Exposure": 0.016,
+      "Risk": 0.013
+    },
+    {
+      "ID": 334,
+      "Vulnerability": 0.754,
+      "Hazard": 0.92,
+      "Exposure": 0.108,
+      "Risk": 0.204
+    },
+    {
+      "ID": 335,
+      "Vulnerability": 0.7,
+      "Hazard": 0.82,
+      "Exposure": 0.198,
+      "Risk": 0.308
+    },
+    {
+      "ID": 336,
+      "Vulnerability": 0.665,
+      "Hazard": 0.58,
+      "Exposure": 0.018,
+      "Risk": 0.019
+    },
+    {
+      "ID": 337,
+      "Vulnerability": 0.342,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 338,
+      "Vulnerability": 0.72,
+      "Hazard": 0.58,
+      "Exposure": 0.005,
+      "Risk": 0.005
+    },
+    {
+      "ID": 339,
+      "Vulnerability": 0.707,
+      "Hazard": 0.96,
+      "Exposure": 0.032,
+      "Risk": 0.058
+    },
+    {
+      "ID": 340,
+      "Vulnerability": 0.062,
+      "Hazard": 0.24,
+      "Exposure": 0.004,
+      "Risk": 0
+    },
+    {
+      "ID": 341,
+      "Vulnerability": 0.467,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 342,
+      "Vulnerability": 0.624,
+      "Hazard": 0.44,
+      "Exposure": 0.252,
+      "Risk": 0.187
+    },
+    {
+      "ID": 343,
+      "Vulnerability": 0.392,
+      "Hazard": 0.4,
+      "Exposure": 0.002,
+      "Risk": 0.001
+    },
+    {
+      "ID": 344,
+      "Vulnerability": 0.72,
+      "Hazard": 0.96,
+      "Exposure": 0.119,
+      "Risk": 0.224
+    },
+    {
+      "ID": 345,
+      "Vulnerability": 0.575,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 346,
+      "Vulnerability": 0.507,
+      "Hazard": 0.14,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 347,
+      "Vulnerability": 0,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 348,
+      "Vulnerability": 0.437,
+      "Hazard": 0.88,
+      "Exposure": 0.002,
+      "Risk": 0.002
+    },
+    {
+      "ID": 349,
+      "Vulnerability": 0.379,
+      "Hazard": 1,
+      "Exposure": 0.009,
+      "Risk": 0.009
+    },
+    {
+      "ID": 350,
+      "Vulnerability": 0.424,
+      "Hazard": 0.9,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 351,
+      "Vulnerability": 0.343,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 352,
+      "Vulnerability": 0.63,
+      "Hazard": 0.38,
+      "Exposure": 0.063,
+      "Risk": 0.041
+    },
+    {
+      "ID": 353,
+      "Vulnerability": 0.653,
+      "Hazard": 0.4,
+      "Exposure": 0.022,
+      "Risk": 0.016
+    },
+    {
+      "ID": 354,
+      "Vulnerability": 0.45,
+      "Hazard": 0.38,
+      "Exposure": 0.008,
+      "Risk": 0.004
+    },
+    {
+      "ID": 355,
+      "Vulnerability": 0.585,
+      "Hazard": 0.36,
+      "Exposure": 0.11,
+      "Risk": 0.063
+    },
+    {
+      "ID": 356,
+      "Vulnerability": 0.459,
+      "Hazard": 0.64,
+      "Exposure": 0.05,
+      "Risk": 0.04
+    },
+    {
+      "ID": 357,
+      "Vulnerability": 0.664,
+      "Hazard": 0.62,
+      "Exposure": 0.014,
+      "Risk": 0.015
+    },
+    {
+      "ID": 358,
+      "Vulnerability": 0.447,
+      "Hazard": 0.72,
+      "Exposure": 0.004,
+      "Risk": 0.004
+    },
+    {
+      "ID": 359,
+      "Vulnerability": 0.55,
+      "Hazard": 1,
+      "Exposure": 0.014,
+      "Risk": 0.021
+    },
+    {
+      "ID": 360,
+      "Vulnerability": 0.509,
+      "Hazard": 0.26,
+      "Exposure": 0.005,
+      "Risk": 0.002
+    },
+    {
+      "ID": 361,
+      "Vulnerability": 0.545,
+      "Hazard": 0.68,
+      "Exposure": 0.023,
+      "Risk": 0.023
+    },
+    {
+      "ID": 362,
+      "Vulnerability": 0.424,
+      "Hazard": 1,
+      "Exposure": 0.134,
+      "Risk": 0.155
+    },
+    {
+      "ID": 363,
+      "Vulnerability": 0.676,
+      "Hazard": 0.62,
+      "Exposure": 0.007,
+      "Risk": 0.008
+    },
+    {
+      "ID": 364,
+      "Vulnerability": 0.427,
+      "Hazard": 0.28,
+      "Exposure": 0.038,
+      "Risk": 0.013
+    },
+    {
+      "ID": 365,
+      "Vulnerability": 0.484,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 366,
+      "Vulnerability": 0.62,
+      "Hazard": 0.12,
+      "Exposure": 0.02,
+      "Risk": 0.004
+    },
+    {
+      "ID": 367,
+      "Vulnerability": 0.476,
+      "Hazard": 0.7,
+      "Exposure": 0.032,
+      "Risk": 0.029
+    },
+    {
+      "ID": 368,
+      "Vulnerability": 0.466,
+      "Hazard": 1,
+      "Exposure": 0.005,
+      "Risk": 0.007
+    },
+    {
+      "ID": 369,
+      "Vulnerability": 0.464,
+      "Hazard": 0.48,
+      "Exposure": 0.043,
+      "Risk": 0.026
+    },
+    {
+      "ID": 370,
+      "Vulnerability": 0.699,
+      "Hazard": 0.58,
+      "Exposure": 0.007,
+      "Risk": 0.007
+    },
+    {
+      "ID": 371,
+      "Vulnerability": 0.301,
+      "Hazard": 1,
+      "Exposure": 0.011,
+      "Risk": 0.009
+    },
+    {
+      "ID": 372,
+      "Vulnerability": 0.459,
+      "Hazard": 0.4,
+      "Exposure": 0.227,
+      "Risk": 0.113
+    },
+    {
+      "ID": 373,
+      "Vulnerability": 0.604,
+      "Hazard": 0.84,
+      "Exposure": 0.018,
+      "Risk": 0.025
+    },
+    {
+      "ID": 374,
+      "Vulnerability": 0.519,
+      "Hazard": 1,
+      "Exposure": 0.025,
+      "Risk": 0.035
+    },
+    {
+      "ID": 375,
+      "Vulnerability": 0.512,
+      "Hazard": 0.34,
+      "Exposure": 0.135,
+      "Risk": 0.064
+    },
+    {
+      "ID": 376,
+      "Vulnerability": 0.535,
+      "Hazard": 0.14,
+      "Exposure": 0.721,
+      "Risk": 0.147
+    },
+    {
+      "ID": 377,
+      "Vulnerability": 0.404,
+      "Hazard": 0.72,
+      "Exposure": 0.053,
+      "Risk": 0.042
+    },
+    {
+      "ID": 378,
+      "Vulnerability": 0.535,
+      "Hazard": 0.12,
+      "Exposure": 0.023,
+      "Risk": 0.004
+    },
+    {
+      "ID": 379,
+      "Vulnerability": 0.604,
+      "Hazard": 0.24,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 380,
+      "Vulnerability": 0.416,
+      "Hazard": 0.02,
+      "Exposure": 0.053,
+      "Risk": 0.001
+    },
+    {
+      "ID": 381,
+      "Vulnerability": 0.619,
+      "Hazard": 0.76,
+      "Exposure": 0.009,
+      "Risk": 0.012
+    },
+    {
+      "ID": 382,
+      "Vulnerability": 0.515,
+      "Hazard": 0.08,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 383,
+      "Vulnerability": 0.437,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 384,
+      "Vulnerability": 0.437,
+      "Hazard": 0.54,
+      "Exposure": 0.033,
+      "Risk": 0.021
+    },
+    {
+      "ID": 385,
+      "Vulnerability": 0.53,
+      "Hazard": 0.56,
+      "Exposure": 0.331,
+      "Risk": 0.267
+    },
+    {
+      "ID": 386,
+      "Vulnerability": 0.397,
+      "Hazard": 0.62,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 387,
+      "Vulnerability": 0.396,
+      "Hazard": 0.28,
+      "Exposure": 0.027,
+      "Risk": 0.008
+    },
+    {
+      "ID": 388,
+      "Vulnerability": 0.4,
+      "Hazard": 0.96,
+      "Exposure": 0.023,
+      "Risk": 0.024
+    },
+    {
+      "ID": 389,
+      "Vulnerability": 0.599,
+      "Hazard": 0.08,
+      "Exposure": 0.028,
+      "Risk": 0.004
+    },
+    {
+      "ID": 390,
+      "Vulnerability": 0.562,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 391,
+      "Vulnerability": 0.62,
+      "Hazard": 0.24,
+      "Exposure": 0.013,
+      "Risk": 0.005
+    },
+    {
+      "ID": 392,
+      "Vulnerability": 0.673,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 393,
+      "Vulnerability": 0.298,
+      "Hazard": 0.24,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 394,
+      "Vulnerability": 0.247,
+      "Hazard": 0.62,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 395,
+      "Vulnerability": 0.494,
+      "Hazard": 0.48,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 396,
+      "Vulnerability": 0.439,
+      "Hazard": 0.38,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 397,
+      "Vulnerability": 0.534,
+      "Hazard": 0.84,
+      "Exposure": 0.023,
+      "Risk": 0.028
+    },
+    {
+      "ID": 398,
+      "Vulnerability": 0.695,
+      "Hazard": 0.04,
+      "Exposure": 0.003,
+      "Risk": 0
+    },
+    {
+      "ID": 399,
+      "Vulnerability": 0.425,
+      "Hazard": 0.28,
+      "Exposure": 0.003,
+      "Risk": 0.001
+    },
+    {
+      "ID": 400,
+      "Vulnerability": 0.318,
+      "Hazard": 0.76,
+      "Exposure": 0.017,
+      "Risk": 0.011
+    },
+    {
+      "ID": 401,
+      "Vulnerability": 0.658,
+      "Hazard": 0.74,
+      "Exposure": 0.038,
+      "Risk": 0.051
+    },
+    {
+      "ID": 402,
+      "Vulnerability": 0.572,
+      "Hazard": 0.98,
+      "Exposure": 0.014,
+      "Risk": 0.021
+    },
+    {
+      "ID": 403,
+      "Vulnerability": 0.675,
+      "Hazard": 0.84,
+      "Exposure": 0.001,
+      "Risk": 0.002
+    },
+    {
+      "ID": 404,
+      "Vulnerability": 0.479,
+      "Hazard": 0.22,
+      "Exposure": 0.936,
+      "Risk": 0.268
+    },
+    {
+      "ID": 405,
+      "Vulnerability": 0.354,
+      "Hazard": 0.78,
+      "Exposure": 0.002,
+      "Risk": 0.002
+    },
+    {
+      "ID": 406,
+      "Vulnerability": 0.594,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 407,
+      "Vulnerability": 0.397,
+      "Hazard": 1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 408,
+      "Vulnerability": 0.446,
+      "Hazard": 1,
+      "Exposure": 0.007,
+      "Risk": 0.009
+    },
+    {
+      "ID": 409,
+      "Vulnerability": 0.404,
+      "Hazard": 0.88,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 410,
+      "Vulnerability": 0.51,
+      "Hazard": 0.92,
+      "Exposure": 0.005,
+      "Risk": 0.006
+    },
+    {
+      "ID": 411,
+      "Vulnerability": 0.476,
+      "Hazard": 0.6,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 412,
+      "Vulnerability": 0.599,
+      "Hazard": 0.6,
+      "Exposure": 0.037,
+      "Risk": 0.036
+    },
+    {
+      "ID": 413,
+      "Vulnerability": 0.701,
+      "Hazard": 0.96,
+      "Exposure": 0.041,
+      "Risk": 0.076
+    },
+    {
+      "ID": 414,
+      "Vulnerability": 0.675,
+      "Hazard": 0.38,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 415,
+      "Vulnerability": 0.521,
+      "Hazard": 0.98,
+      "Exposure": 0.008,
+      "Risk": 0.011
+    },
+    {
+      "ID": 416,
+      "Vulnerability": 0.708,
+      "Hazard": 0.46,
+      "Exposure": 0.018,
+      "Risk": 0.016
+    },
+    {
+      "ID": 417,
+      "Vulnerability": 0.665,
+      "Hazard": 0.96,
+      "Exposure": 0.033,
+      "Risk": 0.057
+    },
+    {
+      "ID": 418,
+      "Vulnerability": 0.634,
+      "Hazard": 0.74,
+      "Exposure": 0.001,
+      "Risk": 0.002
+    },
+    {
+      "ID": 419,
+      "Vulnerability": 0.674,
+      "Hazard": 0.44,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 420,
+      "Vulnerability": 0.617,
+      "Hazard": 0.56,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 421,
+      "Vulnerability": 0.493,
+      "Hazard": 0.64,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 422,
+      "Vulnerability": 0.671,
+      "Hazard": 0.84,
+      "Exposure": 0.042,
+      "Risk": 0.065
+    },
+    {
+      "ID": 423,
+      "Vulnerability": 0.25,
+      "Hazard": 0.6,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 424,
+      "Vulnerability": 0.383,
+      "Hazard": 0.2,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 425,
+      "Vulnerability": 0.348,
+      "Hazard": 0.26,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 426,
+      "Vulnerability": 0.337,
+      "Hazard": 0.34,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 427,
+      "Vulnerability": 0.601,
+      "Hazard": 0.98,
+      "Exposure": 0.004,
+      "Risk": 0.007
+    },
+    {
+      "ID": 428,
+      "Vulnerability": 0.524,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 429,
+      "Vulnerability": 0.532,
+      "Hazard": 0.12,
+      "Exposure": 0.003,
+      "Risk": 0
+    },
+    {
+      "ID": 430,
+      "Vulnerability": 0.664,
+      "Hazard": 0.62,
+      "Exposure": 0.007,
+      "Risk": 0.008
+    },
+    {
+      "ID": 431,
+      "Vulnerability": 0.536,
+      "Hazard": 0.08,
+      "Exposure": 0.013,
+      "Risk": 0.002
+    },
+    {
+      "ID": 432,
+      "Vulnerability": 0.424,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 433,
+      "Vulnerability": 0.632,
+      "Hazard": 0.14,
+      "Exposure": 0.011,
+      "Risk": 0.003
+    },
+    {
+      "ID": 434,
+      "Vulnerability": 0.604,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 435,
+      "Vulnerability": 0.605,
+      "Hazard": 0.04,
+      "Exposure": 0.019,
+      "Risk": 0.001
+    },
+    {
+      "ID": 436,
+      "Vulnerability": 0.62,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 437,
+      "Vulnerability": 0.563,
+      "Hazard": 0.16,
+      "Exposure": 0.082,
+      "Risk": 0.02
+    },
+    {
+      "ID": 438,
+      "Vulnerability": 0.487,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 439,
+      "Vulnerability": 0.45,
+      "Hazard": 0.26,
+      "Exposure": 0.02,
+      "Risk": 0.006
+    },
+    {
+      "ID": 440,
+      "Vulnerability": 0.625,
+      "Hazard": 0.14,
+      "Exposure": 0.018,
+      "Risk": 0.004
+    },
+    {
+      "ID": 441,
+      "Vulnerability": 0.385,
+      "Hazard": 0.4,
+      "Exposure": 0.005,
+      "Risk": 0.002
+    },
+    {
+      "ID": 442,
+      "Vulnerability": 0.56,
+      "Hazard": 0.02,
+      "Exposure": 0.079,
+      "Risk": 0.002
+    },
+    {
+      "ID": 443,
+      "Vulnerability": 0.543,
+      "Hazard": 0.36,
+      "Exposure": 0.025,
+      "Risk": 0.014
+    },
+    {
+      "ID": 444,
+      "Vulnerability": 0.85,
+      "Hazard": 0.98,
+      "Exposure": 0.047,
+      "Risk": 0.107
+    },
+    {
+      "ID": 445,
+      "Vulnerability": 0.408,
+      "Hazard": 0.28,
+      "Exposure": 0.032,
+      "Risk": 0.01
+    },
+    {
+      "ID": 446,
+      "Vulnerability": 0.372,
+      "Hazard": 0.46,
+      "Exposure": 0.05,
+      "Risk": 0.023
+    },
+    {
+      "ID": 447,
+      "Vulnerability": 0.338,
+      "Hazard": 0.38,
+      "Exposure": 0.138,
+      "Risk": 0.048
+    },
+    {
+      "ID": 448,
+      "Vulnerability": 0.388,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 449,
+      "Vulnerability": 0.886,
+      "Hazard": 0.88,
+      "Exposure": 0.125,
+      "Risk": 0.265
+    },
+    {
+      "ID": 450,
+      "Vulnerability": 0.739,
+      "Hazard": 0.46,
+      "Exposure": 0.035,
+      "Risk": 0.032
+    },
+    {
+      "ID": 451,
+      "Vulnerability": 0.679,
+      "Hazard": 0.24,
+      "Exposure": 0.103,
+      "Risk": 0.046
+    },
+    {
+      "ID": 452,
+      "Vulnerability": 0.676,
+      "Hazard": 0.2,
+      "Exposure": 0.038,
+      "Risk": 0.014
+    },
+    {
+      "ID": 453,
+      "Vulnerability": 0.67,
+      "Hazard": 0.66,
+      "Exposure": 0.076,
+      "Risk": 0.092
+    },
+    {
+      "ID": 454,
+      "Vulnerability": 0.659,
+      "Hazard": 0.38,
+      "Exposure": 0.107,
+      "Risk": 0.073
+    },
+    {
+      "ID": 455,
+      "Vulnerability": 0.509,
+      "Hazard": 0.36,
+      "Exposure": 0.237,
+      "Risk": 0.118
+    },
+    {
+      "ID": 456,
+      "Vulnerability": 0.369,
+      "Hazard": 0.06,
+      "Exposure": 0.03,
+      "Risk": 0.002
+    },
+    {
+      "ID": 457,
+      "Vulnerability": 0.403,
+      "Hazard": 0.06,
+      "Exposure": 0.063,
+      "Risk": 0.004
+    },
+    {
+      "ID": 458,
+      "Vulnerability": 0.653,
+      "Hazard": 0.64,
+      "Exposure": 0.848,
+      "Risk": 0.963
+    },
+    {
+      "ID": 459,
+      "Vulnerability": 0.626,
+      "Hazard": 0.22,
+      "Exposure": 0.09,
+      "Risk": 0.034
+    },
+    {
+      "ID": 460,
+      "Vulnerability": 0.638,
+      "Hazard": 0.56,
+      "Exposure": 0.399,
+      "Risk": 0.388
+    },
+    {
+      "ID": 461,
+      "Vulnerability": 0.557,
+      "Hazard": 0.48,
+      "Exposure": 0.034,
+      "Risk": 0.024
+    },
+    {
+      "ID": 462,
+      "Vulnerability": 0.493,
+      "Hazard": 0.02,
+      "Exposure": 0.064,
+      "Risk": 0.002
+    },
+    {
+      "ID": 463,
+      "Vulnerability": 0.668,
+      "Hazard": 0.5,
+      "Exposure": 0.273,
+      "Risk": 0.247
+    },
+    {
+      "ID": 464,
+      "Vulnerability": 0.516,
+      "Hazard": 0.1,
+      "Exposure": 0.027,
+      "Risk": 0.004
+    },
+    {
+      "ID": 465,
+      "Vulnerability": 0.644,
+      "Hazard": 0.46,
+      "Exposure": 0.206,
+      "Risk": 0.166
+    },
+    {
+      "ID": 466,
+      "Vulnerability": 0.755,
+      "Hazard": 0.1,
+      "Exposure": 0.033,
+      "Risk": 0.007
+    },
+    {
+      "ID": 467,
+      "Vulnerability": 0.758,
+      "Hazard": 0.14,
+      "Exposure": 0.158,
+      "Risk": 0.046
+    },
+    {
+      "ID": 468,
+      "Vulnerability": 0.159,
+      "Hazard": 0.02,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 469,
+      "Vulnerability": 0.551,
+      "Hazard": 0.32,
+      "Exposure": 0.067,
+      "Risk": 0.032
+    },
+    {
+      "ID": 470,
+      "Vulnerability": 0.472,
+      "Hazard": 0.66,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 471,
+      "Vulnerability": 0.733,
+      "Hazard": 0.96,
+      "Exposure": 0.122,
+      "Risk": 0.234
+    },
+    {
+      "ID": 472,
+      "Vulnerability": 0.702,
+      "Hazard": 0.56,
+      "Exposure": 0.503,
+      "Risk": 0.537
+    },
+    {
+      "ID": 473,
+      "Vulnerability": 0.641,
+      "Hazard": 0.94,
+      "Exposure": 0.008,
+      "Risk": 0.013
+    },
+    {
+      "ID": 474,
+      "Vulnerability": 0.696,
+      "Hazard": 0.08,
+      "Exposure": 0.027,
+      "Risk": 0.004
+    },
+    {
+      "ID": 475,
+      "Vulnerability": 0.47,
+      "Hazard": 0.14,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 476,
+      "Vulnerability": 0.397,
+      "Hazard": 0.52,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 477,
+      "Vulnerability": 0.455,
+      "Hazard": 0.64,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 478,
+      "Vulnerability": 0.676,
+      "Hazard": 0.52,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 479,
+      "Vulnerability": 0.575,
+      "Hazard": 0.46,
+      "Exposure": 0.092,
+      "Risk": 0.066
+    },
+    {
+      "ID": 480,
+      "Vulnerability": 0.457,
+      "Hazard": 0.32,
+      "Exposure": 0.015,
+      "Risk": 0.006
+    },
+    {
+      "ID": 481,
+      "Vulnerability": 0.249,
+      "Hazard": 0.12,
+      "Exposure": 0.081,
+      "Risk": 0.007
+    },
+    {
+      "ID": 482,
+      "Vulnerability": 0.289,
+      "Hazard": 0.08,
+      "Exposure": 0.036,
+      "Risk": 0.002
+    },
+    {
+      "ID": 483,
+      "Vulnerability": 0.362,
+      "Hazard": 0.5,
+      "Exposure": 0.041,
+      "Risk": 0.02
+    },
+    {
+      "ID": 484,
+      "Vulnerability": 0.339,
+      "Hazard": 0.34,
+      "Exposure": 0.11,
+      "Risk": 0.035
+    },
+    {
+      "ID": 485,
+      "Vulnerability": 0.407,
+      "Hazard": 0.5,
+      "Exposure": 0.035,
+      "Risk": 0.019
+    },
+    {
+      "ID": 486,
+      "Vulnerability": 0.739,
+      "Hazard": 0.5,
+      "Exposure": 0.127,
+      "Risk": 0.128
+    },
+    {
+      "ID": 487,
+      "Vulnerability": 0.614,
+      "Hazard": 0.66,
+      "Exposure": 0.03,
+      "Risk": 0.033
+    },
+    {
+      "ID": 488,
+      "Vulnerability": 0.768,
+      "Hazard": 0.54,
+      "Exposure": 0.207,
+      "Risk": 0.234
+    },
+    {
+      "ID": 489,
+      "Vulnerability": 0.503,
+      "Hazard": 0.2,
+      "Exposure": 0.087,
+      "Risk": 0.024
+    },
+    {
+      "ID": 490,
+      "Vulnerability": 0.357,
+      "Hazard": 0.16,
+      "Exposure": 0.047,
+      "Risk": 0.007
+    },
+    {
+      "ID": 491,
+      "Vulnerability": 0.684,
+      "Hazard": 0.68,
+      "Exposure": 0.753,
+      "Risk": 0.952
+    },
+    {
+      "ID": 492,
+      "Vulnerability": 0.701,
+      "Hazard": 0.34,
+      "Exposure": 0.016,
+      "Risk": 0.01
+    },
+    {
+      "ID": 493,
+      "Vulnerability": 0.305,
+      "Hazard": 0.02,
+      "Exposure": 0.09,
+      "Risk": 0.002
+    },
+    {
+      "ID": 494,
+      "Vulnerability": 0.286,
+      "Hazard": 0.4,
+      "Exposure": 0.038,
+      "Risk": 0.012
+    },
+    {
+      "ID": 495,
+      "Vulnerability": 0.494,
+      "Hazard": 0.46,
+      "Exposure": 0.633,
+      "Risk": 0.391
+    },
+    {
+      "ID": 496,
+      "Vulnerability": 0.39,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 497,
+      "Vulnerability": 0.69,
+      "Hazard": 0.66,
+      "Exposure": 0.069,
+      "Risk": 0.085
+    },
+    {
+      "ID": 498,
+      "Vulnerability": 0.295,
+      "Hazard": 0.22,
+      "Exposure": 0.143,
+      "Risk": 0.025
+    },
+    {
+      "ID": 499,
+      "Vulnerability": 0.496,
+      "Hazard": 0.12,
+      "Exposure": 0.066,
+      "Risk": 0.011
+    },
+    {
+      "ID": 500,
+      "Vulnerability": 0.7,
+      "Hazard": 0.02,
+      "Exposure": 0.02,
+      "Risk": 0.001
+    },
+    {
+      "ID": 501,
+      "Vulnerability": 0.818,
+      "Hazard": 0.9,
+      "Exposure": 0.143,
+      "Risk": 0.285
+    },
+    {
+      "ID": 502,
+      "Vulnerability": 0.864,
+      "Hazard": 0.62,
+      "Exposure": 0.039,
+      "Risk": 0.057
+    },
+    {
+      "ID": 503,
+      "Vulnerability": 0.433,
+      "Hazard": 0.04,
+      "Exposure": 0.112,
+      "Risk": 0.005
+    },
+    {
+      "ID": 504,
+      "Vulnerability": 0.382,
+      "Hazard": 0.02,
+      "Exposure": 0.05,
+      "Risk": 0.001
+    },
+    {
+      "ID": 505,
+      "Vulnerability": 0.41,
+      "Hazard": 0.2,
+      "Exposure": 0.037,
+      "Risk": 0.008
+    },
+    {
+      "ID": 506,
+      "Vulnerability": 0.466,
+      "Hazard": 0.4,
+      "Exposure": 0.081,
+      "Risk": 0.041
+    },
+    {
+      "ID": 507,
+      "Vulnerability": 0.491,
+      "Hazard": 0.3,
+      "Exposure": 0.039,
+      "Risk": 0.016
+    },
+    {
+      "ID": 508,
+      "Vulnerability": 0.405,
+      "Hazard": 0.26,
+      "Exposure": 0.075,
+      "Risk": 0.021
+    },
+    {
+      "ID": 509,
+      "Vulnerability": 0.928,
+      "Hazard": 0.66,
+      "Exposure": 0.434,
+      "Risk": 0.723
+    },
+    {
+      "ID": 510,
+      "Vulnerability": 0.769,
+      "Hazard": 0.46,
+      "Exposure": 0.446,
+      "Risk": 0.429
+    },
+    {
+      "ID": 511,
+      "Vulnerability": 0.413,
+      "Hazard": 0.42,
+      "Exposure": 0.034,
+      "Risk": 0.016
+    },
+    {
+      "ID": 512,
+      "Vulnerability": 0.013,
+      "Hazard": 0.08,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 513,
+      "Vulnerability": 0.674,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 514,
+      "Vulnerability": 0.267,
+      "Hazard": 0.16,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 515,
+      "Vulnerability": 0.877,
+      "Hazard": 0.94,
+      "Exposure": 0.115,
+      "Risk": 0.257
+    },
+    {
+      "ID": 516,
+      "Vulnerability": 0.823,
+      "Hazard": 0.78,
+      "Exposure": 0.165,
+      "Risk": 0.288
+    },
+    {
+      "ID": 517,
+      "Vulnerability": 0.603,
+      "Hazard": 0.5,
+      "Exposure": 0.109,
+      "Risk": 0.09
+    },
+    {
+      "ID": 518,
+      "Vulnerability": 0.522,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 519,
+      "Vulnerability": 0.35,
+      "Hazard": 0.3,
+      "Exposure": 0.051,
+      "Risk": 0.014
+    },
+    {
+      "ID": 520,
+      "Vulnerability": 0.497,
+      "Hazard": 0.48,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 521,
+      "Vulnerability": 0,
+      "Hazard": 0.24,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 522,
+      "Vulnerability": 0.8,
+      "Hazard": 0.66,
+      "Exposure": 0.105,
+      "Risk": 0.151
+    },
+    {
+      "ID": 523,
+      "Vulnerability": 0.496,
+      "Hazard": 0.16,
+      "Exposure": 0.026,
+      "Risk": 0.006
+    },
+    {
+      "ID": 524,
+      "Vulnerability": 0.371,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 525,
+      "Vulnerability": 0.37,
+      "Hazard": 0.72,
+      "Exposure": 0.001,
+      "Risk": 0.001
+    },
+    {
+      "ID": 526,
+      "Vulnerability": 0.281,
+      "Hazard": 0.32,
+      "Exposure": 0.254,
+      "Risk": 0.062
+    },
+    {
+      "ID": 527,
+      "Vulnerability": 0.82,
+      "Hazard": 0.26,
+      "Exposure": 0.221,
+      "Risk": 0.128
+    },
+    {
+      "ID": 528,
+      "Vulnerability": 0.768,
+      "Hazard": 0.66,
+      "Exposure": 0.236,
+      "Risk": 0.325
+    },
+    {
+      "ID": 529,
+      "Vulnerability": 0.678,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 530,
+      "Vulnerability": 0.684,
+      "Hazard": 0.74,
+      "Exposure": 0.087,
+      "Risk": 0.119
+    },
+    {
+      "ID": 531,
+      "Vulnerability": 0.459,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 532,
+      "Vulnerability": 0.68,
+      "Hazard": 0.54,
+      "Exposure": 0.691,
+      "Risk": 0.689
+    },
+    {
+      "ID": 533,
+      "Vulnerability": 0.422,
+      "Hazard": 0.06,
+      "Exposure": 0.049,
+      "Risk": 0.003
+    },
+    {
+      "ID": 534,
+      "Vulnerability": 0.642,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 535,
+      "Vulnerability": 0.754,
+      "Hazard": 0.02,
+      "Exposure": 0.079,
+      "Risk": 0.003
+    },
+    {
+      "ID": 536,
+      "Vulnerability": 0.441,
+      "Hazard": 0.08,
+      "Exposure": 0.052,
+      "Risk": 0.005
+    },
+    {
+      "ID": 537,
+      "Vulnerability": 0.402,
+      "Hazard": 0.98,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 538,
+      "Vulnerability": 0.439,
+      "Hazard": 0.22,
+      "Exposure": 0.02,
+      "Risk": 0.005
+    },
+    {
+      "ID": 539,
+      "Vulnerability": 0.349,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 540,
+      "Vulnerability": 0.694,
+      "Hazard": 0.72,
+      "Exposure": 0.152,
+      "Risk": 0.207
+    },
+    {
+      "ID": 541,
+      "Vulnerability": 0.455,
+      "Hazard": 0.58,
+      "Exposure": 0.875,
+      "Risk": 0.628
+    },
+    {
+      "ID": 542,
+      "Vulnerability": 0.73,
+      "Hazard": 0.3,
+      "Exposure": 0.616,
+      "Risk": 0.366
+    },
+    {
+      "ID": 543,
+      "Vulnerability": 0.556,
+      "Hazard": 0.3,
+      "Exposure": 0.838,
+      "Risk": 0.38
+    },
+    {
+      "ID": 544,
+      "Vulnerability": 0.381,
+      "Hazard": 0.4,
+      "Exposure": 0.078,
+      "Risk": 0.032
+    },
+    {
+      "ID": 545,
+      "Vulnerability": 0.675,
+      "Hazard": 0.76,
+      "Exposure": 0.255,
+      "Risk": 0.355
+    },
+    {
+      "ID": 546,
+      "Vulnerability": 0.538,
+      "Hazard": 0.3,
+      "Exposure": 0.018,
+      "Risk": 0.008
+    },
+    {
+      "ID": 547,
+      "Vulnerability": 0.584,
+      "Hazard": 0.18,
+      "Exposure": 0.07,
+      "Risk": 0.02
+    },
+    {
+      "ID": 548,
+      "Vulnerability": 0.754,
+      "Hazard": 0.2,
+      "Exposure": 0.043,
+      "Risk": 0.018
+    },
+    {
+      "ID": 549,
+      "Vulnerability": 0.567,
+      "Hazard": 0.14,
+      "Exposure": 0.077,
+      "Risk": 0.017
+    },
+    {
+      "ID": 550,
+      "Vulnerability": 0.72,
+      "Hazard": 0.34,
+      "Exposure": 0.062,
+      "Risk": 0.042
+    },
+    {
+      "ID": 551,
+      "Vulnerability": 0.347,
+      "Hazard": 1,
+      "Exposure": 0.025,
+      "Risk": 0.024
+    },
+    {
+      "ID": 552,
+      "Vulnerability": 0.407,
+      "Hazard": 0.38,
+      "Exposure": 0.031,
+      "Risk": 0.013
+    },
+    {
+      "ID": 553,
+      "Vulnerability": 0.459,
+      "Hazard": 0.64,
+      "Exposure": 1,
+      "Risk": 0.797
+    },
+    {
+      "ID": 554,
+      "Vulnerability": 0.473,
+      "Hazard": 0.18,
+      "Exposure": 0.012,
+      "Risk": 0.003
+    },
+    {
+      "ID": 555,
+      "Vulnerability": 0.556,
+      "Hazard": 1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 556,
+      "Vulnerability": 0.448,
+      "Hazard": 0.1,
+      "Exposure": 0.052,
+      "Risk": 0.006
+    },
+    {
+      "ID": 557,
+      "Vulnerability": 0.411,
+      "Hazard": 0.48,
+      "Exposure": 0.003,
+      "Risk": 0.001
+    },
+    {
+      "ID": 558,
+      "Vulnerability": 0.364,
+      "Hazard": 0.08,
+      "Exposure": 0.023,
+      "Risk": 0.002
+    },
+    {
+      "ID": 559,
+      "Vulnerability": 0.234,
+      "Hazard": 0.96,
+      "Exposure": 0.002,
+      "Risk": 0.001
+    },
+    {
+      "ID": 560,
+      "Vulnerability": 0.561,
+      "Hazard": 0.24,
+      "Exposure": 0.032,
+      "Risk": 0.012
+    },
+    {
+      "ID": 561,
+      "Vulnerability": 0.705,
+      "Hazard": 0.5,
+      "Exposure": 0.377,
+      "Risk": 0.361
+    },
+    {
+      "ID": 562,
+      "Vulnerability": 0.752,
+      "Hazard": 0.46,
+      "Exposure": 0.316,
+      "Risk": 0.297
+    },
+    {
+      "ID": 563,
+      "Vulnerability": 0.429,
+      "Hazard": 0.62,
+      "Exposure": 0.016,
+      "Risk": 0.012
+    },
+    {
+      "ID": 564,
+      "Vulnerability": 0.338,
+      "Hazard": 0.06,
+      "Exposure": 0.086,
+      "Risk": 0.005
+    },
+    {
+      "ID": 565,
+      "Vulnerability": 0.647,
+      "Hazard": 0.64,
+      "Exposure": 0.889,
+      "Risk": 1
+    },
+    {
+      "ID": 566,
+      "Vulnerability": 0.375,
+      "Hazard": 0.22,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 567,
+      "Vulnerability": 0.477,
+      "Hazard": 0.08,
+      "Exposure": 0.19,
+      "Risk": 0.02
+    },
+    {
+      "ID": 568,
+      "Vulnerability": 0.803,
+      "Hazard": 0.56,
+      "Exposure": 0.503,
+      "Risk": 0.615
+    },
+    {
+      "ID": 569,
+      "Vulnerability": 0.871,
+      "Hazard": 0.88,
+      "Exposure": 0.247,
+      "Risk": 0.514
+    },
+    {
+      "ID": 570,
+      "Vulnerability": 0.806,
+      "Hazard": 0.82,
+      "Exposure": 0.027,
+      "Risk": 0.048
+    },
+    {
+      "ID": 571,
+      "Vulnerability": 0.566,
+      "Hazard": 1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 572,
+      "Vulnerability": 0.673,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 573,
+      "Vulnerability": 0.459,
+      "Hazard": 1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 574,
+      "Vulnerability": 0.359,
+      "Hazard": 0.04,
+      "Exposure": 0.037,
+      "Risk": 0.001
+    },
+    {
+      "ID": 575,
+      "Vulnerability": 0.425,
+      "Hazard": 0.04,
+      "Exposure": 0.082,
+      "Risk": 0.004
+    },
+    {
+      "ID": 576,
+      "Vulnerability": 0.589,
+      "Hazard": 0.3,
+      "Exposure": 0.11,
+      "Risk": 0.053
+    },
+    {
+      "ID": 577,
+      "Vulnerability": 0.349,
+      "Hazard": 1,
+      "Exposure": 0.049,
+      "Risk": 0.047
+    },
+    {
+      "ID": 578,
+      "Vulnerability": 0.667,
+      "Hazard": 0.48,
+      "Exposure": 0.29,
+      "Risk": 0.252
+    },
+    {
+      "ID": 579,
+      "Vulnerability": 0.68,
+      "Hazard": 0.68,
+      "Exposure": 0.575,
+      "Risk": 0.722
+    },
+    {
+      "ID": 580,
+      "Vulnerability": 0.437,
+      "Hazard": 0.12,
+      "Exposure": 0.069,
+      "Risk": 0.01
+    },
+    {
+      "ID": 581,
+      "Vulnerability": 0.409,
+      "Hazard": 0.06,
+      "Exposure": 0.086,
+      "Risk": 0.006
+    },
+    {
+      "ID": 582,
+      "Vulnerability": 0.643,
+      "Hazard": 0.46,
+      "Exposure": 0.992,
+      "Risk": 0.797
+    },
+    {
+      "ID": 583,
+      "Vulnerability": 0.287,
+      "Hazard": 0.38,
+      "Exposure": 0.023,
+      "Risk": 0.007
+    },
+    {
+      "ID": 584,
+      "Vulnerability": 0.65,
+      "Hazard": 0.34,
+      "Exposure": 0.039,
+      "Risk": 0.023
+    },
+    {
+      "ID": 585,
+      "Vulnerability": 0.571,
+      "Hazard": 0.26,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 586,
+      "Vulnerability": 0.679,
+      "Hazard": 0.58,
+      "Exposure": 0.049,
+      "Risk": 0.053
+    },
+    {
+      "ID": 587,
+      "Vulnerability": 0.85,
+      "Hazard": 0.34,
+      "Exposure": 0.054,
+      "Risk": 0.042
+    },
+    {
+      "ID": 588,
+      "Vulnerability": 0.496,
+      "Hazard": 1,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 589,
+      "Vulnerability": 0.319,
+      "Hazard": 0.1,
+      "Exposure": 0.084,
+      "Risk": 0.007
+    },
+    {
+      "ID": 590,
+      "Vulnerability": 0.794,
+      "Hazard": 0.7,
+      "Exposure": 0.236,
+      "Risk": 0.356
+    },
+    {
+      "ID": 591,
+      "Vulnerability": 0.791,
+      "Hazard": 0.68,
+      "Exposure": 0.192,
+      "Risk": 0.281
+    },
+    {
+      "ID": 592,
+      "Vulnerability": 0.399,
+      "Hazard": 0.02,
+      "Exposure": 0.114,
+      "Risk": 0.002
+    },
+    {
+      "ID": 593,
+      "Vulnerability": 0.375,
+      "Hazard": 0.06,
+      "Exposure": 0.127,
+      "Risk": 0.008
+    },
+    {
+      "ID": 594,
+      "Vulnerability": 0.604,
+      "Hazard": 0.84,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 595,
+      "Vulnerability": 0.388,
+      "Hazard": 0.92,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 596,
+      "Vulnerability": 0.763,
+      "Hazard": 0.48,
+      "Exposure": 0.122,
+      "Risk": 0.121
+    },
+    {
+      "ID": 597,
+      "Vulnerability": 0.555,
+      "Hazard": 0.34,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 598,
+      "Vulnerability": 0.442,
+      "Hazard": 0.34,
+      "Exposure": 0.103,
+      "Risk": 0.042
+    },
+    {
+      "ID": 599,
+      "Vulnerability": 0.551,
+      "Hazard": 0.26,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 600,
+      "Vulnerability": 0.581,
+      "Hazard": 1,
+      "Exposure": 0.199,
+      "Risk": 0.313
+    },
+    {
+      "ID": 601,
+      "Vulnerability": 0.579,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 602,
+      "Vulnerability": 0.556,
+      "Hazard": 0.98,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 603,
+      "Vulnerability": 0.674,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 604,
+      "Vulnerability": 0.338,
+      "Hazard": 0.18,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 605,
+      "Vulnerability": 0.474,
+      "Hazard": 0.44,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 606,
+      "Vulnerability": 0.584,
+      "Hazard": 0.98,
+      "Exposure": 0.196,
+      "Risk": 0.306
+    },
+    {
+      "ID": 607,
+      "Vulnerability": 0.355,
+      "Hazard": 0.04,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 608,
+      "Vulnerability": 0.757,
+      "Hazard": 0.4,
+      "Exposure": 0.525,
+      "Risk": 0.432
+    },
+    {
+      "ID": 609,
+      "Vulnerability": 0.499,
+      "Hazard": 0.5,
+      "Exposure": 0.01,
+      "Risk": 0.007
+    },
+    {
+      "ID": 610,
+      "Vulnerability": 0.519,
+      "Hazard": 0.24,
+      "Exposure": 0.028,
+      "Risk": 0.009
+    },
+    {
+      "ID": 611,
+      "Vulnerability": 0.731,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 612,
+      "Vulnerability": 0.442,
+      "Hazard": 0.58,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 613,
+      "Vulnerability": 0.289,
+      "Hazard": 0.92,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 614,
+      "Vulnerability": 0.395,
+      "Hazard": 0.7,
+      "Exposure": 0.026,
+      "Risk": 0.02
+    },
+    {
+      "ID": 615,
+      "Vulnerability": 0.64,
+      "Hazard": 0.28,
+      "Exposure": 0.048,
+      "Risk": 0.024
+    },
+    {
+      "ID": 616,
+      "Vulnerability": 0.184,
+      "Hazard": 0.64,
+      "Exposure": 0.012,
+      "Risk": 0.004
+    },
+    {
+      "ID": 617,
+      "Vulnerability": 0.359,
+      "Hazard": 0.32,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 618,
+      "Vulnerability": 0.423,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 619,
+      "Vulnerability": 0.294,
+      "Hazard": 0.42,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 620,
+      "Vulnerability": 0.189,
+      "Hazard": 0.92,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 621,
+      "Vulnerability": 0.61,
+      "Hazard": 0.72,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 622,
+      "Vulnerability": 0.434,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 623,
+      "Vulnerability": 0.613,
+      "Hazard": 0.88,
+      "Exposure": 0.046,
+      "Risk": 0.068
+    },
+    {
+      "ID": 624,
+      "Vulnerability": 0.341,
+      "Hazard": 0.24,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 625,
+      "Vulnerability": 0.549,
+      "Hazard": 0.94,
+      "Exposure": 0,
+      "Risk": 0.001
+    },
+    {
+      "ID": 626,
+      "Vulnerability": 0.555,
+      "Hazard": 0.28,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 627,
+      "Vulnerability": 0.541,
+      "Hazard": 0.58,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 628,
+      "Vulnerability": 0.587,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 629,
+      "Vulnerability": 0.571,
+      "Hazard": 0.16,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 630,
+      "Vulnerability": 0.583,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 631,
+      "Vulnerability": 0.494,
+      "Hazard": 0.06,
+      "Exposure": 0.038,
+      "Risk": 0.003
+    },
+    {
+      "ID": 632,
+      "Vulnerability": 0.751,
+      "Hazard": 0.5,
+      "Exposure": 0.031,
+      "Risk": 0.032
+    },
+    {
+      "ID": 633,
+      "Vulnerability": 0.512,
+      "Hazard": 0.38,
+      "Exposure": 0.058,
+      "Risk": 0.03
+    },
+    {
+      "ID": 634,
+      "Vulnerability": 0.641,
+      "Hazard": 0.82,
+      "Exposure": 0,
+      "Risk": 0.001
+    },
+    {
+      "ID": 635,
+      "Vulnerability": 0.678,
+      "Hazard": 0.08,
+      "Exposure": 0.011,
+      "Risk": 0.002
+    },
+    {
+      "ID": 636,
+      "Vulnerability": 0.285,
+      "Hazard": 0.18,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 637,
+      "Vulnerability": 0.282,
+      "Hazard": 0.24,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 638,
+      "Vulnerability": 0.283,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 639,
+      "Vulnerability": 0.282,
+      "Hazard": 0.6,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 640,
+      "Vulnerability": 0.48,
+      "Hazard": 0.8,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 641,
+      "Vulnerability": 0.466,
+      "Hazard": 0.52,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 642,
+      "Vulnerability": 0.378,
+      "Hazard": 0.44,
+      "Exposure": 0.007,
+      "Risk": 0.003
+    },
+    {
+      "ID": 643,
+      "Vulnerability": 0.349,
+      "Hazard": 0.96,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 644,
+      "Vulnerability": 0.384,
+      "Hazard": 0.42,
+      "Exposure": 0.01,
+      "Risk": 0.004
+    },
+    {
+      "ID": 645,
+      "Vulnerability": 0.385,
+      "Hazard": 0.24,
+      "Exposure": 0.013,
+      "Risk": 0.003
+    },
+    {
+      "ID": 646,
+      "Vulnerability": 0.383,
+      "Hazard": 0.42,
+      "Exposure": 0.015,
+      "Risk": 0.007
+    },
+    {
+      "ID": 647,
+      "Vulnerability": 0.659,
+      "Hazard": 0.26,
+      "Exposure": 0.017,
+      "Risk": 0.008
+    },
+    {
+      "ID": 648,
+      "Vulnerability": 0.707,
+      "Hazard": 0.22,
+      "Exposure": 0.029,
+      "Risk": 0.012
+    },
+    {
+      "ID": 649,
+      "Vulnerability": 0.677,
+      "Hazard": 0.3,
+      "Exposure": 0.005,
+      "Risk": 0.003
+    },
+    {
+      "ID": 650,
+      "Vulnerability": 0.678,
+      "Hazard": 0.02,
+      "Exposure": 0.014,
+      "Risk": 0.001
+    },
+    {
+      "ID": 651,
+      "Vulnerability": 0.678,
+      "Hazard": 0.12,
+      "Exposure": 0.003,
+      "Risk": 0.001
+    },
+    {
+      "ID": 652,
+      "Vulnerability": 0.677,
+      "Hazard": 0.22,
+      "Exposure": 0.012,
+      "Risk": 0.005
+    },
+    {
+      "ID": 653,
+      "Vulnerability": 0.554,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 654,
+      "Vulnerability": 0.538,
+      "Hazard": 0.26,
+      "Exposure": 0.007,
+      "Risk": 0.003
+    },
+    {
+      "ID": 655,
+      "Vulnerability": 0.536,
+      "Hazard": 0.36,
+      "Exposure": 0.007,
+      "Risk": 0.003
+    },
+    {
+      "ID": 656,
+      "Vulnerability": 0.416,
+      "Hazard": 0.44,
+      "Exposure": 0.024,
+      "Risk": 0.012
+    },
+    {
+      "ID": 657,
+      "Vulnerability": 0.52,
+      "Hazard": 0.54,
+      "Exposure": 0.009,
+      "Risk": 0.007
+    },
+    {
+      "ID": 658,
+      "Vulnerability": 0.537,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 659,
+      "Vulnerability": 0.518,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 660,
+      "Vulnerability": 0.537,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 661,
+      "Vulnerability": 0.509,
+      "Hazard": 0.32,
+      "Exposure": 0.011,
+      "Risk": 0.005
+    },
+    {
+      "ID": 662,
+      "Vulnerability": 0.491,
+      "Hazard": 0.36,
+      "Exposure": 0.012,
+      "Risk": 0.006
+    },
+    {
+      "ID": 663,
+      "Vulnerability": 0.488,
+      "Hazard": 0.38,
+      "Exposure": 0.011,
+      "Risk": 0.006
+    },
+    {
+      "ID": 664,
+      "Vulnerability": 0.491,
+      "Hazard": 0.18,
+      "Exposure": 0.008,
+      "Risk": 0.002
+    },
+    {
+      "ID": 665,
+      "Vulnerability": 0.707,
+      "Hazard": 0.16,
+      "Exposure": 0.012,
+      "Risk": 0.004
+    },
+    {
+      "ID": 666,
+      "Vulnerability": 0.285,
+      "Hazard": 0.16,
+      "Exposure": 0.003,
+      "Risk": 0
+    },
+    {
+      "ID": 667,
+      "Vulnerability": 0.584,
+      "Hazard": 0.32,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 668,
+      "Vulnerability": 0.823,
+      "Hazard": 0.52,
+      "Exposure": 0.019,
+      "Risk": 0.022
+    },
+    {
+      "ID": 669,
+      "Vulnerability": 0.457,
+      "Hazard": 0.36,
+      "Exposure": 0.048,
+      "Risk": 0.021
+    },
+    {
+      "ID": 670,
+      "Vulnerability": 0.441,
+      "Hazard": 0.38,
+      "Exposure": 0.227,
+      "Risk": 0.104
+    },
+    {
+      "ID": 671,
+      "Vulnerability": 0.306,
+      "Hazard": 0.5,
+      "Exposure": 0.032,
+      "Risk": 0.013
+    },
+    {
+      "ID": 672,
+      "Vulnerability": 0.588,
+      "Hazard": 0.32,
+      "Exposure": 0.148,
+      "Risk": 0.076
+    },
+    {
+      "ID": 673,
+      "Vulnerability": 0.505,
+      "Hazard": 0.42,
+      "Exposure": 0.01,
+      "Risk": 0.006
+    },
+    {
+      "ID": 674,
+      "Vulnerability": 0.402,
+      "Hazard": 0.3,
+      "Exposure": 0.016,
+      "Risk": 0.005
+    },
+    {
+      "ID": 675,
+      "Vulnerability": 0.182,
+      "Hazard": 0.46,
+      "Exposure": 0.038,
+      "Risk": 0.009
+    },
+    {
+      "ID": 676,
+      "Vulnerability": 0.458,
+      "Hazard": 0.32,
+      "Exposure": 0.039,
+      "Risk": 0.016
+    },
+    {
+      "ID": 677,
+      "Vulnerability": 0.675,
+      "Hazard": 0.22,
+      "Exposure": 0.024,
+      "Risk": 0.01
+    },
+    {
+      "ID": 678,
+      "Vulnerability": 0.263,
+      "Hazard": 0.5,
+      "Exposure": 0.006,
+      "Risk": 0.002
+    },
+    {
+      "ID": 679,
+      "Vulnerability": 0.434,
+      "Hazard": 0.34,
+      "Exposure": 0.05,
+      "Risk": 0.02
+    },
+    {
+      "ID": 680,
+      "Vulnerability": 0.583,
+      "Hazard": 0.72,
+      "Exposure": 0.029,
+      "Risk": 0.033
+    },
+    {
+      "ID": 681,
+      "Vulnerability": 0.388,
+      "Hazard": 0.18,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 682,
+      "Vulnerability": 0.463,
+      "Hazard": 0.84,
+      "Exposure": 0.086,
+      "Risk": 0.091
+    },
+    {
+      "ID": 683,
+      "Vulnerability": 0.445,
+      "Hazard": 0.34,
+      "Exposure": 0.013,
+      "Risk": 0.005
+    },
+    {
+      "ID": 684,
+      "Vulnerability": 0.82,
+      "Hazard": 0.3,
+      "Exposure": 0.013,
+      "Risk": 0.009
+    },
+    {
+      "ID": 685,
+      "Vulnerability": 0.543,
+      "Hazard": 0.54,
+      "Exposure": 0.036,
+      "Risk": 0.029
+    },
+    {
+      "ID": 686,
+      "Vulnerability": 0.768,
+      "Hazard": 0.6,
+      "Exposure": 0.036,
+      "Risk": 0.045
+    },
+    {
+      "ID": 687,
+      "Vulnerability": 0.449,
+      "Hazard": 0.22,
+      "Exposure": 0.027,
+      "Risk": 0.007
+    },
+    {
+      "ID": 688,
+      "Vulnerability": 0.485,
+      "Hazard": 0.54,
+      "Exposure": 0.058,
+      "Risk": 0.041
+    },
+    {
+      "ID": 689,
+      "Vulnerability": 0.551,
+      "Hazard": 0.54,
+      "Exposure": 0.026,
+      "Risk": 0.021
+    },
+    {
+      "ID": 690,
+      "Vulnerability": 0.433,
+      "Hazard": 0.8,
+      "Exposure": 0.012,
+      "Risk": 0.011
+    },
+    {
+      "ID": 691,
+      "Vulnerability": 0.356,
+      "Hazard": 0.62,
+      "Exposure": 0.013,
+      "Risk": 0.008
+    },
+    {
+      "ID": 692,
+      "Vulnerability": 0.364,
+      "Hazard": 0.58,
+      "Exposure": 0.097,
+      "Risk": 0.056
+    },
+    {
+      "ID": 693,
+      "Vulnerability": 0.306,
+      "Hazard": 0.8,
+      "Exposure": 0.094,
+      "Risk": 0.063
+    },
+    {
+      "ID": 694,
+      "Vulnerability": 0.433,
+      "Hazard": 0.36,
+      "Exposure": 0.09,
+      "Risk": 0.038
+    },
+    {
+      "ID": 695,
+      "Vulnerability": 0.349,
+      "Hazard": 0.48,
+      "Exposure": 0.022,
+      "Risk": 0.01
+    },
+    {
+      "ID": 696,
+      "Vulnerability": 0.367,
+      "Hazard": 0.36,
+      "Exposure": 0.03,
+      "Risk": 0.011
+    },
+    {
+      "ID": 697,
+      "Vulnerability": 0.447,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 698,
+      "Vulnerability": 0.506,
+      "Hazard": 0.34,
+      "Exposure": 0.047,
+      "Risk": 0.022
+    },
+    {
+      "ID": 699,
+      "Vulnerability": 0.541,
+      "Hazard": 0.22,
+      "Exposure": 0.046,
+      "Risk": 0.015
+    },
+    {
+      "ID": 700,
+      "Vulnerability": 0.48,
+      "Hazard": 0.66,
+      "Exposure": 0.025,
+      "Risk": 0.022
+    },
+    {
+      "ID": 701,
+      "Vulnerability": 0.448,
+      "Hazard": 0.16,
+      "Exposure": 0.023,
+      "Risk": 0.005
+    },
+    {
+      "ID": 702,
+      "Vulnerability": 0.672,
+      "Hazard": 0.24,
+      "Exposure": 0.072,
+      "Risk": 0.031
+    },
+    {
+      "ID": 703,
+      "Vulnerability": 0.661,
+      "Hazard": 0.68,
+      "Exposure": 0.032,
+      "Risk": 0.039
+    },
+    {
+      "ID": 704,
+      "Vulnerability": 0.539,
+      "Hazard": 0.08,
+      "Exposure": 0.013,
+      "Risk": 0.001
+    },
+    {
+      "ID": 705,
+      "Vulnerability": 0.486,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 706,
+      "Vulnerability": 0.322,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 707,
+      "Vulnerability": 0.51,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 708,
+      "Vulnerability": 0.466,
+      "Hazard": 0,
+      "Exposure": 0,
+      "Risk": 0
+    },
+    {
+      "ID": 709,
+      "Vulnerability": 0.535,
+      "Hazard": 1,
+      "Exposure": 0.008,
+      "Risk": 0.012
+    },
+    {
+      "ID": 710,
+      "Vulnerability": 0.839,
+      "Hazard": 0.9,
+      "Exposure": 0.03,
+      "Risk": 0.062
+    },
+    {
+      "ID": 711,
+      "Vulnerability": 0.875,
+      "Hazard": 0.66,
+      "Exposure": 0.258,
+      "Risk": 0.405
+    },
+    {
+      "ID": 712,
+      "Vulnerability": 0.918,
+      "Hazard": 0.16,
+      "Exposure": 0.071,
+      "Risk": 0.029
+    },
+    {
+      "ID": 713,
+      "Vulnerability": 0.711,
+      "Hazard": 0.6,
+      "Exposure": 0.034,
+      "Risk": 0.04
+    },
+    {
+      "ID": 714,
+      "Vulnerability": 0.874,
+      "Hazard": 0.56,
+      "Exposure": 0.306,
+      "Risk": 0.407
+    },
+    {
+      "ID": 715,
+      "Vulnerability": 0.831,
+      "Hazard": 0.98,
+      "Exposure": 0.042,
+      "Risk": 0.093
+    },
+    {
+      "ID": 716,
+      "Vulnerability": 0.81,
+      "Hazard": 0.92,
+      "Exposure": 0.022,
+      "Risk": 0.045
+    },
+    {
+      "ID": 717,
+      "Vulnerability": 0.938,
+      "Hazard": 0.2,
+      "Exposure": 0.054,
+      "Risk": 0.028
+    },
+    {
+      "ID": 718,
+      "Vulnerability": 0.75,
+      "Hazard": 0.1,
+      "Exposure": 0.054,
+      "Risk": 0.011
+    },
+    {
+      "ID": 719,
+      "Vulnerability": 0.949,
+      "Hazard": 0.38,
+      "Exposure": 0.126,
+      "Risk": 0.124
+    },
+    {
+      "ID": 720,
+      "Vulnerability": 0.831,
+      "Hazard": 0.46,
+      "Exposure": 0.1,
+      "Risk": 0.104
+    },
+    {
+      "ID": 721,
+      "Vulnerability": 0.51,
+      "Hazard": 0.28,
+      "Exposure": 0.001,
+      "Risk": 0
+    },
+    {
+      "ID": 722,
+      "Vulnerability": 0.984,
+      "Hazard": 0.6,
+      "Exposure": 0.071,
+      "Risk": 0.113
+    },
+    {
+      "ID": 723,
+      "Vulnerability": 0.879,
+      "Hazard": 0.22,
+      "Exposure": 0.063,
+      "Risk": 0.033
+    },
+    {
+      "ID": 724,
+      "Vulnerability": 0.832,
+      "Hazard": 0.5,
+      "Exposure": 0.041,
+      "Risk": 0.046
+    },
+    {
+      "ID": 725,
+      "Vulnerability": 0.826,
+      "Hazard": 0.26,
+      "Exposure": 0.047,
+      "Risk": 0.028
+    },
+    {
+      "ID": 726,
+      "Vulnerability": 0.777,
+      "Hazard": 0.6,
+      "Exposure": 0.036,
+      "Risk": 0.046
+    },
+    {
+      "ID": 727,
+      "Vulnerability": 0.693,
+      "Hazard": 0.38,
+      "Exposure": 0.093,
+      "Risk": 0.066
+    },
+    {
+      "ID": 728,
+      "Vulnerability": 0.411,
+      "Hazard": 0.62,
+      "Exposure": 0.13,
+      "Risk": 0.09
+    },
+    {
+      "ID": 729,
+      "Vulnerability": 0.688,
+      "Hazard": 0.78,
+      "Exposure": 0.027,
+      "Risk": 0.039
+    },
+    {
+      "ID": 730,
+      "Vulnerability": 1,
+      "Hazard": 0.98,
+      "Exposure": 0.141,
+      "Risk": 0.374
+    },
+    {
+      "ID": 731,
+      "Vulnerability": 0.884,
+      "Hazard": 0.98,
+      "Exposure": 0.041,
+      "Risk": 0.096
+    },
+    {
+      "ID": 732,
+      "Vulnerability": 0.801,
+      "Hazard": 0.62,
+      "Exposure": 0.102,
+      "Risk": 0.138
+    },
+    {
+      "ID": 733,
+      "Vulnerability": 0.804,
+      "Hazard": 0.38,
+      "Exposure": 0.048,
+      "Risk": 0.04
+    },
+    {
+      "ID": 734,
+      "Vulnerability": 0.836,
+      "Hazard": 0.48,
+      "Exposure": 0.13,
+      "Risk": 0.141
+    },
+    {
+      "ID": 735,
+      "Vulnerability": 0.826,
+      "Hazard": 0.86,
+      "Exposure": 0.115,
+      "Risk": 0.222
+    },
+    {
+      "ID": 736,
+      "Vulnerability": 0.754,
+      "Hazard": 0.88,
+      "Exposure": 0.063,
+      "Risk": 0.114
+    },
+    {
+      "ID": 737,
+      "Vulnerability": 0.828,
+      "Hazard": 0.3,
+      "Exposure": 0.054,
+      "Risk": 0.036
+    },
+    {
+      "ID": 738,
+      "Vulnerability": 0.918,
+      "Hazard": 0.5,
+      "Exposure": 0.074,
+      "Risk": 0.093
+    },
+    {
+      "ID": 739,
+      "Vulnerability": 0.945,
+      "Hazard": 0.72,
+      "Exposure": 0.028,
+      "Risk": 0.053
+    },
+    {
+      "ID": 740,
+      "Vulnerability": 0.848,
+      "Hazard": 0.3,
+      "Exposure": 0.086,
+      "Risk": 0.06
+    },
+    {
+      "ID": 741,
+      "Vulnerability": 0.782,
+      "Hazard": 1,
+      "Exposure": 0.019,
+      "Risk": 0.04
+    },
+    {
+      "ID": 742,
+      "Vulnerability": 0.683,
+      "Hazard": 0.36,
+      "Exposure": 0.027,
+      "Risk": 0.018
+    }
+   ]

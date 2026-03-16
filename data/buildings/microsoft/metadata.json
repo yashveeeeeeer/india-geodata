@@ -1,0 +1,13 @@
+{
+  "name": "Microsoft Buildings India",
+  "version": "1.0",
+  "description": "Building footprint polygons for India from Microsoft GlobalMLBuildingFootprints. 11 assets, ~12 GB total. ML-detected footprints from satellite imagery.",
+  "source": {
+    "name": "ramSeraph/indian_buildings (MSBI release)",
+    "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/MSBI",
+    "authority": "ramSeraph; upstream: Microsoft GlobalMLBuildingFootprints"
+  },
+  "license": "ODbL",
+  "formats": ["geojsonl.7z", "parquet", "pmtiles"],
+  "spatial_coverage": "India (national)"
+}

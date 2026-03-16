@@ -1,0 +1,172 @@
+[
+  {
+    "ID": 2,
+    "MaxArea": 6791.05,
+    "MaxFraction": 3.99
+  },
+  {
+    "ID": 3,
+    "MaxArea": 910.73,
+    "MaxFraction": 0.99
+  },
+  {
+    "ID": 4,
+    "MaxArea": 14687.11,
+    "MaxFraction": 16.51
+  },
+  {
+    "ID": 5,
+    "MaxArea": 25938.87,
+    "MaxFraction": 24.71
+  },
+  {
+    "ID": 6,
+    "MaxArea": 1.52,
+    "MaxFraction": 1.23
+  },
+  {
+    "ID": 7,
+    "MaxArea": 4644.77,
+    "MaxFraction": 3.18
+  },
+  {
+    "ID": 8,
+    "MaxArea": 49.95,
+    "MaxFraction": 8.06
+  },
+  {
+    "ID": 9,
+    "MaxArea": 634.05,
+    "MaxFraction": 36.55
+  },
+  {
+    "ID": 14,
+    "MaxArea": 258.15,
+    "MaxFraction": 6.31
+  },
+  {
+    "ID": 15,
+    "MaxArea": 16169.51,
+    "MaxFraction": 8.08
+  },
+  {
+    "ID": 16,
+    "MaxArea": 7674.69,
+    "MaxFraction": 15
+  },
+  {
+    "ID": 17,
+    "MaxArea": 577.73,
+    "MaxFraction": 0.88
+  },
+  {
+    "ID": 18,
+    "MaxArea": 1589,
+    "MaxFraction": 2.41
+  },
+  {
+    "ID": 19,
+    "MaxArea": 2717.6,
+    "MaxFraction": 3.11
+  },
+  {
+    "ID": 20,
+    "MaxArea": 4156.06,
+    "MaxFraction": 2.09
+  },
+  {
+    "ID": 21,
+    "MaxArea": 2464.14,
+    "MaxFraction": 6.19
+  },
+  {
+    "ID": 22,
+    "MaxArea": 1207.25,
+    "MaxFraction": 0.59
+  },
+  {
+    "ID": 24,
+    "MaxArea": 8760.24,
+    "MaxFraction": 2.59
+  },
+  {
+    "ID": 25,
+    "MaxArea": 8070.04,
+    "MaxFraction": 2.45
+  },
+  {
+    "ID": 26,
+    "MaxArea": 139.72,
+    "MaxFraction": 0.56
+  },
+  {
+    "ID": 27,
+    "MaxArea": 468.2,
+    "MaxFraction": 1.88
+  },
+  {
+    "ID": 28,
+    "MaxArea": 144.27,
+    "MaxFraction": 0.63
+  },
+  {
+    "ID": 29,
+    "MaxArea": 119.87,
+    "MaxFraction": 0.67
+  },
+  {
+    "ID": 30,
+    "MaxArea": 10108.73,
+    "MaxFraction": 6.08
+  },
+  {
+    "ID": 31,
+    "MaxArea": 96.27,
+    "MaxFraction": 15.54
+  },
+  {
+    "ID": 32,
+    "MaxArea": 9782.01,
+    "MaxFraction": 16.72
+  },
+  {
+    "ID": 33,
+    "MaxArea": 7616.06,
+    "MaxFraction": 1.99
+  },
+  {
+    "ID": 34,
+    "MaxArea": 9.98,
+    "MaxFraction": 0.12
+  },
+  {
+    "ID": 35,
+    "MaxArea": 6141.6,
+    "MaxFraction": 4.62
+  },
+  {
+    "ID": 36,
+    "MaxArea": 3990.99,
+    "MaxFraction": 3.37
+  },
+  {
+    "ID": 37,
+    "MaxArea": 496.97,
+    "MaxFraction": 4.27
+  },
+  {
+    "ID": 38,
+    "MaxArea": 886.77,
+    "MaxFraction": 1.43
+  },
+  {
+    "ID": 39,
+    "MaxArea": 34570.25,
+    "MaxFraction": 12.69
+  },
+  {
+    "ID": 40,
+    "MaxArea": 18018.98,
+    "MaxFraction": 18.93
+  }
+ ]

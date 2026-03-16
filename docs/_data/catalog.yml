@@ -2284,6 +2284,85 @@
     size: 662 B
     storage: repo
     download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/landuse/hyderabad/Readme.md
+- name: env-flood-inventory
+  title: India Flood Inventory
+  description: Multi-source geospatial inventory of 1,006 flood events across India
+    (1960s–2020) with flood extent polygons, dates, affected states and districts,
+    and causal factors. From HydroSense Lab, IIT Delhi.
+  category: environment
+  level: flood-inventory
+  formats:
+  - geojson
+  license_id: CC-BY-4.0
+  storage: release
+  release_tag: environment/flood-inventory
+  url: data/environment/flood-inventory
+  files:
+  - name: INDIA_FLOOD_INVENTORY_V3.geojson
+    format: geojson
+    size: 28.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/environment/flood-inventory/INDIA_FLOOD_INVENTORY_V3.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/environment/flood-inventory
+- name: env-flood-atlas
+  title: India Flood Atlas
+  description: District-wise, state-wise, and sub-basin-wise annual flood area,
+    flood fraction, and flood risk data (1901–2020) from H08-CaMa-Flood modeling
+    at 10 km resolution. From Water and Climate Lab, IIT Gandhinagar.
+  category: environment
+  level: flood-atlas
+  formats:
+  - json
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/environment/flood-atlas
+  files:
+  - name: District_Wise_annual_flood_area.json
+    format: json
+    size: 1.6 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_annual_flood_area.json
+  - name: District_Wise_annual_flood_frac.json
+    format: json
+    size: 1.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_annual_flood_frac.json
+  - name: District_Wise_flood_risk_data.json
+    format: json
+    size: 90 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_flood_risk_data.json
+  - name: District_Wise_max_flood_area_frac.json
+    format: json
+    size: 49 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_max_flood_area_frac.json
+  - name: State_Wise_annual_flood_area.json
+    format: json
+    size: 81 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_annual_flood_area.json
+  - name: State_Wise_annual_flood_frac.json
+    format: json
+    size: 72 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_annual_flood_frac.json
+  - name: State_Wise_flood_risk_data.json
+    format: json
+    size: 5 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_flood_risk_data.json
+  - name: State_Wise_max_flood_area_frac.json
+    format: json
+    size: 2 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_max_flood_area_frac.json
+  - name: Subbasin_Wise_flood_risk_data.json
+    format: json
+    size: 9 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/flood-atlas/Subbasin_Wise_flood_risk_data.json
 - name: env-soil
   title: "Soil Map of India (FAO DSMW)"
   description: Polygon-based soil classification map of India from the FAO-UNESCO Digital
@@ -6566,6 +6645,193 @@
     size: 5 MB
     storage: repo
     download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/transport/airports/INDIA_AIRPORTS_POLYGONS.geojson
+
+- name: buildings-urban
+  title: Urban Buildings India
+  description: State-wise urban building footprint polygons from AMRUT/Bhuvan, GSDL Delhi,
+    VEDAS, NESDR, and other government sources. Parquet, GeoJSONL.7z, and PMTiles formats.
+  category: infrastructure
+  level: buildings-urban
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: buildings/urban
+  url: data/buildings/urban
+  files:
+  - name: AN_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 3.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AN_AMRUT_Buildings.geojsonl.7z
+  - name: AN_AMRUT_Buildings.parquet
+    format: parquet
+    size: 8.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AN_AMRUT_Buildings.parquet
+  - name: AN_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 6.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AN_AMRUT_Buildings.pmtiles
+  - name: AR_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 2.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AR_AMRUT_Buildings.geojsonl.7z
+  - name: AR_AMRUT_Buildings.parquet
+    format: parquet
+    size: 6.0 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AR_AMRUT_Buildings.parquet
+  - name: AR_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 4.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AR_AMRUT_Buildings.pmtiles
+  - name: AS_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 32.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AS_AMRUT_Buildings.geojsonl.7z
+  - name: AS_AMRUT_Buildings.parquet
+    format: parquet
+    size: 66.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AS_AMRUT_Buildings.parquet
+  - name: AS_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 66.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/AS_AMRUT_Buildings.pmtiles
+  - name: CG_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 75.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/CG_AMRUT_Buildings.geojsonl.7z
+  - name: CG_AMRUT_Buildings.parquet
+    format: parquet
+    size: 123.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/CG_AMRUT_Buildings.parquet
+  - name: CG_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 105.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/CG_AMRUT_Buildings.pmtiles
+  - name: GA_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/GA_AMRUT_Buildings.geojsonl.7z
+  - name: GA_AMRUT_Buildings.parquet
+    format: parquet
+    size: 4.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/GA_AMRUT_Buildings.parquet
+  - name: GA_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 4.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/GA_AMRUT_Buildings.pmtiles
+  - name: GSDL_buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 231.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/GSDL_buildings.geojsonl.7z
+  - name: GSDL_buildings.parquet
+    format: parquet
+    size: 341.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/GSDL_buildings.parquet
+  - name: GSDL_buildings.pmtiles
+    format: pmtiles
+    size: 716.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/GSDL_buildings.pmtiles
+  - name: HP_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 4.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/HP_AMRUT_Buildings.geojsonl.7z
+  - name: Hp_AMRUT_Buildings.parquet
+    format: parquet
+    size: 10.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Hp_AMRUT_Buildings.parquet
+  - name: HP_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 12.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/HP_AMRUT_Buildings.pmtiles
+  - name: JK_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 20.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/JK_AMRUT_Buildings.geojsonl.7z
+  - name: JK_AMRUT_Buildings.parquet
+    format: parquet
+    size: 43.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/JK_AMRUT_Buildings.parquet
+  - name: JK_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 43.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/JK_AMRUT_Buildings.pmtiles
+  - name: KL_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 52.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/KL_AMRUT_Buildings.geojsonl.7z
+  - name: KL_AMRUT_Buildings.parquet
+    format: parquet
+    size: 121.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/KL_AMRUT_Buildings.parquet
+  - name: KL_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 95.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/KL_AMRUT_Buildings.pmtiles
+  - name: LD_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 2.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/LD_AMRUT_Buildings.geojsonl.7z
+  - name: LD_AMRUT_Buildings.parquet
+    format: parquet
+    size: 5.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/LD_AMRUT_Buildings.parquet
+  - name: LD_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 7.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/LD_AMRUT_Buildings.pmtiles
+  - name: MN_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 9.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MN_AMRUT_Buildings.geojsonl.7z
+  - name: MN_AMRUT_Buildings.parquet
+    format: parquet
+    size: 22.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MN_AMRUT_Buildings.parquet
+  - name: MN_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 18.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MN_AMRUT_Buildings.pmtiles
+  - name: MP_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 122.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MP_AMRUT_Buildings.geojsonl.7z
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/buildings/urban
 
 - name: healthcare-facilities
   title: Healthcare Facilities

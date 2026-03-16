@@ -1,0 +1,3557 @@
+[
+  {
+    "ID": 1,
+    "MaxArea": 271.25,
+    "MaxFraction": 5.34
+  },
+  {
+    "ID": 2,
+    "MaxArea": 1647.35,
+    "MaxFraction": 20.77
+  },
+  {
+    "ID": 3,
+    "MaxArea": 407.15,
+    "MaxFraction": 13.14
+  },
+  {
+    "ID": 4,
+    "MaxArea": 223.41,
+    "MaxFraction": 4.51
+  },
+  {
+    "ID": 5,
+    "MaxArea": 217.82,
+    "MaxFraction": 3.52
+  },
+  {
+    "ID": 6,
+    "MaxArea": 10039.41,
+    "MaxFraction": 22.01
+  },
+  {
+    "ID": 7,
+    "MaxArea": 313.04,
+    "MaxFraction": 4.28
+  },
+  {
+    "ID": 8,
+    "MaxArea": 630.01,
+    "MaxFraction": 11.82
+  },
+  {
+    "ID": 9,
+    "MaxArea": 431.31,
+    "MaxFraction": 8.92
+  },
+  {
+    "ID": 10,
+    "MaxArea": 164.15,
+    "MaxFraction": 6.97
+  },
+  {
+    "ID": 11,
+    "MaxArea": 133.67,
+    "MaxFraction": 3.99
+  },
+  {
+    "ID": 12,
+    "MaxArea": 108.25,
+    "MaxFraction": 3.49
+  },
+  {
+    "ID": 14,
+    "MaxArea": 763.81,
+    "MaxFraction": 16.22
+  },
+  {
+    "ID": 15,
+    "MaxArea": 377.57,
+    "MaxFraction": 3.91
+  },
+  {
+    "ID": 16,
+    "MaxArea": 561.95,
+    "MaxFraction": 32.39
+  },
+  {
+    "ID": 17,
+    "MaxArea": 953.6,
+    "MaxFraction": 21.99
+  },
+  {
+    "ID": 18,
+    "MaxArea": 42.48,
+    "MaxFraction": 1.32
+  },
+  {
+    "ID": 20,
+    "MaxArea": 23.6,
+    "MaxFraction": 0.61
+  },
+  {
+    "ID": 21,
+    "MaxArea": 546.06,
+    "MaxFraction": 5.8
+  },
+  {
+    "ID": 22,
+    "MaxArea": 790.5,
+    "MaxFraction": 29
+  },
+  {
+    "ID": 23,
+    "MaxArea": 534.89,
+    "MaxFraction": 19.62
+  },
+  {
+    "ID": 24,
+    "MaxArea": 720.9,
+    "MaxFraction": 26.44
+  },
+  {
+    "ID": 25,
+    "MaxArea": 513.89,
+    "MaxFraction": 2.59
+  },
+  {
+    "ID": 26,
+    "MaxArea": 479.82,
+    "MaxFraction": 6.79
+  },
+  {
+    "ID": 27,
+    "MaxArea": 105.15,
+    "MaxFraction": 2.5
+  },
+  {
+    "ID": 28,
+    "MaxArea": 80.84,
+    "MaxFraction": 2.42
+  },
+  {
+    "ID": 29,
+    "MaxArea": 262.29,
+    "MaxFraction": 4.81
+  },
+  {
+    "ID": 30,
+    "MaxArea": 495.46,
+    "MaxFraction": 19.99
+  },
+  {
+    "ID": 31,
+    "MaxArea": 1275.05,
+    "MaxFraction": 27.81
+  },
+  {
+    "ID": 32,
+    "MaxArea": 1422.8,
+    "MaxFraction": 27.34
+  },
+  {
+    "ID": 33,
+    "MaxArea": 542.37,
+    "MaxFraction": 7.68
+  },
+  {
+    "ID": 34,
+    "MaxArea": 5.99,
+    "MaxFraction": 0.24
+  },
+  {
+    "ID": 35,
+    "MaxArea": 395.69,
+    "MaxFraction": 22.81
+  },
+  {
+    "ID": 36,
+    "MaxArea": 1724.84,
+    "MaxFraction": 30.26
+  },
+  {
+    "ID": 37,
+    "MaxArea": 409.81,
+    "MaxFraction": 4.19
+  },
+  {
+    "ID": 38,
+    "MaxArea": 431.49,
+    "MaxFraction": 6
+  },
+  {
+    "ID": 39,
+    "MaxArea": 576.21,
+    "MaxFraction": 14.53
+  },
+  {
+    "ID": 40,
+    "MaxArea": 424.57,
+    "MaxFraction": 5.04
+  },
+  {
+    "ID": 41,
+    "MaxArea": 1587.2,
+    "MaxFraction": 47.44
+  },
+  {
+    "ID": 42,
+    "MaxArea": 327.39,
+    "MaxFraction": 9.44
+  },
+  {
+    "ID": 43,
+    "MaxArea": 304.18,
+    "MaxFraction": 5.99
+  },
+  {
+    "ID": 44,
+    "MaxArea": 157.34,
+    "MaxFraction": 2.35
+  },
+  {
+    "ID": 45,
+    "MaxArea": 729.22,
+    "MaxFraction": 20.29
+  },
+  {
+    "ID": 46,
+    "MaxArea": 650.23,
+    "MaxFraction": 5.47
+  },
+  {
+    "ID": 47,
+    "MaxArea": 608.34,
+    "MaxFraction": 12.59
+  },
+  {
+    "ID": 48,
+    "MaxArea": 181.3,
+    "MaxFraction": 3.66
+  },
+  {
+    "ID": 49,
+    "MaxArea": 1119.3,
+    "MaxFraction": 25.81
+  },
+  {
+    "ID": 50,
+    "MaxArea": 404.54,
+    "MaxFraction": 6.53
+  },
+  {
+    "ID": 51,
+    "MaxArea": 521.63,
+    "MaxFraction": 6.38
+  },
+  {
+    "ID": 52,
+    "MaxArea": 1260.79,
+    "MaxFraction": 27.5
+  },
+  {
+    "ID": 53,
+    "MaxArea": 1382.98,
+    "MaxFraction": 4.43
+  },
+  {
+    "ID": 54,
+    "MaxArea": 127.33,
+    "MaxFraction": 2.19
+  },
+  {
+    "ID": 55,
+    "MaxArea": 383.97,
+    "MaxFraction": 6.74
+  },
+  {
+    "ID": 56,
+    "MaxArea": 1158.87,
+    "MaxFraction": 40.66
+  },
+  {
+    "ID": 57,
+    "MaxArea": 633,
+    "MaxFraction": 4.6
+  },
+  {
+    "ID": 58,
+    "MaxArea": 318.57,
+    "MaxFraction": 14.28
+  },
+  {
+    "ID": 59,
+    "MaxArea": 39.67,
+    "MaxFraction": 1.6
+  },
+  {
+    "ID": 60,
+    "MaxArea": 49.8,
+    "MaxFraction": 2.23
+  },
+  {
+    "ID": 61,
+    "MaxArea": 190.73,
+    "MaxFraction": 1.77
+  },
+  {
+    "ID": 62,
+    "MaxArea": 320.48,
+    "MaxFraction": 25.86
+  },
+  {
+    "ID": 63,
+    "MaxArea": 1131.25,
+    "MaxFraction": 43.47
+  },
+  {
+    "ID": 64,
+    "MaxArea": 918.89,
+    "MaxFraction": 16.85
+  },
+  {
+    "ID": 65,
+    "MaxArea": 637.37,
+    "MaxFraction": 5.41
+  },
+  {
+    "ID": 66,
+    "MaxArea": 506.01,
+    "MaxFraction": 9.96
+  },
+  {
+    "ID": 67,
+    "MaxArea": 136.2,
+    "MaxFraction": 4.23
+  },
+  {
+    "ID": 68,
+    "MaxArea": 400.31,
+    "MaxFraction": 6.46
+  },
+  {
+    "ID": 69,
+    "MaxArea": 460.77,
+    "MaxFraction": 4.53
+  },
+  {
+    "ID": 70,
+    "MaxArea": 932.19,
+    "MaxFraction": 17.91
+  },
+  {
+    "ID": 71,
+    "MaxArea": 287.09,
+    "MaxFraction": 0.83
+  },
+  {
+    "ID": 72,
+    "MaxArea": 236.79,
+    "MaxFraction": 6.16
+  },
+  {
+    "ID": 73,
+    "MaxArea": 27.44,
+    "MaxFraction": 1.3
+  },
+  {
+    "ID": 74,
+    "MaxArea": 68.4,
+    "MaxFraction": 5.02
+  },
+  {
+    "ID": 76,
+    "MaxArea": 124.61,
+    "MaxFraction": 4.19
+  },
+  {
+    "ID": 77,
+    "MaxArea": 899.48,
+    "MaxFraction": 21.35
+  },
+  {
+    "ID": 78,
+    "MaxArea": 424.32,
+    "MaxFraction": 6.23
+  },
+  {
+    "ID": 79,
+    "MaxArea": 107.78,
+    "MaxFraction": 2.9
+  },
+  {
+    "ID": 80,
+    "MaxArea": 45.13,
+    "MaxFraction": 36.42
+  },
+  {
+    "ID": 81,
+    "MaxArea": 124.39,
+    "MaxFraction": 2.18
+  },
+  {
+    "ID": 82,
+    "MaxArea": 9.72,
+    "MaxFraction": 0.12
+  },
+  {
+    "ID": 83,
+    "MaxArea": 21.97,
+    "MaxFraction": 1.04
+  },
+  {
+    "ID": 84,
+    "MaxArea": 4.05,
+    "MaxFraction": 0.11
+  },
+  {
+    "ID": 85,
+    "MaxArea": 540.14,
+    "MaxFraction": 20.76
+  },
+  {
+    "ID": 87,
+    "MaxArea": 1.52,
+    "MaxFraction": 1.23
+  },
+  {
+    "ID": 88,
+    "MaxArea": 115.5,
+    "MaxFraction": 2.74
+  },
+  {
+    "ID": 89,
+    "MaxArea": 416.52,
+    "MaxFraction": 4.05
+  },
+  {
+    "ID": 90,
+    "MaxArea": 303.86,
+    "MaxFraction": 2.45
+  },
+  {
+    "ID": 91,
+    "MaxArea": 130.87,
+    "MaxFraction": 3.64
+  },
+  {
+    "ID": 92,
+    "MaxArea": 63.38,
+    "MaxFraction": 1.46
+  },
+  {
+    "ID": 93,
+    "MaxArea": 147.35,
+    "MaxFraction": 2.09
+  },
+  {
+    "ID": 94,
+    "MaxArea": 236.85,
+    "MaxFraction": 2.77
+  },
+  {
+    "ID": 95,
+    "MaxArea": 464.04,
+    "MaxFraction": 12.91
+  },
+  {
+    "ID": 96,
+    "MaxArea": 608.91,
+    "MaxFraction": 7.12
+  },
+  {
+    "ID": 97,
+    "MaxArea": 270.75,
+    "MaxFraction": 1.71
+  },
+  {
+    "ID": 98,
+    "MaxArea": 5.84,
+    "MaxFraction": 0.22
+  },
+  {
+    "ID": 99,
+    "MaxArea": 324,
+    "MaxFraction": 2.09
+  },
+  {
+    "ID": 100,
+    "MaxArea": 961.33,
+    "MaxFraction": 6.16
+  },
+  {
+    "ID": 101,
+    "MaxArea": 783.16,
+    "MaxFraction": 20.39
+  },
+  {
+    "ID": 102,
+    "MaxArea": 54.42,
+    "MaxFraction": 1.37
+  },
+  {
+    "ID": 103,
+    "MaxArea": 130.85,
+    "MaxFraction": 2.78
+  },
+  {
+    "ID": 104,
+    "MaxArea": 4.61,
+    "MaxFraction": 3.72
+  },
+  {
+    "ID": 105,
+    "MaxArea": 523.16,
+    "MaxFraction": 6.49
+  },
+  {
+    "ID": 106,
+    "MaxArea": 21.54,
+    "MaxFraction": 1.16
+  },
+  {
+    "ID": 107,
+    "MaxArea": 79.82,
+    "MaxFraction": 2.68
+  },
+  {
+    "ID": 108,
+    "MaxArea": 152.41,
+    "MaxFraction": 5.59
+  },
+  {
+    "ID": 109,
+    "MaxArea": 282.29,
+    "MaxFraction": 7.35
+  },
+  {
+    "ID": 110,
+    "MaxArea": 141.86,
+    "MaxFraction": 2.12
+  },
+  {
+    "ID": 111,
+    "MaxArea": 68.71,
+    "MaxFraction": 1.73
+  },
+  {
+    "ID": 112,
+    "MaxArea": 281.02,
+    "MaxFraction": 8.72
+  },
+  {
+    "ID": 113,
+    "MaxArea": 901.09,
+    "MaxFraction": 30.3
+  },
+  {
+    "ID": 114,
+    "MaxArea": 260.05,
+    "MaxFraction": 3.44
+  },
+  {
+    "ID": 115,
+    "MaxArea": 64.24,
+    "MaxFraction": 2.59
+  },
+  {
+    "ID": 116,
+    "MaxArea": 319.99,
+    "MaxFraction": 7.38
+  },
+  {
+    "ID": 117,
+    "MaxArea": 125.52,
+    "MaxFraction": 5.33
+  },
+  {
+    "ID": 118,
+    "MaxArea": 193.08,
+    "MaxFraction": 2.26
+  },
+  {
+    "ID": 119,
+    "MaxArea": 831.55,
+    "MaxFraction": 26.84
+  },
+  {
+    "ID": 120,
+    "MaxArea": 163.84,
+    "MaxFraction": 6.01
+  },
+  {
+    "ID": 121,
+    "MaxArea": 251.92,
+    "MaxFraction": 5.65
+  },
+  {
+    "ID": 122,
+    "MaxArea": 418.22,
+    "MaxFraction": 8.44
+  },
+  {
+    "ID": 123,
+    "MaxArea": 223.2,
+    "MaxFraction": 7.2
+  },
+  {
+    "ID": 124,
+    "MaxArea": 156.25,
+    "MaxFraction": 2.52
+  },
+  {
+    "ID": 125,
+    "MaxArea": 195.74,
+    "MaxFraction": 4.79
+  },
+  {
+    "ID": 126,
+    "MaxArea": 84.81,
+    "MaxFraction": 2.14
+  },
+  {
+    "ID": 127,
+    "MaxArea": 294.88,
+    "MaxFraction": 11.9
+  },
+  {
+    "ID": 129,
+    "MaxArea": 0.99,
+    "MaxFraction": 0.1
+  },
+  {
+    "ID": 130,
+    "MaxArea": 23.4,
+    "MaxFraction": 1.18
+  },
+  {
+    "ID": 131,
+    "MaxArea": 1279.65,
+    "MaxFraction": 9.56
+  },
+  {
+    "ID": 132,
+    "MaxArea": 57.35,
+    "MaxFraction": 1.65
+  },
+  {
+    "ID": 133,
+    "MaxArea": 319.48,
+    "MaxFraction": 4.03
+  },
+  {
+    "ID": 134,
+    "MaxArea": 303.4,
+    "MaxFraction": 9.42
+  },
+  {
+    "ID": 135,
+    "MaxArea": 420.49,
+    "MaxFraction": 14.14
+  },
+  {
+    "ID": 136,
+    "MaxArea": 434.88,
+    "MaxFraction": 16.71
+  },
+  {
+    "ID": 137,
+    "MaxArea": 749.71,
+    "MaxFraction": 31.84
+  },
+  {
+    "ID": 138,
+    "MaxArea": 865.65,
+    "MaxFraction": 18.38
+  },
+  {
+    "ID": 139,
+    "MaxArea": 514.04,
+    "MaxFraction": 18.85
+  },
+  {
+    "ID": 140,
+    "MaxArea": 169.78,
+    "MaxFraction": 3.61
+  },
+  {
+    "ID": 141,
+    "MaxArea": 103.47,
+    "MaxFraction": 2.39
+  },
+  {
+    "ID": 142,
+    "MaxArea": 670.9,
+    "MaxFraction": 7.96
+  },
+  {
+    "ID": 143,
+    "MaxArea": 165.72,
+    "MaxFraction": 3.52
+  },
+  {
+    "ID": 144,
+    "MaxArea": 218.83,
+    "MaxFraction": 4.41
+  },
+  {
+    "ID": 145,
+    "MaxArea": 532.72,
+    "MaxFraction": 33.07
+  },
+  {
+    "ID": 146,
+    "MaxArea": 1598.98,
+    "MaxFraction": 41.62
+  },
+  {
+    "ID": 147,
+    "MaxArea": 154.18,
+    "MaxFraction": 13.82
+  },
+  {
+    "ID": 148,
+    "MaxArea": 73.56,
+    "MaxFraction": 2.47
+  },
+  {
+    "ID": 149,
+    "MaxArea": 164.19,
+    "MaxFraction": 3.01
+  },
+  {
+    "ID": 150,
+    "MaxArea": 173.27,
+    "MaxFraction": 6.66
+  },
+  {
+    "ID": 151,
+    "MaxArea": 40.42,
+    "MaxFraction": 2.17
+  },
+  {
+    "ID": 152,
+    "MaxArea": 1251.25,
+    "MaxFraction": 28.05
+  },
+  {
+    "ID": 153,
+    "MaxArea": 1291.85,
+    "MaxFraction": 33.63
+  },
+  {
+    "ID": 154,
+    "MaxArea": 153.37,
+    "MaxFraction": 2.63
+  },
+  {
+    "ID": 155,
+    "MaxArea": 241.27,
+    "MaxFraction": 3.48
+  },
+  {
+    "ID": 156,
+    "MaxArea": 1002.42,
+    "MaxFraction": 8.61
+  },
+  {
+    "ID": 157,
+    "MaxArea": 193.08,
+    "MaxFraction": 4
+  },
+  {
+    "ID": 158,
+    "MaxArea": 14.24,
+    "MaxFraction": 1.15
+  },
+  {
+    "ID": 159,
+    "MaxArea": 541.36,
+    "MaxFraction": 12.13
+  },
+  {
+    "ID": 160,
+    "MaxArea": 1018.96,
+    "MaxFraction": 9.24
+  },
+  {
+    "ID": 161,
+    "MaxArea": 339.86,
+    "MaxFraction": 30.47
+  },
+  {
+    "ID": 162,
+    "MaxArea": 177.59,
+    "MaxFraction": 4.34
+  },
+  {
+    "ID": 163,
+    "MaxArea": 1600.61,
+    "MaxFraction": 23.92
+  },
+  {
+    "ID": 164,
+    "MaxArea": 316.76,
+    "MaxFraction": 12.17
+  },
+  {
+    "ID": 165,
+    "MaxArea": 161.12,
+    "MaxFraction": 2.17
+  },
+  {
+    "ID": 166,
+    "MaxArea": 358.82,
+    "MaxFraction": 17.03
+  },
+  {
+    "ID": 167,
+    "MaxArea": 289.58,
+    "MaxFraction": 5.84
+  },
+  {
+    "ID": 168,
+    "MaxArea": 116.85,
+    "MaxFraction": 2.42
+  },
+  {
+    "ID": 169,
+    "MaxArea": 623.32,
+    "MaxFraction": 8.53
+  },
+  {
+    "ID": 170,
+    "MaxArea": 76.57,
+    "MaxFraction": 1.67
+  },
+  {
+    "ID": 172,
+    "MaxArea": 155.88,
+    "MaxFraction": 3.59
+  },
+  {
+    "ID": 173,
+    "MaxArea": 459.12,
+    "MaxFraction": 8.05
+  },
+  {
+    "ID": 174,
+    "MaxArea": 236.13,
+    "MaxFraction": 12.7
+  },
+  {
+    "ID": 175,
+    "MaxArea": 589.81,
+    "MaxFraction": 4.86
+  },
+  {
+    "ID": 176,
+    "MaxArea": 903.56,
+    "MaxFraction": 2.11
+  },
+  {
+    "ID": 177,
+    "MaxArea": 948.38,
+    "MaxFraction": 29.43
+  },
+  {
+    "ID": 178,
+    "MaxArea": 593.89,
+    "MaxFraction": 11.98
+  },
+  {
+    "ID": 179,
+    "MaxArea": 991.55,
+    "MaxFraction": 8.08
+  },
+  {
+    "ID": 180,
+    "MaxArea": 159.26,
+    "MaxFraction": 8.03
+  },
+  {
+    "ID": 181,
+    "MaxArea": 413.55,
+    "MaxFraction": 8.14
+  },
+  {
+    "ID": 182,
+    "MaxArea": 122.45,
+    "MaxFraction": 2.02
+  },
+  {
+    "ID": 183,
+    "MaxArea": 1068.94,
+    "MaxFraction": 23.31
+  },
+  {
+    "ID": 184,
+    "MaxArea": 47.72,
+    "MaxFraction": 1.17
+  },
+  {
+    "ID": 186,
+    "MaxArea": 364.04,
+    "MaxFraction": 5.76
+  },
+  {
+    "ID": 187,
+    "MaxArea": 355.71,
+    "MaxFraction": 5.63
+  },
+  {
+    "ID": 188,
+    "MaxArea": 390.51,
+    "MaxFraction": 19.7
+  },
+  {
+    "ID": 189,
+    "MaxArea": 207.14,
+    "MaxFraction": 2.98
+  },
+  {
+    "ID": 190,
+    "MaxArea": 549.23,
+    "MaxFraction": 2.17
+  },
+  {
+    "ID": 191,
+    "MaxArea": 188.65,
+    "MaxFraction": 2.87
+  },
+  {
+    "ID": 192,
+    "MaxArea": 170.29,
+    "MaxFraction": 3.44
+  },
+  {
+    "ID": 193,
+    "MaxArea": 689.1,
+    "MaxFraction": 5.85
+  },
+  {
+    "ID": 194,
+    "MaxArea": 512.04,
+    "MaxFraction": 5.9
+  },
+  {
+    "ID": 195,
+    "MaxArea": 123.13,
+    "MaxFraction": 1.36
+  },
+  {
+    "ID": 196,
+    "MaxArea": 304.86,
+    "MaxFraction": 4.56
+  },
+  {
+    "ID": 197,
+    "MaxArea": 354.05,
+    "MaxFraction": 4.61
+  },
+  {
+    "ID": 198,
+    "MaxArea": 423.13,
+    "MaxFraction": 17.07
+  },
+  {
+    "ID": 199,
+    "MaxArea": 117.73,
+    "MaxFraction": 3.96
+  },
+  {
+    "ID": 200,
+    "MaxArea": 870.17,
+    "MaxFraction": 26.01
+  },
+  {
+    "ID": 201,
+    "MaxArea": 531.84,
+    "MaxFraction": 15.89
+  },
+  {
+    "ID": 202,
+    "MaxArea": 62.84,
+    "MaxFraction": 16.9
+  },
+  {
+    "ID": 203,
+    "MaxArea": 223.69,
+    "MaxFraction": 4.2
+  },
+  {
+    "ID": 204,
+    "MaxArea": 61.33,
+    "MaxFraction": 2.91
+  },
+  {
+    "ID": 205,
+    "MaxArea": 709.77,
+    "MaxFraction": 33.69
+  },
+  {
+    "ID": 206,
+    "MaxArea": 230.81,
+    "MaxFraction": 4.23
+  },
+  {
+    "ID": 207,
+    "MaxArea": 484.4,
+    "MaxFraction": 24.43
+  },
+  {
+    "ID": 208,
+    "MaxArea": 1693.69,
+    "MaxFraction": 59.42
+  },
+  {
+    "ID": 209,
+    "MaxArea": 474.44,
+    "MaxFraction": 5.47
+  },
+  {
+    "ID": 210,
+    "MaxArea": 1778.37,
+    "MaxFraction": 19.66
+  },
+  {
+    "ID": 211,
+    "MaxArea": 329,
+    "MaxFraction": 11.06
+  },
+  {
+    "ID": 212,
+    "MaxArea": 72.63,
+    "MaxFraction": 5.86
+  },
+  {
+    "ID": 213,
+    "MaxArea": 40.54,
+    "MaxFraction": 1.56
+  },
+  {
+    "ID": 214,
+    "MaxArea": 755.21,
+    "MaxFraction": 5.97
+  },
+  {
+    "ID": 215,
+    "MaxArea": 14.63,
+    "MaxFraction": 0.66
+  },
+  {
+    "ID": 216,
+    "MaxArea": 89.29,
+    "MaxFraction": 2.18
+  },
+  {
+    "ID": 217,
+    "MaxArea": 84.87,
+    "MaxFraction": 4.89
+  },
+  {
+    "ID": 218,
+    "MaxArea": 74.66,
+    "MaxFraction": 1.83
+  },
+  {
+    "ID": 219,
+    "MaxArea": 161.01,
+    "MaxFraction": 5.91
+  },
+  {
+    "ID": 220,
+    "MaxArea": 214.26,
+    "MaxFraction": 3.76
+  },
+  {
+    "ID": 221,
+    "MaxArea": 212.34,
+    "MaxFraction": 3.57
+  },
+  {
+    "ID": 222,
+    "MaxArea": 505.43,
+    "MaxFraction": 5.59
+  },
+  {
+    "ID": 223,
+    "MaxArea": 329.88,
+    "MaxFraction": 4.44
+  },
+  {
+    "ID": 224,
+    "MaxArea": 106.02,
+    "MaxFraction": 1.5
+  },
+  {
+    "ID": 225,
+    "MaxArea": 439.6,
+    "MaxFraction": 8.06
+  },
+  {
+    "ID": 226,
+    "MaxArea": 208.54,
+    "MaxFraction": 10.52
+  },
+  {
+    "ID": 227,
+    "MaxArea": 96.16,
+    "MaxFraction": 3.88
+  },
+  {
+    "ID": 228,
+    "MaxArea": 1478.03,
+    "MaxFraction": 16.12
+  },
+  {
+    "ID": 229,
+    "MaxArea": 8.5,
+    "MaxFraction": 0.13
+  },
+  {
+    "ID": 230,
+    "MaxArea": 1046.21,
+    "MaxFraction": 5.55
+  },
+  {
+    "ID": 231,
+    "MaxArea": 651.77,
+    "MaxFraction": 19.48
+  },
+  {
+    "ID": 233,
+    "MaxArea": 408.3,
+    "MaxFraction": 7.49
+  },
+  {
+    "ID": 234,
+    "MaxArea": 90.17,
+    "MaxFraction": 2.02
+  },
+  {
+    "ID": 235,
+    "MaxArea": 40.84,
+    "MaxFraction": 2.35
+  },
+  {
+    "ID": 236,
+    "MaxArea": 364.48,
+    "MaxFraction": 14.01
+  },
+  {
+    "ID": 237,
+    "MaxArea": 228.55,
+    "MaxFraction": 4.5
+  },
+  {
+    "ID": 239,
+    "MaxArea": 249.51,
+    "MaxFraction": 9.59
+  },
+  {
+    "ID": 240,
+    "MaxArea": 206.92,
+    "MaxFraction": 6.18
+  },
+  {
+    "ID": 241,
+    "MaxArea": 529.92,
+    "MaxFraction": 19.44
+  },
+  {
+    "ID": 242,
+    "MaxArea": 176.45,
+    "MaxFraction": 4.91
+  },
+  {
+    "ID": 244,
+    "MaxArea": 441.84,
+    "MaxFraction": 7.43
+  },
+  {
+    "ID": 245,
+    "MaxArea": 208.43,
+    "MaxFraction": 4.2
+  },
+  {
+    "ID": 246,
+    "MaxArea": 29.52,
+    "MaxFraction": 0.64
+  },
+  {
+    "ID": 247,
+    "MaxArea": 367.87,
+    "MaxFraction": 4.57
+  },
+  {
+    "ID": 248,
+    "MaxArea": 522.85,
+    "MaxFraction": 8.11
+  },
+  {
+    "ID": 249,
+    "MaxArea": 849.77,
+    "MaxFraction": 21.43
+  },
+  {
+    "ID": 250,
+    "MaxArea": 509.87,
+    "MaxFraction": 24.2
+  },
+  {
+    "ID": 251,
+    "MaxArea": 512.26,
+    "MaxFraction": 4.59
+  },
+  {
+    "ID": 252,
+    "MaxArea": 656.64,
+    "MaxFraction": 23.04
+  },
+  {
+    "ID": 253,
+    "MaxArea": 827.33,
+    "MaxFraction": 17.12
+  },
+  {
+    "ID": 254,
+    "MaxArea": 523.8,
+    "MaxFraction": 24.86
+  },
+  {
+    "ID": 255,
+    "MaxArea": 459.7,
+    "MaxFraction": 7.42
+  },
+  {
+    "ID": 256,
+    "MaxArea": 179.06,
+    "MaxFraction": 6.28
+  },
+  {
+    "ID": 257,
+    "MaxArea": 547.2,
+    "MaxFraction": 16.98
+  },
+  {
+    "ID": 258,
+    "MaxArea": 461.89,
+    "MaxFraction": 7.17
+  },
+  {
+    "ID": 259,
+    "MaxArea": 217.78,
+    "MaxFraction": 4.09
+  },
+  {
+    "ID": 260,
+    "MaxArea": 592.58,
+    "MaxFraction": 2.95
+  },
+  {
+    "ID": 261,
+    "MaxArea": 67.18,
+    "MaxFraction": 1.51
+  },
+  {
+    "ID": 262,
+    "MaxArea": 70.42,
+    "MaxFraction": 1.67
+  },
+  {
+    "ID": 263,
+    "MaxArea": 335.64,
+    "MaxFraction": 10.03
+  },
+  {
+    "ID": 264,
+    "MaxArea": 314.25,
+    "MaxFraction": 5.9
+  },
+  {
+    "ID": 265,
+    "MaxArea": 257.2,
+    "MaxFraction": 5.77
+  },
+  {
+    "ID": 266,
+    "MaxArea": 1874.35,
+    "MaxFraction": 13.5
+  },
+  {
+    "ID": 267,
+    "MaxArea": 15.88,
+    "MaxFraction": 12.81
+  },
+  {
+    "ID": 269,
+    "MaxArea": 297.78,
+    "MaxFraction": 6.16
+  },
+  {
+    "ID": 270,
+    "MaxArea": 159.7,
+    "MaxFraction": 42.96
+  },
+  {
+    "ID": 271,
+    "MaxArea": 2.89,
+    "MaxFraction": 0.06
+  },
+  {
+    "ID": 273,
+    "MaxArea": 77.02,
+    "MaxFraction": 62.15
+  },
+  {
+    "ID": 274,
+    "MaxArea": 198,
+    "MaxFraction": 9.99
+  },
+  {
+    "ID": 275,
+    "MaxArea": 59.36,
+    "MaxFraction": 4.35
+  },
+  {
+    "ID": 277,
+    "MaxArea": 162.08,
+    "MaxFraction": 3.74
+  },
+  {
+    "ID": 278,
+    "MaxArea": 191.77,
+    "MaxFraction": 9.1
+  },
+  {
+    "ID": 279,
+    "MaxArea": 190.72,
+    "MaxFraction": 3.95
+  },
+  {
+    "ID": 280,
+    "MaxArea": 251.97,
+    "MaxFraction": 5.5
+  },
+  {
+    "ID": 281,
+    "MaxArea": 523.65,
+    "MaxFraction": 3.77
+  },
+  {
+    "ID": 282,
+    "MaxArea": 122.57,
+    "MaxFraction": 3.3
+  },
+  {
+    "ID": 283,
+    "MaxArea": 326.36,
+    "MaxFraction": 4.18
+  },
+  {
+    "ID": 284,
+    "MaxArea": 211.49,
+    "MaxFraction": 2.71
+  },
+  {
+    "ID": 285,
+    "MaxArea": 79.53,
+    "MaxFraction": 3.21
+  },
+  {
+    "ID": 286,
+    "MaxArea": 97.54,
+    "MaxFraction": 1.61
+  },
+  {
+    "ID": 287,
+    "MaxArea": 716.64,
+    "MaxFraction": 16.06
+  },
+  {
+    "ID": 288,
+    "MaxArea": 851.95,
+    "MaxFraction": 4.71
+  },
+  {
+    "ID": 289,
+    "MaxArea": 142.7,
+    "MaxFraction": 3.2
+  },
+  {
+    "ID": 291,
+    "MaxArea": 894.25,
+    "MaxFraction": 19.5
+  },
+  {
+    "ID": 292,
+    "MaxArea": 37.25,
+    "MaxFraction": 15.03
+  },
+  {
+    "ID": 293,
+    "MaxArea": 134.12,
+    "MaxFraction": 3.61
+  },
+  {
+    "ID": 294,
+    "MaxArea": 1064.43,
+    "MaxFraction": 28.63
+  },
+  {
+    "ID": 295,
+    "MaxArea": 839.87,
+    "MaxFraction": 19.93
+  },
+  {
+    "ID": 296,
+    "MaxArea": 368.8,
+    "MaxFraction": 4.19
+  },
+  {
+    "ID": 297,
+    "MaxArea": 296.19,
+    "MaxFraction": 3.92
+  },
+  {
+    "ID": 298,
+    "MaxArea": 409.03,
+    "MaxFraction": 12.69
+  },
+  {
+    "ID": 299,
+    "MaxArea": 542.08,
+    "MaxFraction": 5.83
+  },
+  {
+    "ID": 300,
+    "MaxArea": 327.68,
+    "MaxFraction": 3.67
+  },
+  {
+    "ID": 301,
+    "MaxArea": 332.04,
+    "MaxFraction": 4.87
+  },
+  {
+    "ID": 302,
+    "MaxArea": 122,
+    "MaxFraction": 2.34
+  },
+  {
+    "ID": 303,
+    "MaxArea": 47.43,
+    "MaxFraction": 3.48
+  },
+  {
+    "ID": 304,
+    "MaxArea": 81.61,
+    "MaxFraction": 2.2
+  },
+  {
+    "ID": 305,
+    "MaxArea": 609.21,
+    "MaxFraction": 22.35
+  },
+  {
+    "ID": 306,
+    "MaxArea": 144.93,
+    "MaxFraction": 2.49
+  },
+  {
+    "ID": 307,
+    "MaxArea": 164.95,
+    "MaxFraction": 3.03
+  },
+  {
+    "ID": 308,
+    "MaxArea": 211.46,
+    "MaxFraction": 2.75
+  },
+  {
+    "ID": 309,
+    "MaxArea": 435.87,
+    "MaxFraction": 6.28
+  },
+  {
+    "ID": 310,
+    "MaxArea": 6.39,
+    "MaxFraction": 0.3
+  },
+  {
+    "ID": 311,
+    "MaxArea": 167.38,
+    "MaxFraction": 3.65
+  },
+  {
+    "ID": 312,
+    "MaxArea": 524.65,
+    "MaxFraction": 4.81
+  },
+  {
+    "ID": 313,
+    "MaxArea": 561,
+    "MaxFraction": 12.57
+  },
+  {
+    "ID": 314,
+    "MaxArea": 877.88,
+    "MaxFraction": 37.28
+  },
+  {
+    "ID": 316,
+    "MaxArea": 554.48,
+    "MaxFraction": 7.58
+  },
+  {
+    "ID": 317,
+    "MaxArea": 559.82,
+    "MaxFraction": 20.53
+  },
+  {
+    "ID": 318,
+    "MaxArea": 617.11,
+    "MaxFraction": 33.2
+  },
+  {
+    "ID": 319,
+    "MaxArea": 183.09,
+    "MaxFraction": 6.16
+  },
+  {
+    "ID": 320,
+    "MaxArea": 430.27,
+    "MaxFraction": 5.11
+  },
+  {
+    "ID": 321,
+    "MaxArea": 503.96,
+    "MaxFraction": 8.3
+  },
+  {
+    "ID": 322,
+    "MaxArea": 440.45,
+    "MaxFraction": 6.35
+  },
+  {
+    "ID": 323,
+    "MaxArea": 371.14,
+    "MaxFraction": 3.89
+  },
+  {
+    "ID": 324,
+    "MaxArea": 95.67,
+    "MaxFraction": 9.65
+  },
+  {
+    "ID": 326,
+    "MaxArea": 274.2,
+    "MaxFraction": 4.34
+  },
+  {
+    "ID": 327,
+    "MaxArea": 1018.19,
+    "MaxFraction": 21.07
+  },
+  {
+    "ID": 328,
+    "MaxArea": 260.92,
+    "MaxFraction": 6.58
+  },
+  {
+    "ID": 329,
+    "MaxArea": 512.04,
+    "MaxFraction": 29.51
+  },
+  {
+    "ID": 330,
+    "MaxArea": 260.08,
+    "MaxFraction": 3.68
+  },
+  {
+    "ID": 331,
+    "MaxArea": 10.17,
+    "MaxFraction": 0.18
+  },
+  {
+    "ID": 332,
+    "MaxArea": 545.14,
+    "MaxFraction": 6.2
+  },
+  {
+    "ID": 333,
+    "MaxArea": 370.83,
+    "MaxFraction": 3.18
+  },
+  {
+    "ID": 334,
+    "MaxArea": 508.29,
+    "MaxFraction": 22.79
+  },
+  {
+    "ID": 335,
+    "MaxArea": 975.82,
+    "MaxFraction": 29.16
+  },
+  {
+    "ID": 336,
+    "MaxArea": 222.08,
+    "MaxFraction": 4.17
+  },
+  {
+    "ID": 337,
+    "MaxArea": 174.56,
+    "MaxFraction": 1.98
+  },
+  {
+    "ID": 338,
+    "MaxArea": 106.03,
+    "MaxFraction": 2.38
+  },
+  {
+    "ID": 339,
+    "MaxArea": 330.02,
+    "MaxFraction": 5.02
+  },
+  {
+    "ID": 340,
+    "MaxArea": 41.26,
+    "MaxFraction": 1.23
+  },
+  {
+    "ID": 341,
+    "MaxArea": 136.66,
+    "MaxFraction": 2.51
+  },
+  {
+    "ID": 342,
+    "MaxArea": 1168.85,
+    "MaxFraction": 18.14
+  },
+  {
+    "ID": 343,
+    "MaxArea": 36.15,
+    "MaxFraction": 1.82
+  },
+  {
+    "ID": 344,
+    "MaxArea": 603.35,
+    "MaxFraction": 8.39
+  },
+  {
+    "ID": 345,
+    "MaxArea": 1.22,
+    "MaxFraction": 0.98
+  },
+  {
+    "ID": 346,
+    "MaxArea": 4.5,
+    "MaxFraction": 0.52
+  },
+  {
+    "ID": 348,
+    "MaxArea": 58.59,
+    "MaxFraction": 2.95
+  },
+  {
+    "ID": 349,
+    "MaxArea": 60.15,
+    "MaxFraction": 2.86
+  },
+  {
+    "ID": 350,
+    "MaxArea": 83.89,
+    "MaxFraction": 5.21
+  },
+  {
+    "ID": 351,
+    "MaxArea": 337.61,
+    "MaxFraction": 68.11
+  },
+  {
+    "ID": 352,
+    "MaxArea": 495.06,
+    "MaxFraction": 7.99
+  },
+  {
+    "ID": 353,
+    "MaxArea": 271.95,
+    "MaxFraction": 11.55
+  },
+  {
+    "ID": 354,
+    "MaxArea": 255.88,
+    "MaxFraction": 4.59
+  },
+  {
+    "ID": 355,
+    "MaxArea": 591.77,
+    "MaxFraction": 20.76
+  },
+  {
+    "ID": 356,
+    "MaxArea": 468.8,
+    "MaxFraction": 4.4
+  },
+  {
+    "ID": 357,
+    "MaxArea": 209.13,
+    "MaxFraction": 3.44
+  },
+  {
+    "ID": 358,
+    "MaxArea": 92.83,
+    "MaxFraction": 2.14
+  },
+  {
+    "ID": 359,
+    "MaxArea": 445.5,
+    "MaxFraction": 13.83
+  },
+  {
+    "ID": 360,
+    "MaxArea": 35.73,
+    "MaxFraction": 0.82
+  },
+  {
+    "ID": 361,
+    "MaxArea": 53.99,
+    "MaxFraction": 2.42
+  },
+  {
+    "ID": 362,
+    "MaxArea": 369.25,
+    "MaxFraction": 12.96
+  },
+  {
+    "ID": 363,
+    "MaxArea": 141.97,
+    "MaxFraction": 3.58
+  },
+  {
+    "ID": 364,
+    "MaxArea": 572.04,
+    "MaxFraction": 7.21
+  },
+  {
+    "ID": 365,
+    "MaxArea": 239.26,
+    "MaxFraction": 2.22
+  },
+  {
+    "ID": 366,
+    "MaxArea": 209.88,
+    "MaxFraction": 1.63
+  },
+  {
+    "ID": 367,
+    "MaxArea": 280.16,
+    "MaxFraction": 9.42
+  },
+  {
+    "ID": 368,
+    "MaxArea": 96.53,
+    "MaxFraction": 2.43
+  },
+  {
+    "ID": 369,
+    "MaxArea": 432.26,
+    "MaxFraction": 6.34
+  },
+  {
+    "ID": 370,
+    "MaxArea": 194.48,
+    "MaxFraction": 3.83
+  },
+  {
+    "ID": 371,
+    "MaxArea": 109.55,
+    "MaxFraction": 5.89
+  },
+  {
+    "ID": 372,
+    "MaxArea": 1570.87,
+    "MaxFraction": 29.48
+  },
+  {
+    "ID": 373,
+    "MaxArea": 124.11,
+    "MaxFraction": 14.31
+  },
+  {
+    "ID": 374,
+    "MaxArea": 514.26,
+    "MaxFraction": 4.83
+  },
+  {
+    "ID": 375,
+    "MaxArea": 522.31,
+    "MaxFraction": 12.04
+  },
+  {
+    "ID": 376,
+    "MaxArea": 625.92,
+    "MaxFraction": 36.08
+  },
+  {
+    "ID": 377,
+    "MaxArea": 480.07,
+    "MaxFraction": 6.05
+  },
+  {
+    "ID": 378,
+    "MaxArea": 525.96,
+    "MaxFraction": 4.77
+  },
+  {
+    "ID": 379,
+    "MaxArea": 442.98,
+    "MaxFraction": 3.65
+  },
+  {
+    "ID": 380,
+    "MaxArea": 423.64,
+    "MaxFraction": 6.33
+  },
+  {
+    "ID": 381,
+    "MaxArea": 67.45,
+    "MaxFraction": 3.4
+  },
+  {
+    "ID": 382,
+    "MaxArea": 2.46,
+    "MaxFraction": 0.2
+  },
+  {
+    "ID": 383,
+    "MaxArea": 81.85,
+    "MaxFraction": 33.02
+  },
+  {
+    "ID": 384,
+    "MaxArea": 195.43,
+    "MaxFraction": 6.31
+  },
+  {
+    "ID": 385,
+    "MaxArea": 1775.22,
+    "MaxFraction": 19.9
+  },
+  {
+    "ID": 386,
+    "MaxArea": 27.23,
+    "MaxFraction": 0.61
+  },
+  {
+    "ID": 387,
+    "MaxArea": 254.92,
+    "MaxFraction": 3.03
+  },
+  {
+    "ID": 388,
+    "MaxArea": 52.04,
+    "MaxFraction": 4.2
+  },
+  {
+    "ID": 389,
+    "MaxArea": 365.78,
+    "MaxFraction": 6.71
+  },
+  {
+    "ID": 391,
+    "MaxArea": 286.2,
+    "MaxFraction": 9.24
+  },
+  {
+    "ID": 393,
+    "MaxArea": 0.62,
+    "MaxFraction": 0.04
+  },
+  {
+    "ID": 394,
+    "MaxArea": 63.96,
+    "MaxFraction": 3.44
+  },
+  {
+    "ID": 395,
+    "MaxArea": 45.42,
+    "MaxFraction": 1.47
+  },
+  {
+    "ID": 396,
+    "MaxArea": 2.58,
+    "MaxFraction": 0.05
+  },
+  {
+    "ID": 397,
+    "MaxArea": 251.47,
+    "MaxFraction": 5.8
+  },
+  {
+    "ID": 398,
+    "MaxArea": 16.82,
+    "MaxFraction": 0.3
+  },
+  {
+    "ID": 399,
+    "MaxArea": 20.62,
+    "MaxFraction": 0.4
+  },
+  {
+    "ID": 400,
+    "MaxArea": 62.89,
+    "MaxFraction": 2.03
+  },
+  {
+    "ID": 401,
+    "MaxArea": 161.61,
+    "MaxFraction": 6.52
+  },
+  {
+    "ID": 402,
+    "MaxArea": 86.76,
+    "MaxFraction": 2.8
+  },
+  {
+    "ID": 403,
+    "MaxArea": 8.36,
+    "MaxFraction": 0.32
+  },
+  {
+    "ID": 404,
+    "MaxArea": 1847.08,
+    "MaxFraction": 31.05
+  },
+  {
+    "ID": 405,
+    "MaxArea": 45.87,
+    "MaxFraction": 1.68
+  },
+  {
+    "ID": 406,
+    "MaxArea": 59.4,
+    "MaxFraction": 47.93
+  },
+  {
+    "ID": 407,
+    "MaxArea": 23.56,
+    "MaxFraction": 2.38
+  },
+  {
+    "ID": 408,
+    "MaxArea": 63.31,
+    "MaxFraction": 6.39
+  },
+  {
+    "ID": 409,
+    "MaxArea": 27.91,
+    "MaxFraction": 2.82
+  },
+  {
+    "ID": 410,
+    "MaxArea": 70.92,
+    "MaxFraction": 3.58
+  },
+  {
+    "ID": 411,
+    "MaxArea": 28.79,
+    "MaxFraction": 0.83
+  },
+  {
+    "ID": 412,
+    "MaxArea": 173.54,
+    "MaxFraction": 10.77
+  },
+  {
+    "ID": 413,
+    "MaxArea": 362.19,
+    "MaxFraction": 7.69
+  },
+  {
+    "ID": 414,
+    "MaxArea": 8.93,
+    "MaxFraction": 0.45
+  },
+  {
+    "ID": 415,
+    "MaxArea": 33.85,
+    "MaxFraction": 2.1
+  },
+  {
+    "ID": 416,
+    "MaxArea": 73.53,
+    "MaxFraction": 2.2
+  },
+  {
+    "ID": 417,
+    "MaxArea": 148.86,
+    "MaxFraction": 15.02
+  },
+  {
+    "ID": 418,
+    "MaxArea": 19.53,
+    "MaxFraction": 0.63
+  },
+  {
+    "ID": 419,
+    "MaxArea": 4.47,
+    "MaxFraction": 0.28
+  },
+  {
+    "ID": 420,
+    "MaxArea": 18.98,
+    "MaxFraction": 0.81
+  },
+  {
+    "ID": 421,
+    "MaxArea": 6.31,
+    "MaxFraction": 1.02
+  },
+  {
+    "ID": 422,
+    "MaxArea": 69.53,
+    "MaxFraction": 18.7
+  },
+  {
+    "ID": 423,
+    "MaxArea": 1156.67,
+    "MaxFraction": 0.61
+  },
+  {
+    "ID": 424,
+    "MaxArea": 74.44,
+    "MaxFraction": 0.44
+  },
+  {
+    "ID": 425,
+    "MaxArea": 13.27,
+    "MaxFraction": 0.13
+  },
+  {
+    "ID": 426,
+    "MaxArea": 6.1,
+    "MaxFraction": 0.22
+  },
+  {
+    "ID": 427,
+    "MaxArea": 48.09,
+    "MaxFraction": 3.88
+  },
+  {
+    "ID": 429,
+    "MaxArea": 30.34,
+    "MaxFraction": 12.24
+  },
+  {
+    "ID": 430,
+    "MaxArea": 91.81,
+    "MaxFraction": 9.26
+  },
+  {
+    "ID": 431,
+    "MaxArea": 192.92,
+    "MaxFraction": 2.51
+  },
+  {
+    "ID": 433,
+    "MaxArea": 356.77,
+    "MaxFraction": 16.94
+  },
+  {
+    "ID": 434,
+    "MaxArea": 161.24,
+    "MaxFraction": 1.89
+  },
+  {
+    "ID": 435,
+    "MaxArea": 878.42,
+    "MaxFraction": 8.86
+  },
+  {
+    "ID": 436,
+    "MaxArea": 64.71,
+    "MaxFraction": 2.61
+  },
+  {
+    "ID": 437,
+    "MaxArea": 669.21,
+    "MaxFraction": 16.36
+  },
+  {
+    "ID": 438,
+    "MaxArea": 235.95,
+    "MaxFraction": 5.29
+  },
+  {
+    "ID": 439,
+    "MaxArea": 139.48,
+    "MaxFraction": 5.63
+  },
+  {
+    "ID": 440,
+    "MaxArea": 685.26,
+    "MaxFraction": 10.84
+  },
+  {
+    "ID": 441,
+    "MaxArea": 90.51,
+    "MaxFraction": 2.21
+  },
+  {
+    "ID": 442,
+    "MaxArea": 1013.89,
+    "MaxFraction": 5.64
+  },
+  {
+    "ID": 443,
+    "MaxArea": 310.83,
+    "MaxFraction": 5.57
+  },
+  {
+    "ID": 444,
+    "MaxArea": 436.24,
+    "MaxFraction": 14.67
+  },
+  {
+    "ID": 445,
+    "MaxArea": 475.04,
+    "MaxFraction": 3.58
+  },
+  {
+    "ID": 446,
+    "MaxArea": 205.8,
+    "MaxFraction": 12.77
+  },
+  {
+    "ID": 447,
+    "MaxArea": 888.66,
+    "MaxFraction": 27.58
+  },
+  {
+    "ID": 448,
+    "MaxArea": 7.76,
+    "MaxFraction": 0.11
+  },
+  {
+    "ID": 449,
+    "MaxArea": 389.98,
+    "MaxFraction": 14.3
+  },
+  {
+    "ID": 450,
+    "MaxArea": 121.19,
+    "MaxFraction": 19.56
+  },
+  {
+    "ID": 451,
+    "MaxArea": 503.7,
+    "MaxFraction": 14.02
+  },
+  {
+    "ID": 452,
+    "MaxArea": 560.62,
+    "MaxFraction": 5.03
+  },
+  {
+    "ID": 453,
+    "MaxArea": 194.43,
+    "MaxFraction": 5.81
+  },
+  {
+    "ID": 454,
+    "MaxArea": 701.08,
+    "MaxFraction": 9.27
+  },
+  {
+    "ID": 455,
+    "MaxArea": 970.22,
+    "MaxFraction": 17.79
+  },
+  {
+    "ID": 456,
+    "MaxArea": 307.57,
+    "MaxFraction": 16.55
+  },
+  {
+    "ID": 457,
+    "MaxArea": 658.57,
+    "MaxFraction": 15.63
+  },
+  {
+    "ID": 458,
+    "MaxArea": 1926.88,
+    "MaxFraction": 86.38
+  },
+  {
+    "ID": 459,
+    "MaxArea": 552.83,
+    "MaxFraction": 14.87
+  },
+  {
+    "ID": 460,
+    "MaxArea": 1511.08,
+    "MaxFraction": 50.81
+  },
+  {
+    "ID": 461,
+    "MaxArea": 401.79,
+    "MaxFraction": 9.01
+  },
+  {
+    "ID": 462,
+    "MaxArea": 472.91,
+    "MaxFraction": 13.63
+  },
+  {
+    "ID": 463,
+    "MaxArea": 1064.61,
+    "MaxFraction": 39.05
+  },
+  {
+    "ID": 464,
+    "MaxArea": 370.1,
+    "MaxFraction": 3.18
+  },
+  {
+    "ID": 465,
+    "MaxArea": 846.55,
+    "MaxFraction": 16.26
+  },
+  {
+    "ID": 466,
+    "MaxArea": 416.45,
+    "MaxFraction": 3.91
+  },
+  {
+    "ID": 467,
+    "MaxArea": 497.99,
+    "MaxFraction": 28.7
+  },
+  {
+    "ID": 468,
+    "MaxArea": 13.72,
+    "MaxFraction": 0.15
+  },
+  {
+    "ID": 469,
+    "MaxArea": 1009.97,
+    "MaxFraction": 8.15
+  },
+  {
+    "ID": 470,
+    "MaxArea": 118.43,
+    "MaxFraction": 2.12
+  },
+  {
+    "ID": 471,
+    "MaxArea": 581.59,
+    "MaxFraction": 24.7
+  },
+  {
+    "ID": 472,
+    "MaxArea": 1396.03,
+    "MaxFraction": 48.98
+  },
+  {
+    "ID": 473,
+    "MaxArea": 55.46,
+    "MaxFraction": 2.49
+  },
+  {
+    "ID": 474,
+    "MaxArea": 227.37,
+    "MaxFraction": 3.16
+  },
+  {
+    "ID": 475,
+    "MaxArea": 21.3,
+    "MaxFraction": 0.2
+  },
+  {
+    "ID": 476,
+    "MaxArea": 14.87,
+    "MaxFraction": 0.75
+  },
+  {
+    "ID": 477,
+    "MaxArea": 9.89,
+    "MaxFraction": 0.21
+  },
+  {
+    "ID": 478,
+    "MaxArea": 2561.44,
+    "MaxFraction": 55.86
+  },
+  {
+    "ID": 479,
+    "MaxArea": 139.98,
+    "MaxFraction": 16.14
+  },
+  {
+    "ID": 480,
+    "MaxArea": 187.56,
+    "MaxFraction": 10.81
+  },
+  {
+    "ID": 481,
+    "MaxArea": 813.85,
+    "MaxFraction": 28.55
+  },
+  {
+    "ID": 482,
+    "MaxArea": 168.1,
+    "MaxFraction": 12.33
+  },
+  {
+    "ID": 483,
+    "MaxArea": 381.86,
+    "MaxFraction": 12.84
+  },
+  {
+    "ID": 484,
+    "MaxArea": 953.3,
+    "MaxFraction": 34.97
+  },
+  {
+    "ID": 485,
+    "MaxArea": 931.14,
+    "MaxFraction": 6.06
+  },
+  {
+    "ID": 486,
+    "MaxArea": 525.94,
+    "MaxFraction": 9.65
+  },
+  {
+    "ID": 487,
+    "MaxArea": 346.01,
+    "MaxFraction": 5.94
+  },
+  {
+    "ID": 488,
+    "MaxArea": 692.57,
+    "MaxFraction": 29.41
+  },
+  {
+    "ID": 489,
+    "MaxArea": 737.3,
+    "MaxFraction": 23.8
+  },
+  {
+    "ID": 490,
+    "MaxArea": 202.77,
+    "MaxFraction": 12.59
+  },
+  {
+    "ID": 491,
+    "MaxArea": 1070.32,
+    "MaxFraction": 66.44
+  },
+  {
+    "ID": 492,
+    "MaxArea": 258.18,
+    "MaxFraction": 4.96
+  },
+  {
+    "ID": 493,
+    "MaxArea": 948.35,
+    "MaxFraction": 19.13
+  },
+  {
+    "ID": 494,
+    "MaxArea": 323.48,
+    "MaxFraction": 8.16
+  },
+  {
+    "ID": 495,
+    "MaxArea": 939.45,
+    "MaxFraction": 28.08
+  },
+  {
+    "ID": 496,
+    "MaxArea": 6.38,
+    "MaxFraction": 5.15
+  },
+  {
+    "ID": 497,
+    "MaxArea": 161.78,
+    "MaxFraction": 14.51
+  },
+  {
+    "ID": 498,
+    "MaxArea": 696.23,
+    "MaxFraction": 23.41
+  },
+  {
+    "ID": 499,
+    "MaxArea": 567.08,
+    "MaxFraction": 4.44
+  },
+  {
+    "ID": 500,
+    "MaxArea": 309.6,
+    "MaxFraction": 3.9
+  },
+  {
+    "ID": 501,
+    "MaxArea": 440.21,
+    "MaxFraction": 10.76
+  },
+  {
+    "ID": 502,
+    "MaxArea": 127.84,
+    "MaxFraction": 3.56
+  },
+  {
+    "ID": 503,
+    "MaxArea": 874.46,
+    "MaxFraction": 41.51
+  },
+  {
+    "ID": 504,
+    "MaxArea": 467.79,
+    "MaxFraction": 13.98
+  },
+  {
+    "ID": 505,
+    "MaxArea": 377.63,
+    "MaxFraction": 15.24
+  },
+  {
+    "ID": 506,
+    "MaxArea": 684.1,
+    "MaxFraction": 34.5
+  },
+  {
+    "ID": 507,
+    "MaxArea": 171.97,
+    "MaxFraction": 8.16
+  },
+  {
+    "ID": 508,
+    "MaxArea": 458.11,
+    "MaxFraction": 17.6
+  },
+  {
+    "ID": 509,
+    "MaxArea": 1699.47,
+    "MaxFraction": 52.75
+  },
+  {
+    "ID": 510,
+    "MaxArea": 1396.7,
+    "MaxFraction": 102.46
+  },
+  {
+    "ID": 511,
+    "MaxArea": 371.05,
+    "MaxFraction": 5.16
+  },
+  {
+    "ID": 512,
+    "MaxArea": 9.9,
+    "MaxFraction": 0.12
+  },
+  {
+    "ID": 514,
+    "MaxArea": 0.59,
+    "MaxFraction": 0.03
+  },
+  {
+    "ID": 515,
+    "MaxArea": 463.51,
+    "MaxFraction": 24.94
+  },
+  {
+    "ID": 516,
+    "MaxArea": 755.36,
+    "MaxFraction": 19.05
+  },
+  {
+    "ID": 517,
+    "MaxArea": 612.03,
+    "MaxFraction": 7.16
+  },
+  {
+    "ID": 518,
+    "MaxArea": 175.55,
+    "MaxFraction": 70.83
+  },
+  {
+    "ID": 519,
+    "MaxArea": 389.62,
+    "MaxFraction": 17.47
+  },
+  {
+    "ID": 520,
+    "MaxArea": 9.82,
+    "MaxFraction": 0.18
+  },
+  {
+    "ID": 521,
+    "MaxArea": 18.76,
+    "MaxFraction": 0.11
+  },
+  {
+    "ID": 522,
+    "MaxArea": 557.87,
+    "MaxFraction": 40.92
+  },
+  {
+    "ID": 523,
+    "MaxArea": 237.31,
+    "MaxFraction": 3.19
+  },
+  {
+    "ID": 524,
+    "MaxArea": 81.62,
+    "MaxFraction": 2.35
+  },
+  {
+    "ID": 525,
+    "MaxArea": 133.55,
+    "MaxFraction": 3.48
+  },
+  {
+    "ID": 526,
+    "MaxArea": 828.34,
+    "MaxFraction": 19.66
+  },
+  {
+    "ID": 527,
+    "MaxArea": 647.77,
+    "MaxFraction": 29.04
+  },
+  {
+    "ID": 528,
+    "MaxArea": 750.27,
+    "MaxFraction": 18.92
+  },
+  {
+    "ID": 529,
+    "MaxArea": 99.23,
+    "MaxFraction": 3.08
+  },
+  {
+    "ID": 530,
+    "MaxArea": 419.97,
+    "MaxFraction": 13.56
+  },
+  {
+    "ID": 531,
+    "MaxArea": 216.37,
+    "MaxFraction": 9.19
+  },
+  {
+    "ID": 532,
+    "MaxArea": 2417.48,
+    "MaxFraction": 59.11
+  },
+  {
+    "ID": 533,
+    "MaxArea": 569.6,
+    "MaxFraction": 24.19
+  },
+  {
+    "ID": 534,
+    "MaxArea": 88.2,
+    "MaxFraction": 2.3
+  },
+  {
+    "ID": 535,
+    "MaxArea": 397.68,
+    "MaxFraction": 22.92
+  },
+  {
+    "ID": 536,
+    "MaxArea": 589.6,
+    "MaxFraction": 21.63
+  },
+  {
+    "ID": 537,
+    "MaxArea": 32.83,
+    "MaxFraction": 1.89
+  },
+  {
+    "ID": 538,
+    "MaxArea": 257.25,
+    "MaxFraction": 8.65
+  },
+  {
+    "ID": 539,
+    "MaxArea": 2.69,
+    "MaxFraction": 2.17
+  },
+  {
+    "ID": 540,
+    "MaxArea": 513.74,
+    "MaxFraction": 34.55
+  },
+  {
+    "ID": 541,
+    "MaxArea": 2704.48,
+    "MaxFraction": 46.43
+  },
+  {
+    "ID": 542,
+    "MaxArea": 1568.97,
+    "MaxFraction": 42.2
+  },
+  {
+    "ID": 543,
+    "MaxArea": 2482.81,
+    "MaxFraction": 55.65
+  },
+  {
+    "ID": 544,
+    "MaxArea": 566.21,
+    "MaxFraction": 5.38
+  },
+  {
+    "ID": 545,
+    "MaxArea": 666.33,
+    "MaxFraction": 28.3
+  },
+  {
+    "ID": 546,
+    "MaxArea": 327.36,
+    "MaxFraction": 4.13
+  },
+  {
+    "ID": 547,
+    "MaxArea": 563.75,
+    "MaxFraction": 5.23
+  },
+  {
+    "ID": 548,
+    "MaxArea": 341.35,
+    "MaxFraction": 4.67
+  },
+  {
+    "ID": 549,
+    "MaxArea": 413.21,
+    "MaxFraction": 2.47
+  },
+  {
+    "ID": 550,
+    "MaxArea": 233.1,
+    "MaxFraction": 7.52
+  },
+  {
+    "ID": 551,
+    "MaxArea": 233.73,
+    "MaxFraction": 15.72
+  },
+  {
+    "ID": 552,
+    "MaxArea": 408.5,
+    "MaxFraction": 9.42
+  },
+  {
+    "ID": 553,
+    "MaxArea": 1821.39,
+    "MaxFraction": 41.99
+  },
+  {
+    "ID": 554,
+    "MaxArea": 204.37,
+    "MaxFraction": 2.46
+  },
+  {
+    "ID": 555,
+    "MaxArea": 270.43,
+    "MaxFraction": 4.74
+  },
+  {
+    "ID": 556,
+    "MaxArea": 291.58,
+    "MaxFraction": 19.61
+  },
+  {
+    "ID": 557,
+    "MaxArea": 30.48,
+    "MaxFraction": 2.46
+  },
+  {
+    "ID": 558,
+    "MaxArea": 115.7,
+    "MaxFraction": 8.49
+  },
+  {
+    "ID": 559,
+    "MaxArea": 41.12,
+    "MaxFraction": 1.04
+  },
+  {
+    "ID": 560,
+    "MaxArea": 406.78,
+    "MaxFraction": 5.86
+  },
+  {
+    "ID": 561,
+    "MaxArea": 1405.5,
+    "MaxFraction": 24.13
+  },
+  {
+    "ID": 562,
+    "MaxArea": 1309.78,
+    "MaxFraction": 19.22
+  },
+  {
+    "ID": 563,
+    "MaxArea": 134.38,
+    "MaxFraction": 13.55
+  },
+  {
+    "ID": 564,
+    "MaxArea": 596.87,
+    "MaxFraction": 16.05
+  },
+  {
+    "ID": 565,
+    "MaxArea": 2231.24,
+    "MaxFraction": 60.02
+  },
+  {
+    "ID": 566,
+    "MaxArea": 15.13,
+    "MaxFraction": 0.18
+  },
+  {
+    "ID": 567,
+    "MaxArea": 1078.56,
+    "MaxFraction": 6.45
+  },
+  {
+    "ID": 568,
+    "MaxArea": 1587.05,
+    "MaxFraction": 33.7
+  },
+  {
+    "ID": 569,
+    "MaxArea": 924.66,
+    "MaxFraction": 24.07
+  },
+  {
+    "ID": 570,
+    "MaxArea": 240.77,
+    "MaxFraction": 3.53
+  },
+  {
+    "ID": 571,
+    "MaxArea": 399.58,
+    "MaxFraction": 5.47
+  },
+  {
+    "ID": 572,
+    "MaxArea": 114.52,
+    "MaxFraction": 2.25
+  },
+  {
+    "ID": 573,
+    "MaxArea": 204.69,
+    "MaxFraction": 2.23
+  },
+  {
+    "ID": 574,
+    "MaxArea": 278.03,
+    "MaxFraction": 16.03
+  },
+  {
+    "ID": 575,
+    "MaxArea": 494.67,
+    "MaxFraction": 21.01
+  },
+  {
+    "ID": 576,
+    "MaxArea": 539.15,
+    "MaxFraction": 11.76
+  },
+  {
+    "ID": 577,
+    "MaxArea": 346.67,
+    "MaxFraction": 21.52
+  },
+  {
+    "ID": 578,
+    "MaxArea": 851.13,
+    "MaxFraction": 49.06
+  },
+  {
+    "ID": 579,
+    "MaxArea": 1402.95,
+    "MaxFraction": 51.46
+  },
+  {
+    "ID": 580,
+    "MaxArea": 247.71,
+    "MaxFraction": 2.9
+  },
+  {
+    "ID": 581,
+    "MaxArea": 807.71,
+    "MaxFraction": 18.62
+  },
+  {
+    "ID": 582,
+    "MaxArea": 2189.12,
+    "MaxFraction": 76.8
+  },
+  {
+    "ID": 583,
+    "MaxArea": 41.52,
+    "MaxFraction": 3.72
+  },
+  {
+    "ID": 584,
+    "MaxArea": 431.01,
+    "MaxFraction": 3.82
+  },
+  {
+    "ID": 585,
+    "MaxArea": 4.72,
+    "MaxFraction": 0.22
+  },
+  {
+    "ID": 586,
+    "MaxArea": 243.02,
+    "MaxFraction": 32.68
+  },
+  {
+    "ID": 587,
+    "MaxArea": 144.74,
+    "MaxFraction": 23.36
+  },
+  {
+    "ID": 588,
+    "MaxArea": 121.54,
+    "MaxFraction": 2.34
+  },
+  {
+    "ID": 589,
+    "MaxArea": 1029.31,
+    "MaxFraction": 20.77
+  },
+  {
+    "ID": 590,
+    "MaxArea": 616.44,
+    "MaxFraction": 26.18
+  },
+  {
+    "ID": 591,
+    "MaxArea": 570.91,
+    "MaxFraction": 21.94
+  },
+  {
+    "ID": 592,
+    "MaxArea": 1183.65,
+    "MaxFraction": 7.83
+  },
+  {
+    "ID": 593,
+    "MaxArea": 398.92,
+    "MaxFraction": 16.94
+  },
+  {
+    "ID": 594,
+    "MaxArea": 3228.15,
+    "MaxFraction": 36.69
+  },
+  {
+    "ID": 595,
+    "MaxArea": 20.18,
+    "MaxFraction": 4.07
+  },
+  {
+    "ID": 596,
+    "MaxArea": 519.36,
+    "MaxFraction": 19.05
+  },
+  {
+    "ID": 597,
+    "MaxArea": 35.36,
+    "MaxFraction": 1.02
+  },
+  {
+    "ID": 598,
+    "MaxArea": 920.73,
+    "MaxFraction": 32.3
+  },
+  {
+    "ID": 599,
+    "MaxArea": 1.91,
+    "MaxFraction": 0.07
+  },
+  {
+    "ID": 600,
+    "MaxArea": 297.2,
+    "MaxFraction": 6.66
+  },
+  {
+    "ID": 602,
+    "MaxArea": 8.18,
+    "MaxFraction": 0.83
+  },
+  {
+    "ID": 604,
+    "MaxArea": 21.95,
+    "MaxFraction": 0.29
+  },
+  {
+    "ID": 605,
+    "MaxArea": 21.85,
+    "MaxFraction": 0.3
+  },
+  {
+    "ID": 606,
+    "MaxArea": 787.68,
+    "MaxFraction": 19.86
+  },
+  {
+    "ID": 607,
+    "MaxArea": 12.14,
+    "MaxFraction": 0.13
+  },
+  {
+    "ID": 608,
+    "MaxArea": 949.36,
+    "MaxFraction": 42.56
+  },
+  {
+    "ID": 609,
+    "MaxArea": 521.63,
+    "MaxFraction": 11.38
+  },
+  {
+    "ID": 610,
+    "MaxArea": 402.9,
+    "MaxFraction": 6.02
+  },
+  {
+    "ID": 611,
+    "MaxArea": 141.58,
+    "MaxFraction": 2.6
+  },
+  {
+    "ID": 612,
+    "MaxArea": 8.92,
+    "MaxFraction": 0.16
+  },
+  {
+    "ID": 613,
+    "MaxArea": 27.13,
+    "MaxFraction": 1.37
+  },
+  {
+    "ID": 614,
+    "MaxArea": 180.06,
+    "MaxFraction": 9.69
+  },
+  {
+    "ID": 615,
+    "MaxArea": 784.25,
+    "MaxFraction": 5.23
+  },
+  {
+    "ID": 616,
+    "MaxArea": 51.66,
+    "MaxFraction": 5.21
+  },
+  {
+    "ID": 617,
+    "MaxArea": 3.21,
+    "MaxFraction": 0.24
+  },
+  {
+    "ID": 619,
+    "MaxArea": 2.39,
+    "MaxFraction": 0.15
+  },
+  {
+    "ID": 620,
+    "MaxArea": 15.78,
+    "MaxFraction": 0.85
+  },
+  {
+    "ID": 621,
+    "MaxArea": 10.83,
+    "MaxFraction": 0.46
+  },
+  {
+    "ID": 622,
+    "MaxArea": 0.55,
+    "MaxFraction": 0.02
+  },
+  {
+    "ID": 623,
+    "MaxArea": 219.13,
+    "MaxFraction": 7.37
+  },
+  {
+    "ID": 624,
+    "MaxArea": 4.32,
+    "MaxFraction": 0.22
+  },
+  {
+    "ID": 625,
+    "MaxArea": 20.38,
+    "MaxFraction": 2.74
+  },
+  {
+    "ID": 626,
+    "MaxArea": 18.12,
+    "MaxFraction": 1.33
+  },
+  {
+    "ID": 627,
+    "MaxArea": 51.1,
+    "MaxFraction": 2.17
+  },
+  {
+    "ID": 629,
+    "MaxArea": 1.36,
+    "MaxFraction": 0.08
+  },
+  {
+    "ID": 631,
+    "MaxArea": 358.43,
+    "MaxFraction": 22.25
+  },
+  {
+    "ID": 632,
+    "MaxArea": 286.3,
+    "MaxFraction": 7.97
+  },
+  {
+    "ID": 633,
+    "MaxArea": 138.58,
+    "MaxFraction": 8.6
+  },
+  {
+    "ID": 634,
+    "MaxArea": 9.91,
+    "MaxFraction": 0.8
+  },
+  {
+    "ID": 635,
+    "MaxArea": 352.51,
+    "MaxFraction": 12.93
+  },
+  {
+    "ID": 636,
+    "MaxArea": 44.25,
+    "MaxFraction": 1.02
+  },
+  {
+    "ID": 637,
+    "MaxArea": 7.08,
+    "MaxFraction": 0.48
+  },
+  {
+    "ID": 638,
+    "MaxArea": 5.5,
+    "MaxFraction": 0.19
+  },
+  {
+    "ID": 639,
+    "MaxArea": 2.56,
+    "MaxFraction": 0.29
+  },
+  {
+    "ID": 640,
+    "MaxArea": 38.21,
+    "MaxFraction": 1.71
+  },
+  {
+    "ID": 641,
+    "MaxArea": 5.38,
+    "MaxFraction": 0.24
+  },
+  {
+    "ID": 642,
+    "MaxArea": 279.41,
+    "MaxFraction": 18.79
+  },
+  {
+    "ID": 643,
+    "MaxArea": 26,
+    "MaxFraction": 1.5
+  },
+  {
+    "ID": 644,
+    "MaxArea": 257.72,
+    "MaxFraction": 5.78
+  },
+  {
+    "ID": 645,
+    "MaxArea": 244.74,
+    "MaxFraction": 6.17
+  },
+  {
+    "ID": 646,
+    "MaxArea": 320.06,
+    "MaxFraction": 7.83
+  },
+  {
+    "ID": 647,
+    "MaxArea": 232.97,
+    "MaxFraction": 5.7
+  },
+  {
+    "ID": 648,
+    "MaxArea": 369.93,
+    "MaxFraction": 8.29
+  },
+  {
+    "ID": 649,
+    "MaxArea": 204.85,
+    "MaxFraction": 3.06
+  },
+  {
+    "ID": 650,
+    "MaxArea": 265.65,
+    "MaxFraction": 11.91
+  },
+  {
+    "ID": 651,
+    "MaxArea": 68.34,
+    "MaxFraction": 3.06
+  },
+  {
+    "ID": 652,
+    "MaxArea": 102.39,
+    "MaxFraction": 2.67
+  },
+  {
+    "ID": 653,
+    "MaxArea": 20.03,
+    "MaxFraction": 1.62
+  },
+  {
+    "ID": 654,
+    "MaxArea": 117.28,
+    "MaxFraction": 3.64
+  },
+  {
+    "ID": 655,
+    "MaxArea": 114.95,
+    "MaxFraction": 3.2
+  },
+  {
+    "ID": 656,
+    "MaxArea": 244.47,
+    "MaxFraction": 4.59
+  },
+  {
+    "ID": 657,
+    "MaxArea": 129,
+    "MaxFraction": 3.47
+  },
+  {
+    "ID": 658,
+    "MaxArea": 72.14,
+    "MaxFraction": 2.65
+  },
+  {
+    "ID": 659,
+    "MaxArea": 59.6,
+    "MaxFraction": 5.34
+  },
+  {
+    "ID": 660,
+    "MaxArea": 127.24,
+    "MaxFraction": 4.67
+  },
+  {
+    "ID": 661,
+    "MaxArea": 315.48,
+    "MaxFraction": 10.18
+  },
+  {
+    "ID": 662,
+    "MaxArea": 119.64,
+    "MaxFraction": 5.36
+  },
+  {
+    "ID": 663,
+    "MaxArea": 136.86,
+    "MaxFraction": 4.09
+  },
+  {
+    "ID": 664,
+    "MaxArea": 71.56,
+    "MaxFraction": 3.85
+  },
+  {
+    "ID": 665,
+    "MaxArea": 158.6,
+    "MaxFraction": 5.33
+  },
+  {
+    "ID": 666,
+    "MaxArea": 179.62,
+    "MaxFraction": 9.66
+  },
+  {
+    "ID": 667,
+    "MaxArea": 2.86,
+    "MaxFraction": 0.26
+  },
+  {
+    "ID": 668,
+    "MaxArea": 194.24,
+    "MaxFraction": 9.8
+  },
+  {
+    "ID": 669,
+    "MaxArea": 198.61,
+    "MaxFraction": 7.28
+  },
+  {
+    "ID": 670,
+    "MaxArea": 63.77,
+    "MaxFraction": 17.15
+  },
+  {
+    "ID": 671,
+    "MaxArea": 80.81,
+    "MaxFraction": 1.63
+  },
+  {
+    "ID": 672,
+    "MaxArea": 587.18,
+    "MaxFraction": 15.28
+  },
+  {
+    "ID": 673,
+    "MaxArea": 116.58,
+    "MaxFraction": 2.48
+  },
+  {
+    "ID": 674,
+    "MaxArea": 126.71,
+    "MaxFraction": 2.09
+  },
+  {
+    "ID": 675,
+    "MaxArea": 240.35,
+    "MaxFraction": 4.41
+  },
+  {
+    "ID": 676,
+    "MaxArea": 160.19,
+    "MaxFraction": 8.08
+  },
+  {
+    "ID": 677,
+    "MaxArea": 146.06,
+    "MaxFraction": 4.06
+  },
+  {
+    "ID": 678,
+    "MaxArea": 23.4,
+    "MaxFraction": 1.45
+  },
+  {
+    "ID": 679,
+    "MaxArea": 350.71,
+    "MaxFraction": 11.32
+  },
+  {
+    "ID": 680,
+    "MaxArea": 145.13,
+    "MaxFraction": 3.9
+  },
+  {
+    "ID": 681,
+    "MaxArea": 21.35,
+    "MaxFraction": 0.78
+  },
+  {
+    "ID": 682,
+    "MaxArea": 658.15,
+    "MaxFraction": 24.14
+  },
+  {
+    "ID": 683,
+    "MaxArea": 100.81,
+    "MaxFraction": 3.01
+  },
+  {
+    "ID": 684,
+    "MaxArea": 110.09,
+    "MaxFraction": 6.35
+  },
+  {
+    "ID": 685,
+    "MaxArea": 334.86,
+    "MaxFraction": 7.11
+  },
+  {
+    "ID": 686,
+    "MaxArea": 443.52,
+    "MaxFraction": 11.93
+  },
+  {
+    "ID": 687,
+    "MaxArea": 143.81,
+    "MaxFraction": 7.25
+  },
+  {
+    "ID": 688,
+    "MaxArea": 222.26,
+    "MaxFraction": 3.52
+  },
+  {
+    "ID": 689,
+    "MaxArea": 324.86,
+    "MaxFraction": 7.28
+  },
+  {
+    "ID": 690,
+    "MaxArea": 67.39,
+    "MaxFraction": 2.27
+  },
+  {
+    "ID": 691,
+    "MaxArea": 77,
+    "MaxFraction": 2.82
+  },
+  {
+    "ID": 692,
+    "MaxArea": 514.61,
+    "MaxFraction": 15.97
+  },
+  {
+    "ID": 693,
+    "MaxArea": 556.27,
+    "MaxFraction": 23.63
+  },
+  {
+    "ID": 694,
+    "MaxArea": 277.72,
+    "MaxFraction": 6.06
+  },
+  {
+    "ID": 695,
+    "MaxArea": 126.03,
+    "MaxFraction": 3.39
+  },
+  {
+    "ID": 696,
+    "MaxArea": 201.13,
+    "MaxFraction": 3.77
+  },
+  {
+    "ID": 697,
+    "MaxArea": 27,
+    "MaxFraction": 1.36
+  },
+  {
+    "ID": 698,
+    "MaxArea": 297.08,
+    "MaxFraction": 9.59
+  },
+  {
+    "ID": 699,
+    "MaxArea": 288.23,
+    "MaxFraction": 4.65
+  },
+  {
+    "ID": 700,
+    "MaxArea": 364.07,
+    "MaxFraction": 7.34
+  },
+  {
+    "ID": 701,
+    "MaxArea": 74.62,
+    "MaxFraction": 3.17
+  },
+  {
+    "ID": 702,
+    "MaxArea": 347.86,
+    "MaxFraction": 9.06
+  },
+  {
+    "ID": 703,
+    "MaxArea": 296.29,
+    "MaxFraction": 6.64
+  },
+  {
+    "ID": 704,
+    "MaxArea": 94.8,
+    "MaxFraction": 1.82
+  },
+  {
+    "ID": 709,
+    "MaxArea": 45.34,
+    "MaxFraction": 9.15
+  },
+  {
+    "ID": 710,
+    "MaxArea": 289.12,
+    "MaxFraction": 11.67
+  },
+  {
+    "ID": 711,
+    "MaxArea": 1306.01,
+    "MaxFraction": 45.82
+  },
+  {
+    "ID": 712,
+    "MaxArea": 837.21,
+    "MaxFraction": 30.71
+  },
+  {
+    "ID": 713,
+    "MaxArea": 270.48,
+    "MaxFraction": 21.83
+  },
+  {
+    "ID": 714,
+    "MaxArea": 1169.04,
+    "MaxFraction": 29.48
+  },
+  {
+    "ID": 715,
+    "MaxArea": 325.67,
+    "MaxFraction": 21.9
+  },
+  {
+    "ID": 716,
+    "MaxArea": 193.17,
+    "MaxFraction": 9.74
+  },
+  {
+    "ID": 717,
+    "MaxArea": 671.42,
+    "MaxFraction": 36.12
+  },
+  {
+    "ID": 718,
+    "MaxArea": 851.4,
+    "MaxFraction": 28.63
+  },
+  {
+    "ID": 719,
+    "MaxArea": 756.82,
+    "MaxFraction": 35.92
+  },
+  {
+    "ID": 720,
+    "MaxArea": 1585.83,
+    "MaxFraction": 41.28
+  },
+  {
+    "ID": 721,
+    "MaxArea": 109.14,
+    "MaxFraction": 1.96
+  },
+  {
+    "ID": 722,
+    "MaxArea": 531.84,
+    "MaxFraction": 23.84
+  },
+  {
+    "ID": 723,
+    "MaxArea": 773.41,
+    "MaxFraction": 22.29
+  },
+  {
+    "ID": 724,
+    "MaxArea": 368.41,
+    "MaxFraction": 21.24
+  },
+  {
+    "ID": 725,
+    "MaxArea": 192.65,
+    "MaxFraction": 14.13
+  },
+  {
+    "ID": 726,
+    "MaxArea": 317.65,
+    "MaxFraction": 15.08
+  },
+  {
+    "ID": 727,
+    "MaxArea": 338.77,
+    "MaxFraction": 30.37
+  },
+  {
+    "ID": 728,
+    "MaxArea": 956.32,
+    "MaxFraction": 25.72
+  },
+  {
+    "ID": 729,
+    "MaxArea": 323.58,
+    "MaxFraction": 3.84
+  },
+  {
+    "ID": 730,
+    "MaxArea": 553.45,
+    "MaxFraction": 26.27
+  },
+  {
+    "ID": 731,
+    "MaxArea": 451.25,
+    "MaxFraction": 14.01
+  },
+  {
+    "ID": 732,
+    "MaxArea": 1240.24,
+    "MaxFraction": 37.07
+  },
+  {
+    "ID": 733,
+    "MaxArea": 1185.92,
+    "MaxFraction": 79.75
+  },
+  {
+    "ID": 734,
+    "MaxArea": 891.76,
+    "MaxFraction": 59.97
+  },
+  {
+    "ID": 735,
+    "MaxArea": 790.85,
+    "MaxFraction": 26.59
+  },
+  {
+    "ID": 736,
+    "MaxArea": 314.83,
+    "MaxFraction": 25.4
+  },
+  {
+    "ID": 737,
+    "MaxArea": 533.27,
+    "MaxFraction": 30.74
+  },
+  {
+    "ID": 738,
+    "MaxArea": 667.58,
+    "MaxFraction": 19.95
+  },
+  {
+    "ID": 739,
+    "MaxArea": 350.74,
+    "MaxFraction": 47.17
+  },
+  {
+    "ID": 740,
+    "MaxArea": 1179.22,
+    "MaxFraction": 25.72
+  },
+  {
+    "ID": 741,
+    "MaxArea": 144.33,
+    "MaxFraction": 6.85
+  },
+  {
+    "ID": 742,
+    "MaxArea": 220.18,
+    "MaxFraction": 6.58
+  }
+ ]

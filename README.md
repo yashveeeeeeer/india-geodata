@@ -16,9 +16,10 @@ Browse and download at **[india-geodata](https://yashveeeeeer.github.io/india-ge
 | [Administrative boundaries](data/administrative/) | Country, States, Districts, Subdistricts, Blocks, Panchayats, Villages, Habitations | Parquet, PMTiles, GeoJSONL, Shapefile | ~27 GB |
 | [Electoral boundaries](data/electoral/) | Assembly Constituencies, Parliamentary Constituencies | Shapefile, GeoJSON, Parquet, PMTiles | ~300 MB |
 | [Census](data/census/) | 2011 admin units, Historical districts (1941–2024) | Parquet, PMTiles, CSV | ~1.1 GB |
-| [Environment](data/environment/) | Forests, Coastal Regulation Zones, Land use, Soil classification | Parquet, PMTiles, GeoJSON | ~7.7 GB |
+| [Environment](data/environment/) | Forests, Coastal zones, Land use, Soil classification, Flood inventory, Flood atlas | Parquet, PMTiles, GeoJSON, JSON | ~8 GB |
 | [Water & Hydrology](data/water/) | Rivers, Streams, Lakes, Reservoirs, Tanks, Watersheds, Irrigation, Wetlands, Water Body Census, Urban Water, Natural Features | Parquet, PMTiles, GeoJSONL | ~18.5 GB |
 | [Infrastructure](data/infrastructure/) | Rural roads (PMGSY), National highways, SOI roads, NIC roads, ML roads, Urban roads, Railways, Inland waterways, Airports | Parquet, PMTiles, GeoJSONL, Shapefile, GeoJSON | ~20 GB |
+| [Buildings](data/buildings/) | Urban building footprints (AMRUT/Bhuvan, GSDL, VEDAS) | Parquet, PMTiles, GeoJSONL.7z | ~9 GB |
 | [Energy](data/energy/) | Power plants (coal, diesel, hydro) | GeoJSON | ~128 KB |
 | [Healthcare](data/healthcare/) | Public health facilities (PHCs, CHCs, hospitals) | GeoJSON | ~47 MB |
 | [Education](data/education/) | Schools, colleges, universities, kindergartens | GeoJSON | ~49 MB |
@@ -29,7 +30,7 @@ Browse and download at **[india-geodata](https://yashveeeeeer.github.io/india-ge
 | [Remote Sensing](data/remote-sensing/) | VIIRS nighttime lights (2012–2024), Population density (WorldPop 2020) | CSV, GeoJSON, GeoTIFF | ~370 MB |
 | [External Datasets](data/external/) | SHRUG: socioeconomic data for 500K+ villages | CSV, Stata, Shapefile | [DDL portal](https://www.devdatalab.org/shrug_download/) |
 
-Total: approximately 1,700+ files across 13 aggregated source collections and curated external links.
+Total: approximately 1,800+ files across 14 aggregated source collections and curated external links.
 
 ---
 
@@ -72,7 +73,8 @@ data/
                       Villages, Habitations, Divisions
   electoral/          Assembly and Parliamentary Constituencies
   census/             Census 2011 boundaries, Historical district series
-  environment/        Forests, Coastal zones, Land use, Soil classification
+  environment/        Forests, Coastal zones, Land use, Soil classification,
+                      Flood inventory, Flood atlas
   water/              Rivers, Streams, Lakes, Reservoirs, Tanks,
                       Watersheds, Irrigation, Wetlands, Water Body Census,
                       Urban Water, Natural Features
@@ -80,6 +82,7 @@ data/
                       SOI roads, NIC roads, ML roads, Urban roads,
                       PMGSY enhanced formats, Railways, Inland waterways
   transport/          Airports and Aerodromes
+  buildings/          Urban building footprints (AMRUT, GSDL, VEDAS)
   energy/             Power plants
   healthcare/         Public health facilities
   education/          Schools, colleges, universities
@@ -122,6 +125,9 @@ This repository consolidates data from the following open-data projects and gove
 | [Humanitarian OpenStreetMap (HOT)](https://data.humdata.org/) | HDX / OSM | ODbL | Airports, Education facilities (OpenStreetMap exports) |
 | [WorldPop](https://hub.worldpop.org/) | Univ. of Southampton | CC BY 4.0 | Gridded population density (1 km, 2020) |
 | [FAO DSMW](https://data.apps.fao.org/map/catalog/srv/search?keyword=DSMW) | FAO / UNESCO | FAO Open | Digital Soil Map of the World — soil classification polygons |
+| [India Flood Inventory](https://github.com/hydrosenselab/India-Flood-Inventory) | HydroSense Lab, IIT Delhi | CC BY 4.0 | Multi-source flood event polygons (1960s–2020) |
+| [India Flood Atlas](https://github.com/wcl-iitgn/india-flood-atlas-data) | Water and Climate Lab, IIT Gandhinagar | CC BY 4.0 | District/state/subbasin flood statistics (1901–2020) |
+| [indian_buildings](https://github.com/ramSeraph/indian_buildings) | ramSeraph | CC0 1.0 | Urban building footprints (AMRUT, GSDL, VEDAS) |
 
 Government data sources include: Survey of India, Local Government Directory (MoPR), ISRO Bhuvan, Forest Survey of India, National Centre for Sustainable Coastal Management, GatiShakti, eGramSwaraj, Swachh Bharat Mission, the Election Commission of India, NOAA Earth Observation Group, Ministry of Road Transport and Highways (MoRTH), Indian Railways, Water Resources Information System (WRIS), National Informatics Centre (NIC), SLUSI, Jal Dharohar, and AMRUT.
 

@@ -1,0 +1,15 @@
+{
+  "name": "India Flood Atlas",
+  "version": "1.0",
+  "description": "District-wise, state-wise, and sub-basin-wise annual flood area, flood fraction, and flood risk data for India (1901–2020) derived from H08-CaMa-Flood hydrological/hydrodynamic modeling at 10 km resolution.",
+  "source": {
+    "name": "India Flood Atlas",
+    "url": "https://github.com/wcl-iitgn/india-flood-atlas-data",
+    "authority": "Water and Climate Lab, IIT Gandhinagar"
+  },
+  "license": "CC-BY-4.0",
+  "formats": ["json"],
+  "spatial_coverage": "India",
+  "temporal_coverage": "1901–2020",
+  "citation": "Vegad, U., Pokhrel, Y., and Mishra, V.: Flood risk assessment for Indian sub-continental river basins, Hydrology and Earth System Sciences, 28, 1107–1126, 2024. https://doi.org/10.5194/hess-28-1107-2024"
+}

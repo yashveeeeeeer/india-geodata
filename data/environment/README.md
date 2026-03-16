@@ -9,6 +9,9 @@ Boundary datasets for natural and environmentally regulated areas across India.
 | `forests/` | Forest administrative and reserved forest boundaries |
 | `coastal/` | Coastal Regulation Zone (CRZ) boundaries and regulation lines |
 | `landuse/` | Land use classification data |
+| `soil/` | Soil classification map (FAO DSMW) |
+| `flood-inventory/` | India Flood Inventory — 1,006 flood event polygons (1960s–2020) |
+| `flood-atlas/` | India Flood Atlas — district/state/subbasin flood statistics (1901–2020) |
 
 ## Sources
 
