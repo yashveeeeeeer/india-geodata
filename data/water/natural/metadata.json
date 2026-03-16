@@ -1,0 +1,45 @@
+{
+  "name": "water-natural",
+  "title": "Natural Water Features",
+  "description": "Point and polygon geometries of natural water features across India — springs, waterfalls, geothermal springs, and islands from Survey of India topographic maps, Bhuvan, and the National Geoscience Data Repository.",
+  "category": "water",
+  "level": "natural",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    },
+    {
+      "name": "ISRO Bhuvan",
+      "url": "https://bhuvan.nrsc.gov.in/",
+      "authority": "ISRO"
+    },
+    {
+      "name": "NGDR (Bhukosh)",
+      "url": "https://bhukosh.gsi.gov.in/",
+      "authority": "Geological Survey of India"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/natural"
+  },
+  "last_updated": "2026-03-15"
+}

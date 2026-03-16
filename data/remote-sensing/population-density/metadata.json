@@ -1,0 +1,43 @@
+{
+  "name": "population-density",
+  "title": "Gridded Population Density (WorldPop)",
+  "description": "1 km resolution gridded population density for India (2020) from WorldPop — modeled from Census 2011 data and remotely-sensed landcover using random forest-based dasymetric redistribution. Values represent people per square kilometre.",
+  "category": "remote-sensing",
+  "level": "population-density",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2020",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "WorldPop",
+      "url": "https://hub.worldpop.org/geodata/summary?id=41746",
+      "authority": "WorldPop / University of Southampton"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "formats": [
+    "geotiff"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "remote-sensing/population-density"
+  },
+  "files": [
+    {
+      "filename": "ind_pd_2020_1km.tif",
+      "format": "geotiff",
+      "size": "17 MB",
+      "storage": "release",
+      "release_tag": "remote-sensing/population-density",
+      "description": "1 km gridded population density for India (2020), people per km²"
+    }
+  ],
+  "last_updated": "2026-03-16"
+}

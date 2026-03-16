@@ -1,12 +1,12 @@
 ---
 layout: default
 title: "Download India's Open Geospatial Data"
-description: "Browse and download 36 open-licensed GIS datasets for India — administrative boundaries, electoral maps, census data, forest cover, nighttime lights, roads, railways, waterways, energy plants, police stations, and more. Free Parquet, GeoJSON, Shapefile, and PMTiles formats."
+description: "Browse and download 48 open-licensed GIS datasets for India — administrative boundaries, electoral maps, census data, forest cover, rivers, lakes, watersheds, irrigation, wetlands, nighttime lights, roads, railways, airports, healthcare, education, population density, and more. Free Parquet, GeoJSON, Shapefile, PMTiles, and GeoTIFF formats."
 ---
 
-{% assign cats = "administrative,electoral,census,environment,infrastructure,energy,urban,postal,police,survey-of-india,remote-sensing,external" | split: "," %}
+{% assign cats = "administrative,electoral,census,environment,water,infrastructure,energy,urban,postal,police,healthcare,education,survey-of-india,remote-sensing,external" | split: "," %}
 
-{% assign cat_labels = "Administrative Boundaries,Electoral Boundaries,Census,Environment,Infrastructure,Energy,Urban,Postal,Police,Survey of India,Remote Sensing,External Datasets" | split: "," %}
+{% assign cat_labels = "Administrative Boundaries,Electoral Boundaries,Census,Environment,Water & Hydrology,Infrastructure,Energy,Urban,Postal,Police,Healthcare,Education,Survey of India,Remote Sensing,External Datasets" | split: "," %}
 
 
 <section class="hero">
@@ -18,11 +18,11 @@ description: "Browse and download 36 open-licensed GIS datasets for India — ad
         <span class="stat-label">Datasets</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number">12</span>
+        <span class="stat-number">15</span>
         <span class="stat-label">Categories</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number">55 GB+</span>
+        <span class="stat-number">75 GB+</span>
         <span class="stat-label">Total data</span>
       </div>
     </div>

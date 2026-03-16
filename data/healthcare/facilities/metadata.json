@@ -1,0 +1,43 @@
+{
+  "name": "healthcare-facilities",
+  "title": "Healthcare Facilities",
+  "description": "Point locations of public health facilities across India — primary health centres (PHCs), community health centres (CHCs), sub-centres, district hospitals, and other medical facilities with name, type, district, and state attributes from NIC HealthGIS.",
+  "category": "healthcare",
+  "level": "facilities",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2023",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "NIC HealthGIS",
+      "url": "https://healthgis.in/",
+      "authority": "National Informatics Centre"
+    }
+  ],
+  "license": {
+    "id": "India-OGL",
+    "name": "India Open Government License",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": [
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "healthcare/facilities"
+  },
+  "files": [
+    {
+      "filename": "INDIA_HEALTH_FACILITIES_NIC.geojson",
+      "format": "geojson",
+      "size": "47 MB",
+      "storage": "release",
+      "release_tag": "healthcare/facilities",
+      "description": "Point locations of public health facilities across India"
+    }
+  ],
+  "last_updated": "2026-03-16"
+}

@@ -1,0 +1,50 @@
+{
+  "name": "education-facilities",
+  "title": "Education Facilities",
+  "description": "Point and polygon locations of schools, colleges, universities, and kindergartens across India from OpenStreetMap, with facility name, type, operator, capacity, and address attributes.",
+  "category": "education",
+  "level": "facilities",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Humanitarian OpenStreetMap Team (HOT)",
+      "url": "https://data.humdata.org/dataset/hotosm_ind_education_facilities",
+      "authority": "OpenStreetMap contributors"
+    }
+  ],
+  "license": {
+    "id": "ODbL",
+    "name": "Open Database License",
+    "url": "https://opendatacommons.org/licenses/odbl/"
+  },
+  "formats": [
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": "education/facilities"
+  },
+  "files": [
+    {
+      "filename": "INDIA_EDUCATION_FACILITIES_POINTS.geojson",
+      "format": "geojson",
+      "size": "7.4 MB",
+      "storage": "repo",
+      "description": "Point locations of schools, colleges, universities, and kindergartens"
+    },
+    {
+      "filename": "hotosm_ind_education_facilities_polygons_geojson.geojson",
+      "format": "geojson",
+      "size": "41 MB",
+      "storage": "release",
+      "release_tag": "education/facilities",
+      "description": "Polygon outlines of education facility areas"
+    }
+  ],
+  "last_updated": "2026-03-16"
+}

@@ -1,0 +1,45 @@
+{
+  "name": "water-waterbodies",
+  "title": "Lakes, Reservoirs & Tanks",
+  "description": "Polygon and point geometries of surface water bodies — lakes, reservoirs, tanks, and ponds — from WRIS, Survey of India topographic maps, and the Amrit Sarovar Water Observatory, with water body names, type, area, and temporal extent.",
+  "category": "water",
+  "level": "waterbodies",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "India-WRIS",
+      "url": "https://indiawris.gov.in/",
+      "authority": "Ministry of Jal Shakti"
+    },
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    },
+    {
+      "name": "Amrit Sarovar Water Observatory",
+      "url": "https://amritsarovar.gov.in/",
+      "authority": "Ministry of Jal Shakti"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/waterbodies"
+  },
+  "last_updated": "2026-03-15"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "water-waterbody-census",
+  "title": "Water Body Census",
+  "description": "Point locations of water bodies from India's first national Water Body Census (Jal Dharohar) — covering ponds, lakes, tanks, and reservoirs with attributes for type, ownership, usage, condition, and encroachment status.",
+  "category": "water",
+  "level": "waterbody-census",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Jal Dharohar (National Water Body Census)",
+      "url": "https://jaldhrohar.gov.in/",
+      "authority": "Ministry of Jal Shakti"
+    }
+  ],
+  "license": {
+    "id": "India-OGL",
+    "name": "India Open Government License",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/waterbody-census"
+  },
+  "last_updated": "2026-03-15"
+}

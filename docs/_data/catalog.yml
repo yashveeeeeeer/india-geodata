@@ -6085,3 +6085,1015 @@
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/urban/boundaries
+
+- name: water-rivers
+  title: Rivers & Streams
+  description: Polyline and polygon geometries of rivers, streams, and water channels
+    across India — SOI topographic streams, WRIS river networks, and NCOG compiled
+    stream data with names, basins, and flow attributes.
+  category: water
+  level: rivers
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: water/rivers
+  url: data/water/rivers
+  files:
+  - name: NCOG_SOI_Streams.00.parquet
+    format: parquet
+    size: 1041.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/NCOG_SOI_Streams.00.parquet
+  - name: NCOG_SOI_Streams.01.parquet
+    format: parquet
+    size: 1171.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/NCOG_SOI_Streams.01.parquet
+  - name: NCOG_SOI_Streams.geojsonl.7z
+    format: geojsonl.7z
+    size: 1088.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/NCOG_SOI_Streams.geojsonl.7z
+  - name: NCOG_SOI_Streams.parquet.meta.json
+    format: json
+    size: 1 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/NCOG_SOI_Streams.parquet.meta.json
+  - name: NCOG_SOI_Streams.pmtiles
+    format: pmtiles
+    size: 855.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/NCOG_SOI_Streams.pmtiles
+  - name: SOI_Streams.geojsonl.7z
+    format: geojsonl.7z
+    size: 776.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Streams.geojsonl.7z
+  - name: SOI_Streams.parquet
+    format: parquet
+    size: 1331.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Streams.parquet
+  - name: SOI_Streams.pmtiles
+    format: pmtiles
+    size: 737.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Streams.pmtiles
+  - name: SOI_Water_Channels.geojsonl.7z
+    format: geojsonl.7z
+    size: 14.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Water_Channels.geojsonl.7z
+  - name: SOI_Water_Channels.parquet
+    format: parquet
+    size: 25.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Water_Channels.parquet
+  - name: SOI_Water_Channels.pmtiles
+    format: pmtiles
+    size: 25 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Water_Channels.pmtiles
+  - name: SOI_Water_Channel_Polygons.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Water_Channel_Polygons.geojsonl.7z
+  - name: SOI_Water_Channel_Polygons.parquet
+    format: parquet
+    size: 2.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Water_Channel_Polygons.parquet
+  - name: SOI_Water_Channel_Polygons.pmtiles
+    format: pmtiles
+    size: 0.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/SOI_Water_Channel_Polygons.pmtiles
+  - name: WRIS_Rivers.geojsonl.7z
+    format: geojsonl.7z
+    size: 105.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_Rivers.geojsonl.7z
+  - name: WRIS_Rivers.parquet
+    format: parquet
+    size: 218.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_Rivers.parquet
+  - name: WRIS_Rivers.pmtiles
+    format: pmtiles
+    size: 80.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_Rivers.pmtiles
+  - name: WRIS_River_Polygons.geojsonl.7z
+    format: geojsonl.7z
+    size: 88.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_River_Polygons.geojsonl.7z
+  - name: WRIS_River_Polygons.parquet
+    format: parquet
+    size: 196.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_River_Polygons.parquet
+  - name: WRIS_River_Polygons.pmtiles
+    format: pmtiles
+    size: 50.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_River_Polygons.pmtiles
+  - name: WRIS_Streams.geojsonl.7z
+    format: geojsonl.7z
+    size: 1657.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_Streams.geojsonl.7z
+  - name: WRIS_Streams.parquet
+    format: parquet
+    size: 1795.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_Streams.parquet
+  - name: WRIS_Streams.pmtiles
+    format: pmtiles
+    size: 457.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/rivers/WRIS_Streams.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/rivers
+
+- name: water-waterbodies
+  title: "Lakes, Reservoirs & Tanks"
+  description: Polygon and point geometries of surface water bodies — lakes, reservoirs,
+    tanks, and ponds — from WRIS, SOI topographic maps, and the Amrit Sarovar Water Observatory.
+  category: water
+  level: waterbodies
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  - csv.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: water/waterbodies
+  url: data/water/waterbodies
+  files:
+  - name: Amrit_Sarovar_Water_Observatory_Ponds.geojsonl.7z
+    format: geojsonl.7z
+    size: 2.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/Amrit_Sarovar_Water_Observatory_Ponds.geojsonl.7z
+  - name: Amrit_Sarovar_Water_Observatory_Ponds.parquet
+    format: parquet
+    size: 5.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/Amrit_Sarovar_Water_Observatory_Ponds.parquet
+  - name: Amrit_Sarovar_Water_Observatory_Ponds.pmtiles
+    format: pmtiles
+    size: 8.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/Amrit_Sarovar_Water_Observatory_Ponds.pmtiles
+  - name: combined_timeseries.csv.7z
+    format: csv.7z
+    size: 19.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/combined_timeseries.csv.7z
+  - name: SOI_Lakes.geojsonl.7z
+    format: geojsonl.7z
+    size: 46 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Lakes.geojsonl.7z
+  - name: SOI_Lakes.parquet
+    format: parquet
+    size: 83 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Lakes.parquet
+  - name: SOI_Lakes.pmtiles
+    format: pmtiles
+    size: 42 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Lakes.pmtiles
+  - name: SOI_Tanks.geojsonl.7z
+    format: geojsonl.7z
+    size: 169.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Tanks.geojsonl.7z
+  - name: SOI_Tanks.parquet
+    format: parquet
+    size: 355.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Tanks.parquet
+  - name: SOI_Tanks.pmtiles
+    format: pmtiles
+    size: 261.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Tanks.pmtiles
+  - name: SOI_Tank_Points.geojsonl.7z
+    format: geojsonl.7z
+    size: 8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Tank_Points.geojsonl.7z
+  - name: SOI_Tank_Points.parquet
+    format: parquet
+    size: 14.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Tank_Points.parquet
+  - name: SOI_Tank_Points.pmtiles
+    format: pmtiles
+    size: 24.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/SOI_Tank_Points.pmtiles
+  - name: WRIS_Lakes.geojsonl.7z
+    format: geojsonl.7z
+    size: 43.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Lakes.geojsonl.7z
+  - name: WRIS_Lakes.parquet
+    format: parquet
+    size: 92.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Lakes.parquet
+  - name: WRIS_Lakes.pmtiles
+    format: pmtiles
+    size: 83 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Lakes.pmtiles
+  - name: WRIS_Reservoirs.geojsonl.7z
+    format: geojsonl.7z
+    size: 22.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Reservoirs.geojsonl.7z
+  - name: WRIS_Reservoirs.parquet
+    format: parquet
+    size: 50.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Reservoirs.parquet
+  - name: WRIS_Reservoirs.pmtiles
+    format: pmtiles
+    size: 19.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Reservoirs.pmtiles
+  - name: WRIS_Waterbodies.geojsonl.7z
+    format: geojsonl.7z
+    size: 185.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Waterbodies.geojsonl.7z
+  - name: WRIS_Waterbodies.parquet
+    format: parquet
+    size: 394 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Waterbodies.parquet
+  - name: WRIS_Waterbodies.pmtiles
+    format: pmtiles
+    size: 323.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbodies/WRIS_Waterbodies.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/waterbodies
+
+- name: water-hydro-boundaries
+  title: Hydrological Boundaries
+  description: Polygon boundaries of India's hydrological units — river basins, sub-basins,
+    watersheds, micro-watersheds, and priority micro-watersheds from WRIS and SLUSI.
+  category: water
+  level: hydro-boundaries
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: water/hydro-boundaries
+  url: data/water/hydro-boundaries
+  files:
+  - name: SLUSI_MicroWatersheds.geojsonl.7z
+    format: geojsonl.7z
+    size: 435.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/SLUSI_MicroWatersheds.geojsonl.7z
+  - name: SLUSI_MicroWatersheds.parquet
+    format: parquet
+    size: 473.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/SLUSI_MicroWatersheds.parquet
+  - name: SLUSI_MicroWatersheds.pmtiles
+    format: pmtiles
+    size: 151.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/SLUSI_MicroWatersheds.pmtiles
+  - name: SLUSI_Priority_MicroWatersheds.geojsonl.7z
+    format: geojsonl.7z
+    size: 287.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/SLUSI_Priority_MicroWatersheds.geojsonl.7z
+  - name: SLUSI_Priority_MicroWatersheds.parquet
+    format: parquet
+    size: 313.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/SLUSI_Priority_MicroWatersheds.parquet
+  - name: SLUSI_Priority_MicroWatersheds.pmtiles
+    format: pmtiles
+    size: 102.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/SLUSI_Priority_MicroWatersheds.pmtiles
+  - name: WRIS_Basin.geojsonl.7z
+    format: geojsonl.7z
+    size: 2.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_Basin.geojsonl.7z
+  - name: WRIS_Basin.parquet
+    format: parquet
+    size: 4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_Basin.parquet
+  - name: WRIS_Basin.pmtiles
+    format: pmtiles
+    size: 1.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_Basin.pmtiles
+  - name: WRIS_SubBasin.geojsonl.7z
+    format: geojsonl.7z
+    size: 11.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_SubBasin.geojsonl.7z
+  - name: WRIS_SubBasin.parquet
+    format: parquet
+    size: 22.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_SubBasin.parquet
+  - name: WRIS_SubBasin.pmtiles
+    format: pmtiles
+    size: 7.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_SubBasin.pmtiles
+  - name: WRIS_Watershed.geojsonl.7z
+    format: geojsonl.7z
+    size: 65.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_Watershed.geojsonl.7z
+  - name: WRIS_Watershed.parquet
+    format: parquet
+    size: 121.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_Watershed.parquet
+  - name: WRIS_Watershed.pmtiles
+    format: pmtiles
+    size: 38.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/hydro-boundaries/WRIS_Watershed.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/hydro-boundaries
+
+- name: water-irrigation
+  title: Irrigation Infrastructure
+  description: Point, line, and polygon geometries of irrigation infrastructure — canals,
+    dams, aqueducts, siphons, sluices, weirs, wells, tube wells, hand pumps, and anicuts
+    from SOI, BharatMaps, and WRIS.
+  category: water
+  level: irrigation
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: water/irrigation
+  url: data/water/irrigation
+  files:
+  - name: Bharatmaps_Canals.geojsonl.7z
+    format: geojsonl.7z
+    size: 27.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canals.geojsonl.7z
+  - name: Bharatmaps_Canals.parquet
+    format: parquet
+    size: 60.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canals.parquet
+  - name: Bharatmaps_Canals.pmtiles
+    format: pmtiles
+    size: 33.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canals.pmtiles
+  - name: Bharatmaps_Canals_with_names.geojsonl.7z
+    format: geojsonl.7z
+    size: 24.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canals_with_names.geojsonl.7z
+  - name: Bharatmaps_Canals_with_names.parquet
+    format: parquet
+    size: 50.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canals_with_names.parquet
+  - name: Bharatmaps_Canals_with_names.pmtiles
+    format: pmtiles
+    size: 25.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canals_with_names.pmtiles
+  - name: Bharatmaps_Canal_Polygons.geojsonl.7z
+    format: geojsonl.7z
+    size: 18.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canal_Polygons.geojsonl.7z
+  - name: Bharatmaps_Canal_Polygons.parquet
+    format: parquet
+    size: 40 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canal_Polygons.parquet
+  - name: Bharatmaps_Canal_Polygons.pmtiles
+    format: pmtiles
+    size: 12 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Canal_Polygons.pmtiles
+  - name: Bharatmaps_Dams.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Dams.geojsonl.7z
+  - name: Bharatmaps_Dams.parquet
+    format: parquet
+    size: 0.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Dams.parquet
+  - name: Bharatmaps_Dams.pmtiles
+    format: pmtiles
+    size: 0.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/Bharatmaps_Dams.pmtiles
+  - name: SOI_Aqueducts.geojsonl.7z
+    format: geojsonl.7z
+    size: 2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Aqueducts.geojsonl.7z
+  - name: SOI_Aqueducts.parquet
+    format: parquet
+    size: 3.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Aqueducts.parquet
+  - name: SOI_Aqueducts.pmtiles
+    format: pmtiles
+    size: 4.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Aqueducts.pmtiles
+  - name: SOI_Canals.geojsonl.7z
+    format: geojsonl.7z
+    size: 64.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Canals.geojsonl.7z
+  - name: SOI_Canals.parquet
+    format: parquet
+    size: 109.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Canals.parquet
+  - name: SOI_Canals.pmtiles
+    format: pmtiles
+    size: 83.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Canals.pmtiles
+  - name: SOI_Drains.geojsonl.7z
+    format: geojsonl.7z
+    size: 4.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Drains.geojsonl.7z
+  - name: SOI_Drains.parquet
+    format: parquet
+    size: 7.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Drains.parquet
+  - name: SOI_Drains.pmtiles
+    format: pmtiles
+    size: 9.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Drains.pmtiles
+  - name: SOI_Hand_Pumps.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Hand_Pumps.geojsonl.7z
+  - name: SOI_Hand_Pumps.parquet
+    format: parquet
+    size: 3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Hand_Pumps.parquet
+  - name: SOI_Hand_Pumps.pmtiles
+    format: pmtiles
+    size: 2.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Hand_Pumps.pmtiles
+  - name: SOI_Siphons.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Siphons.geojsonl.7z
+  - name: SOI_Siphons.parquet
+    format: parquet
+    size: 1.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Siphons.parquet
+  - name: SOI_Siphons.pmtiles
+    format: pmtiles
+    size: 1.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Siphons.pmtiles
+  - name: SOI_Sluices.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Sluices.geojsonl.7z
+  - name: SOI_Sluices.parquet
+    format: parquet
+    size: 1.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Sluices.parquet
+  - name: SOI_Sluices.pmtiles
+    format: pmtiles
+    size: 1.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Sluices.pmtiles
+  - name: SOI_Tube_Wells.geojsonl.7z
+    format: geojsonl.7z
+    size: 48.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Tube_Wells.geojsonl.7z
+  - name: SOI_Tube_Wells.parquet
+    format: parquet
+    size: 104.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Tube_Wells.parquet
+  - name: SOI_Tube_Wells.pmtiles
+    format: pmtiles
+    size: 130.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Tube_Wells.pmtiles
+  - name: SOI_Weirs.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Weirs.geojsonl.7z
+  - name: SOI_Weirs.parquet
+    format: parquet
+    size: 0.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Weirs.parquet
+  - name: SOI_Weirs.pmtiles
+    format: pmtiles
+    size: 0.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Weirs.pmtiles
+  - name: SOI_Weir_Locks.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Weir_Locks.geojsonl.7z
+  - name: SOI_Weir_Locks.parquet
+    format: parquet
+    size: 0.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Weir_Locks.parquet
+  - name: SOI_Weir_Locks.pmtiles
+    format: pmtiles
+    size: 0.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Weir_Locks.pmtiles
+  - name: SOI_Wells.geojsonl.7z
+    format: geojsonl.7z
+    size: 54.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Wells.geojsonl.7z
+  - name: SOI_Wells.parquet
+    format: parquet
+    size: 111.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Wells.parquet
+  - name: SOI_Wells.pmtiles
+    format: pmtiles
+    size: 165 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/SOI_Wells.pmtiles
+  - name: WRIS_Anicuts.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_Anicuts.geojsonl.7z
+  - name: WRIS_Anicuts.parquet
+    format: parquet
+    size: 0.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_Anicuts.parquet
+  - name: WRIS_Anicuts.pmtiles
+    format: pmtiles
+    size: 0.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_Anicuts.pmtiles
+  - name: WRIS_Dams.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_Dams.geojsonl.7z
+  - name: WRIS_Dams.parquet
+    format: parquet
+    size: 0.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_Dams.parquet
+  - name: WRIS_Dams.pmtiles
+    format: pmtiles
+    size: 0.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_Dams.pmtiles
+  - name: WRIS_LIFT_Stations.geojsonl.7z
+    format: geojsonl.7z
+    size: 42 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_LIFT_Stations.geojsonl.7z
+  - name: WRIS_LIFT_Stations.parquet
+    format: parquet
+    size: 58 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_LIFT_Stations.parquet
+  - name: WRIS_LIFT_Stations.pmtiles
+    format: pmtiles
+    size: 67 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/irrigation/WRIS_LIFT_Stations.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/irrigation
+
+- name: water-wetlands
+  title: "Wetlands & Ramsar Sites"
+  description: Polygon boundaries of wetlands — Ramsar-designated wetlands, surveyed
+    wetland boundaries from Parivesh, SOI-mapped salt pans, and swamps.
+  category: water
+  level: wetlands
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: water/wetlands
+  url: data/water/wetlands
+  files:
+  - name: Bharatmaps_Parivesh_Ramsar_Wetlands.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/Bharatmaps_Parivesh_Ramsar_Wetlands.geojsonl.7z
+  - name: Bharatmaps_Parivesh_Ramsar_Wetlands.parquet
+    format: parquet
+    size: 2.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/Bharatmaps_Parivesh_Ramsar_Wetlands.parquet
+  - name: Bharatmaps_Parivesh_Ramsar_Wetlands.pmtiles
+    format: pmtiles
+    size: 0.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/Bharatmaps_Parivesh_Ramsar_Wetlands.pmtiles
+  - name: Bharatmaps_Parivesh_Wetland_Boundaries.geojsonl.7z
+    format: geojsonl.7z
+    size: 181.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/Bharatmaps_Parivesh_Wetland_Boundaries.geojsonl.7z
+  - name: Bharatmaps_Parivesh_Wetland_Boundaries.parquet
+    format: parquet
+    size: 393.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/Bharatmaps_Parivesh_Wetland_Boundaries.parquet
+  - name: Bharatmaps_Parivesh_Wetland_Boundaries.pmtiles
+    format: pmtiles
+    size: 356.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/Bharatmaps_Parivesh_Wetland_Boundaries.pmtiles
+  - name: NCOG_SOI_SaltPans.geojsonl.7z
+    format: geojsonl.7z
+    size: 25 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/NCOG_SOI_SaltPans.geojsonl.7z
+  - name: NCOG_SOI_SaltPans.parquet
+    format: parquet
+    size: 45 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/NCOG_SOI_SaltPans.parquet
+  - name: NCOG_SOI_SaltPans.pmtiles
+    format: pmtiles
+    size: 23 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/NCOG_SOI_SaltPans.pmtiles
+  - name: NCOG_SOI_Swamps.geojsonl.7z
+    format: geojsonl.7z
+    size: 34 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/NCOG_SOI_Swamps.geojsonl.7z
+  - name: NCOG_SOI_Swamps.parquet
+    format: parquet
+    size: 62 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/NCOG_SOI_Swamps.parquet
+  - name: NCOG_SOI_Swamps.pmtiles
+    format: pmtiles
+    size: 25 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/wetlands/NCOG_SOI_Swamps.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/wetlands
+
+- name: water-waterbody-census
+  title: Water Body Census
+  description: Point locations from India's first national Water Body Census (Jal Dharohar) —
+    ponds, lakes, tanks, and reservoirs with type, ownership, usage, condition, and
+    encroachment attributes.
+  category: water
+  level: waterbody-census
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: India-OGL
+  storage: release
+  release_tag: water/waterbody-census
+  url: data/water/waterbody-census
+  files:
+  - name: JalDharohar_Waterbody_Census.geojsonl.7z
+    format: geojsonl.7z
+    size: 85.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbody-census/JalDharohar_Waterbody_Census.geojsonl.7z
+  - name: JalDharohar_Waterbody_Census.parquet
+    format: parquet
+    size: 108.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbody-census/JalDharohar_Waterbody_Census.parquet
+  - name: JalDharohar_Waterbody_Census.pmtiles
+    format: pmtiles
+    size: 298.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/waterbody-census/JalDharohar_Waterbody_Census.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/waterbody-census
+
+- name: water-urban-water
+  title: Urban Water Features
+  description: Stormwater drains, ghats, and urban water bodies from the Swachh Bharat
+    Mission and AMRUT urban infrastructure programmes.
+  category: water
+  level: urban-water
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: India-OGL
+  storage: release
+  release_tag: water/urban-water
+  url: data/water/urban-water
+  files:
+  - name: SBM_Ghats.geojsonl.7z
+    format: geojsonl.7z
+    size: 42 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Ghats.geojsonl.7z
+  - name: SBM_Ghats.parquet
+    format: parquet
+    size: 57 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Ghats.parquet
+  - name: SBM_Ghats.pmtiles
+    format: pmtiles
+    size: 68 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Ghats.pmtiles
+  - name: SBM_Stormwater_drains.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Stormwater_drains.geojsonl.7z
+  - name: SBM_Stormwater_drains.parquet
+    format: parquet
+    size: 1.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Stormwater_drains.parquet
+  - name: SBM_Stormwater_drains.pmtiles
+    format: pmtiles
+    size: 3.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Stormwater_drains.pmtiles
+  - name: SBM_Water_bodies.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Water_bodies.geojsonl.7z
+  - name: SBM_Water_bodies.parquet
+    format: parquet
+    size: 1.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Water_bodies.parquet
+  - name: SBM_Water_bodies.pmtiles
+    format: pmtiles
+    size: 3.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/SBM_Water_bodies.pmtiles
+  - name: WB_AMRUT_Stormwater_drains.geojsonl.7z
+    format: geojsonl.7z
+    size: 7.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/WB_AMRUT_Stormwater_drains.geojsonl.7z
+  - name: WB_AMRUT_Stormwater_drains.parquet
+    format: parquet
+    size: 15 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/WB_AMRUT_Stormwater_drains.parquet
+  - name: WB_AMRUT_Stormwater_drains.pmtiles
+    format: pmtiles
+    size: 14.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/WB_AMRUT_Stormwater_drains.pmtiles
+  - name: WB_AMRUT_Stormwater_vents.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/WB_AMRUT_Stormwater_vents.geojsonl.7z
+  - name: WB_AMRUT_Stormwater_vents.parquet
+    format: parquet
+    size: 0.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/WB_AMRUT_Stormwater_vents.parquet
+  - name: WB_AMRUT_Stormwater_vents.pmtiles
+    format: pmtiles
+    size: 0.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/urban-water/WB_AMRUT_Stormwater_vents.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/urban-water
+
+- name: water-natural
+  title: Natural Water Features
+  description: Springs, waterfalls, geothermal springs, and islands from SOI topographic
+    maps, Bhuvan, and the National Geoscience Data Repository.
+  category: water
+  level: natural
+  formats:
+  - parquet
+  - pmtiles
+  - geojsonl.7z
+  license_id: CC0-1.0
+  storage: release
+  release_tag: water/natural
+  url: data/water/natural
+  files:
+  - name: Bhuvan_Islands.geojsonl.7z
+    format: geojsonl.7z
+    size: 2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/Bhuvan_Islands.geojsonl.7z
+  - name: Bhuvan_Islands.parquet
+    format: parquet
+    size: 2.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/Bhuvan_Islands.parquet
+  - name: Bhuvan_Islands.pmtiles
+    format: pmtiles
+    size: 1.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/Bhuvan_Islands.pmtiles
+  - name: NGDR_Geothermal_Springs.geojsonl.7z
+    format: geojsonl.7z
+    size: 3 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/NGDR_Geothermal_Springs.geojsonl.7z
+  - name: NGDR_Geothermal_Springs.parquet
+    format: parquet
+    size: 6 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/NGDR_Geothermal_Springs.parquet
+  - name: NGDR_Geothermal_Springs.pmtiles
+    format: pmtiles
+    size: 5 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/NGDR_Geothermal_Springs.pmtiles
+  - name: SOI_Springs.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Springs.geojsonl.7z
+  - name: SOI_Springs.parquet
+    format: parquet
+    size: 1.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Springs.parquet
+  - name: SOI_Springs.pmtiles
+    format: pmtiles
+    size: 1.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Springs.pmtiles
+  - name: SOI_Springs_compiled.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Springs_compiled.geojsonl.7z
+  - name: SOI_Springs_compiled.parquet
+    format: parquet
+    size: 1.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Springs_compiled.parquet
+  - name: SOI_Springs_compiled.pmtiles
+    format: pmtiles
+    size: 1.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Springs_compiled.pmtiles
+  - name: SOI_Waterfalls.geojsonl.7z
+    format: geojsonl.7z
+    size: 0.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Waterfalls.geojsonl.7z
+  - name: SOI_Waterfalls.parquet
+    format: parquet
+    size: 0.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Waterfalls.parquet
+  - name: SOI_Waterfalls.pmtiles
+    format: pmtiles
+    size: 0.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/water/natural/SOI_Waterfalls.pmtiles
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/water/natural
+
+- name: transport-airports
+  title: "Airports & Aerodromes"
+  description: Point and polygon geometries of airports, aerodromes, helipads, and
+    emergency landing sites across India from OpenStreetMap.
+  category: infrastructure
+  level: airports
+  formats:
+  - geojson
+  license_id: ODbL
+  storage: repo
+  release_tag:
+  url: data/transport/airports
+  files:
+  - name: INDIA_AIRPORTS_POINTS.geojson
+    format: geojson
+    size: 1.1 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/transport/airports/INDIA_AIRPORTS_POINTS.geojson
+  - name: INDIA_AIRPORTS_POLYGONS.geojson
+    format: geojson
+    size: 5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/transport/airports/INDIA_AIRPORTS_POLYGONS.geojson
+
+- name: healthcare-facilities
+  title: Healthcare Facilities
+  description: Point locations of public health facilities across India — PHCs, CHCs,
+    sub-centres, district hospitals, and other medical facilities with name, type, district,
+    and state attributes from NIC HealthGIS.
+  category: healthcare
+  level: facilities
+  formats:
+  - geojson
+  license_id: India-OGL
+  storage: release
+  release_tag: healthcare/facilities
+  url: data/healthcare/facilities
+  files:
+  - name: INDIA_HEALTH_FACILITIES_NIC.geojson
+    format: geojson
+    size: 47.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/healthcare/facilities/INDIA_HEALTH_FACILITIES_NIC.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/healthcare/facilities
+
+- name: education-facilities
+  title: Education Facilities
+  description: Point and polygon locations of schools, colleges, universities, and
+    kindergartens across India from OpenStreetMap with facility name, type, operator,
+    and address attributes.
+  category: education
+  level: facilities
+  formats:
+  - geojson
+  license_id: ODbL
+  storage: release
+  release_tag: education/facilities
+  url: data/education/facilities
+  files:
+  - name: INDIA_EDUCATION_FACILITIES_POINTS.geojson
+    format: geojson
+    size: 7.4 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/education/facilities/INDIA_EDUCATION_FACILITIES_POINTS.geojson
+  - name: hotosm_ind_education_facilities_polygons_geojson.geojson
+    format: geojson
+    size: 41.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/education/facilities/hotosm_ind_education_facilities_polygons_geojson.geojson
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/education/facilities
+
+- name: population-density
+  title: "Gridded Population Density (WorldPop)"
+  description: 1 km resolution gridded population density for India (2020) from WorldPop —
+    modeled from Census 2011 data and satellite imagery. Values represent people per
+    square kilometre.
+  category: remote-sensing
+  level: population-density
+  formats:
+  - geotiff
+  license_id: CC-BY-4.0
+  storage: release
+  release_tag: remote-sensing/population-density
+  url: data/remote-sensing/population-density
+  files:
+  - name: ind_pd_2020_1km.tif
+    format: geotiff
+    size: 17.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/remote-sensing/population-density/ind_pd_2020_1km.tif
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/remote-sensing/population-density

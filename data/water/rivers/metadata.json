@@ -1,0 +1,45 @@
+{
+  "name": "water-rivers",
+  "title": "Rivers & Streams",
+  "description": "Polyline and polygon geometries of rivers, streams, and water channels across India — including SOI topographic streams, WRIS river networks, and NCOG compiled stream data with river names, basins, and flow attributes.",
+  "category": "water",
+  "level": "rivers",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "India-WRIS",
+      "url": "https://indiawris.gov.in/",
+      "authority": "Ministry of Jal Shakti"
+    },
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    },
+    {
+      "name": "NCOG",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "NCOG"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/rivers"
+  },
+  "last_updated": "2026-03-15"
+}

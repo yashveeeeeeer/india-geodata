@@ -1,0 +1,45 @@
+{
+  "name": "water-wetlands",
+  "title": "Wetlands & Ramsar Sites",
+  "description": "Polygon boundaries of wetlands across India — including Ramsar-designated wetlands, surveyed wetland boundaries from the Parivesh portal, SOI-mapped salt pans, and swamps.",
+  "category": "water",
+  "level": "wetlands",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "BharatMaps / Parivesh",
+      "url": "https://parivesh.nic.in/",
+      "authority": "MoEFCC"
+    },
+    {
+      "name": "Survey of India (indiamaps.gov.in)",
+      "url": "https://indiamaps.gov.in/",
+      "authority": "Survey of India"
+    },
+    {
+      "name": "NCOG",
+      "url": "https://bharatmaps.gov.in/",
+      "authority": "NCOG"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/wetlands"
+  },
+  "last_updated": "2026-03-15"
+}

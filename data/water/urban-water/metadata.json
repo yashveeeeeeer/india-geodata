@@ -1,0 +1,40 @@
+{
+  "name": "water-urban-water",
+  "title": "Urban Water Features",
+  "description": "Point and line geometries of urban water infrastructure — stormwater drains, ghats, and urban water bodies from the Swachh Bharat Mission and AMRUT programmes.",
+  "category": "water",
+  "level": "urban-water",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "Swachh Bharat Mission (SBM)",
+      "url": "https://sbm.gov.in/",
+      "authority": "Ministry of Housing & Urban Affairs"
+    },
+    {
+      "name": "AMRUT",
+      "url": "https://amrut.gov.in/",
+      "authority": "Ministry of Housing & Urban Affairs"
+    }
+  ],
+  "license": {
+    "id": "India-OGL",
+    "name": "India Open Government License",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/urban-water"
+  },
+  "last_updated": "2026-03-15"
+}

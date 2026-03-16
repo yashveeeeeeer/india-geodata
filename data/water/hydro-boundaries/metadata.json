@@ -1,0 +1,40 @@
+{
+  "name": "water-hydro-boundaries",
+  "title": "Hydrological Boundaries",
+  "description": "Polygon boundaries of India's hydrological units — river basins, sub-basins, watersheds, micro-watersheds, and priority micro-watersheds — from WRIS and SLUSI for water resource planning and management.",
+  "category": "water",
+  "level": "hydro-boundaries",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2024",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "India-WRIS",
+      "url": "https://indiawris.gov.in/",
+      "authority": "Ministry of Jal Shakti"
+    },
+    {
+      "name": "SLUSI (Soil and Land Use Survey of India)",
+      "url": "https://slusi.dacnet.nic.in/",
+      "authority": "Dept of Agriculture"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "formats": [
+    "parquet",
+    "pmtiles",
+    "geojsonl.7z"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "water/hydro-boundaries"
+  },
+  "last_updated": "2026-03-15"
+}
