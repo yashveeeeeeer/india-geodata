@@ -1,0 +1,33 @@
+{
+  "name": "env-soil",
+  "title": "Soil Map of India (FAO DSMW)",
+  "description": "Polygon-based soil classification map of India extracted from the FAO-UNESCO Digital Soil Map of the World (DSMW) at 1:5M scale — 634 soil mapping units with FAO soil class codes, dominant soil type, soil phases, permafrost status, and area in square kilometres.",
+  "category": "environment",
+  "level": "soil",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "1995",
+    "admin_level": null
+  },
+  "sources": [
+    {
+      "name": "FAO Digital Soil Map of the World (DSMW)",
+      "url": "https://data.apps.fao.org/map/catalog/srv/search?keyword=DSMW",
+      "authority": "FAO / UNESCO"
+    }
+  ],
+  "license": {
+    "id": "FAO-Open",
+    "name": "FAO Open Access (attribution required)",
+    "url": "https://www.fao.org/land-water/land/land-governance/land-resources-planning-toolbox/category/details/en/c/1026564/"
+  },
+  "formats": [
+    "geojson"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "last_updated": "2026-03-16"
+}

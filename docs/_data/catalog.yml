@@ -2284,6 +2284,25 @@
     size: 662 B
     storage: repo
     download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/landuse/hyderabad/Readme.md
+- name: env-soil
+  title: "Soil Map of India (FAO DSMW)"
+  description: Polygon-based soil classification map of India from the FAO-UNESCO Digital
+    Soil Map of the World (DSMW) at 1:5M scale — 634 soil mapping units with FAO soil
+    class codes, dominant soil type, phases, and area attributes.
+  category: environment
+  level: soil
+  formats:
+  - geojson
+  license_id: FAO-Open
+  storage: repo
+  release_tag:
+  url: data/environment/soil
+  files:
+  - name: INDIA_SOIL_MAP_FAO.geojson
+    format: geojson
+    size: 2.5 MB
+    storage: repo
+    download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/soil/INDIA_SOIL_MAP_FAO.geojson
 - name: shrug
   title: SHRUG — Socioeconomic High-resolution Rural-Urban Geographic Platform
   description: Open-access platform with socioeconomic, environmental, and geospatial
