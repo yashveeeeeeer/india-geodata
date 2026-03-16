@@ -14,6 +14,11 @@
       "name": "Jal Dharohar (National Water Body Census)",
       "url": "https://jaldhrohar.gov.in/",
       "authority": "Ministry of Jal Shakti"
+    },
+    {
+      "name": "ramSeraph/indian_water_features",
+      "url": "https://github.com/ramSeraph/indian_water_features",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

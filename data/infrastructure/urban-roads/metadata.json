@@ -24,6 +24,11 @@
       "name": "Telangana CDMA",
       "url": "https://cdma.telangana.gov.in/",
       "authority": "CDMA Telangana"
+    },
+    {
+      "name": "ramSeraph/indian_transport",
+      "url": "https://github.com/ramSeraph/indian_transport",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

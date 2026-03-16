@@ -24,6 +24,11 @@
       "name": "NGDR (Bhukosh)",
       "url": "https://bhukosh.gsi.gov.in/",
       "authority": "Geological Survey of India"
+    },
+    {
+      "name": "ramSeraph/indian_water_features",
+      "url": "https://github.com/ramSeraph/indian_water_features",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

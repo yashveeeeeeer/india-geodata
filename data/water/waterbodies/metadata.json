@@ -24,6 +24,11 @@
       "name": "Amrit Sarovar Water Observatory",
       "url": "https://amritsarovar.gov.in/",
       "authority": "Ministry of Jal Shakti"
+    },
+    {
+      "name": "ramSeraph/indian_water_features",
+      "url": "https://github.com/ramSeraph/indian_water_features",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

@@ -10,9 +10,14 @@
   },
   "sources": [
     {
+      "name": "Google Open Buildings V3",
+      "url": "https://sites.research.google/open-buildings/",
+      "authority": "Google Research"
+    },
+    {
       "name": "ramSeraph/indian_buildings",
       "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/GOBI-2023",
-      "authority": "Google Research Open Buildings V3"
+      "authority": "ramSeraph (aggregated from upstream sources)"
     }
   ],
   "license": {
@@ -20,7 +25,11 @@
     "name": "Creative Commons Attribution 4.0 International",
     "url": "https://creativecommons.org/licenses/by/4.0/"
   },
-  "formats": ["geojsonl.7z", "parquet", "pmtiles"],
+  "formats": [
+    "geojsonl.7z",
+    "parquet",
+    "pmtiles"
+  ],
   "coordinate_system": "EPSG:4326",
   "storage": {
     "repo_files": false,

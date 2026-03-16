@@ -12,7 +12,7 @@
     {
       "name": "India Flood Inventory (IFI)",
       "url": "https://github.com/hydrosenselab/India-Flood-Inventory",
-      "authority": "HydroSense Lab, IIT Delhi"
+      "authority": "HydroSense Lab, IIT Delhi (Saharia et al.)"
     }
   ],
   "license": {
@@ -20,7 +20,9 @@
     "name": "Creative Commons Attribution 4.0 International",
     "url": "https://creativecommons.org/licenses/by/4.0/"
   },
-  "formats": ["geojson"],
+  "formats": [
+    "geojson"
+  ],
   "coordinate_system": "EPSG:4326",
   "storage": {
     "repo_files": false,

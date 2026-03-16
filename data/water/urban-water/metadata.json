@@ -19,6 +19,11 @@
       "name": "AMRUT",
       "url": "https://amrut.gov.in/",
       "authority": "Ministry of Housing & Urban Affairs"
+    },
+    {
+      "name": "ramSeraph/indian_water_features",
+      "url": "https://github.com/ramSeraph/indian_water_features",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

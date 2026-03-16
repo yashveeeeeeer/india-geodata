@@ -10,9 +10,14 @@
   },
   "sources": [
     {
+      "name": "Microsoft GlobalMLBuildingFootprints",
+      "url": "https://github.com/microsoft/GlobalMLBuildingFootprints",
+      "authority": "Microsoft"
+    },
+    {
       "name": "ramSeraph/indian_buildings",
       "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/MSBI",
-      "authority": "Microsoft GlobalMLBuildingFootprints"
+      "authority": "ramSeraph (aggregated from upstream sources)"
     }
   ],
   "license": {
@@ -20,7 +25,11 @@
     "name": "Open Data Commons Open Database License",
     "url": "https://opendatacommons.org/licenses/odbl/1-0/"
   },
-  "formats": ["geojsonl.7z", "parquet", "pmtiles"],
+  "formats": [
+    "geojsonl.7z",
+    "parquet",
+    "pmtiles"
+  ],
   "coordinate_system": "EPSG:4326",
   "storage": {
     "repo_files": false,

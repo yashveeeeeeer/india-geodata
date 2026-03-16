@@ -11,6 +11,11 @@
   },
   "sources": [
     {
+      "name": "Bureau of Police Research and Development (BPR&D)",
+      "url": "https://bprd.nic.in/",
+      "authority": "Ministry of Home Affairs"
+    },
+    {
       "name": "INDIAN-SHAPEFILES",
       "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
       "authority": "datta07"

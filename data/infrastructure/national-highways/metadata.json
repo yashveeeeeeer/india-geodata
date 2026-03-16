@@ -19,6 +19,11 @@
       "name": "INDIAN-SHAPEFILES",
       "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
       "authority": "datta07"
+    },
+    {
+      "name": "ramSeraph/indian_transport",
+      "url": "https://github.com/ramSeraph/indian_transport",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

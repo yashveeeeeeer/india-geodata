@@ -19,6 +19,11 @@
       "name": "Facebook MapWithAI",
       "url": "https://github.com/facebookmicrosites/Open-Mapping-At-Facebook",
       "authority": "Meta"
+    },
+    {
+      "name": "ramSeraph/indian_transport",
+      "url": "https://github.com/ramSeraph/indian_transport",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

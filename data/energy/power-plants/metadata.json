@@ -11,6 +11,11 @@
   },
   "sources": [
     {
+      "name": "Central Electricity Authority (CEA)",
+      "url": "https://cea.nic.in/",
+      "authority": "Ministry of Power"
+    },
+    {
       "name": "INDIAN-SHAPEFILES",
       "url": "https://github.com/datta07/INDIAN-SHAPEFILES",
       "authority": "datta07"

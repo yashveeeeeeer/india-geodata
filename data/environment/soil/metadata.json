@@ -11,9 +11,9 @@
   },
   "sources": [
     {
-      "name": "FAO Digital Soil Map of the World (DSMW)",
+      "name": "FAO/UNESCO Digital Soil Map of the World (DSMW)",
       "url": "https://data.apps.fao.org/map/catalog/srv/search?keyword=DSMW",
-      "authority": "FAO / UNESCO"
+      "authority": "Food and Agriculture Organization / UNESCO"
     }
   ],
   "license": {

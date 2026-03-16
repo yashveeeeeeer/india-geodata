@@ -19,6 +19,11 @@
       "name": "GatiShakti",
       "url": "https://bharatmaps.gov.in/",
       "authority": "DPIIT"
+    },
+    {
+      "name": "ramSeraph/indian_transport",
+      "url": "https://github.com/ramSeraph/indian_transport",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

@@ -11,9 +11,14 @@
   },
   "sources": [
     {
+      "name": "GHMC / HMDA (Hyderabad Metropolitan Development Authority)",
+      "url": "https://www.hmda.gov.in/",
+      "authority": "Telangana State Government"
+    },
+    {
       "name": "ArcGIS Online",
       "url": "https://www.arcgis.com/",
-      "authority": "Esri"
+      "authority": "Esri (community-contributed layer)"
     }
   ],
   "license": {

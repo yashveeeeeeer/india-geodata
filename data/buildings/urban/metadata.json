@@ -10,9 +10,29 @@
   },
   "sources": [
     {
+      "name": "AMRUT / Bhuvan",
+      "url": "https://bhuvan.nrsc.gov.in/",
+      "authority": "Ministry of Housing & Urban Affairs / ISRO"
+    },
+    {
+      "name": "Geo-Spatial Delhi Limited (GSDL)",
+      "url": "https://gsdl.org.in/",
+      "authority": "Delhi Government"
+    },
+    {
+      "name": "VEDAS (Vegetation Dynamics & Analysis System)",
+      "url": "https://vedas.sac.gov.in/",
+      "authority": "ISRO Space Applications Centre"
+    },
+    {
+      "name": "NESDR (North Eastern Space Data Repository)",
+      "url": "https://nesdr.gov.in/",
+      "authority": "North Eastern Council / ISRO"
+    },
+    {
       "name": "ramSeraph/indian_buildings",
       "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/urban",
-      "authority": "AMRUT, Bhuvan, GSDL Delhi, VEDAS, NESDR"
+      "authority": "ramSeraph (aggregated from upstream sources)"
     }
   ],
   "license": {
@@ -20,7 +40,11 @@
     "name": "Creative Commons Zero 1.0 Universal",
     "url": "https://creativecommons.org/publicdomain/zero/1.0/"
   },
-  "formats": ["geojsonl.7z", "parquet", "pmtiles"],
+  "formats": [
+    "geojsonl.7z",
+    "parquet",
+    "pmtiles"
+  ],
   "coordinate_system": "EPSG:4326",
   "storage": {
     "repo_files": false,

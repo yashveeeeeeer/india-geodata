@@ -24,6 +24,11 @@
       "name": "NCOG",
       "url": "https://bharatmaps.gov.in/",
       "authority": "NCOG"
+    },
+    {
+      "name": "ramSeraph/indian_water_features",
+      "url": "https://github.com/ramSeraph/indian_water_features",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

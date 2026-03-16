@@ -14,6 +14,11 @@
       "name": "National Informatics Centre (NIC) Bharatmaps",
       "url": "https://bharatmaps.gov.in/",
       "authority": "NIC"
+    },
+    {
+      "name": "ramSeraph/indian_transport",
+      "url": "https://github.com/ramSeraph/indian_transport",
+      "authority": "ramSeraph (aggregated from government sources)"
     }
   ],
   "license": {

@@ -11,6 +11,11 @@
   },
   "sources": [
     {
+      "name": "Airports Authority of India (AAI)",
+      "url": "https://www.aai.aero/",
+      "authority": "Ministry of Civil Aviation"
+    },
+    {
       "name": "Humanitarian OpenStreetMap Team (HOT)",
       "url": "https://data.humdata.org/dataset/hotosm_ind_airports",
       "authority": "OpenStreetMap contributors"
