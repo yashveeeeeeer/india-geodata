@@ -6698,8 +6698,8 @@
 - name: buildings-urban
   title: Urban Buildings India
   description: State-wise urban building footprint polygons from AMRUT/Bhuvan, GSDL Delhi,
-    VEDAS, NESDR, and other government sources. Parquet, GeoJSONL.7z, and PMTiles formats.
-  category: infrastructure
+    VEDAS, NESDR, and other government sources. 84 files across 28 state/source groups.
+  category: urban
   level: buildings-urban
   formats:
   - parquet
@@ -6880,8 +6880,582 @@
     size: 122.1 MB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MP_AMRUT_Buildings.geojsonl.7z
+  - name: MP_AMRUT_Buildings.parquet
+    format: parquet
+    size: 265.0 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MP_AMRUT_Buildings.parquet
+  - name: MP_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 204.0 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MP_AMRUT_Buildings.pmtiles
+  - name: MZ_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 2.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MZ_AMRUT_Buildings.geojsonl.7z
+  - name: MZ_AMRUT_Buildings.parquet
+    format: parquet
+    size: 6.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MZ_AMRUT_Buildings.parquet
+  - name: MZ_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 6.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/MZ_AMRUT_Buildings.pmtiles
+  - name: NESDR_Shillong_buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 8.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/NESDR_Shillong_buildings.geojsonl.7z
+  - name: NESDR_Shillong_buildings.parquet
+    format: parquet
+    size: 9.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/NESDR_Shillong_buildings.parquet
+  - name: NESDR_Shillong_buildings.pmtiles
+    format: pmtiles
+    size: 10.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/NESDR_Shillong_buildings.pmtiles
+  - name: PB_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 117.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/PB_AMRUT_Buildings.geojsonl.7z
+  - name: PB_AMRUT_Buildings.parquet
+    format: parquet
+    size: 238.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/PB_AMRUT_Buildings.parquet
+  - name: PB_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 199.0 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/PB_AMRUT_Buildings.pmtiles
+  - name: PD_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 3.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/PD_AMRUT_Buildings.geojsonl.7z
+  - name: PD_AMRUT_Buildings.parquet
+    format: parquet
+    size: 7.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/PD_AMRUT_Buildings.parquet
+  - name: PD_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 7.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/PD_AMRUT_Buildings.pmtiles
+  - name: Rajdharaa_ULB_Building_footprints.geojsonl.7z
+    format: geojsonl.7z
+    size: 130.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Rajdharaa_ULB_Building_footprints.geojsonl.7z
+  - name: Rajdharaa_ULB_Building_footprints.parquet
+    format: parquet
+    size: 233.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Rajdharaa_ULB_Building_footprints.parquet
+  - name: Rajdharaa_ULB_Building_footprints.pmtiles
+    format: pmtiles
+    size: 211.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Rajdharaa_ULB_Building_footprints.pmtiles
+  - name: TNGIS_GCC_Chennai_buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 50.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TNGIS_GCC_Chennai_buildings.geojsonl.7z
+  - name: TNGIS_GCC_Chennai_Buildings.parquet
+    format: parquet
+    size: 129.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TNGIS_GCC_Chennai_Buildings.parquet
+  - name: TNGIS_GCC_Chennai_buildings.pmtiles
+    format: pmtiles
+    size: 61.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TNGIS_GCC_Chennai_buildings.pmtiles
+  - name: TN_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 102.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TN_AMRUT_Buildings.geojsonl.7z
+  - name: TN_AMRUT_Buildings.parquet
+    format: parquet
+    size: 219.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TN_AMRUT_Buildings.parquet
+  - name: TN_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 170.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TN_AMRUT_Buildings.pmtiles
+  - name: TRACGIS_Hyderabad_buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 15.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TRACGIS_Hyderabad_buildings.geojsonl.7z
+  - name: TRACGIS_Hyderabad_Buildings.parquet
+    format: parquet
+    size: 43.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TRACGIS_Hyderabad_Buildings.parquet
+  - name: TRACGIS_Hyderabad_buildings.pmtiles
+    format: pmtiles
+    size: 22.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TRACGIS_Hyderabad_buildings.pmtiles
+  - name: TRACGIS_Khammam_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 3.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TRACGIS_Khammam_Buildings.geojsonl.7z
+  - name: TRACGIS_Khammam_Buildings.parquet
+    format: parquet
+    size: 7.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TRACGIS_Khammam_Buildings.parquet
+  - name: TRACGIS_Khammam_Buildings.pmtiles
+    format: pmtiles
+    size: 11.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TRACGIS_Khammam_Buildings.pmtiles
+  - name: TS_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 14.1 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TS_AMRUT_Buildings.geojsonl.7z
+  - name: TS_AMRUT_Buildings.parquet
+    format: parquet
+    size: 30.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TS_AMRUT_Buildings.parquet
+  - name: TS_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 33.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TS_AMRUT_Buildings.pmtiles
+  - name: TS_CDMA_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 51.6 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TS_CDMA_Buildings.geojsonl.7z
+  - name: TS_CDMA_Buildings.parquet
+    format: parquet
+    size: 112.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TS_CDMA_Buildings.parquet
+  - name: TS_CDMA_Buildings.pmtiles
+    format: pmtiles
+    size: 103.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/TS_CDMA_Buildings.pmtiles
+  - name: UK_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 30.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/UK_AMRUT_Buildings.geojsonl.7z
+  - name: UK_AMRUT_Buildings.parquet
+    format: parquet
+    size: 65.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/UK_AMRUT_Buildings.parquet
+  - name: UK_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 63.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/UK_AMRUT_Buildings.pmtiles
+  - name: UP_AMRUT_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 811.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/UP_AMRUT_Buildings.geojsonl.7z
+  - name: UP_AMRUT_Buildings.parquet
+    format: parquet
+    size: 1.1 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/UP_AMRUT_Buildings.parquet
+  - name: UP_AMRUT_Buildings.pmtiles
+    format: pmtiles
+    size: 1.2 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/UP_AMRUT_Buildings.pmtiles
+  - name: Vedas_Ahmedabad_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 23.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Vedas_Ahmedabad_Buildings.geojsonl.7z
+  - name: Vedas_Ahmedabad_Buildings.parquet
+    format: parquet
+    size: 29.2 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Vedas_Ahmedabad_Buildings.parquet
+  - name: Vedas_Ahmedabad_Buildings.pmtiles
+    format: pmtiles
+    size: 11.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Vedas_Ahmedabad_Buildings.pmtiles
+  - name: Vedas_Gandhinagar_Buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 1.9 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Vedas_Gandhinagar_Buildings.geojsonl.7z
+  - name: Vedas_Gandhinagar_Buildings.parquet
+    format: parquet
+    size: 3.0 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Vedas_Gandhinagar_Buildings.parquet
+  - name: Vedas_Gandhinagar_Buildings.pmtiles
+    format: pmtiles
+    size: 1.5 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/Vedas_Gandhinagar_Buildings.pmtiles
+  - name: WB_AMRUT_buildings.geojsonl.7z
+    format: geojsonl.7z
+    size: 156.8 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/WB_AMRUT_buildings.geojsonl.7z
+  - name: WB_AMRUT_buildings.parquet
+    format: parquet
+    size: 286.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/WB_AMRUT_buildings.parquet
+  - name: WB_AMRUT_buildings.pmtiles
+    format: pmtiles
+    size: 178.4 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/urban/WB_AMRUT_buildings.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/buildings/urban
-
+- name: buildings-microsoft
+  title: Microsoft Building Footprints India
+  description: ML-derived building footprint polygons for India from Microsoft global building dataset. Partitioned parquet, GeoJSON archives, and metadata.
+  category: urban
+  level: buildings-microsoft
+  formats:
+  - geojsonl.7z.001
+  - geojsonl.7z.002
+  - geojsonl.7z.003
+  - mosaic.json
+  - parquet
+  - parquet.meta.json
+  - pmtiles
+  license_id: CC0-1.0
+  storage: release
+  release_tag: buildings/microsoft
+  url: data/buildings/microsoft
+  files:
+  - name: ms_buildings_india-part0000.pmtiles
+    format: pmtiles
+    size: 1.5 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india-part0000.pmtiles
+  - name: ms_buildings_india-part0001.pmtiles
+    format: pmtiles
+    size: 1.1 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india-part0001.pmtiles
+  - name: ms_buildings_india.000.parquet
+    format: parquet
+    size: 1011.3 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.000.parquet
+  - name: ms_buildings_india.001.parquet
+    format: parquet
+    size: 1.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.001.parquet
+  - name: ms_buildings_india.010.parquet
+    format: parquet
+    size: 1.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.010.parquet
+  - name: ms_buildings_india.011.parquet
+    format: parquet
+    size: 1.1 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.011.parquet
+  - name: ms_buildings_india.geojsonl.7z.001
+    format: geojsonl.7z.001
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.geojsonl.7z.001
+  - name: ms_buildings_india.geojsonl.7z.002
+    format: geojsonl.7z.002
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.geojsonl.7z.002
+  - name: ms_buildings_india.geojsonl.7z.003
+    format: geojsonl.7z.003
+    size: 1.8 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.geojsonl.7z.003
+  - name: ms_buildings_india.mosaic.json
+    format: mosaic.json
+    size: 1.1 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.mosaic.json
+  - name: ms_buildings_india.parquet.meta.json
+    format: parquet.meta.json
+    size: 1.2 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/microsoft/ms_buildings_india.parquet.meta.json
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/buildings/microsoft
+- name: buildings-google
+  title: Google Open Buildings India
+  description: ML-derived building footprint polygons for India from Google Open Buildings V3 (2023). State-wise partitioned parquet files with confidence scores and geometry.
+  category: urban
+  level: buildings-google
+  formats:
+  - mosaic.json
+  - parquet
+  - parquet.meta.json
+  - pmtiles
+  license_id: CC0-1.0
+  storage: release
+  release_tag: buildings/google
+  url: data/buildings/google
+  files:
+  - name: google-open-buildings-india-2023-part0000.pmtiles
+    format: pmtiles
+    size: 917.7 MB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0000.pmtiles
+  - name: google-open-buildings-india-2023-part0001.pmtiles
+    format: pmtiles
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0001.pmtiles
+  - name: google-open-buildings-india-2023-part0002.pmtiles
+    format: pmtiles
+    size: 1.9 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0002.pmtiles
+  - name: google-open-buildings-india-2023-part0003.pmtiles
+    format: pmtiles
+    size: 1.9 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0003.pmtiles
+  - name: google-open-buildings-india-2023-part0004.pmtiles
+    format: pmtiles
+    size: 1.9 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0004.pmtiles
+  - name: google-open-buildings-india-2023-part0005.pmtiles
+    format: pmtiles
+    size: 1.9 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0005.pmtiles
+  - name: google-open-buildings-india-2023-part0006.pmtiles
+    format: pmtiles
+    size: 1.9 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0006.pmtiles
+  - name: google-open-buildings-india-2023-part0007.pmtiles
+    format: pmtiles
+    size: 1.9 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0007.pmtiles
+  - name: google-open-buildings-india-2023-part0008.pmtiles
+    format: pmtiles
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0008.pmtiles
+  - name: google-open-buildings-india-2023-part0009.pmtiles
+    format: pmtiles
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0009.pmtiles
+  - name: google-open-buildings-india-2023-part0010.pmtiles
+    format: pmtiles
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0010.pmtiles
+  - name: google-open-buildings-india-2023-part0011.pmtiles
+    format: pmtiles
+    size: 2.0 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0011.pmtiles
+  - name: google-open-buildings-india-2023-part0012.pmtiles
+    format: pmtiles
+    size: 1.6 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023-part0012.pmtiles
+  - name: google-open-buildings-india-2023.000000.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000000.parquet
+  - name: google-open-buildings-india-2023.000001.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000001.parquet
+  - name: google-open-buildings-india-2023.000010.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000010.parquet
+  - name: google-open-buildings-india-2023.000011.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000011.parquet
+  - name: google-open-buildings-india-2023.000100.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000100.parquet
+  - name: google-open-buildings-india-2023.000101.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000101.parquet
+  - name: google-open-buildings-india-2023.000110.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000110.parquet
+  - name: google-open-buildings-india-2023.000111.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.000111.parquet
+  - name: google-open-buildings-india-2023.001000.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001000.parquet
+  - name: google-open-buildings-india-2023.001001.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001001.parquet
+  - name: google-open-buildings-india-2023.001010.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001010.parquet
+  - name: google-open-buildings-india-2023.001011.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001011.parquet
+  - name: google-open-buildings-india-2023.001100.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001100.parquet
+  - name: google-open-buildings-india-2023.001101.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001101.parquet
+  - name: google-open-buildings-india-2023.001110.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001110.parquet
+  - name: google-open-buildings-india-2023.001111.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.001111.parquet
+  - name: google-open-buildings-india-2023.010000.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010000.parquet
+  - name: google-open-buildings-india-2023.010001.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010001.parquet
+  - name: google-open-buildings-india-2023.010010.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010010.parquet
+  - name: google-open-buildings-india-2023.010011.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010011.parquet
+  - name: google-open-buildings-india-2023.010100.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010100.parquet
+  - name: google-open-buildings-india-2023.010101.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010101.parquet
+  - name: google-open-buildings-india-2023.010110.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010110.parquet
+  - name: google-open-buildings-india-2023.010111.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.010111.parquet
+  - name: google-open-buildings-india-2023.011000.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011000.parquet
+  - name: google-open-buildings-india-2023.011001.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011001.parquet
+  - name: google-open-buildings-india-2023.011010.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011010.parquet
+  - name: google-open-buildings-india-2023.011011.parquet
+    format: parquet
+    size: 1.4 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011011.parquet
+  - name: google-open-buildings-india-2023.011100.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011100.parquet
+  - name: google-open-buildings-india-2023.011101.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011101.parquet
+  - name: google-open-buildings-india-2023.011110.parquet
+    format: parquet
+    size: 1.3 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011110.parquet
+  - name: google-open-buildings-india-2023.011111.parquet
+    format: parquet
+    size: 1.1 GB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.011111.parquet
+  - name: google-open-buildings-india-2023.mosaic.json
+    format: mosaic.json
+    size: 3.5 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.mosaic.json
+  - name: google-open-buildings-india-2023.parquet.meta.json
+    format: parquet.meta.json
+    size: 6.5 KB
+    storage: release
+    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/buildings/google/google-open-buildings-india-2023.parquet.meta.json
+  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/buildings/google
 - name: healthcare-facilities
   title: Healthcare Facilities
   description: Point locations of public health facilities across India — PHCs, CHCs,
