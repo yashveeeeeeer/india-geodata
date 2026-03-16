@@ -4610,49 +4610,19 @@
 - name: urban-localities
   title: Urban Localities
   description: Neighbourhood and locality-level boundaries and point locations within
-    select Indian cities. From Delhi GIS and AMRUT Smart Cities data.
+    select Indian cities. Includes SBM area and ULB boundaries. From Delhi GIS,
+    SBM, and AMRUT Smart Cities data.
   category: urban
   level: locality
   formats:
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: urban/boundaries
   url: data/urban/localities
   files:
-  - name: BBMP_Bangalore_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 68 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/BBMP_Bangalore_Slum_Boundaries.geojsonl.7z
-  - name: BBMP_Bangalore_Slum_Boundaries.parquet
-    format: parquet
-    size: 110 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/BBMP_Bangalore_Slum_Boundaries.parquet
-  - name: BBMP_Bangalore_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 181 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/BBMP_Bangalore_Slum_Boundaries.pmtiles
-  - name: DUSIB_Delhi_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 135 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.geojsonl.7z
-  - name: DUSIB_Delhi_Slum_Boundaries.parquet
-    format: parquet
-    size: 290 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.parquet
-  - name: DUSIB_Delhi_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 391 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.pmtiles
   - name: GSDL_Localities.geojsonl.7z
     format: geojsonl.7z
     size: 526 KB
@@ -4668,21 +4638,6 @@
     size: 579 KB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.pmtiles
-  - name: LivingAtlas_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 7.0 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.geojsonl.7z
-  - name: LivingAtlas_Wards.parquet
-    format: parquet
-    size: 9.8 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.parquet
-  - name: LivingAtlas_Wards.pmtiles
-    format: pmtiles
-    size: 9.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.pmtiles
   - name: SBM_Areas.geojsonl.7z
     format: geojsonl.7z
     size: 14.6 MB
@@ -4713,96 +4668,6 @@
     size: 10.7 MB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.pmtiles
-  - name: SBM_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 48.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Wards.geojsonl.7z
-  - name: SBM_Wards.parquet
-    format: parquet
-    size: 67.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Wards.parquet
-  - name: SBM_Wards.pmtiles
-    format: pmtiles
-    size: 74.1 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Wards.pmtiles
-  - name: Shillong_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 33 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.geojsonl.7z
-  - name: Shillong_Wards.parquet
-    format: parquet
-    size: 59 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.parquet
-  - name: Shillong_Wards.pmtiles
-    format: pmtiles
-    size: 48 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.pmtiles
-  - name: TNGIS_TN_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 513 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TNGIS_TN_Slum_Boundaries.geojsonl.7z
-  - name: TNGIS_TN_Slum_Boundaries.parquet
-    format: parquet
-    size: 899 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TNGIS_TN_Slum_Boundaries.parquet
-  - name: TNGIS_TN_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 815 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TNGIS_TN_Slum_Boundaries.pmtiles
-  - name: TRACGIS_GHMC_Slums.geojsonl.7z
-    format: geojsonl.7z
-    size: 313 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TRACGIS_GHMC_Slums.geojsonl.7z
-  - name: TRACGIS_GHMC_Slums.parquet
-    format: parquet
-    size: 598 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TRACGIS_GHMC_Slums.parquet
-  - name: TRACGIS_GHMC_Slums.pmtiles
-    format: pmtiles
-    size: 947 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TRACGIS_GHMC_Slums.pmtiles
-  - name: TS_CDMA_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 1.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TS_CDMA_Slum_Boundaries.geojsonl.7z
-  - name: TS_CDMA_Slum_Boundaries.parquet
-    format: parquet
-    size: 1.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TS_CDMA_Slum_Boundaries.parquet
-  - name: TS_CDMA_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 910 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TS_CDMA_Slum_Boundaries.pmtiles
-  - name: UMD_Mumbai_Slum_Boundaries_2016.geojsonl.7z
-    format: geojsonl.7z
-    size: 587 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.geojsonl.7z
-  - name: UMD_Mumbai_Slum_Boundaries_2016.parquet
-    format: parquet
-    size: 1011 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.parquet
-  - name: UMD_Mumbai_Slum_Boundaries_2016.pmtiles
-    format: pmtiles
-    size: 1.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.pmtiles
   - name: WB_AMRUT_Localities.geojsonl.7z
     format: geojsonl.7z
     size: 271 KB
@@ -4818,21 +4683,6 @@
     size: 249 KB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.pmtiles
-  - name: WB_AMRUT_Slum_boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 3.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.geojsonl.7z
-  - name: WB_AMRUT_Slum_boundaries.parquet
-    format: parquet
-    size: 6.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.parquet
-  - name: WB_AMRUT_Slum_boundaries.pmtiles
-    format: pmtiles
-    size: 3.6 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.pmtiles
   - name: WB_AMRUT_ULBs.geojsonl.7z
     format: geojsonl.7z
     size: 596 KB
@@ -4848,21 +4698,6 @@
     size: 456 KB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.pmtiles
-  - name: WB_AMRUT_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 3.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.geojsonl.7z
-  - name: WB_AMRUT_Wards.parquet
-    format: parquet
-    size: 5.1 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.parquet
-  - name: WB_AMRUT_Wards.pmtiles
-    format: pmtiles
-    size: 2.0 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/urban/boundaries
 - name: urban-municipal
   title: Municipal Boundaries
@@ -5600,7 +5435,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: urban/boundaries
@@ -5636,96 +5470,6 @@
     size: 391 KB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.pmtiles
-  - name: GSDL_Localities.geojsonl.7z
-    format: geojsonl.7z
-    size: 526 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.geojsonl.7z
-  - name: GSDL_Localities.parquet
-    format: parquet
-    size: 852 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.parquet
-  - name: GSDL_Localities.pmtiles
-    format: pmtiles
-    size: 579 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.pmtiles
-  - name: LivingAtlas_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 7.0 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.geojsonl.7z
-  - name: LivingAtlas_Wards.parquet
-    format: parquet
-    size: 9.8 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.parquet
-  - name: LivingAtlas_Wards.pmtiles
-    format: pmtiles
-    size: 9.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.pmtiles
-  - name: SBM_Areas.geojsonl.7z
-    format: geojsonl.7z
-    size: 14.6 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Areas.geojsonl.7z
-  - name: SBM_Areas.parquet
-    format: parquet
-    size: 22.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Areas.parquet
-  - name: SBM_Areas.pmtiles
-    format: pmtiles
-    size: 31.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Areas.pmtiles
-  - name: SBM_ULBs.geojsonl.7z
-    format: geojsonl.7z
-    size: 9.6 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.geojsonl.7z
-  - name: SBM_ULBs.parquet
-    format: parquet
-    size: 13.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.parquet
-  - name: SBM_ULBs.pmtiles
-    format: pmtiles
-    size: 10.7 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.pmtiles
-  - name: SBM_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 48.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Wards.geojsonl.7z
-  - name: SBM_Wards.parquet
-    format: parquet
-    size: 67.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Wards.parquet
-  - name: SBM_Wards.pmtiles
-    format: pmtiles
-    size: 74.1 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Wards.pmtiles
-  - name: Shillong_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 33 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.geojsonl.7z
-  - name: Shillong_Wards.parquet
-    format: parquet
-    size: 59 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.parquet
-  - name: Shillong_Wards.pmtiles
-    format: pmtiles
-    size: 48 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.pmtiles
   - name: TNGIS_TN_Slum_Boundaries.geojsonl.7z
     format: geojsonl.7z
     size: 513 KB
@@ -5786,21 +5530,6 @@
     size: 1.9 MB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.pmtiles
-  - name: WB_AMRUT_Localities.geojsonl.7z
-    format: geojsonl.7z
-    size: 271 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.geojsonl.7z
-  - name: WB_AMRUT_Localities.parquet
-    format: parquet
-    size: 422 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.parquet
-  - name: WB_AMRUT_Localities.pmtiles
-    format: pmtiles
-    size: 249 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.pmtiles
   - name: WB_AMRUT_Slum_boundaries.geojsonl.7z
     format: geojsonl.7z
     size: 3.3 MB
@@ -5816,36 +5545,6 @@
     size: 3.6 MB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.pmtiles
-  - name: WB_AMRUT_ULBs.geojsonl.7z
-    format: geojsonl.7z
-    size: 596 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.geojsonl.7z
-  - name: WB_AMRUT_ULBs.parquet
-    format: parquet
-    size: 1.2 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.parquet
-  - name: WB_AMRUT_ULBs.pmtiles
-    format: pmtiles
-    size: 456 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.pmtiles
-  - name: WB_AMRUT_Wards.geojsonl.7z
-    format: geojsonl.7z
-    size: 3.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.geojsonl.7z
-  - name: WB_AMRUT_Wards.parquet
-    format: parquet
-    size: 5.1 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.parquet
-  - name: WB_AMRUT_Wards.pmtiles
-    format: pmtiles
-    size: 2.0 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Wards.pmtiles
   release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/urban/boundaries
 - name: urban-wards
   title: Municipal Wards
@@ -5857,57 +5556,11 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: urban/boundaries
   url: data/urban/wards
   files:
-  - name: BBMP_Bangalore_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 68 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/BBMP_Bangalore_Slum_Boundaries.geojsonl.7z
-  - name: BBMP_Bangalore_Slum_Boundaries.parquet
-    format: parquet
-    size: 110 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/BBMP_Bangalore_Slum_Boundaries.parquet
-  - name: BBMP_Bangalore_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 181 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/BBMP_Bangalore_Slum_Boundaries.pmtiles
-  - name: DUSIB_Delhi_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 135 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.geojsonl.7z
-  - name: DUSIB_Delhi_Slum_Boundaries.parquet
-    format: parquet
-    size: 290 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.parquet
-  - name: DUSIB_Delhi_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 391 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/DUSIB_Delhi_Slum_Boundaries.pmtiles
-  - name: GSDL_Localities.geojsonl.7z
-    format: geojsonl.7z
-    size: 526 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.geojsonl.7z
-  - name: GSDL_Localities.parquet
-    format: parquet
-    size: 852 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.parquet
-  - name: GSDL_Localities.pmtiles
-    format: pmtiles
-    size: 579 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/GSDL_Localities.pmtiles
   - name: LivingAtlas_Wards.geojsonl.7z
     format: geojsonl.7z
     size: 7.0 MB
@@ -5923,36 +5576,6 @@
     size: 9.9 MB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/LivingAtlas_Wards.pmtiles
-  - name: SBM_Areas.geojsonl.7z
-    format: geojsonl.7z
-    size: 14.6 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Areas.geojsonl.7z
-  - name: SBM_Areas.parquet
-    format: parquet
-    size: 22.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Areas.parquet
-  - name: SBM_Areas.pmtiles
-    format: pmtiles
-    size: 31.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_Areas.pmtiles
-  - name: SBM_ULBs.geojsonl.7z
-    format: geojsonl.7z
-    size: 9.6 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.geojsonl.7z
-  - name: SBM_ULBs.parquet
-    format: parquet
-    size: 13.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.parquet
-  - name: SBM_ULBs.pmtiles
-    format: pmtiles
-    size: 10.7 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/SBM_ULBs.pmtiles
   - name: SBM_Wards.geojsonl.7z
     format: geojsonl.7z
     size: 48.9 MB
@@ -5983,111 +5606,6 @@
     size: 48 KB
     storage: release
     download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/Shillong_Wards.pmtiles
-  - name: TNGIS_TN_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 513 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TNGIS_TN_Slum_Boundaries.geojsonl.7z
-  - name: TNGIS_TN_Slum_Boundaries.parquet
-    format: parquet
-    size: 899 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TNGIS_TN_Slum_Boundaries.parquet
-  - name: TNGIS_TN_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 815 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TNGIS_TN_Slum_Boundaries.pmtiles
-  - name: TRACGIS_GHMC_Slums.geojsonl.7z
-    format: geojsonl.7z
-    size: 313 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TRACGIS_GHMC_Slums.geojsonl.7z
-  - name: TRACGIS_GHMC_Slums.parquet
-    format: parquet
-    size: 598 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TRACGIS_GHMC_Slums.parquet
-  - name: TRACGIS_GHMC_Slums.pmtiles
-    format: pmtiles
-    size: 947 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TRACGIS_GHMC_Slums.pmtiles
-  - name: TS_CDMA_Slum_Boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 1.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TS_CDMA_Slum_Boundaries.geojsonl.7z
-  - name: TS_CDMA_Slum_Boundaries.parquet
-    format: parquet
-    size: 1.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TS_CDMA_Slum_Boundaries.parquet
-  - name: TS_CDMA_Slum_Boundaries.pmtiles
-    format: pmtiles
-    size: 910 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/TS_CDMA_Slum_Boundaries.pmtiles
-  - name: UMD_Mumbai_Slum_Boundaries_2016.geojsonl.7z
-    format: geojsonl.7z
-    size: 587 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.geojsonl.7z
-  - name: UMD_Mumbai_Slum_Boundaries_2016.parquet
-    format: parquet
-    size: 1011 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.parquet
-  - name: UMD_Mumbai_Slum_Boundaries_2016.pmtiles
-    format: pmtiles
-    size: 1.9 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/UMD_Mumbai_Slum_Boundaries_2016.pmtiles
-  - name: WB_AMRUT_Localities.geojsonl.7z
-    format: geojsonl.7z
-    size: 271 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.geojsonl.7z
-  - name: WB_AMRUT_Localities.parquet
-    format: parquet
-    size: 422 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.parquet
-  - name: WB_AMRUT_Localities.pmtiles
-    format: pmtiles
-    size: 249 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Localities.pmtiles
-  - name: WB_AMRUT_Slum_boundaries.geojsonl.7z
-    format: geojsonl.7z
-    size: 3.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.geojsonl.7z
-  - name: WB_AMRUT_Slum_boundaries.parquet
-    format: parquet
-    size: 6.3 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.parquet
-  - name: WB_AMRUT_Slum_boundaries.pmtiles
-    format: pmtiles
-    size: 3.6 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_Slum_boundaries.pmtiles
-  - name: WB_AMRUT_ULBs.geojsonl.7z
-    format: geojsonl.7z
-    size: 596 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.geojsonl.7z
-  - name: WB_AMRUT_ULBs.parquet
-    format: parquet
-    size: 1.2 MB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.parquet
-  - name: WB_AMRUT_ULBs.pmtiles
-    format: pmtiles
-    size: 456 KB
-    storage: release
-    download_url: https://github.com/yashveeeeeer/india-geodata/releases/download/urban/boundaries/WB_AMRUT_ULBs.pmtiles
   - name: WB_AMRUT_Wards.geojsonl.7z
     format: geojsonl.7z
     size: 3.3 MB
