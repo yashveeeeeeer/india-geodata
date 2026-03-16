@@ -1,0 +1,175 @@
+name: Transfer Building Assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        description: 'Source tag on ramSeraph/indian_buildings'
+        required: true
+        type: choice
+        options:
+          - MSBI
+          - GOBI-2023
+          - urban
+      dest_tag:
+        description: 'Destination tag on this repo'
+        required: true
+        type: choice
+        options:
+          - buildings/microsoft
+          - buildings/google
+          - buildings/urban
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: write
+
+    steps:
+      - name: Ensure destination release exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view "${{ inputs.dest_tag }}" --repo ${{ github.repository }} &>/dev/null; then
+            gh release create "${{ inputs.dest_tag }}" \
+              --repo ${{ github.repository }} \
+              --title "Buildings (${{ inputs.source_tag }})" \
+              --notes "Building footprints transferred from ramSeraph/indian_buildings (${{ inputs.source_tag }})"
+          fi
+
+      - name: Transfer assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          SRC_REPO="ramSeraph/indian_buildings"
+          SRC_TAG="${{ inputs.source_tag }}"
+          DEST_TAG="${{ inputs.dest_tag }}"
+          DEST_REPO="${{ github.repository }}"
+
+          echo "=== Fetching source assets ==="
+          gh api "repos/$SRC_REPO/releases/tags/$SRC_TAG" \
+            --jq '.assets[] | "\(.name)\t\(.size)"' > /tmp/src_assets.tsv
+          SRC_COUNT=$(wc -l < /tmp/src_assets.tsv)
+          echo "Source: $SRC_COUNT files"
+
+          echo "=== Fetching destination assets ==="
+          gh api "repos/$DEST_REPO/releases/tags/$DEST_TAG" \
+            --jq '.assets[] | "\(.name)\t\(.size)"' > /tmp/dest_assets.tsv 2>/dev/null || true
+          DEST_COUNT=$(wc -l < /tmp/dest_assets.tsv)
+          echo "Destination: $DEST_COUNT files"
+
+          echo "=== Finding missing/corrupt assets ==="
+          TRANSFER_LIST=""
+          DELETE_IDS=""
+
+          while IFS=$'\t' read -r name size; do
+            dest_line=$(grep "^${name}	" /tmp/dest_assets.tsv 2>/dev/null || true)
+            if [ -z "$dest_line" ]; then
+              TRANSFER_LIST="$TRANSFER_LIST $name"
+              echo "  MISSING: $name ($(numfmt --to=iec $size))"
+            else
+              dest_size=$(echo "$dest_line" | cut -f2)
+              if [ "$size" != "$dest_size" ]; then
+                echo "  CORRUPT: $name (got $(numfmt --to=iec $dest_size), expected $(numfmt --to=iec $size))"
+                asset_id=$(gh api "repos/$DEST_REPO/releases/tags/$DEST_TAG" \
+                  --jq ".assets[] | select(.name==\"$name\") | .id")
+                if [ -n "$asset_id" ]; then
+                  echo "    Deleting corrupt asset $asset_id..."
+                  gh api -X DELETE "repos/$DEST_REPO/releases/assets/$asset_id"
+                fi
+                TRANSFER_LIST="$TRANSFER_LIST $name"
+              fi
+            fi
+          done < /tmp/src_assets.tsv
+
+          TRANSFER_ARRAY=($TRANSFER_LIST)
+          TOTAL=${#TRANSFER_ARRAY[@]}
+          echo ""
+          echo "=== Transferring $TOTAL files ==="
+
+          if [ "$TOTAL" -eq 0 ]; then
+            echo "Nothing to transfer — all files verified!"
+            exit 0
+          fi
+
+          SUCCEEDED=0
+          FAILED=0
+          FAILED_LIST=""
+          i=0
+
+          for name in "${TRANSFER_ARRAY[@]}"; do
+            i=$((i + 1))
+            src_size=$(grep "^${name}	" /tmp/src_assets.tsv | cut -f2)
+            echo ""
+            echo "[$i/$TOTAL] $name ($(numfmt --to=iec $src_size))"
+
+            success=false
+            for attempt in 1 2 3 4 5; do
+              echo "  Attempt $attempt/5: downloading..."
+              rm -f "/tmp/$name"
+              gh release download "$SRC_TAG" --repo "$SRC_REPO" --pattern "$name" --dir /tmp --clobber 2>&1 || true
+
+              if [ ! -f "/tmp/$name" ]; then
+                echo "  Download failed, waiting $((attempt * 15))s..."
+                sleep $((attempt * 15))
+                continue
+              fi
+
+              actual_size=$(stat -c%s "/tmp/$name")
+              tolerance=$((src_size / 100))
+              diff=$((actual_size - src_size))
+              abs_diff=${diff#-}
+
+              if [ "$abs_diff" -gt "$tolerance" ]; then
+                echo "  Size mismatch: $(numfmt --to=iec $actual_size) vs $(numfmt --to=iec $src_size)"
+                rm -f "/tmp/$name"
+                sleep $((attempt * 15))
+                continue
+              fi
+
+              echo "  Downloaded $(numfmt --to=iec $actual_size). Uploading..."
+              if gh release upload "$DEST_TAG" "/tmp/$name" --repo "$DEST_REPO" 2>&1; then
+                echo "  Upload OK!"
+                rm -f "/tmp/$name"
+                success=true
+                break
+              else
+                err=$?
+                echo "  Upload failed (exit $err), waiting $((attempt * 20))s..."
+                rm -f "/tmp/$name"
+                sleep $((attempt * 20))
+              fi
+            done
+
+            if $success; then
+              SUCCEEDED=$((SUCCEEDED + 1))
+            else
+              FAILED=$((FAILED + 1))
+              FAILED_LIST="$FAILED_LIST $name"
+              echo "  FAILED after 5 attempts"
+            fi
+          done
+
+          echo ""
+          echo "==========================================="
+          echo "  Transfer Summary"
+          echo "==========================================="
+          echo "Succeeded: $SUCCEEDED / $TOTAL"
+          echo "Failed: $FAILED"
+          if [ "$FAILED" -gt 0 ]; then
+            echo "Failed files: $FAILED_LIST"
+          fi
+
+          echo ""
+          echo "=== Final Verification ==="
+          gh api "repos/$DEST_REPO/releases/tags/$DEST_TAG" \
+            --jq '.assets | length' | xargs -I{} echo "Destination assets: {}"
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo "WARNING: $FAILED files failed. Re-run this workflow to retry."
+            exit 1
+          fi

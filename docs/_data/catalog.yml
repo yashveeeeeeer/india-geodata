@@ -2382,6 +2382,55 @@
     size: 2.5 MB
     storage: repo
     download_url: https://github.com/yashveeeeeer/india-geodata/raw/main/data/environment/soil/INDIA_SOIL_MAP_FAO.geojson
+- name: env-dem
+  title: Digital Elevation Model (ALOS AW3D30)
+  description: 30-meter resolution digital elevation model covering India from JAXA's
+    ALOS World 3D-30m dataset. Elevation, slope, and aspect data for terrain analysis,
+    watershed delineation, and flood modeling.
+  category: environment
+  level: dem
+  formats:
+  - GeoTIFF
+  license_id: JAXA-Free
+  storage: external
+  release_tag: null
+  url: data/environment/dem
+  external_url: https://www.eorc.jaxa.jp/ALOS/en/aw3d30/data/index.htm
+  external_docs: https://www.eorc.jaxa.jp/ALOS/en/aw3d30/aw3d30v3.2_product_e_e1.2.pdf
+  files: []
+- name: env-worldcover
+  title: ESA WorldCover Land Cover (10m)
+  description: 10-meter resolution global land cover map from ESA WorldCover v200 (2021)
+    with 11 land cover classes — tree cover, shrubland, grassland, cropland, built-up,
+    bare/sparse vegetation, snow/ice, water bodies, wetland, mangroves, moss/lichen.
+  category: environment
+  level: landcover
+  formats:
+  - GeoTIFF
+  license_id: CC-BY-4.0
+  storage: external
+  release_tag: null
+  url: data/environment/worldcover
+  external_url: https://worldcover2021.esa.int/downloader
+  external_docs: https://esa-worldcover.org/en/data-access
+  files: []
+- name: env-imd-rainfall
+  title: IMD Gridded Rainfall Data
+  description: India Meteorological Department gridded daily rainfall data at 0.25°
+    resolution covering India (1901-present). Essential for climate analysis, drought
+    monitoring, flood forecasting, and agricultural planning.
+  category: environment
+  level: rainfall
+  formats:
+  - NetCDF
+  - GRD
+  license_id: IMD-Open
+  storage: external
+  release_tag: null
+  url: data/environment/imd-rainfall
+  external_url: https://www.imdpune.gov.in/cmpg/Griddata/Rainfall_25_Bin.html
+  external_docs: https://www.imdpune.gov.in/cmpg/Griddata/Rainfall_25_NetCDF.html
+  files: []
 - name: shrug
   title: SHRUG — Socioeconomic High-resolution Rural-Urban Geographic Platform
   description: Open-access platform with socioeconomic, environmental, and geospatial

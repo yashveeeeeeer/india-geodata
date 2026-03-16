@@ -308,6 +308,41 @@ main { flex: 1; }
 }
 .btn-file-dl:hover { text-decoration: underline; }
 
+/* --- Download Progress Bar --- */
+.dl-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+}
+.dl-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dl-progress-fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 3px;
+  transition: width 0.2s ease;
+}
+.dl-progress-text {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+  min-width: 90px;
+}
+.dl-cancel-btn {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1;
+}
+.dl-cancel-btn:hover { color: #ef4444; background: #fef2f2; }
+
 /* --- External Notice --- */
 .external-notice { padding: 12px 0; font-size: 0.88rem; color: var(--color-muted); }
 

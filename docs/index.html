@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Download India's Open Geospatial Data"
-description: "Browse and download 52 open-licensed GIS datasets for India — administrative boundaries, electoral maps, census data, forest cover, soil classification, flood inventory, flood atlas, rivers, lakes, watersheds, irrigation, wetlands, urban buildings, nighttime lights, roads, railways, airports, healthcare, education, population density, and more. Free Parquet, GeoJSON, Shapefile, PMTiles, and GeoTIFF formats."
+description: "Browse and download 55+ open-licensed GIS datasets for India — administrative boundaries, electoral maps, census data, forest cover, soil classification, flood inventory, flood atlas, DEM, land cover, rainfall, rivers, lakes, watersheds, irrigation, wetlands, urban/Microsoft/Google building footprints, nighttime lights, roads, railways, airports, healthcare, education, population density, and more. Free Parquet, GeoJSON, Shapefile, PMTiles, and GeoTIFF formats."
 ---
 
 {% assign cats = "administrative,electoral,census,environment,water,infrastructure,energy,urban,postal,police,healthcare,education,survey-of-india,remote-sensing,external" | split: "," %}
@@ -22,7 +22,7 @@ description: "Browse and download 52 open-licensed GIS datasets for India — ad
         <span class="stat-label">Categories</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number">75 GB+</span>
+        <span class="stat-number">87 GB+</span>
         <span class="stat-label">Total data</span>
       </div>
     </div>
@@ -88,8 +88,10 @@ description: "Browse and download 52 open-licensed GIS datasets for India — ad
           <div class="dataset-files">
             {% if item.storage == "external" %}
             <div class="external-notice">
-              <p>This dataset is hosted externally by Development Data Lab.</p>
-              <p>SHRUG provides socioeconomic data for 500,000+ villages and 8,000+ towns — census, economic census, nightlights, forest cover, elections, and more.</p>
+              <p>This dataset is hosted externally. Click "Download Portal" above to access the data from the original provider.</p>
+              {% if item.external_docs %}
+              <p>Refer to the <a href="{{ item.external_docs }}" target="_blank" rel="noopener">documentation</a> for format details and usage instructions.</p>
+              {% endif %}
             </div>
             {% elsif item.files.size > 0 %}
             <div class="file-table-wrap">
