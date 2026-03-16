@@ -59,9 +59,18 @@ def validate_sources(sources, errors):
 
 
 def validate_license(license_info, errors):
-    """Validate the license section of metadata."""
+    """Validate the license section of metadata.
+
+    Accepts either:
+    - A dict with 'id', 'name', and 'url' fields
+    - A string SPDX identifier (e.g. 'CC-BY-4.0')
+    """
+    if isinstance(license_info, str):
+        if not license_info.strip():
+            errors.append("'license' string must not be empty")
+        return
     if not isinstance(license_info, dict):
-        errors.append("'license' must be a dict")
+        errors.append("'license' must be a dict or a string")
         return
     for field in ("id", "name", "url"):
         if field not in license_info:

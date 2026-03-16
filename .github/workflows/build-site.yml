@@ -26,6 +26,8 @@ jobs:
           python-version: '3.12'
       - run: pip install pyyaml
       - run: python scripts/generate-catalog.py
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/configure-pages@v5
       - uses: actions/jekyll-build-pages@v1
         with:

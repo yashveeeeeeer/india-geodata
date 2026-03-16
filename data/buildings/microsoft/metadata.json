@@ -1,13 +1,29 @@
 {
-  "name": "Microsoft Buildings India",
-  "version": "1.0",
-  "description": "Building footprint polygons for India from Microsoft GlobalMLBuildingFootprints. 11 assets, ~12 GB total. ML-detected footprints from satellite imagery.",
-  "source": {
-    "name": "ramSeraph/indian_buildings (MSBI release)",
-    "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/MSBI",
-    "authority": "ramSeraph; upstream: Microsoft GlobalMLBuildingFootprints"
+  "name": "buildings-microsoft",
+  "title": "Microsoft Building Footprints India",
+  "description": "ML-derived building footprint polygons for India from Microsoft global building dataset. Partitioned parquet, GeoJSON archives, and metadata (11 files, ~12 GB total).",
+  "category": "urban",
+  "level": "buildings-microsoft",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2023"
   },
-  "license": "ODbL",
+  "sources": [
+    {
+      "name": "ramSeraph/indian_buildings",
+      "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/MSBI",
+      "authority": "Microsoft GlobalMLBuildingFootprints"
+    }
+  ],
+  "license": {
+    "id": "ODbL-1.0",
+    "name": "Open Data Commons Open Database License",
+    "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+  },
   "formats": ["geojsonl.7z", "parquet", "pmtiles"],
-  "spatial_coverage": "India (national)"
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "buildings/microsoft"
+  }
 }

@@ -1,13 +1,29 @@
 {
-  "name": "Urban Buildings India",
-  "version": "1.0",
-  "description": "Building footprint polygons for urban areas across Indian states and UTs. Aggregated from AMRUT/Bhuvan, GSDL Delhi, VEDAS, NESDR, and other sources. 84 assets covering states/UTs across India (~9 GB total).",
-  "source": {
-    "name": "ramSeraph/indian_buildings (urban release)",
-    "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/urban",
-    "authority": "ramSeraph; upstream: AMRUT, Bhuvan, GSDL Delhi, VEDAS, NESDR"
+  "name": "buildings-urban",
+  "title": "Urban Buildings India",
+  "description": "State-wise urban building footprint polygons from AMRUT/Bhuvan, GSDL Delhi, VEDAS, NESDR, and other government sources. 84 files across 28 state/source groups (~9 GB total).",
+  "category": "urban",
+  "level": "buildings-urban",
+  "coverage": {
+    "spatial": "India (urban areas, states/UTs)",
+    "temporal": "2024"
   },
-  "license": "CC0 1.0",
+  "sources": [
+    {
+      "name": "ramSeraph/indian_buildings",
+      "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/urban",
+      "authority": "AMRUT, Bhuvan, GSDL Delhi, VEDAS, NESDR"
+    }
+  ],
+  "license": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons Zero 1.0 Universal",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
   "formats": ["geojsonl.7z", "parquet", "pmtiles"],
-  "spatial_coverage": "India (urban areas, states/UTs)"
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "buildings/urban"
+  }
 }

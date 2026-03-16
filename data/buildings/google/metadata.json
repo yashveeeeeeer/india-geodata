@@ -1,13 +1,29 @@
 {
-  "name": "Google Open Buildings India 2023",
-  "version": "1.0",
-  "description": "Building footprint polygons for India derived from Google Research Open Buildings V3. 47 assets, ~66 GB total. ML-detected footprints from satellite imagery.",
-  "source": {
-    "name": "ramSeraph/indian_buildings (GOBI-2023 release)",
-    "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/GOBI-2023",
-    "authority": "ramSeraph; upstream: Google Research Open Buildings V3"
+  "name": "buildings-google",
+  "title": "Google Open Buildings India",
+  "description": "ML-derived building footprint polygons for India from Google Open Buildings V3 (2023). State-wise partitioned parquet files with confidence scores and geometry (47 files, ~66 GB total).",
+  "category": "urban",
+  "level": "buildings-google",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2023"
   },
-  "license": "CC-BY-4.0",
+  "sources": [
+    {
+      "name": "ramSeraph/indian_buildings",
+      "url": "https://github.com/ramSeraph/indian_buildings/releases/tag/GOBI-2023",
+      "authority": "Google Research Open Buildings V3"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
   "formats": ["geojsonl.7z", "parquet", "pmtiles"],
-  "spatial_coverage": "India (national)"
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "buildings/google"
+  }
 }

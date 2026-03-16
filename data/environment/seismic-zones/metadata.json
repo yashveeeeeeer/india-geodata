@@ -1,0 +1,28 @@
+{
+  "name": "env-seismic-zones",
+  "title": "Seismic Zones of India",
+  "description": "India seismic hazard zonation map delineating five earthquake risk zones (II-V) based on BIS IS 1893:2016 standards. Essential for earthquake risk assessment, structural engineering compliance, and disaster management planning.",
+  "category": "environment",
+  "level": "seismic-zones",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2016"
+  },
+  "sources": [
+    {
+      "name": "National Disaster Management Authority / Bureau of Indian Standards",
+      "url": "https://data.gov.in/resource/seismic-zones-india",
+      "authority": "Bureau of Indian Standards (BIS)"
+    }
+  ],
+  "license": {
+    "id": "GODL-2.0",
+    "name": "Government Open Data License - India 2.0",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": ["Shapefile", "KML"],
+  "coordinate_system": "EPSG:4326",
+  "storage": "external",
+  "external_url": "https://data.gov.in/resource/seismic-zones-india",
+  "external_docs": "https://ndma.gov.in/Natural-Hazards/Earthquakes"
+}

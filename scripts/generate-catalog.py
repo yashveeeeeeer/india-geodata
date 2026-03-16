@@ -258,6 +258,10 @@ def process_metadata_file(filepath, repo_root):
     dataset_rel_path = os.path.relpath(dataset_dir, start=repo_root).replace("\\", "/")
 
     license_info = metadata.get("license", {})
+    if isinstance(license_info, str):
+        license_id = license_info
+    else:
+        license_id = license_info.get("id", "")
     storage_mode = determine_storage_mode(metadata)
     release_tag = get_release_tag(metadata)
 
@@ -268,7 +272,7 @@ def process_metadata_file(filepath, repo_root):
         "category": metadata.get("category", ""),
         "level": extract_level(metadata, dataset_rel_path),
         "formats": metadata.get("formats", []),
-        "license_id": license_info.get("id", ""),
+        "license_id": license_id,
         "storage": storage_mode,
         "release_tag": release_tag,
         "url": dataset_rel_path,

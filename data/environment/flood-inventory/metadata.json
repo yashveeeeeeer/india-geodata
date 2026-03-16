@@ -1,16 +1,31 @@
 {
-  "name": "India Flood Inventory",
-  "version": "3.0",
-  "description": "Multi-source geospatial inventory of flood events across India (1960s–2020) with flood extent polygons, dates, affected states and districts, and causal factors.",
-  "source": {
-    "name": "India Flood Inventory (IFI)",
-    "url": "https://github.com/hydrosenselab/India-Flood-Inventory",
-    "authority": "HydroSense Lab, IIT Delhi"
+  "name": "env-flood-inventory",
+  "title": "India Flood Inventory",
+  "description": "Multi-source geospatial inventory of 1,006 flood events across India (1960s-2020) with flood extent polygons, dates, affected states and districts, and causal factors.",
+  "category": "environment",
+  "level": "flood-inventory",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "1960s-2020"
   },
-  "license": "CC-BY-4.0",
+  "sources": [
+    {
+      "name": "India Flood Inventory (IFI)",
+      "url": "https://github.com/hydrosenselab/India-Flood-Inventory",
+      "authority": "HydroSense Lab, IIT Delhi"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
   "formats": ["geojson"],
-  "spatial_coverage": "India",
-  "temporal_coverage": "1960s–2020",
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": false,
+    "release_tag": "environment/flood-inventory"
+  },
   "feature_count": 1006,
-  "citation": "Saharia, M., Jain, A., Baishya, R.R. et al. India flood inventory: creation of a multi-source national geospatial database to facilitate comprehensive flood research. Nat Hazards 108, 619–633 (2021). https://doi.org/10.1007/s11069-021-04698-6"
+  "citation": "Saharia, M., Jain, A., Baishya, R.R. et al. India flood inventory: creation of a multi-source national geospatial database to facilitate comprehensive flood research. Nat Hazards 108, 619-633 (2021). https://doi.org/10.1007/s11069-021-04698-6"
 }

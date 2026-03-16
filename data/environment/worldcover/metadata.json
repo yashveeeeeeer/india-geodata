@@ -1,0 +1,28 @@
+{
+  "name": "env-worldcover",
+  "title": "ESA WorldCover Land Cover (10m)",
+  "description": "10-meter resolution global land cover map from ESA WorldCover v200 (2021) with 11 land cover classes including tree cover, shrubland, grassland, cropland, built-up, bare/sparse vegetation, snow/ice, water bodies, wetland, mangroves, moss/lichen.",
+  "category": "environment",
+  "level": "landcover",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2021"
+  },
+  "sources": [
+    {
+      "name": "ESA WorldCover",
+      "url": "https://worldcover2021.esa.int/downloader",
+      "authority": "European Space Agency"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "formats": ["GeoTIFF"],
+  "coordinate_system": "EPSG:4326",
+  "storage": "external",
+  "external_url": "https://worldcover2021.esa.int/downloader",
+  "external_docs": "https://esa-worldcover.org/en/data-access"
+}

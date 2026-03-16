@@ -1,0 +1,28 @@
+{
+  "name": "rs-ndvi",
+  "title": "NDVI India (Bhuvan/ISRO OCM-2)",
+  "description": "Normalized Difference Vegetation Index (NDVI) composites for India from ISRO's Oceansat-2 OCM sensor at 1 km resolution (fortnightly, 2011-2021). Useful for vegetation health monitoring, agricultural drought assessment, and land cover change analysis.",
+  "category": "remote-sensing",
+  "level": "ndvi",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2011-2021"
+  },
+  "sources": [
+    {
+      "name": "Bhuvan NDVI Portal",
+      "url": "https://bhuvan-app1.nrsc.gov.in/thematic/thematic/index.php",
+      "authority": "ISRO / National Remote Sensing Centre"
+    }
+  ],
+  "license": {
+    "id": "GODL-2.0",
+    "name": "Government Open Data License - India 2.0",
+    "url": "https://data.gov.in/government-open-data-license-india"
+  },
+  "formats": ["GeoTIFF"],
+  "coordinate_system": "EPSG:4326",
+  "storage": "external",
+  "external_url": "https://bhuvan-app1.nrsc.gov.in/thematic/thematic/index.php",
+  "external_docs": "https://bhuvan.nrsc.gov.in/home/index.php"
+}

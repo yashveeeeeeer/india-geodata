@@ -1,0 +1,28 @@
+{
+  "name": "env-imd-rainfall",
+  "title": "IMD Gridded Rainfall Data",
+  "description": "India Meteorological Department gridded daily rainfall data at 0.25 degree resolution covering India (1901-present). Essential for climate analysis, drought monitoring, flood forecasting, and agricultural planning.",
+  "category": "environment",
+  "level": "rainfall",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "1901-present"
+  },
+  "sources": [
+    {
+      "name": "IMD Pune Gridded Data",
+      "url": "https://www.imdpune.gov.in/cmpg/Griddata/Rainfall_25_Bin.html",
+      "authority": "India Meteorological Department"
+    }
+  ],
+  "license": {
+    "id": "IMD-Open",
+    "name": "IMD Open Data",
+    "url": "https://www.imdpune.gov.in/"
+  },
+  "formats": ["NetCDF", "GRD"],
+  "coordinate_system": "EPSG:4326",
+  "storage": "external",
+  "external_url": "https://www.imdpune.gov.in/cmpg/Griddata/Rainfall_25_Bin.html",
+  "external_docs": "https://www.imdpune.gov.in/cmpg/Griddata/Rainfall_25_NetCDF.html"
+}

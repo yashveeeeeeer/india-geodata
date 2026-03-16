@@ -1,0 +1,28 @@
+{
+  "name": "env-dem",
+  "title": "Digital Elevation Model (ALOS AW3D30)",
+  "description": "30-meter resolution digital elevation model covering India from JAXA's ALOS World 3D-30m dataset. Elevation, slope, and aspect data for terrain analysis, watershed delineation, and flood modeling.",
+  "category": "environment",
+  "level": "dem",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2021"
+  },
+  "sources": [
+    {
+      "name": "ALOS World 3D-30m",
+      "url": "https://www.eorc.jaxa.jp/ALOS/en/aw3d30/data/index.htm",
+      "authority": "JAXA Earth Observation Research Center"
+    }
+  ],
+  "license": {
+    "id": "JAXA-Free",
+    "name": "JAXA Free Use",
+    "url": "https://earth.jaxa.jp/policy/en.html"
+  },
+  "formats": ["GeoTIFF"],
+  "coordinate_system": "EPSG:4326",
+  "storage": "external",
+  "external_url": "https://www.eorc.jaxa.jp/ALOS/en/aw3d30/data/index.htm",
+  "external_docs": "https://www.eorc.jaxa.jp/ALOS/en/aw3d30/aw3d30v3.2_product_e_e1.2.pdf"
+}
