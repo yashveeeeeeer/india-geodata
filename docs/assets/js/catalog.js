@@ -128,21 +128,50 @@
       });
   }
 
+  function blobDownload(url, fileName, row) {
+    fetch(url)
+      .then(function(resp) {
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        return resp.blob();
+      })
+      .then(function(blob) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+      })
+      .catch(function() {
+        window.location.href = url;
+      });
+  }
+
   document.addEventListener('click', function(e) {
     var link = e.target.closest('.btn-file-dl');
     if (!link) return;
     var row = link.closest('tr');
     if (!row) return;
     var url = link.getAttribute('href');
-    var fileName = row.querySelector('td:first-child') ? row.querySelector('td:first-child').textContent.trim() : '';
+    if (!url) return;
+    var nameCell = row.querySelector('td:first-child');
+    var fileName = nameCell ? nameCell.textContent.trim().split('/').pop() : '';
     var sizeCell = row.querySelectorAll('td')[2];
     var sizeStr = sizeCell ? sizeCell.textContent.trim() : '';
     var expectedSize = parseSize(sizeStr);
+    var isRelease = url.indexOf('/releases/download/') !== -1;
+
+    if (isRelease) {
+      return;
+    }
+
+    e.preventDefault();
+    row.dataset.dlUrl = url;
 
     if (expectedSize > CHUNK_THRESHOLD && window.ReadableStream) {
-      e.preventDefault();
-      row.dataset.dlUrl = url;
       resumableDownload(url, fileName, expectedSize, row);
+    } else {
+      blobDownload(url, fileName, row);
     }
   });
 
