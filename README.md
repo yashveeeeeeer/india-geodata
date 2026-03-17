@@ -5,7 +5,7 @@
 
 A unified, structured collection of India's openly-licensed geospatial data — administrative boundaries, electoral maps, census geometries, environmental zones, water resources, infrastructure networks, healthcare, education, urban municipal data, and more.
 
-Browse and download at **[india-geodata](https://yashveeeeeer.github.io/india-geodata)**
+Browse and download at **[india-geodata](https://yashveeeeeeer.github.io/india-geodata)**
 
 ---
 
@@ -116,7 +116,7 @@ This repository consolidates data from the following open-data projects and gove
 | [datameet/INDIA_PINCODES](https://github.com/datameet/INDIA_PINCODES) | DataMeet | — | Postal code boundaries |
 | [datameet/Municipal_Spatial_Data](https://github.com/datameet/Municipal_Spatial_Data) | DataMeet | CC BY 4.0 | Municipal ward boundaries for 27 cities |
 | [NOAA VIIRS DNB](https://eogdata.mines.edu/products/vnl/) | NOAA / EOG | Public domain | Nighttime light satellite imagery |
-| [india-district-nightlights-viirs](https://github.com/yashveeeeeer/india-district-nightlights-viirs) | yashveeeeeer | MIT | District-level nightlight statistics pipeline |
+| [india-district-nightlights-viirs](https://github.com/yashveeeeeeer/india-district-nightlights-viirs) | yashveeeeeeer | MIT | District-level nightlight statistics pipeline |
 | [SHRUG](https://www.devdatalab.org/shrug) | Development Data Lab | CC BY-NC-SA 4.0 | Socioeconomic data for 500K+ villages (external link) |
 | [indian_transport](https://github.com/ramSeraph/indian_transport) | ramSeraph | CC0 1.0 / ODbL / GODL | Roads (SOI, NIC, PMGSY, MoRTH, Urban, ML), Railways, Inland Waterways |
 | [INDIAN-SHAPEFILES](https://github.com/datta07/INDIAN-SHAPEFILES) | datta07 | — | Energy plants, Police stations, Railways, National highways (GeoJSON) |
@@ -164,7 +164,7 @@ Individual datasets carry their own licenses as documented in their
   title = {India Geodata: Unified Geospatial Data Repository},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/yashveeeeeer/india-geodata}
+  url = {https://github.com/yashveeeeeeer/india-geodata}
 }
 ```
 

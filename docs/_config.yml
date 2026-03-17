@@ -1,7 +1,7 @@
 title: India Geodata
 description: "Download India's open geospatial data — administrative boundaries, district maps, electoral constituencies, census geometries, forest cover, nighttime lights, rural roads, and more. Free GIS shapefiles, GeoJSON, Parquet, and PMTiles."
 baseurl: "/india-geodata"
-url: "https://yashveeeeeer.github.io"
+url: "https://yashveeeeeeer.github.io"
 
 author: Yashveer Singh
 twitter:
@@ -11,7 +11,7 @@ social:
   links:
     - https://x.com/yashv_r
     - https://www.linkedin.com/in/yashveersinghh/
-    - https://github.com/yashveeeeeer
+    - https://github.com/yashveeeeeeer
 
 plugins:
   - jekyll-seo-tag

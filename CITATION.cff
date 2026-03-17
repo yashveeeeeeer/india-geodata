@@ -7,7 +7,7 @@ abstract: >-
   covering administrative boundaries, electoral maps, census geometries,
   environmental zones, infrastructure networks, urban municipal data,
   postal boundaries, police jurisdictions, and satellite remote sensing.
-repository-code: "https://github.com/yashveeeeeer/india-geodata"
+repository-code: "https://github.com/yashveeeeeeer/india-geodata"
 license: CC-BY-4.0
 date-released: "2026-03-07"
 keywords:
@@ -42,8 +42,8 @@ references:
   - type: dataset
     title: "India District Nightlights VIIRS"
     authors:
-      - name: "yashveeeeeer"
-    repository-code: "https://github.com/yashveeeeeer/india-district-nightlights-viirs"
+      - name: "yashveeeeeeer"
+    repository-code: "https://github.com/yashveeeeeeer/india-district-nightlights-viirs"
     license: MIT
   - type: dataset
     title: "SHRUG: Socioeconomic High-resolution Rural-Urban Geographic Platform for India"
