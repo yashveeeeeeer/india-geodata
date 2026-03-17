@@ -17,7 +17,7 @@ import shutil
 from pathlib import Path
 
 SOURCE_REPO = "ramSeraph/indian_transport"
-TARGET_REPO = "yashveeeeeer/india-geodata"
+TARGET_REPO = "yashveeeeeeer/india-geodata"
 
 RELEASE_MAP = {
     "infra/national-highways": {

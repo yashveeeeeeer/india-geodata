@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Resumable building footprint transfer script.
-    Transfers assets from ramSeraph/indian_buildings to yashveeeeeer/india-geodata.
+    Transfers assets from ramSeraph/indian_buildings to yashveeeeeeer/india-geodata.
     Validates file sizes, deletes corrupt uploads, retries with backoff.
 
 .PARAMETER SourceTag
@@ -31,7 +31,7 @@ param(
 
 $ErrorActionPreference = "Continue"
 $srcRepo = "ramSeraph/indian_buildings"
-$destRepo = "yashveeeeeer/india-geodata"
+$destRepo = "yashveeeeeeer/india-geodata"
 $tempDir = "temp_downloads"
 $sizeTolerance = 0.01  # 1% tolerance for size comparison
 

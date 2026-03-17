@@ -41,9 +41,9 @@ configs = [
 
 for cfg in configs:
     tag = cfg["tag"]
-    rel = gh_api(f"repos/yashveeeeeer/india-geodata/releases/tags/{tag}")
+    rel = gh_api(f"repos/yashveeeeeeer/india-geodata/releases/tags/{tag}")
     assets = rel["assets"]
-    base = f"https://github.com/yashveeeeeer/india-geodata/releases/download/{tag}"
+    base = f"https://github.com/yashveeeeeeer/india-geodata/releases/download/{tag}"
     fmts = sorted(set(get_fmt(a["name"]) for a in assets))
 
     print(f"- name: {cfg['name']}")
@@ -65,4 +65,4 @@ for cfg in configs:
         print(f"    size: {fmt_size(a['size'])}")
         print(f"    storage: release")
         print(f"    download_url: {base}/{a['name']}")
-    print(f"  release_url: https://github.com/yashveeeeeer/india-geodata/releases/tag/{tag}")
+    print(f"  release_url: https://github.com/yashveeeeeeer/india-geodata/releases/tag/{tag}")

@@ -32,7 +32,7 @@ except ImportError:
     )
     sys.exit(1)
 
-GITHUB_OWNER = "yashveeeeeer"
+GITHUB_OWNER = "yashveeeeeeer"
 GITHUB_REPO = "india-geodata"
 GITHUB_BASE = f"https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}"
 RAW_BASE = f"{GITHUB_BASE}/raw/main"

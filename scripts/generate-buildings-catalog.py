@@ -31,8 +31,8 @@ def get_format(name):
 
 def main():
     release_tag = sys.argv[1] if len(sys.argv) > 1 else "buildings/urban"
-    release = gh_api(f"repos/yashveeeeeer/india-geodata/releases/tags/{release_tag}")
-    base_url = f"https://github.com/yashveeeeeer/india-geodata/releases/download/{release_tag}"
+    release = gh_api(f"repos/yashveeeeeeer/india-geodata/releases/tags/{release_tag}")
+    base_url = f"https://github.com/yashveeeeeeer/india-geodata/releases/download/{release_tag}"
     
     print("  files:")
     for asset in release["assets"]:
