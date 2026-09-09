@@ -96,6 +96,18 @@
 .fix-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #b91c1c; }
 .fix-val { color: var(--color-muted); font-size: 0.76rem; white-space: nowrap; }
 .maps-side .fix-row select { padding: 4px 6px; font-size: 0.8rem; }
+.fix-row.assumed .fix-name { color: #166534; }
+.fix-row .fix-undo { padding: 3px 8px; font-size: 0.74rem; justify-self: start; }
+.fix-name small { color: var(--color-muted); font-weight: 600; }
+.unmatched.flash { outline: 2px solid var(--color-accent); outline-offset: 4px; border-radius: 4px; }
+.learned-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.78rem; padding: 2px 0; }
+.learned-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unmatched-badge {
+  position: absolute; right: 12px; top: 12px; z-index: 4;
+  background: #b91c1c; color: #fff; font-size: 0.76rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 14px; box-shadow: var(--shadow-sm);
+}
+.unmatched-badge:hover { background: #991b1b; }
 
 /* --- collapsible values table --- */
 details.sub > summary { list-style: none; cursor: pointer; font-size: 0.78rem; color: var(--color-muted); padding: 4px 0; user-select: none; }

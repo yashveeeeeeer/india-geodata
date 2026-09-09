@@ -25,6 +25,7 @@
     labelSize: $('labelSize'), decimals: $('decimals'), numberStyle: $('numberStyle'), prefix: $('prefix'), suffix: $('suffix'),
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
     assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
+    unmatchedBadge: $('unmatchedBadge'), regionList: $('regionList'), learnedList: $('learnedList'), learnedBox: $('learnedBox'),
     stage: $('stage'), tip: $('mapTip')
   };
 
@@ -93,7 +94,8 @@
   var region = { state: '', district: '' };
   var current = { level: 'districts', features: [], object: null, topo: null };
   var lastMatch = null;
-  var pendingFixes = [];                 // rows the user can match by hand: { name, value, kind, cands }
+  var pendingFixes = [];                 // rows the user can match by hand: { name, value, kind, cands, count }
+  var assumed = [];                      // fuzzy matches accepted automatically: { name, f, value }, shown with an undo
   var userAliases = { states: {}, districts: {}, subdistricts: {} };   // level -> compact name -> feature id
   var labelSizeAuto = true;              // label size follows the level until the user edits it
   var autoSuffix = false;
@@ -151,6 +153,7 @@
       var sub = filterFeatures(layer, level);
       current = { level: level, features: sub.features, object: sub.object, topo: layer.topo };
       if (labelSizeAuto) ui.labelSize.value = suggestedLabelSize(sub.features.length);
+      pendingFixes = []; assumed = []; lastMatch = null; reportMatch();
       buildTable();
       render();
       save();
@@ -317,8 +320,11 @@
     return hits.length === 1 ? hits[0] : null;
   }
 
+  var lastMatchKind = 'exact';           // 'exact' | 'learned' | 'alias' | 'fuzzy' for the most recent matchName()
+
   function matchName(raw, hint, idx) {
     var name = String(raw).trim();
+    lastMatchKind = 'exact';
     if (!name) return null;
     if (digitsOnly(name)) return idx.byCode[name.replace(/^0+/, '')] || null;
 
@@ -328,16 +334,17 @@
 
     var k = compact(name);
     var learned = userAliases[current.level][k];
-    if (learned && idx.byId[learned]) return idx.byId[learned];
-    k = ALIASES[k] || k;
+    if (learned === '') return null;                                   // the user rejected the guess for this name
+    if (learned && idx.byId[learned]) { lastMatchKind = 'learned'; return idx.byId[learned]; }
+    if (ALIASES[k]) { k = ALIASES[k]; lastMatchKind = 'alias'; }
     var cands = idx.byName[k];
     if (!cands) {
       var pref = idx.keys.filter(function (key) { return key.indexOf(k) === 0 || k.indexOf(key) === 0; });
-      if (pref.length === 1) cands = idx.byName[pref[0]];
+      if (pref.length === 1) { cands = idx.byName[pref[0]]; lastMatchKind = 'fuzzy'; }
     }
     if (!cands && k.length >= 5) {
       var close = idx.keys.filter(function (key) { return levenshtein(k, key) <= (k.length > 8 ? 2 : 1); });
-      if (close.length === 1) cands = idx.byName[close[0]];
+      if (close.length === 1) { cands = idx.byName[close[0]]; lastMatchKind = 'fuzzy'; }
     }
     if (!cands) return null;
     if (cands.length === 1) return cands[0];
@@ -413,18 +420,29 @@
     var matched = 0, empty = 0, unmatched = [], ambiguous = [];
     var percentCount = 0;
     pendingFixes = [];
+    assumed = [];
     function parseValue(raw) { var n = toNumber(raw); return isNaN(n) ? raw : n; }
+    function addFix(nm, raw, kind, cands) {
+      var key = compact(nm);
+      var existing = pendingFixes.filter(function (fx) { return fx.key === key && fx.kind === kind; })[0];
+      var value = isEmptyToken(raw) ? null : parseValue(raw);
+      if (existing) { existing.count++; if (value != null) existing.value = value; return; }   // repeats fixed together
+      pendingFixes.push({ name: nm, key: key, value: value, kind: kind, cands: cands, count: 1 });
+    }
     rows.forEach(function (r) {
       var nm = r[nameCol] || '';
       if (!nm) return;
       var raw = r[valueCol];
       var f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
-      if (!f) { unmatched.push(nm); pendingFixes.push({ name: nm, value: isEmptyToken(raw) ? null : parseValue(raw), kind: 'unmatched', cands: suggestFeatures(nm, 3) }); return; }
-      if (f.ambiguous) { ambiguous.push(nm); pendingFixes.push({ name: nm, value: isEmptyToken(raw) ? null : parseValue(raw), kind: 'ambiguous', cands: f.ambiguous }); return; }
+      if (!f) { unmatched.push(nm); addFix(nm, raw, 'unmatched', suggestFeatures(nm, 3)); return; }
+      if (f.ambiguous) { ambiguous.push(nm); addFix(nm, raw, 'ambiguous', f.ambiguous); return; }
       if (isEmptyToken(raw)) { empty++; return; }
       if (/%\s*$/.test(raw)) percentCount++;
       vals[f.id] = parseValue(raw);
       matched++;
+      if (lastMatchKind === 'fuzzy' && compact(nm) !== compact(f.properties.name) && !assumed.some(function (a) { return a.key === compact(nm); })) {
+        assumed.push({ name: nm, key: compact(nm), f: f, value: vals[f.id] });
+      }
     });
     var isPercent = percentCount && percentCount >= matched / 2;
     if (isPercent && !ui.suffix.value) { ui.suffix.value = '%'; autoSuffix = true; }
@@ -439,15 +457,44 @@
 
   function reportMatch() {
     if (!lastMatch) { ui.matchStatus.textContent = ''; ui.unmatched.innerHTML = ''; return; }
-    var parts = ['<strong>' + lastMatch.matched + '</strong> matched'];
+    var nUnmatched = pendingFixes.filter(function (fx) { return fx.kind === 'unmatched'; }).length;
+    var nAmbiguous = pendingFixes.filter(function (fx) { return fx.kind === 'ambiguous'; }).length;
+    var parts = ['<strong>' + lastMatch.matched + '</strong> matched' + (assumed.length ? ' (' + assumed.length + ' assumed)' : '')];
     if (lastMatch.empty) parts.push('<strong>' + lastMatch.empty + '</strong> without a value');
-    if (lastMatch.unmatched.length) parts.push('<strong>' + lastMatch.unmatched.length + '</strong> not found');
-    if (lastMatch.ambiguous.length) {
-      parts.push('<strong>' + lastMatch.ambiguous.length + '</strong> ambiguous (add a ' + (current.level === 'subdistricts' ? 'district' : 'state') + ' column)');
+    if (nUnmatched) parts.push('<strong>' + nUnmatched + '</strong> not found');
+    if (nAmbiguous) {
+      parts.push('<strong>' + nAmbiguous + '</strong> ambiguous (add a ' + (current.level === 'subdistricts' ? 'district' : 'state') + ' column)');
     }
     ui.matchStatus.innerHTML = parts.join(' · ');
     renderFixes();
   }
+
+  function updateBadge() {
+    var n = pendingFixes.length;
+    ui.unmatchedBadge.hidden = !n;
+    ui.unmatchedBadge.textContent = n + (n === 1 ? ' name unmatched' : ' names unmatched');
+  }
+
+  function renderLearned() {
+    var m = userAliases[current.level];
+    var keys = Object.keys(m).filter(function (k) { return m[k] !== ''; });
+    ui.learnedBox.hidden = !keys.length;
+    if (!keys.length) { ui.learnedList.innerHTML = ''; return; }
+    var byId = {};
+    current.features.forEach(function (f) { byId[f.id] = f; });
+    ui.learnedBox.querySelector('summary').textContent = 'Remembered matches · ' + keys.length;
+    ui.learnedList.innerHTML = keys.map(function (k) {
+      var f = byId[m[k]];
+      return '<div class="learned-row"><span>' + escapeHtml(k) + ' → ' + (f ? escapeHtml(f.properties.name) : '?') + '</span>' +
+        '<button type="button" class="asset-del" data-forget="' + escapeHtml(k) + '" aria-label="Forget this match">Forget</button></div>';
+    }).join('');
+  }
+  ui.learnedList.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-forget]');
+    if (!b) return;
+    delete userAliases[current.level][b.dataset.forget];
+    renderLearned(); save();
+  });
 
   function featureLabel(f) {
     var p = f.properties;
@@ -456,13 +503,21 @@
   }
 
   function renderFixes() {
-    if (!pendingFixes.length) { ui.unmatched.innerHTML = ''; return; }
+    updateBadge();
+    renderLearned();
+    if (!pendingFixes.length && !assumed.length) { ui.unmatched.innerHTML = ''; return; }
     var all = current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); });
     var allOpts = all.map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
-    ui.unmatched.innerHTML = pendingFixes.map(function (fx, i) {
+    var assumedHtml = assumed.map(function (a, i) {
+      return '<div class="fix-row assumed">' +
+        '<span class="fix-name" title="' + escapeHtml(a.name) + '">' + escapeHtml(a.name) + ' → ' + escapeHtml(a.f.properties.name) + '</span>' +
+        '<span class="fix-val">' + (a.value == null ? '' : escapeHtml(fmt(a.value))) + '</span>' +
+        '<button type="button" class="btn-plain secondary fix-undo" data-undo="' + i + '">Undo</button></div>';
+    }).join('');
+    ui.unmatched.innerHTML = assumedHtml + pendingFixes.map(function (fx, i) {
       var sugg = fx.cands.map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
       return '<div class="fix-row">' +
-        '<span class="fix-name" title="' + escapeHtml(fx.name) + '">' + escapeHtml(fx.name) + '</span>' +
+        '<span class="fix-name" title="' + escapeHtml(fx.name) + '">' + escapeHtml(fx.name) + (fx.count > 1 ? ' <small>×' + fx.count + '</small>' : '') + '</span>' +
         '<span class="fix-val">' + (fx.value == null ? '' : escapeHtml(fmt(fx.value))) + '</span>' +
         '<select data-fix="' + i + '" aria-label="Match ' + escapeHtml(fx.name) + '">' +
           '<option value="">' + (fx.kind === 'ambiguous' ? 'Which one?' : 'Match to…') + '</option>' +
@@ -479,7 +534,7 @@
     var f = current.features.filter(function (x) { return x.id === sel.value; })[0];
     if (!fx || !f) return;
     if (fx.value != null) values[current.level][f.id] = fx.value;
-    if (fx.kind === 'unmatched') userAliases[current.level][compact(fx.name)] = f.id;   // remembered for next time
+    userAliases[current.level][fx.key] = f.id;   // remembered for next time, including which of two same-named regions
     pendingFixes.splice(+sel.dataset.fix, 1);
     if (lastMatch) {
       lastMatch.matched += fx.value != null ? 1 : 0;
@@ -488,6 +543,35 @@
       var at = list.indexOf(fx.name); if (at !== -1) list.splice(at, 1);
     }
     reportMatch(); buildTable(); render(); save();
+  });
+
+  // undo an assumed match: take the value back, refuse that guess next time, and offer the picker instead
+  ui.unmatched.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-undo]');
+    if (!b) return;
+    var a = assumed.splice(+b.dataset.undo, 1)[0];
+    if (!a) return;
+    delete values[current.level][a.f.id];
+    userAliases[current.level][a.key] = '';
+    pendingFixes.push({ name: a.name, key: a.key, value: a.value, kind: 'unmatched', cands: suggestFeatures(a.name, 3), count: 1 });
+    if (lastMatch) { lastMatch.matched--; lastMatch.unmatched.push(a.name); }
+    reportMatch(); buildTable(); render(); save();
+  });
+
+  ui.unmatchedBadge.addEventListener('click', function () {
+    var panel = ui.unmatched.closest('details'); if (panel) panel.open = true;
+    ui.unmatched.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    ui.unmatched.classList.add('flash'); setTimeout(function () { ui.unmatched.classList.remove('flash'); }, 1200);
+  });
+
+  // region list for the current view, so people can use our names or codes in their sheet
+  ui.regionList.addEventListener('click', function () {
+    var rows = [['name', 'parent', 'lgd_code', 'census_code']];
+    current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); }).forEach(function (f) {
+      var p = f.properties;
+      rows.push([p.name, current.level === 'subdistricts' ? p.district : (p.state || ''), p.lgd, p.census || '']);
+    });
+    download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), (regionLabel() + ' ' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-names.csv');
   });
 
   function setStatus(msg) { ui.matchStatus.textContent = msg; ui.unmatched.innerHTML = ''; }
@@ -1440,7 +1524,7 @@
       if (data.userAliases && typeof data.userAliases === 'object') {
         ['states', 'districts', 'subdistricts'].forEach(function (lv) {
           var m = data.userAliases[lv];
-          if (m && typeof m === 'object') Object.keys(m).forEach(function (k) { if (typeof m[k] === 'string') userAliases[lv][k] = m[k]; });
+          if (m && typeof m === 'object') Object.keys(m).forEach(function (k) { if (typeof m[k] === 'string' && Object.prototype.hasOwnProperty.call(m, k)) userAliases[lv][k] = m[k]; });
         });
       }
       labelSizeAuto = data.labelSizeAuto !== false;
@@ -1499,7 +1583,7 @@
   ui.paste.addEventListener('paste', function () { setTimeout(function () { applyRows(parseText(ui.paste.value)); }, 0); });
   ui.clearData.addEventListener('click', function () {
     values[current.level] = {};
-    ui.paste.value = ''; lastMatch = null; valueHeaders[current.level] = '';
+    ui.paste.value = ''; lastMatch = null; valueHeaders[current.level] = ''; pendingFixes = []; assumed = [];
     reportMatch(); buildTable(); render(); save();
   });
   ui.sampleData.addEventListener('click', function () {
