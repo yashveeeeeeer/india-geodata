@@ -103,6 +103,23 @@
 .value-table input:hover { border-color: var(--color-border); }
 .value-table input:focus { border-color: var(--color-accent); outline: none; background: var(--color-bg); }
 
+/* --- Text assets --- */
+#assetList { display: flex; flex-direction: column; gap: 8px; }
+#assetList:empty::after { content: "No text yet. Add a title, note or source above."; font-size: 0.78rem; color: var(--color-muted); }
+.asset { border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; }
+.asset-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.74rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
+.asset-del { font-size: 0.74rem; color: var(--color-muted); padding: 2px 6px; border-radius: 3px; }
+.asset-del:hover { color: #b91c1c; background: #fef2f2; }
+.asset .row { gap: 6px; }
+
+/* --- Zoom --- */
+.zoom-row { display: flex; align-items: center; gap: 6px; }
+.zoom-row input[type="range"] { flex: 1; min-width: 0; }
+.zoom-row .btn-plain { padding: 4px 9px; line-height: 1; }
+.zoom-value { font-size: 0.76rem; color: var(--color-muted); min-width: 38px; text-align: right; }
+.stage-frame svg .map-layer { cursor: grab; }
+.stage-frame svg .map-layer:active { cursor: grabbing; }
+
 /* --- Stage --- */
 .maps-stage { position: sticky; top: calc(var(--header-height) + 16px); }
 .stage-frame {

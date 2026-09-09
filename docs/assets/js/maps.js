@@ -19,20 +19,19 @@
     borderColour: $('borderColour'), borderStyle: $('borderStyle'), borderWidth: $('borderWidth'),
     outlineColour: $('outlineColour'), outlineStyle: $('outlineStyle'), outlineWidth: $('outlineWidth'), scaleHint: $('scaleHint'),
     northArrow: $('northArrow'), northField: $('northField'), northPos: $('northPos'), northSize: $('northSize'),
-    background: $('background'), canvas: $('canvas'),
+    background: $('background'), canvas: $('canvas'), frameStyle: $('frameStyle'), frameColour: $('frameColour'),
+    mapZoom: $('mapZoom'), zoomIn: $('zoomIn'), zoomOut: $('zoomOut'), zoomReset: $('zoomReset'), zoomValue: $('zoomValue'),
     showNames: $('showNames'), showValues: $('showValues'), showLegend: $('showLegend'),
     labelSize: $('labelSize'), decimals: $('decimals'), numberStyle: $('numberStyle'), prefix: $('prefix'), suffix: $('suffix'),
-    legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'),
-    title: $('title'), titleSize: $('titleSize'), titlePos: $('titlePos'), subtitle: $('subtitle'), subtitleSize: $('subtitleSize'),
-    source: $('source'), sourceSize: $('sourceSize'), textColour: $('textColour'), font: $('font'),
+    legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
+    assetList: $('assetList'),
     stage: $('stage'), tip: $('mapTip')
   };
 
   var SETTING_IDS = ['level', 'ramp', 'scaleMode', 'colourLow', 'colourHigh', 'buckets', 'noData', 'reverse',
     'borderColour', 'borderStyle', 'borderWidth', 'outlineColour', 'outlineStyle', 'outlineWidth', 'background', 'canvas',
-    'showNames', 'showValues', 'showLegend', 'northArrow', 'northPos', 'northSize',
-    'labelSize', 'decimals', 'numberStyle', 'prefix', 'suffix', 'legendTitle', 'legendPos', 'legendSize', 'labelColour',
-    'title', 'titleSize', 'titlePos', 'subtitle', 'subtitleSize', 'source', 'sourceSize', 'textColour', 'font'];
+    'frameStyle', 'frameColour', 'showNames', 'showValues', 'showLegend', 'northArrow', 'northPos', 'northSize',
+    'labelSize', 'decimals', 'numberStyle', 'prefix', 'suffix', 'legendTitle', 'legendPos', 'legendSize', 'labelColour', 'textColour'];
 
   var SCALE_HINTS = {
     quantile: 'Same number of regions in each colour. Suits skewed data such as population, income or GDP, where a few regions dwarf the rest.',
@@ -42,9 +41,30 @@
 
   // Colour presets swapped in when the background flips between light and dark.
   var PRESETS = {
-    light: { textColour: '#111111', labelColour: '#111111', borderColour: '#333333', outlineColour: '#333333', noData: '#e5e7eb' },
-    dark: { textColour: '#f1f5f9', labelColour: '#f1f5f9', borderColour: '#94a3b8', outlineColour: '#cbd5e1', noData: '#334155' }
+    light: { textColour: '#111111', labelColour: '#111111', borderColour: '#333333', outlineColour: '#333333', noData: '#e5e7eb', frameColour: '#111111' },
+    dark: { textColour: '#f1f5f9', labelColour: '#f1f5f9', borderColour: '#94a3b8', outlineColour: '#cbd5e1', noData: '#334155', frameColour: '#f1f5f9' }
   };
+
+  var FONTS = {
+    sans: { label: 'Sans', stack: 'Helvetica Neue, Helvetica, Arial, sans-serif' },
+    humanist: { label: 'Humanist', stack: 'Segoe UI, Tahoma, Geneva, sans-serif' },
+    rounded: { label: 'Rounded', stack: 'Verdana, Trebuchet MS, sans-serif' },
+    condensed: { label: 'Condensed', stack: 'Arial Narrow, Roboto Condensed, Helvetica, sans-serif' },
+    serif: { label: 'Serif', stack: 'Georgia, Times New Roman, serif' },
+    classic: { label: 'Classic serif', stack: 'Times New Roman, Times, serif' },
+    mono: { label: 'Mono', stack: 'Consolas, Menlo, Courier New, monospace' }
+  };
+
+  // Text assets: each one is added, styled and removed on its own.
+  var ASSET_KINDS = {
+    title: { label: 'Title', size: 34, weight: 700, pos: 'tl', colour: '#111111', dark: '#f1f5f9', text: 'Map title' },
+    subtitle: { label: 'Subtitle', size: 18, weight: 400, pos: 'tl', colour: '#4b5563', dark: '#cbd5e1', text: 'Subtitle' },
+    text: { label: 'Text', size: 14, weight: 400, pos: 'br', colour: '#111111', dark: '#f1f5f9', text: 'Your note' },
+    source: { label: 'Source', size: 12, weight: 400, pos: 'bl', colour: '#6b7280', dark: '#94a3b8', text: 'Source: ' }
+  };
+  var BAND_POS = ['tl', 'tc', 'tr', 'bl', 'bc', 'br'];
+  var CORNER_POS = ['tl', 'tr', 'bl', 'br'];
+  var POS_LABEL = { tl: 'Top left', tc: 'Top centre', tr: 'Top right', bl: 'Bottom left', bc: 'Bottom centre', br: 'Bottom right' };
 
   var layers = {};                       // level -> { topo, object, features }
   var values = { states: {}, districts: {}, subdistricts: {} };   // level -> id -> value
@@ -53,8 +73,11 @@
   var current = { level: 'districts', features: [], object: null, topo: null };
   var lastMatch = null;
   var autoSuffix = false;
-  var offsets = {};                      // drag offsets per overlay: title, source, legend, north -> { dx, dy }
+  var offsets = {};                      // drag offsets per overlay key -> { dx, dy }
   var meshCache = {};
+  var assets = [];
+  var assetSeq = 1;
+  var view = { k: 1, dx: 0, dy: 0 };     // map zoom and pan
 
   // ---------------------------------------------------------------------------
   //  Data loading
@@ -303,7 +326,7 @@
       header = first;
       rows = rows.slice(1);
     }
-    var headerValue = header ? header[valueCol] : '';
+    var headerValue = header ? (header[valueCol] || '') : '';
     valueHeaders[level] = /^(value|values|val|data|number|numbers|amount|count|figure)$/i.test(headerValue) ? '' : headerValue;
 
     // with three or more columns, work out which of the first two holds the state (or district)
@@ -326,7 +349,7 @@
       if (!nm) return;
       var f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
       if (!f) { unmatched.push(nm); return; }
-      if (f.ambiguous) { ambiguous.push(r[nameCol]); return; }
+      if (f.ambiguous) { ambiguous.push(nm); return; }
       var raw = r[valueCol];
       if (isEmptyToken(raw)) { empty++; return; }
       if (/%\s*$/.test(raw)) percentCount++;
@@ -416,6 +439,100 @@
     else { var n = toNumber(raw); vals[input.dataset.id] = isNaN(n) ? raw : n; }
     render();
     save();
+  });
+
+  // ---------------------------------------------------------------------------
+  //  Text assets
+  // ---------------------------------------------------------------------------
+  function addAsset(kind, text) {
+    var d = ASSET_KINDS[kind];
+    var dark = ui.background.value === '#0f172a';
+    var a = { id: assetSeq++, kind: kind, text: text != null ? text : d.text, size: d.size, font: 'sans', weight: d.weight, italic: false,
+      colour: dark ? d.dark : d.colour, pos: d.pos };
+    assets.push(a);
+    renderAssetList();
+    render();
+    save();
+    var input = ui.assetList.querySelector('[data-asset="' + a.id + '"] input[data-prop="text"]');
+    if (input) { input.focus(); input.select(); }
+    return a;
+  }
+
+  function removeAsset(id) {
+    assets = assets.filter(function (a) { return a.id !== id; });
+    delete offsets['asset-' + id];
+    renderAssetList();
+    render();
+    save();
+  }
+
+  function assetById(id) { return assets.filter(function (a) { return a.id === id; })[0]; }
+
+  function renderAssetList() {
+    var html = '';
+    assets.forEach(function (a) {
+      var kind = ASSET_KINDS[a.kind];
+      var positions = a.kind === 'text' ? CORNER_POS : BAND_POS;
+      html += '<div class="asset" data-asset="' + a.id + '">' +
+        '<div class="asset-head"><span>' + kind.label + '</span><button class="asset-del" type="button" data-del="' + a.id + '">Remove</button></div>' +
+        '<input type="text" data-prop="text" value="' + escapeHtml(a.text) + '" placeholder="' + escapeHtml(kind.text) + '">' +
+        '<div class="row row-3">' +
+          '<div class="field"><label>Size</label><input type="number" data-prop="size" min="6" max="160" value="' + a.size + '"></div>' +
+          '<div class="field"><label>Font</label><select data-prop="font">' +
+            Object.keys(FONTS).map(function (k) { return '<option value="' + k + '"' + (a.font === k ? ' selected' : '') + '>' + FONTS[k].label + '</option>'; }).join('') +
+          '</select></div>' +
+          '<div class="field"><label>Colour</label><input type="color" data-prop="colour" value="' + a.colour + '"></div>' +
+        '</div>' +
+        '<div class="row">' +
+          '<div class="field"><label>Position</label><select data-prop="pos">' +
+            positions.map(function (p) { return '<option value="' + p + '"' + (a.pos === p ? ' selected' : '') + '>' + POS_LABEL[p] + '</option>'; }).join('') +
+          '</select></div>' +
+          '<div class="field"><label>Style</label><div class="checks">' +
+            '<label class="check"><input type="checkbox" data-prop="bold"' + (a.weight >= 600 ? ' checked' : '') + '> Bold</label>' +
+            '<label class="check"><input type="checkbox" data-prop="italic"' + (a.italic ? ' checked' : '') + '> Italic</label>' +
+          '</div></div>' +
+        '</div>' +
+      '</div>';
+    });
+    ui.assetList.innerHTML = html;
+  }
+
+  function assetFromEvent(e) {
+    var box = e.target.closest('[data-asset]');
+    if (!box) return null;
+    return assetById(+box.dataset.asset);
+  }
+
+  function updateAssetProp(a, el) {
+    var prop = el.dataset.prop;
+    if (prop === 'text') a.text = el.value;
+    else if (prop === 'size') a.size = Math.max(6, Math.min(160, +el.value || a.size));
+    else if (prop === 'font') a.font = el.value;
+    else if (prop === 'colour') a.colour = el.value;
+    else if (prop === 'pos') { a.pos = el.value; delete offsets['asset-' + a.id]; }
+    else if (prop === 'bold') a.weight = el.checked ? 700 : 400;
+    else if (prop === 'italic') a.italic = el.checked;
+  }
+
+  ui.assetList.addEventListener('input', function (e) {
+    var a = assetFromEvent(e);
+    if (!a || !e.target.dataset.prop) return;
+    updateAssetProp(a, e.target);
+    renderSoon();
+  });
+  ui.assetList.addEventListener('change', function (e) {
+    var a = assetFromEvent(e);
+    if (!a || !e.target.dataset.prop) return;
+    updateAssetProp(a, e.target);
+    clearTimeout(renderTimer);
+    render(); save();
+  });
+  ui.assetList.addEventListener('click', function (e) {
+    var del = e.target.closest('[data-del]');
+    if (del) removeAsset(+del.dataset.del);
+  });
+  document.querySelectorAll('[data-add]').forEach(function (btn) {
+    btn.addEventListener('click', function () { addAsset(btn.dataset.add); });
   });
 
   // ---------------------------------------------------------------------------
@@ -592,6 +709,8 @@
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
   }
 
+  function canvasScale() { return (+svgNode.getAttribute('width')) / svgNode.getBoundingClientRect().width; }
+
   // base: where the element sits now. anchor: the position its drag offset is measured from
   // (the preferred corner), so a dragged element never jumps when the map re-renders.
   function makeDraggable(sel, key, base, anchor) {
@@ -604,7 +723,7 @@
     sel.call(d3.drag()
       .on('start', function () { pending = { dx: 0, dy: 0 }; })
       .on('drag', function (e) {
-        var k = (+svgNode.getAttribute('width')) / svgNode.getBoundingClientRect().width;
+        var k = canvasScale();
         pending.dx += e.dx * k; pending.dy += e.dy * k;
         if (!offsets[key] && pending.dx * pending.dx + pending.dy * pending.dy < 9) return;   // ignore jitter
         offsets[key] = off;
@@ -624,12 +743,13 @@
     return meshCache[k];
   }
 
+  var BAND_ORDER = { title: 0, subtitle: 1, text: 2, source: 3 };
+
   function render() {
     ui.tip.style.display = 'none';
     var size = ui.canvas.value.split('x').map(Number);
     var W = size[0] || 1000, H = size[1] || 1000;
     var pad = Math.round(W * 0.04);
-    var font = ui.font.value;
     var textColour = ui.textColour.value;
     var bg = ui.background.value;
     var vals = values[current.level];
@@ -642,59 +762,61 @@
       .attr('xmlns', 'http://www.w3.org/2000/svg')
       .attr('viewBox', '0 0 ' + W + ' ' + H)
       .attr('width', W).attr('height', H)
-      .attr('font-family', font);
+      .attr('font-family', FONTS.sans.stack);
     svgNode = svg.node();
 
     var defs = svg.append('defs');
     defs.append('pattern').attr('id', 'hatch').attr('width', 6).attr('height', 6).attr('patternUnits', 'userSpaceOnUse')
       .attr('patternTransform', 'rotate(45)')
       .append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 6).attr('stroke', '#9ca3af').attr('stroke-width', 1);
+    defs.append('clipPath').attr('id', 'canvasClip').append('rect').attr('width', W).attr('height', H);
 
     if (bg !== 'transparent') svg.append('rect').attr('width', W).attr('height', H).attr('fill', bg);
 
-    // --- text block: title + subtitle in one draggable group, source in another ---
-    var titleSize = +ui.titleSize.value, subSize = +ui.subtitleSize.value, srcSize = +ui.sourceSize.value;
-    var tpos = ui.titlePos.value;
-    var anchor = tpos[1] === 'l' ? 'start' : tpos[1] === 'c' ? 'middle' : 'end';
-    var tx = anchor === 'start' ? pad : anchor === 'middle' ? W / 2 : W - pad;
-    var blockH = (ui.title.value ? titleSize * 1.35 : 0) + (ui.subtitle.value ? subSize * 1.4 : 0);
-    var srcH = ui.source.value ? srcSize * 1.8 : 0;
-    var gap = blockH ? pad * 0.5 : 0;
-    var mapTop, mapBottom, blockY;
-    if (tpos[0] === 't') {
-      blockY = pad;
-      mapTop = pad + blockH + gap;
-      mapBottom = H - pad - srcH;
-    } else {
-      mapTop = pad;
-      mapBottom = H - pad - srcH - blockH - gap;
-      blockY = mapBottom + gap;
-    }
+    var mapG = svg.append('g').attr('clip-path', 'url(#canvasClip)');   // map layers
+    var overG = svg.append('g');                                          // overlays, always above the map
 
-    var mapG = svg.append('g');          // map layers
-    var overG = svg.append('g');         // overlays, always above the map
-
-    if (ui.title.value || ui.subtitle.value) {
-      var tg = overG.append('g');
-      var y = blockY;
-      if (ui.title.value) {
-        y += titleSize;
-        tg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', titleSize).attr('font-weight', 700).attr('fill', textColour).text(ui.title.value);
-        y += titleSize * 0.35;
-      }
-      if (ui.subtitle.value) {
-        y += subSize;
-        tg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', subSize).attr('fill', textColour).attr('opacity', 0.75).text(ui.subtitle.value);
-      }
-      makeDraggable(tg, 'title', { x: 0, y: 0 });
+    // --- text bands: titles, subtitles and sources stack at the top or bottom edge ---
+    var bandAssets = assets.filter(function (a) { return a.kind !== 'text' && a.text.trim(); });
+    var topAssets = bandAssets.filter(function (a) { return a.pos[0] === 't'; }).sort(function (a, b) { return BAND_ORDER[a.kind] - BAND_ORDER[b.kind]; });
+    var bottomAssets = bandAssets.filter(function (a) { return a.pos[0] === 'b'; }).sort(function (a, b) { return BAND_ORDER[a.kind] - BAND_ORDER[b.kind]; });
+    function assetHeight(a) { return a.size * 1.35; }
+    function drawTextAsset(a, baseline) {
+      var anchor = a.pos[1] === 'l' ? 'start' : a.pos[1] === 'c' ? 'middle' : 'end';
+      var x = anchor === 'start' ? pad : anchor === 'middle' ? W / 2 : W - pad;
+      var g = overG.append('g');
+      g.append('text').attr('x', x).attr('y', baseline).attr('text-anchor', anchor)
+        .attr('font-family', (FONTS[a.font] || FONTS.sans).stack).attr('font-size', a.size).attr('font-weight', a.weight)
+        .attr('font-style', a.italic ? 'italic' : null).attr('fill', a.colour).text(a.text);
+      return g;
     }
-    if (ui.source.value) {
-      var sg = overG.append('g');
-      sg.append('text').attr('x', tx).attr('y', H - pad).attr('text-anchor', anchor).attr('font-size', srcSize).attr('fill', textColour).attr('opacity', 0.65).text(ui.source.value);
-      makeDraggable(sg, 'source', { x: 0, y: 0 });
-    }
+    var y = pad;
+    topAssets.forEach(function (a) {
+      var g = drawTextAsset(a, y + a.size);
+      makeDraggable(g, 'asset-' + a.id, { x: 0, y: 0 });
+      y += assetHeight(a);
+    });
+    var mapTop = y + (topAssets.length ? pad * 0.5 : 0);
+    var bottomH = d3.sum(bottomAssets, assetHeight);
+    var mapBottom = H - pad - bottomH - (bottomAssets.length ? pad * 0.5 : 0);
+    y = mapBottom + (bottomAssets.length ? pad * 0.5 : 0);
+    bottomAssets.forEach(function (a) {
+      var g = drawTextAsset(a, y + a.size);
+      makeDraggable(g, 'asset-' + a.id, { x: 0, y: 0 });
+      y += assetHeight(a);
+    });
 
-    if (!current.features.length) return;
+    // free text notes are placed like the legend, in a corner clear of the map
+    var noteAssets = assets.filter(function (a) { return a.kind === 'text' && a.text.trim(); });
+    var noteGroups = noteAssets.map(function (a) {
+      var g = overG.append('g');
+      g.append('text').attr('x', 0).attr('y', a.size).attr('text-anchor', 'start')
+        .attr('font-family', (FONTS[a.font] || FONTS.sans).stack).attr('font-size', a.size).attr('font-weight', a.weight)
+        .attr('font-style', a.italic ? 'italic' : null).attr('fill', a.colour).text(a.text);
+      return { asset: a, sel: g };
+    });
+
+    if (!current.features.length) { noteGroups.forEach(function (n) { makeDraggable(n.sel, 'asset-' + n.asset.id, { x: pad, y: mapTop }); }); drawFrame(svg, W, H, pad); return; }
 
     // --- which features are drawn: with "Hidden" no-data, only the ones with data ---
     var hideEmpty = noData === 'none' && colour;
@@ -708,11 +830,18 @@
       if (!drawFeats.length) { drawFeats = current.features; drawObj = current.object; meshKey = 'all'; hideEmpty = false; }
     }
 
-    // --- projection ---
+    // --- projection, with the user's zoom and pan applied around the map area's centre ---
     var fc = { type: 'FeatureCollection', features: drawFeats };
     var projection = d3.geoMercator();
     var path = d3.geoPath(projection);
-    function fit() { projection.fitExtent([[pad, mapTop], [W - pad, mapBottom]], fc); }
+    function fit() {
+      projection.fitExtent([[pad, mapTop], [W - pad, mapBottom]], fc);
+      if (view.k !== 1 || view.dx || view.dy) {
+        var t = projection.translate(), cx = W / 2, cy = (mapTop + mapBottom) / 2;
+        projection.scale(projection.scale() * view.k)
+          .translate([cx + (t[0] - cx) * view.k + view.dx, cy + (t[1] - cy) * view.k + view.dy]);
+      }
+    }
     fit();
     var boundsCache = null;
     function featureBoxes() {
@@ -775,6 +904,7 @@
     var legend = showLegend ? drawLegend(overG, colour, textColour, vals) : null;
     if (arrow) place('north', arrow, ui.northPos.value);
     if (legend) place('legend', legend, ui.legendPos.value);
+    noteGroups.forEach(function (n) { place('asset-' + n.asset.id, n.sel, n.asset.pos); });
 
     // --- map ---
     var levelFactor = current.level === 'subdistricts' ? (region.state ? 0.75 : 0.5) : 1;
@@ -789,7 +919,8 @@
     var borderDash = dash(ui.borderStyle.value, Math.max(bw, 0.5));
     var outlineDash = dash(ui.outlineStyle.value, Math.max(ow, 0.5));
 
-    mapG.selectAll('path').data(drawFeats).enter().append('path')
+    var layer = mapG.append('g').attr('class', 'map-layer');
+    layer.selectAll('path').data(drawFeats).enter().append('path')
       .attr('class', 'region')
       .attr('d', path)
       .attr('data-id', function (d) { return d.id; })
@@ -816,7 +947,7 @@
     // --- boundary meshes ---
     function outline(key, filter, width) {
       if (!width) return;
-      mapG.append('path').attr('d', path(cachedMesh(meshKey + '|' + key, drawObj, filter)))
+      layer.append('path').attr('d', path(cachedMesh(meshKey + '|' + key, drawObj, filter)))
         .attr('fill', 'none').attr('stroke', oc).attr('stroke-width', width).attr('stroke-linejoin', 'round')
         .attr('stroke-dasharray', outlineDash).attr('stroke-linecap', ui.outlineStyle.value === 'dotted' ? 'round' : null);
     }
@@ -832,7 +963,7 @@
     if (ui.showNames.checked || ui.showValues.checked) {
       var ls = +ui.labelSize.value;
       var halo = bg === 'transparent' ? '#ffffff' : bg;
-      var lg = mapG.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
+      var lg = layer.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
         .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
       var boxes = featureBoxes();
       var placed = [];
@@ -857,6 +988,40 @@
         });
       });
     }
+
+    // --- drag the map itself to pan ---
+    var panStart = null;
+    layer.call(d3.drag()
+      .on('start', function () { panStart = { dx: view.dx, dy: view.dy, mx: 0, my: 0 }; })
+      .on('drag', function (e) {
+        var k = canvasScale();
+        panStart.mx += e.dx * k; panStart.my += e.dy * k;
+        layer.attr('transform', 'translate(' + panStart.mx + ',' + panStart.my + ')');
+      })
+      .on('end', function () {
+        if (!panStart || (Math.abs(panStart.mx) < 1 && Math.abs(panStart.my) < 1)) { layer.attr('transform', null); return; }
+        view.dx = panStart.dx + panStart.mx; view.dy = panStart.dy + panStart.my;
+        panStart = null;
+        render(); save();
+      }));
+
+    drawFrame(svg, W, H, pad);
+  }
+
+  function drawFrame(svg, W, H, pad) {
+    var style = ui.frameStyle.value;
+    if (!style || style === 'none') return;
+    var colour = ui.frameColour.value;
+    function line(inset, sw, rx) {
+      svg.append('rect').attr('x', inset + sw / 2).attr('y', inset + sw / 2)
+        .attr('width', W - 2 * inset - sw).attr('height', H - 2 * inset - sw)
+        .attr('fill', 'none').attr('stroke', colour).attr('stroke-width', sw).attr('rx', rx || 0);
+    }
+    if (style === 'thin') line(0, 2);
+    else if (style === 'thick') line(0, 10);
+    else if (style === 'double') { line(pad * 0.2, 2.5); line(pad * 0.2 + 6, 1); }
+    else if (style === 'inset') line(pad * 0.4, 1.5);
+    else if (style === 'rounded') line(6, 2.5, pad * 0.5);
   }
 
   // North arrow: the letter N over a half-filled triangle. Built at the origin; render() positions it.
@@ -910,10 +1075,26 @@
   }
 
   // ---------------------------------------------------------------------------
+  //  Zoom
+  // ---------------------------------------------------------------------------
+  function setZoom(k, silent) {
+    view.k = Math.max(0.5, Math.min(4, Math.round(k * 20) / 20));
+    ui.mapZoom.value = Math.round(view.k * 100);
+    ui.zoomValue.textContent = Math.round(view.k * 100) + '%';
+    if (!silent) { render(); save(); }
+  }
+  ui.mapZoom.addEventListener('input', function () { setZoom(+ui.mapZoom.value / 100, true); renderSoon(); });
+  ui.mapZoom.addEventListener('change', function () { clearTimeout(renderTimer); setZoom(+ui.mapZoom.value / 100); });
+  ui.zoomIn.addEventListener('click', function () { setZoom(view.k + 0.1); });
+  ui.zoomOut.addEventListener('click', function () { setZoom(view.k - 0.1); });
+  ui.zoomReset.addEventListener('click', function () { view.dx = 0; view.dy = 0; setZoom(1); });
+
+  // ---------------------------------------------------------------------------
   //  Export
   // ---------------------------------------------------------------------------
   function slug() {
-    var base = ui.title.value || (regionLabel() + ' ' + current.level);
+    var title = assets.filter(function (a) { return a.kind === 'title' && a.text.trim(); })[0];
+    var base = title ? title.text : (regionLabel() + ' ' + current.level);
     var s = base.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     return s || 'map';
   }
@@ -999,7 +1180,10 @@
       var settings = {};
       SETTING_IDS.forEach(function (id) { var el = ui[id]; settings[id] = el.type === 'checkbox' ? el.checked : el.value; });
       try {
-        localStorage.setItem(STORE_KEY, JSON.stringify({ settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets }));
+        localStorage.setItem(STORE_KEY, JSON.stringify({
+          settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets,
+          assets: assets, assetSeq: assetSeq, view: view
+        }));
       } catch (e) { /* storage unavailable */ }
     }, 300);
   }
@@ -1009,20 +1193,36 @@
       var raw = localStorage.getItem(STORE_KEY);
       if (!raw) return;
       var data = JSON.parse(raw);
-      Object.keys(data.settings || {}).forEach(function (id) {
+      var st = data.settings || {};
+      Object.keys(st).forEach(function (id) {
         var el = ui[id];
-        if (!el) return;
-        if (el.type === 'checkbox') { el.checked = !!data.settings[id]; return; }
+        if (!el || SETTING_IDS.indexOf(id) === -1) return;
+        if (el.type === 'checkbox') { el.checked = !!st[id]; return; }
         var before = el.value;
-        el.value = data.settings[id];
-        if (el.tagName === 'SELECT' && el.value !== String(data.settings[id])) el.value = before;   // stale option: keep default
+        el.value = st[id];
+        if (el.tagName === 'SELECT' && el.value !== String(st[id])) el.value = before;   // stale option: keep default
         if (el.type === 'number' && el.value === '' && id !== 'decimals') el.value = before;
       });
       if (data.values) values = Object.assign({ states: {}, districts: {}, subdistricts: {} }, data.values);
       if (data.region) region = data.region;
       valueHeaders = Object.assign({ states: '', districts: '', subdistricts: '' }, data.valueHeaders || {});
-      if (typeof data.valueHeader === 'string' && data.valueHeader) valueHeaders[ui.level.value] = data.valueHeader;
       offsets = data.offsets || {};
+      if (data.view && isFinite(data.view.k)) view = { k: Math.max(0.5, Math.min(4, data.view.k)), dx: +data.view.dx || 0, dy: +data.view.dy || 0 };
+      if (Array.isArray(data.assets)) {
+        assets = data.assets.filter(function (a) { return a && ASSET_KINDS[a.kind]; });
+        assetSeq = data.assetSeq || (d3.max(assets, function (a) { return a.id; }) || 0) + 1;
+      } else {
+        // older saves kept a single title, subtitle and source
+        var legacyPos = st.titlePos || 'tl';
+        var dark = st.background === '#0f172a';
+        [['title', st.title, st.titleSize], ['subtitle', st.subtitle, st.subtitleSize], ['source', st.source, st.sourceSize]].forEach(function (l) {
+          if (!l[1]) return;
+          var d = ASSET_KINDS[l[0]];
+          assets.push({ id: assetSeq++, kind: l[0], text: l[1], size: +l[2] || d.size, font: 'sans', weight: d.weight, italic: false,
+            colour: st.textColour && st.textColour !== '#111111' ? st.textColour : (dark ? d.dark : d.colour),
+            pos: l[0] === 'source' ? 'b' + legacyPos[1] : legacyPos });
+        });
+      }
     } catch (e) { /* ignore */ }
   }
 
@@ -1033,11 +1233,13 @@
     region.state = ui.regionState.value;
     region.district = '';
     if (region.state && ui.level.value === 'states') ui.level.value = 'districts';
+    view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     Promise.resolve(populateDistricts()).then(refresh);
   });
   ui.regionDistrict.addEventListener('change', function () {
     region.district = ui.regionDistrict.value;
     if (region.district && ui.level.value !== 'subdistricts') ui.level.value = 'subdistricts';
+    view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     refresh();
   });
   ui.level.addEventListener('change', function () {
@@ -1071,19 +1273,25 @@
   ui.fileDrop.addEventListener('drop', function (e) { readFile(e.dataTransfer.files[0]); });
   ui.tableSearch.addEventListener('input', buildTable);
 
-  $('resetLayout').addEventListener('click', function () { offsets = {}; render(); save(); });
-  var POS_KEYS = { titlePos: ['title', 'source'], legendPos: ['legend'], northPos: ['north'], canvas: ['title', 'source', 'legend', 'north'] };
+  $('resetLayout').addEventListener('click', function () { offsets = {}; view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true); render(); save(); });
+  var POS_KEYS = { legendPos: ['legend'], northPos: ['north'] };
   Object.keys(POS_KEYS).forEach(function (id) {
     ui[id].addEventListener('change', function () { POS_KEYS[id].forEach(function (k) { delete offsets[k]; }); });
   });
+  ui.canvas.addEventListener('change', function () { offsets = {}; });
 
-  // background flips: swap colours that still sit on the previous preset
+  // background flips: swap colours that still sit on the previous preset, including default text colours
   var lastBackground = ui.background.value;
   ui.background.addEventListener('change', function () {
-    var from = PRESETS[lastBackground === '#0f172a' ? 'dark' : 'light'];
-    var to = PRESETS[ui.background.value === '#0f172a' ? 'dark' : 'light'];
-    if (from !== to) {
+    var wasDark = lastBackground === '#0f172a', isDark = ui.background.value === '#0f172a';
+    if (wasDark !== isDark) {
+      var from = PRESETS[wasDark ? 'dark' : 'light'], to = PRESETS[isDark ? 'dark' : 'light'];
       Object.keys(to).forEach(function (id) { if (ui[id].value === from[id]) ui[id].value = to[id]; });
+      assets.forEach(function (a) {
+        var d = ASSET_KINDS[a.kind];
+        if (a.colour === (wasDark ? d.dark : d.colour)) a.colour = isDark ? d.dark : d.colour;
+      });
+      renderAssetList();
     }
     lastBackground = ui.background.value;
   });
@@ -1118,6 +1326,8 @@
   restore();
   lastBackground = ui.background.value;
   syncUi();
+  setZoom(view.k, true);
+  renderAssetList();
   loadLayer('states').then(function (layer) {
     populateStates(layer);
     ui.regionState.value = region.state;

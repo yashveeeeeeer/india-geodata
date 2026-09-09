@@ -5,7 +5,7 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=5">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=6">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
@@ -164,32 +164,20 @@ permalink: /maps/
             </div>
             <div class="field"><label for="legendSize">Size</label><input type="number" id="legendSize" min="6" max="40" value="13"></div>
           </div>
+          <div class="field"><label for="textColour">Legend and arrow colour</label><input type="color" id="textColour" value="#111111"></div>
         </div>
       </details>
 
       <details class="panel">
-        <summary>Title &amp; text</summary>
+        <summary>Text</summary>
         <div class="panel-body">
-          <div class="field"><label for="title">Title</label><input type="text" id="title"></div>
-          <div class="row">
-            <div class="field"><label for="titleSize">Title size</label><input type="number" id="titleSize" min="8" max="120" value="34"></div>
-            <div class="field"><label for="titlePos">Position</label>
-              <select id="titlePos">
-                <option value="tl" selected>Top left</option><option value="tc">Top centre</option><option value="tr">Top right</option>
-                <option value="bl">Bottom left</option><option value="bc">Bottom centre</option><option value="br">Bottom right</option>
-              </select>
-            </div>
+          <div class="btn-row">
+            <button class="btn-plain secondary" data-add="title" type="button">+ Title</button>
+            <button class="btn-plain secondary" data-add="subtitle" type="button">+ Subtitle</button>
+            <button class="btn-plain secondary" data-add="text" type="button">+ Text</button>
+            <button class="btn-plain secondary" data-add="source" type="button">+ Source</button>
           </div>
-          <div class="field"><label for="subtitle">Subtitle</label><input type="text" id="subtitle"></div>
-          <div class="field"><label for="subtitleSize">Subtitle size</label><input type="number" id="subtitleSize" min="6" max="80" value="18"></div>
-          <div class="field"><label for="source">Source / note</label><input type="text" id="source"></div>
-          <div class="field"><label for="sourceSize">Source size</label><input type="number" id="sourceSize" min="6" max="40" value="12"></div>
-          <div class="row">
-            <div class="field"><label for="textColour">Text colour</label><input type="color" id="textColour" value="#111111"></div>
-            <div class="field"><label for="font">Font</label>
-              <select id="font"><option value="Helvetica Neue, Helvetica, Arial, sans-serif" selected>Sans</option><option value="Georgia, Times New Roman, serif">Serif</option><option value="Consolas, Menlo, monospace">Mono</option></select>
-            </div>
-          </div>
+          <div id="assetList"></div>
         </div>
       </details>
 
@@ -211,6 +199,29 @@ permalink: /maps/
               <select id="background"><option value="#ffffff" selected>White</option><option value="transparent">Transparent</option><option value="#0f172a">Dark</option></select>
             </div>
           </div>
+          <div class="row">
+            <div class="field"><label for="frameStyle">Frame</label>
+              <select id="frameStyle">
+                <option value="none" selected>None</option>
+                <option value="thin">Thin line</option>
+                <option value="thick">Thick line</option>
+                <option value="double">Double line</option>
+                <option value="inset">Inset line</option>
+                <option value="rounded">Rounded</option>
+              </select>
+            </div>
+            <div class="field"><label for="frameColour">Frame colour</label><input type="color" id="frameColour" value="#111111"></div>
+          </div>
+          <div class="field">
+            <label for="mapZoom">Map zoom</label>
+            <div class="zoom-row">
+              <button class="btn-plain secondary" id="zoomOut" type="button" aria-label="Zoom out">&minus;</button>
+              <input type="range" id="mapZoom" min="50" max="400" step="5" value="100">
+              <button class="btn-plain secondary" id="zoomIn" type="button" aria-label="Zoom in">+</button>
+              <span class="zoom-value" id="zoomValue">100%</span>
+              <button class="btn-plain secondary" id="zoomReset" type="button">Fit</button>
+            </div>
+          </div>
           <label class="check"><input type="checkbox" id="northArrow"> North arrow</label>
           <div class="row" id="northField" hidden>
             <div class="field"><label for="northPos">Arrow position</label>
@@ -219,7 +230,7 @@ permalink: /maps/
             <div class="field"><label for="northSize">Arrow size</label><input type="number" id="northSize" min="20" max="200" value="60"></div>
           </div>
           <div class="btn-row"><button class="btn-plain secondary" id="resetLayout" type="button">Reset positions</button></div>
-          <p class="hint">Drag the title, legend, arrow or source on the map to move them.</p>
+          <p class="hint">Drag the map to move it. Drag any text, the legend or the arrow to place it.</p>
         </div>
       </details>
 
@@ -255,4 +266,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=6"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=7"></script>
