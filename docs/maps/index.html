@@ -5,7 +5,8 @@ description: "Turn a spreadsheet into a state, district or sub-district map of I
 permalink: /maps/
 ---
 
-<div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
+<div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/" data-assets="{{ site.baseurl }}/assets/" data-v="{{ site.time | date: '%s' }}">
+  <noscript><p class="status">The map maker needs JavaScript.</p></noscript>
 
   <div class="maps-intro">
     <h1>India Map Maker</h1>
@@ -52,7 +53,8 @@ permalink: /maps/
             <button class="btn-plain" id="applyData" type="button">Apply</button>
             <button class="btn-plain secondary" id="clearData" type="button">Clear</button>
             <button class="btn-plain secondary" id="sampleData" type="button">Sample</button>
-            <button class="btn-plain secondary" id="regionList" type="button" title="Download the region names and codes for this map">Region list</button>
+            <button class="btn-plain secondary" id="regionList" type="button" title="Download the region names and codes for this map">Region names</button>
+            <button class="btn-plain secondary" data-export="csv" type="button" title="Download the values on the map as CSV">Data CSV</button>
           </div>
           <div class="status" id="matchStatus" role="status"></div>
           <div class="unmatched" id="unmatched"></div>
@@ -97,12 +99,12 @@ permalink: /maps/
             <div class="field">
               <label for="scaleMode">Scale</label>
               <select id="scaleMode">
-                <option value="quantile" selected>Buckets (quantile)</option>
-                <option value="equal">Buckets (equal)</option>
-                <option value="continuous">Continuous</option>
+                <option value="quantile" selected>Equal counts</option>
+                <option value="equal">Equal ranges</option>
+                <option value="continuous">Smooth</option>
               </select>
             </div>
-            <div class="field"><label for="buckets">Buckets</label><input type="number" id="buckets" min="2" max="9" value="5"></div>
+            <div class="field" id="bucketsField"><label for="buckets">Groups</label><input type="number" id="buckets" min="2" max="9" value="5"></div>
           </div>
           <p class="hint" id="scaleHint"></p>
           <div class="field">
@@ -140,7 +142,7 @@ permalink: /maps/
       </details>
 
       <details class="panel">
-        <summary>Labels</summary>
+        <summary>Labels &amp; numbers</summary>
         <div class="panel-body">
           <div class="checks">
             <label class="check"><input type="checkbox" id="showNames"> Names</label>
@@ -178,8 +180,8 @@ permalink: /maps/
         </div>
       </details>
 
-      <details class="panel">
-        <summary>Text</summary>
+      <details class="panel" open>
+        <summary>Title &amp; text</summary>
         <div class="panel-body">
           <div class="btn-row">
             <button class="btn-plain secondary" data-add="title" type="button">+ Title</button>
@@ -239,7 +241,7 @@ permalink: /maps/
             </div>
             <div class="field"><label for="northSize">Arrow size</label><input type="number" id="northSize" min="20" max="200" value="60"></div>
           </div>
-          <div class="btn-row"><button class="btn-plain secondary" id="resetLayout" type="button">Reset positions</button></div>
+          <div class="btn-row"><button class="btn-plain secondary" id="resetLayout" type="button">Reset positions</button><button class="btn-plain secondary" id="startOver" type="button">Start over</button></div>
           <p class="hint">Ctrl/Cmd + scroll or pinch to zoom the map, drag to move it. Drag text, legend or arrow to place them.</p>
         </div>
       </details>
@@ -247,21 +249,21 @@ permalink: /maps/
       <details class="panel" open>
         <summary>Export</summary>
         <div class="panel-body">
-          <div class="btn-row">
-            <button class="btn-plain" data-export="png" data-scale="1" type="button">PNG</button>
-            <button class="btn-plain" data-export="png" data-scale="2" type="button">PNG 2×</button>
-            <button class="btn-plain" data-export="png" data-scale="4" type="button">PNG 4×</button>
+          <div class="btn-row" id="exportRow">
+            <button class="btn-plain" data-export="png" data-scale="2" type="button" title="2000 px wide image">PNG</button>
+            <button class="btn-plain secondary" data-export="png" data-scale="4" type="button" title="4000 px wide image">PNG large</button>
             <button class="btn-plain secondary" data-export="svg" type="button">SVG</button>
             <button class="btn-plain secondary" data-export="pdf" type="button">PDF</button>
-            <button class="btn-plain secondary" data-export="csv" type="button">Data CSV</button>
+            <button class="btn-plain secondary" data-export="copy" id="copyImage" type="button" hidden>Copy image</button>
           </div>
+          <p class="hint"><a id="reportLink" href="https://github.com/yashveeeeeeer/india-geodata/issues/new" target="_blank" rel="noopener">Report a problem</a></p>
         </div>
       </details>
 
     </aside>
 
     <section class="maps-stage">
-      <div class="stage-frame"><div id="stage"></div><button type="button" class="unmatched-badge" id="unmatchedBadge" hidden></button><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div>
+      <div class="stage-frame"><div class="stage-loading" id="stageLoading" hidden></div><div id="stage"></div><button type="button" class="unmatched-badge" id="unmatchedBadge" hidden></button><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div>
     </section>
 
   </div>
@@ -271,6 +273,4 @@ permalink: /maps/
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous" defer onerror="window.__xlsxFailed = true"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous" defer onerror="window.__pdfFailed = true"></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=18"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v={{ site.time | date: '%s' }}"></script>

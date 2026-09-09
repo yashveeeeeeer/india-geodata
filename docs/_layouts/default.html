@@ -9,10 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css?v=8">
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
+  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v={{ site.time | date: '%s' }}">
+  <link rel="preload" as="fetch" crossorigin="anonymous" href="{{ site.baseurl }}/maps/data/districts.topo.json?v={{ site.time | date: '%s' }}">{% endif %}
 </head>
 <body{% if page.url contains "/maps/" %} class="page-maps"{% endif %}>
   <header class="site-header">

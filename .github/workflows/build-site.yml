@@ -25,6 +25,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pyyaml
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node --test tests/map-layers.test.js
       - run: python scripts/generate-catalog.py
         env:
           GH_TOKEN: ${{ github.token }}

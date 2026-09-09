@@ -3,13 +3,35 @@
 
   var root = document.getElementById('mapMaker');
   if (!root) return;
+  var statusEl = document.getElementById('matchStatus');
+  if (!window.fetch || !window.Promise || !Element.prototype.closest || !window.URL) {
+    if (statusEl) statusEl.textContent = 'This browser is too old for the map maker. Use a recent Chrome, Firefox, Edge or Safari.';
+    return;
+  }
   if (!window.d3 || !window.topojson) {
-    var st = document.getElementById('matchStatus');
-    if (st) st.textContent = 'The map library could not be loaded. Check your connection and reload the page.';
+    if (statusEl) statusEl.textContent = 'The map library could not be loaded. Check your connection and reload the page.';
     return;
   }
 
   var BASE = root.dataset.base;
+  var ASSETS = root.dataset.assets || BASE.replace(/maps\/data\/$/, 'assets/');
+  var DATA_V = root.dataset.v ? '?v=' + encodeURIComponent(root.dataset.v) : '';
+  var XLSX_URL = ASSETS + 'vendor/xlsx.full.min.js' + DATA_V;
+  var JSPDF_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  var JSPDF_SRI = 'sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk';
+  var scriptLoads = {};
+  function loadScript(url, sriHash) {
+    if (scriptLoads[url]) return scriptLoads[url];
+    scriptLoads[url] = new Promise(function (resolve, reject) {
+      var el = document.createElement('script');
+      el.src = url;
+      if (sriHash) { el.integrity = sriHash; el.crossOrigin = 'anonymous'; }
+      el.onload = resolve;
+      el.onerror = function () { delete scriptLoads[url]; reject(new Error('could not load ' + url.split('/').pop().split('?')[0])); };
+      document.head.appendChild(el);
+    });
+    return scriptLoads[url];
+  }
   var STORE_KEY = 'igd-mapmaker-v1';
 
   function $(id) { return document.getElementById(id); }
@@ -31,6 +53,7 @@
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
     assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
     unmatchedBadge: $('unmatchedBadge'), regionList: $('regionList'), learnedList: $('learnedList'), learnedBox: $('learnedBox'),
+    bucketsField: $('bucketsField'), stageLoading: $('stageLoading'), startOver: $('startOver'), copyImage: $('copyImage'), reportLink: $('reportLink'), exportRow: $('exportRow'),
     stage: $('stage'), tip: $('mapTip')
   };
 
@@ -116,10 +139,12 @@
   // ---------------------------------------------------------------------------
   //  Data loading
   // ---------------------------------------------------------------------------
+  var loadsInFlight = 0;
   function loadLayer(level) {
     if (layers[level]) return Promise.resolve(layers[level]);
     ui.stage.classList.add('loading');
-    return fetch(BASE + level + '.topo.json')
+    loadsInFlight++; ui.stageLoading.hidden = false;
+    return fetch(BASE + level + '.topo.json' + DATA_V)
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (topo) {
         var object = topo.objects[level];
@@ -128,7 +153,7 @@
         layers[level] = { topo: topo, object: object, features: fc.features };
         return layers[level];
       })
-      .finally(function () { ui.stage.classList.remove('loading'); });
+      .finally(function () { ui.stage.classList.remove('loading'); if (--loadsInFlight <= 0) { loadsInFlight = 0; ui.stageLoading.hidden = true; } });
   }
 
   function filterFeatures(layer, level) {
@@ -153,20 +178,27 @@
     return { features: keep, object: { type: 'GeometryCollection', geometries: keepGeoms } };
   }
 
+  var refreshSeq = 0;
   function refresh() {
     var level = ui.level.value;
+    var seq = ++refreshSeq;
     return loadLayer(level).then(function (layer) {
+      if (seq !== refreshSeq) return;                       // a newer choice superseded this one
       var sub = filterFeatures(layer, level);
       current = { level: level, features: sub.features, object: sub.object, topo: layer.topo };
+      allOptsCache = null;
       if (labelSizeAuto) ui.labelSize.value = suggestedLabelSize(sub.features.length);
       pendingFixes = []; assumed = []; lastMatch = null; reportMatch();
       buildTable();
       render();
       save();
+      // data typed for another level is matched again here, so switching levels keeps the map coloured
+      if (!Object.keys(values[level]).length && ui.paste.value.trim() && !suppressRematch) applyRows(parseText(ui.paste.value), true);
     }).catch(function (err) {
       setStatus('Could not load boundaries: ' + err.message);
     });
   }
+  var suppressRematch = false;
 
   function fillSelect(sel, opts, firstLabel) {
     sel.innerHTML = '<option value="">' + firstLabel + '</option>';
@@ -209,14 +241,14 @@
   //  Name matching
   // ---------------------------------------------------------------------------
   var ALIASES = {
-    bangalore: 'bengaluru', bangaloreurban: 'bengaluruurban', bangalorerural: 'bengalururural',
+    bangalore: 'bengaluruurban', bangaloreurban: 'bengaluruurban', bangalorerural: 'bengalururural',
     mysore: 'mysuru', belgaum: 'belagavi', gulbarga: 'kalaburagi', bijapur: 'vijayapura', bellary: 'ballari',
-    tumkur: 'tumakuru', shimoga: 'shivamogga', chikmagalur: 'chikkamagaluru', hospet: 'vijayanagara',
+    tumkur: 'tumakuru', shimoga: 'shivamogga', chikmagalur: 'chikkamagaluru', hospet: 'vijayanagar',
     allahabad: 'prayagraj', faizabad: 'ayodhya', hoshangabad: 'narmadapuram', orissa: 'odisha',
     pondicherry: 'puducherry', uttaranchal: 'uttarakhand', bombay: 'mumbai', calcutta: 'kolkata', madras: 'chennai',
     poona: 'pune', baroda: 'vadodara', cochin: 'ernakulam', trivandrum: 'thiruvananthapuram', calicut: 'kozhikode',
     cannanore: 'kannur', quilon: 'kollam', alleppey: 'alappuzha', trichur: 'thrissur', palghat: 'palakkad',
-    tuticorin: 'thoothukudi', tanjore: 'thanjavur', trichy: 'tiruchirappalli', tiruchirapalli: 'tiruchirappalli',
+    tuticorin: 'tuticorin', thoothukudi: 'tuticorin', tanjore: 'thanjavur', trichy: 'tiruchirappalli', tiruchirapalli: 'tiruchirappalli',
     nctofdelhi: 'delhi', nationalcapitalterritoryofdelhi: 'delhi', telengana: 'telangana', chattisgarh: 'chhattisgarh',
     andamanandnicobar: 'andamanandnicobarislands', aandnislands: 'andamanandnicobarislands',
     dadraandnagarhaveli: 'dadraandnagarhavelianddamananddiu', damananddiu: 'dadraandnagarhavelianddamananddiu',
@@ -235,7 +267,7 @@
     northtwentyfourparganas: '24paraganasnorth', southtwentyfourparganas: '24paraganassouth', twentyfourparganasnorth: '24paraganasnorth',
     twentyfourparganassouth: '24paraganassouth', north24pgs: '24paraganasnorth', south24pgs: '24paraganassouth', gurgaon: 'gurugram', cuddapah: 'ysr', kadapa: 'ysr', ysrkadapa: 'ysr',
     sriganganagar: 'ganganagar', mewat: 'nuh', palamau: 'palamu', hazaribag: 'hazaribagh', kancheepuram: 'kanchipuram', tiruvallur: 'thiruvallur',
-    tiruvannamalai: 'tiruvannamalai', villupuram: 'viluppuram', trivandrumdistrict: 'thiruvananthapuram', ernakulum: 'ernakulam', calicutdistrict: 'kozhikode'
+    tiruvannamalai: 'tiruvannamalai', villupuram: 'villupuram', trivandrumdistrict: 'thiruvananthapuram', ernakulum: 'ernakulam', calicutdistrict: 'kozhikode'
   };
 
   var HEADER_WORDS = /^(name|names|region|regions|area|state|states|ut|stateut|statesuts|st|district|districts|dist|subdistrict|subdistricts|tehsil|taluk|taluka|mandal|block|unit|place|location)$/;
@@ -381,7 +413,13 @@
     var lines = text.split(/\r?\n/).filter(function (l) { return l.trim(); });
     if (!lines.length) return [];
     var useTab = lines.some(function (l) { return l.indexOf('\t') !== -1; });
-    return useTab ? d3.tsvParseRows(lines.join('\n')) : d3.csvParseRows(lines.join('\n'));
+    if (useTab) return d3.tsvParseRows(lines.join('\n'));
+    if (lines.some(function (l) { return l.indexOf(',') !== -1; })) return d3.csvParseRows(lines.join('\n'));
+    // "Kerala 94" typed by hand: split at the last run of spaces when the tail is a value
+    return lines.map(function (l) {
+      var m = l.trim().match(/^(.*\S)\s+(\S+)$/);
+      return m ? [m[1], m[2]] : [l.trim()];
+    });
   }
 
   var EMPTY_TOKENS = /^(na|n\/a|n\.a\.?|nan|null|nil|none|-{1,3}|–|—|\.\.|\.|\?|#n\/a|#value!|#div\/0!|#ref!)$/i;
@@ -394,7 +432,22 @@
     return Number(s);
   }
 
-  function applyRows(rows) {
+  // Do most of the names belong to a different level than the one selected?
+  function detectLevel(rows, nameCol) {
+    var names = rows.map(function (r) { return r[nameCol] || ''; }).filter(Boolean);
+    if (names.length < 2) return null;
+    var stateHits = names.filter(function (n) { return isStateName(n); }).length;
+    var level = current.level;
+    if (level !== 'states' && stateHits >= Math.max(2, names.length * 0.6)) return 'states';
+    if (level === 'states' && stateHits <= names.length * 0.2 && layers.districts) {
+      var idx = buildIndex(layers.districts.features);
+      var districtHits = names.filter(function (n) { var k = compact(n); return !!(idx.byName[ALIASES[k] || k]); }).length;
+      if (districtHits >= Math.max(2, names.length * 0.6)) return 'districts';
+    }
+    return null;
+  }
+
+  function applyRows(rows, fromRefresh) {
     rows = rows.map(function (r) {
       r = r.map(function (c) { return c == null ? '' : String(c).trim(); });
       while (r.length && r[r.length - 1] === '') r.pop();
@@ -431,6 +484,17 @@
     }
 
     var idx = buildIndex(current.features);
+
+    // names from another level: switch the level once, then match there
+    if (!fromRefresh && !region.state) {
+      var better = detectLevel(rows, nameCol);
+      if (better && better !== current.level) {
+        ui.level.value = better;
+        suppressRematch = true;
+        refresh().then(function () { suppressRematch = false; applyRows(rows, true); });
+        return;
+      }
+    }
 
     // header detection: value cell not numeric while others are, or a first cell that reads like a column label
     var header = null;
@@ -503,13 +567,14 @@
     if (!lastMatch) { ui.matchStatus.textContent = ''; ui.unmatched.innerHTML = ''; return; }
     var nUnmatched = pendingFixes.filter(function (fx) { return fx.kind === 'unmatched'; }).length;
     var nAmbiguous = pendingFixes.filter(function (fx) { return fx.kind === 'ambiguous'; }).length;
-    var parts = ['<strong>' + lastMatch.matched + '</strong> matched' + (assumed.length ? ' (' + assumed.length + ' assumed)' : '')];
+    var parts = ['<strong>' + lastMatch.matched + '</strong> matched' + (assumed.length ? ' (' + assumed.length + ' guessed)' : '')];
     if (lastMatch.empty) parts.push('<strong>' + lastMatch.empty + '</strong> without a value');
     if (nUnmatched) parts.push('<strong>' + nUnmatched + '</strong> not found');
     if (nAmbiguous) {
       parts.push('<strong>' + nAmbiguous + '</strong> ambiguous (add a ' + (current.level === 'subdistricts' ? 'district' : 'state') + ' column)');
     }
     ui.matchStatus.innerHTML = parts.join(' · ');
+    ui.matchStatus.classList.remove('notice');
     renderFixes();
   }
 
@@ -521,7 +586,7 @@
 
   function renderLearned() {
     var m = userAliases[current.level];
-    var keys = Object.keys(m).filter(function (k) { return m[k] !== ''; });
+    var keys = Object.keys(m);
     ui.learnedBox.hidden = !keys.length;
     if (!keys.length) { ui.learnedList.innerHTML = ''; return; }
     var byId = {};
@@ -529,7 +594,8 @@
     ui.learnedBox.querySelector('summary').textContent = 'Remembered matches · ' + keys.length;
     ui.learnedList.innerHTML = keys.map(function (k) {
       var f = byId[m[k]];
-      return '<div class="learned-row"><span>' + escapeHtml(k) + ' → ' + (f ? escapeHtml(f.properties.name) : '?') + '</span>' +
+      var target = m[k] === '' ? 'not matched automatically' : (f ? f.properties.name : 'another region');
+      return '<div class="learned-row"><span>' + escapeHtml(k) + ' → ' + escapeHtml(target) + '</span>' +
         '<button type="button" class="asset-del" data-forget="' + escapeHtml(k) + '" aria-label="Forget this match">Forget</button></div>';
     }).join('');
   }
@@ -550,33 +616,53 @@
     updateBadge();
     renderLearned();
     if (!pendingFixes.length && !assumed.length) { ui.unmatched.innerHTML = ''; return; }
-    var all = current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); });
-    var allOpts = all.map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
+    var MAX_ROWS = 60;
     var assumedHtml = assumed.map(function (a, i) {
       return '<div class="fix-row assumed">' +
         '<span class="fix-name" title="' + escapeHtml(a.name) + '">' + escapeHtml(a.name) + ' → ' + escapeHtml(a.f.properties.name) + '</span>' +
         '<span class="fix-val">' + (a.value == null ? '' : escapeHtml(fmt(a.value))) + '</span>' +
         '<button type="button" class="btn-plain secondary fix-undo" data-undo="' + i + '">Undo</button></div>';
     }).join('');
-    ui.unmatched.innerHTML = assumedHtml + pendingFixes.map(function (fx, i) {
+    var shown = pendingFixes.slice(0, MAX_ROWS);
+    ui.unmatched.innerHTML = assumedHtml + shown.map(function (fx, i) {
       var sugg = fx.cands.map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
       return '<div class="fix-row">' +
         '<span class="fix-name" title="' + escapeHtml(fx.name) + '">' + escapeHtml(fx.name) + (fx.count > 1 ? ' <small>×' + fx.count + '</small>' : '') + '</span>' +
         '<span class="fix-val">' + (fx.value == null ? '' : escapeHtml(fmt(fx.value))) + '</span>' +
-        '<select data-fix="' + i + '" aria-label="Match ' + escapeHtml(fx.name) + '">' +
+        '<select data-fix="' + i + '" data-kind="' + fx.kind + '" aria-label="Match ' + escapeHtml(fx.name) + '">' +
           '<option value="">' + (fx.kind === 'ambiguous' ? 'Which one?' : 'Match to…') + '</option>' +
+          '<option value="__skip">Skip</option>' +
           (sugg ? '<optgroup label="' + (fx.kind === 'ambiguous' ? 'Candidates' : 'Suggestions') + '">' + sugg + '</optgroup>' : '') +
-          (fx.kind === 'ambiguous' ? '' : '<optgroup label="All regions">' + allOpts + '</optgroup>') +
         '</select></div>';
-    }).join('');
+    }).join('') + (pendingFixes.length > MAX_ROWS ? '<div class="hint">and ' + (pendingFixes.length - MAX_ROWS) + ' more</div>' : '');
   }
+
+  // the full region list is long; add it to a picker only when it is opened
+  var allOptsCache = null;
+  ui.unmatched.addEventListener('focusin', function (e) {
+    var sel = e.target.closest('select[data-fix]');
+    if (!sel || sel.dataset.kind === 'ambiguous' || sel.dataset.full) return;
+    if (!allOptsCache) {
+      allOptsCache = current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); })
+        .map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
+    }
+    sel.insertAdjacentHTML('beforeend', '<optgroup label="All regions">' + allOptsCache + '</optgroup>');
+    sel.dataset.full = '1';
+  });
 
   ui.unmatched.addEventListener('change', function (e) {
     var sel = e.target.closest('select[data-fix]');
     if (!sel || !sel.value) return;
     var fx = pendingFixes[+sel.dataset.fix];
+    if (!fx) return;
+    if (sel.value === '__skip') {                            // a total, footnote or stray row: drop it without remembering anything
+      pendingFixes.splice(+sel.dataset.fix, 1);
+      if (lastMatch) { var l = fx.kind === 'ambiguous' ? lastMatch.ambiguous : lastMatch.unmatched; var at0 = l.indexOf(fx.name); if (at0 !== -1) l.splice(at0, 1); }
+      reportMatch(); save();
+      return;
+    }
     var f = current.features.filter(function (x) { return x.id === sel.value; })[0];
-    if (!fx || !f) return;
+    if (!f) return;
     if (fx.value != null) values[current.level][f.id] = fx.value;
     userAliases[current.level][fx.key] = f.id;   // remembered for next time, including which of two same-named regions
     pendingFixes.splice(+sel.dataset.fix, 1);
@@ -618,7 +704,7 @@
     download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), (regionLabel() + ' ' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-names.csv');
   });
 
-  function setStatus(msg) { ui.matchStatus.textContent = msg; ui.unmatched.innerHTML = ''; }
+  function setStatus(msg) { ui.matchStatus.textContent = msg; ui.matchStatus.classList.toggle('notice', !!msg); }
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -634,7 +720,11 @@
     var isText = /\.(csv|tsv|txt)$/.test(name) || /^text\//.test(type) || type === 'application/csv';
     if (!isSheet && !isText) { setStatus('Use a CSV, TSV or Excel file.'); return; }
     if (isSheet) {
-      if (!window.XLSX) { setStatus(window.__xlsxFailed ? 'Excel support could not be loaded. Reload the page and try again.' : 'Excel support is still loading, try again in a second.'); return; }
+      if (!window.XLSX) {
+        setStatus('Loading spreadsheet support…');
+        loadScript(XLSX_URL).then(function () { setStatus(''); readFile(file); }, function (err) { setStatus('Spreadsheet support could not be loaded (' + err.message + ').'); });
+        return;
+      }
       var fr = new FileReader();
       fr.onerror = function () { setStatus('Could not read ' + file.name + '.'); };
       fr.onload = function () {
@@ -679,6 +769,7 @@
         '</td><td><input type="text" data-id="' + f.id + '" aria-label="Value for ' + escapeHtml(p.name) + '" value="' + (v == null ? '' : escapeHtml(v)) + '"></td></tr>';
     });
     ui.valueTable.innerHTML = html || '<tr><td colspan="2"><small>No regions</small></td></tr>';
+    syncUi();
     var withData = current.features.filter(function (f) { return vals[f.id] != null && vals[f.id] !== ''; }).length;
     $('valuesSummary').textContent = 'Values · ' + withData + ' of ' + current.features.length;
   }
@@ -1012,6 +1103,20 @@
   var BAND_ORDER = { title: 0, subtitle: 1, text: 2, source: 3 };
 
   function render() {
+    try { renderInner(); }
+    catch (err) {
+      ui.stage.innerHTML = '';
+      var box = document.createElement('div');
+      box.className = 'stage-error';
+      box.innerHTML = '<div>Something went wrong while drawing the map.</div>' +
+        '<button type="button" class="btn-plain" id="resetSaved">Reset saved settings and reload</button>';
+      ui.stage.appendChild(box);
+      box.querySelector('#resetSaved').addEventListener('click', function () { try { localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ } location.reload(); });
+      if (window.console && console.error) console.error(err);
+    }
+  }
+
+  function renderInner() {
     ui.tip.style.display = 'none';
     var size = ui.canvas.value.split('x').map(Number);
     var W = size[0] || 1000, H = size[1] || 1000;
@@ -1258,13 +1363,24 @@
     }
     outline('outer', function (a, b) { return a === b; }, ow);
 
-    // --- labels ---
+    // --- labels: when the size is automatic, step it down until most labels fit ---
     if (ui.showNames.checked || ui.showValues.checked) {
-      var ls = +ui.labelSize.value;
-      var halo = bg === 'transparent' ? '#ffffff' : bg;
-      var lg = layer.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
-        .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
       var boxes = featureBoxes();
+      var halo = bg === 'transparent' ? '#ffffff' : bg;
+      var ls = +ui.labelSize.value;
+      var wanted = drawFeats.filter(function (d) { return ui.showNames.checked || has(vals[d.id]); }).length;
+      for (var attempt = 0; attempt < 4; attempt++) {
+        var lg = layer.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
+          .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
+        var placedCount = placeLabels(lg, ls);
+        if (!labelSizeAuto || placedCount >= wanted * 0.8 || ls <= 7) break;
+        lg.remove(); ls = Math.max(7, ls - 1);
+      }
+      if (labelSizeAuto && String(ls) !== ui.labelSize.value) ui.labelSize.value = ls;
+    }
+
+    function placeLabels(lg, ls) {
+      var count = 0;
       var grid = {}, cell = Math.max(20, ls * 6);
       function cellsOf(b) {
         var out = [];
@@ -1298,7 +1414,9 @@
         lines.forEach(function (l, i2) {
           t.append('tspan').attr('x', c[0]).attr('dy', i2 ? ls * 1.15 : 0).attr('font-weight', i2 === 0 && lines.length > 1 ? 600 : 400).text(l);
         });
+        count++;
       });
+      return count;
     }
 
     // --- drag the map itself to pan ---
@@ -1591,27 +1709,51 @@
     });
   }
 
-  function exportFailed(err) { alert('Export failed: ' + (err && err.message ? err.message : err)); }
+  function exportFailed(err) { setBusy(false); setStatus('Export failed: ' + (err && err.message ? err.message : err)); }
+  function setBusy(on) {
+    ui.exportRow.querySelectorAll('button').forEach(function (b) { b.disabled = !!on; });
+    ui.exportRow.setAttribute('aria-busy', on ? 'true' : 'false');
+  }
+  function csvSafe(v) { return (typeof v === 'string' && /^[=+@]/.test(v)) ? "'" + v : v; }
 
   function exportPng(scale) {
     var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
     var cap = Math.sqrt((TOUCH ? 16e6 : 64e6) / (W * H));           // stay under the browser's canvas area limit
     var used = Math.min(scale, Math.floor(cap * 4) / 4);
+    setBusy(true);
     rasterize(used).then(function (c) {
       if (ui.background.value !== 'transparent') {
         var px = c.getContext('2d').getImageData(Math.floor(c.width / 2), Math.floor(c.height / 2), 1, 1).data;
         if (px[3] === 0) throw new Error('the image came out blank, try a smaller size');
       }
-      c.toBlob(function (b) { if (!b) return exportFailed(new Error('image too large for this browser')); download(b, slug() + (used > 1 ? '@' + used + 'x' : '') + '.png'); }, 'image/png');
+      c.toBlob(function (b) { setBusy(false); if (!b) return exportFailed(new Error('image too large for this browser')); download(b, slug() + (used > 1 ? '@' + used + 'x' : '') + '.png'); }, 'image/png');
     }).catch(exportFailed);
   }
 
+  function copyImage() {
+    if (!(navigator.clipboard && window.ClipboardItem)) return;
+    setBusy(true);
+    var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
+    var used = Math.min(2, Math.floor(Math.sqrt(16e6 / (W * H)) * 4) / 4);
+    // Safari needs the promise handed to ClipboardItem up front
+    var blobPromise = rasterize(used).then(function (c) { return new Promise(function (res, rej) { c.toBlob(function (b) { b ? res(b) : rej(new Error('image too large')); }, 'image/png'); }); });
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })])
+      .then(function () { setBusy(false); setStatus('Image copied'); setTimeout(function () { if (ui.matchStatus.textContent === 'Image copied') { setStatus(''); if (lastMatch) reportMatch(); } }, 2000); })
+      .catch(exportFailed);
+  }
+
   function exportPdf() {
-    if (!window.jspdf) { alert(window.__pdfFailed ? 'PDF support could not be loaded. Reload the page and try again.' : 'PDF support is still loading, try again in a second.'); return; }
+    if (!window.jspdf) {
+      setBusy(true); setStatus('Loading PDF support…');
+      loadScript(JSPDF_URL, JSPDF_SRI).then(function () { setStatus(''); setBusy(false); exportPdf(); }, exportFailed);
+      return;
+    }
+    setBusy(true);
     rasterize(3).then(function (c) {
       var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
       var doc = new window.jspdf.jsPDF({ orientation: W >= H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'] });
       doc.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      setBusy(false);
       download(doc.output('blob'), slug() + '.pdf');
     }).catch(exportFailed);
   }
@@ -1622,9 +1764,9 @@
     current.features.forEach(function (f) {
       var p = f.properties;
       var v = vals[f.id];
-      rows.push([p.name, current.level === 'subdistricts' ? p.district : (p.state || ''), p.lgd, v == null ? '' : v]);
+      rows.push([csvSafe(p.name), csvSafe(current.level === 'subdistricts' ? p.district : (p.state || '')), p.lgd, v == null ? '' : csvSafe(v)]);
     });
-    download(new Blob([d3.csvFormatRows(rows)], { type: 'text/csv' }), slug() + '.csv');
+    download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), slug() + '.csv');
   }
 
   document.querySelectorAll('[data-export]').forEach(function (btn) {
@@ -1632,6 +1774,7 @@
       if (!svgNode) return;
       var kind = btn.dataset.export;
       if (kind === 'png') exportPng(+btn.dataset.scale || 1);
+      else if (kind === 'copy') copyImage();
       else if (kind === 'svg') download(new Blob([svgString()], { type: 'image/svg+xml' }), slug() + '.svg');
       else if (kind === 'pdf') exportPdf();
       else if (kind === 'csv') exportCsv();
@@ -1662,7 +1805,8 @@
     try {
       var raw = localStorage.getItem(STORE_KEY);
       if (!raw) return;
-      var data = JSON.parse(raw);
+      var data;
+      try { data = JSON.parse(raw); } catch (e) { localStorage.removeItem(STORE_KEY); return; }
       var st = data.settings || {};
       Object.keys(st).forEach(function (id) {
         var el = ui[id];
@@ -1736,15 +1880,52 @@
 
   ui.applyData.addEventListener('click', function () { applyRows(parseText(ui.paste.value)); });
   ui.paste.addEventListener('input', function (e) {
-    if (e.inputType === 'insertFromPaste' || /[\n\t]/.test(e.data || '')) applyRows(parseText(ui.paste.value));
+    if (e.inputType === 'insertFromPaste' || e.inputType === 'insertLineBreak' || /[\n\t]/.test(e.data || '')) applyRows(parseText(ui.paste.value));
     else save();
   });
   ui.paste.addEventListener('paste', function () { setTimeout(function () { applyRows(parseText(ui.paste.value)); }, 0); });
+  var undoSnapshot = null;
+  function snapshot() {
+    return { level: current.level, values: JSON.parse(JSON.stringify(values)), paste: ui.paste.value, headers: JSON.parse(JSON.stringify(valueHeaders)),
+      assets: JSON.parse(JSON.stringify(assets)), offsets: JSON.parse(JSON.stringify(offsets)) };
+  }
+  function offerUndo(label) {
+    ui.matchStatus.innerHTML = escapeHtml(label) + ' · <a id="undoClear" role="button" tabindex="0">Undo</a>';
+    ui.matchStatus.classList.remove('notice');
+    var undo = function () {
+      if (!undoSnapshot) return;
+      values = undoSnapshot.values; ui.paste.value = undoSnapshot.paste; valueHeaders = undoSnapshot.headers;
+      assets = undoSnapshot.assets; offsets = undoSnapshot.offsets; undoSnapshot = null;
+      renderAssetList(); lastMatch = null; reportMatch(); buildTable(); render(); save();
+    };
+    var a = ui.matchStatus.querySelector('#undoClear');
+    a.addEventListener('click', undo);
+    a.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); undo(); } });
+  }
   ui.clearData.addEventListener('click', function () {
+    undoSnapshot = snapshot();
     values[current.level] = {};
     ui.paste.value = ''; lastMatch = null; valueHeaders[current.level] = ''; pendingFixes = []; assumed = [];
-    reportMatch(); buildTable(); render(); save();
+    buildTable(); render(); save();
+    renderFixes(); offerUndo('Cleared');
   });
+  ui.startOver.addEventListener('click', function () {
+    undoSnapshot = snapshot();
+    values = { states: {}, districts: {}, subdistricts: {} }; valueHeaders = { states: '', districts: '', subdistricts: '' };
+    assets = []; offsets = {}; ui.paste.value = ''; lastMatch = null; pendingFixes = []; assumed = [];
+    view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
+    SETTING_IDS.forEach(function (id) { var el = ui[id]; if (id === 'level') return; var d = el.getAttribute(el.type === 'checkbox' ? 'checked' : 'value'); if (el.tagName === 'SELECT') { el.value = el.querySelector('option[selected]') ? el.querySelector('option[selected]').value : el.options[0].value; } else if (el.type === 'checkbox') { el.checked = el.hasAttribute('checked'); } else { el.value = d == null ? '' : d; } });
+    labelSizeAuto = true; ui.labelSize.value = suggestedLabelSize(current.features.length);
+    lastBackground = ui.background.value;
+    renderAssetList(); syncUi(); buildTable(); render(); save();
+    renderFixes(); offerUndo('Started over');
+  });
+  function updateReportLink() {
+    var body = 'What happened:\n\n\nDetails: level ' + current.level + ', area ' + regionLabel() + ', ' + navigator.userAgent;
+    ui.reportLink.href = 'https://github.com/yashveeeeeeer/india-geodata/issues/new?title=' + encodeURIComponent('Map Maker: ') + '&body=' + encodeURIComponent(body);
+  }
+  ui.reportLink.addEventListener('focus', updateReportLink);
+  ui.reportLink.addEventListener('mouseenter', updateReportLink);
   ui.sampleData.addEventListener('click', function () {
     var vals = values[current.level] = {};
     current.features.forEach(function (f, i) {
@@ -1816,7 +1997,12 @@
   function syncUi() {
     ui.customColours.hidden = ui.ramp.value !== 'custom';
     ui.northField.hidden = !ui.northArrow.checked;
+    ui.bucketsField.hidden = ui.scaleMode.value === 'continuous';
     ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';
+    ui.legendTitle.placeholder = valueHeaders[current.level] || '';
+    var hasData = Object.keys(values[current.level] || {}).length > 0;
+    ui.sampleData.hidden = hasData;
+    ui.copyImage.hidden = !(navigator.clipboard && window.ClipboardItem);
   }
 
   var resizeTimer = null;
@@ -1833,8 +2019,8 @@
   syncUi();
   setZoom(view.k, true);
   renderAssetList();
-  loadLayer('states').then(function (layer) {
-    populateStates(layer);
+  Promise.all([loadLayer('states'), loadLayer(ui.level.value)]).then(function (res) {
+    populateStates(res[0]);
     ui.regionState.value = region.state;
     if (ui.regionState.value !== region.state) { region.state = ''; region.district = ''; }
     return populateDistricts();
