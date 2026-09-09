@@ -54,7 +54,8 @@
   color: var(--color-text);
   outline: none;
 }
-.maps-side select:focus, .maps-side input:focus, .maps-side textarea:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.12); }
+.maps-side select:focus, .maps-side input:focus, .maps-side textarea:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.35); }
+.maps-side :focus-visible, .stage-frame :focus-visible, .stage-frame svg .drag:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .maps-side textarea { min-height: 88px; resize: vertical; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.4; }
 .maps-side input[type="color"] { width: 100%; height: 30px; padding: 0 2px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); cursor: pointer; }
 .maps-side input[type="range"] { width: 100%; accent-color: var(--color-primary); }
@@ -220,10 +221,8 @@ details.sub > input { margin-bottom: 6px; }
   .check { min-height: 40px; }
   .check input { width: 20px; height: 20px; }
   .panel > summary { padding: 12px 14px; font-size: 0.95rem; }
-  .sel-tools button { width: 34px; height: 34px; font-size: 20px; }
-  .unmatched-badge { top: 8px; right: 8px; font-size: 0.8rem; padding: 6px 12px; }
+  .unmatched-badge { top: 8px; right: 8px; font-size: 0.8rem; padding: 6px 12px; min-height: 40px; display: inline-flex; align-items: center; }
   .stage-hint { font-size: 0.78rem; bottom: 8px; max-width: 90%; white-space: normal; text-align: center; }
-  .zoom-row .btn-plain { min-height: 36px; padding: 6px 12px; }
   .value-table-wrap { max-height: 240px; }
   .maps-side .value-table input[type="text"] { min-height: 40px; font-size: 16px; border-color: var(--color-border); }
   .zoom-row .btn-plain { min-height: 40px; min-width: 40px; padding: 6px 10px; }
@@ -232,7 +231,6 @@ details.sub > input { margin-bottom: 6px; }
   .sel-tools button { width: 40px; height: 40px; }
   .asset-del { min-height: 40px; padding: 8px 12px; font-size: 0.85rem; }
   details.sub > summary { padding: 10px 0; font-size: 0.9rem; }
-  .unmatched-badge { min-height: 40px; display: inline-flex; align-items: center; }
   .hint, .status, .fix-val, .zoom-value, .asset-head, .field > label, .field > .field-label { font-size: 0.85rem; }
   /* while a control has focus (keyboard up), the pinned preview shrinks and scroll targets clear it */
   .maps-side:focus-within ~ .maps-stage .stage-frame svg { max-height: 22vh; max-height: 22dvh; }

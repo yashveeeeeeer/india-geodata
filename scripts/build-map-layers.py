@@ -6,7 +6,7 @@ keeps only the fields the map maker needs, simplifies with mapshaper and
 writes one TopoJSON file per level into docs/maps/data/.
 
 Usage:
-    python scripts/build-map-layers.py [--cache DIR] [--pct 5%]
+    python scripts/build-map-layers.py [--cache DIR] [--pct 5%] [--levels states,districts,subdistricts]
 
 Requires:
     geopandas, pyarrow (pip install geopandas pyarrow)
@@ -46,7 +46,6 @@ STATE_NAMES = {
     "ANDAMAN & NICOBAR": "Andaman & Nicobar Islands",
     "DADRA,NAGAR HAVELI,DAMAN & DIU": "Dadra & Nagar Haveli and Daman & Diu",
     "JAMMU & KASHMIR": "Jammu & Kashmir",
-    "DELHI": "Delhi",
 }
 
 
@@ -62,7 +61,7 @@ def clean_name(raw):
         words = []
         for w in name.split():
             parts = w.split("-")
-            parts = [p if p in ("&",) else (p.lower() if p.lower() in SMALL_WORDS else p.capitalize()) for p in parts]
+            parts = [p if p == "&" else (p.lower() if p.lower() in SMALL_WORDS else p.capitalize()) for p in parts]
             words.append("-".join(parts))
         name = " ".join(words)
         name = name[0].upper() + name[1:]
@@ -74,8 +73,8 @@ def state_title(raw):
         return STATE_NAMES[raw]
     words = []
     for w in raw.split():
-        words.append(w if w in ("&", "AND") else w.capitalize())
-    return " ".join(words).replace(" And ", " and ")
+        words.append("&" if w == "&" else "and" if w == "AND" else w.capitalize())
+    return " ".join(words)
 
 
 def download(url, dest):

@@ -1,13 +1,13 @@
 # India Geodata
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Data validation](https://img.shields.io/badge/metadata-validated-brightgreen.svg)](#)
+[![Data validation](https://img.shields.io/badge/metadata-validated-brightgreen.svg)](.github/workflows/validate-metadata.yml)
 
 A unified, structured collection of India's openly-licensed geospatial data — administrative boundaries, electoral maps, census geometries, environmental zones, water resources, infrastructure networks, healthcare, education, urban municipal data, and more.
 
 Browse and download at **[india-geodata](https://yashveeeeeeer.github.io/india-geodata)**
 
-Make your own state, district or sub-district map from a spreadsheet at **[india-geodata/maps](https://yashveeeeeeer.github.io/india-geodata/maps/)** — free, no watermark, runs entirely in the browser.
+Make your own state, district or sub-district map from a spreadsheet with the **[India Map Maker](https://yashveeeeeeer.github.io/india-geodata/maps/)** — free, no watermark, runs entirely in the browser.
 
 ---
 
@@ -116,7 +116,7 @@ This repository consolidates data from the following open-data projects and gove
 | [datameet/pmgsy-geosadak](https://github.com/datameet/pmgsy-geosadak) | DataMeet | India OGL | Rural road network and habitation data |
 | [datameet/landuse_maps](https://github.com/datameet/landuse_maps) | DataMeet | CC-BY-SA 2.5 | Land use classification maps |
 | [datameet/INDIA_PINCODES](https://github.com/datameet/INDIA_PINCODES) | DataMeet | — | Postal code boundaries |
-| [datameet/Municipal_Spatial_Data](https://github.com/datameet/Municipal_Spatial_Data) | DataMeet | CC BY 4.0 | Municipal ward boundaries for 27 cities |
+| [datameet/Municipal_Spatial_Data](https://github.com/datameet/Municipal_Spatial_Data) | DataMeet | CC BY 4.0 | Municipal ward boundaries for 28 cities |
 | [NOAA VIIRS DNB](https://eogdata.mines.edu/products/vnl/) | NOAA / EOG | Public domain | Nighttime light satellite imagery |
 | [india-district-nightlights-viirs](https://github.com/yashveeeeeeer/india-district-nightlights-viirs) | yashveeeeeeer | MIT | District-level nightlight statistics pipeline |
 | [SHRUG](https://www.devdatalab.org/shrug) | Development Data Lab | CC BY-NC-SA 4.0 | Socioeconomic data for 500K+ villages (external link) |

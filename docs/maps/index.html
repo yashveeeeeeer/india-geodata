@@ -1,16 +1,14 @@
 ---
 layout: default
-title: "Map Maker — free India choropleth maps"
-description: "Paste a spreadsheet and get a state, district or sub-district map of India. Free, no watermark, no sign-up. Export PNG, SVG or PDF."
+title: "India Map Maker"
+description: "Turn a spreadsheet into a state, district or sub-district map of India in your browser. Free and open, no sign-up, no watermark. Export PNG, SVG or PDF."
 permalink: /maps/
 ---
-
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=14">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
   <div class="maps-intro">
-    <h1>Map Maker</h1>
+    <h1>India Map Maker</h1>
   </div>
 
   <div class="maps-layout">
@@ -56,7 +54,7 @@ permalink: /maps/
             <button class="btn-plain secondary" id="sampleData" type="button">Sample</button>
             <button class="btn-plain secondary" id="regionList" type="button" title="Download the region names and codes for this map">Region list</button>
           </div>
-          <div class="status" id="matchStatus"></div>
+          <div class="status" id="matchStatus" role="status"></div>
           <div class="unmatched" id="unmatched"></div>
           <details class="sub" id="learnedBox" hidden>
             <summary>Remembered matches</summary>
@@ -242,7 +240,7 @@ permalink: /maps/
             <div class="field"><label for="northSize">Arrow size</label><input type="number" id="northSize" min="20" max="200" value="60"></div>
           </div>
           <div class="btn-row"><button class="btn-plain secondary" id="resetLayout" type="button">Reset positions</button></div>
-          <p class="hint">Ctrl + scroll or pinch to zoom the map, drag to move it. Drag text, legend or arrow to place them.</p>
+          <p class="hint">Ctrl/Cmd + scroll or pinch to zoom the map, drag to move it. Drag text, legend or arrow to place them.</p>
         </div>
       </details>
 
@@ -271,8 +269,8 @@ permalink: /maps/
 
 <div class="map-tip" id="mapTip"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=15"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous" defer onerror="window.__xlsxFailed = true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous" defer onerror="window.__pdfFailed = true"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=17"></script>

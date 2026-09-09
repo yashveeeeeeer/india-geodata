@@ -2,7 +2,12 @@
   'use strict';
 
   var root = document.getElementById('mapMaker');
-  if (!root || !window.d3 || !window.topojson) return;
+  if (!root) return;
+  if (!window.d3 || !window.topojson) {
+    var st = document.getElementById('matchStatus');
+    if (st) st.textContent = 'The map library could not be loaded. Check your connection and reload the page.';
+    return;
+  }
 
   var BASE = root.dataset.base;
   var STORE_KEY = 'igd-mapmaker-v1';
@@ -278,17 +283,8 @@
   }
 
   function levenshtein(a, b) {
-    if (Math.abs(a.length - b.length) > 2) return 99;
-    var prev = [], cur = [], i, j;
-    for (j = 0; j <= b.length; j++) prev[j] = j;
-    for (i = 1; i <= a.length; i++) {
-      cur = [i];
-      for (j = 1; j <= b.length; j++) {
-        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-      }
-      prev = cur;
-    }
-    return prev[b.length];
+    if (Math.abs(a.length - b.length) > 2) return 99;   // quick reject for the auto-match tolerance
+    return editDistance(a, b);
   }
 
   function buildIndex(feats) {
@@ -472,7 +468,7 @@
     function parseValue(raw) { var n = toNumber(raw); return isNaN(n) ? raw : n; }
     function addFix(nm, raw, kind, cands) {
       var key = compact(nm);
-      var existing = pendingFixes.filter(function (fx) { return fx.key === key && fx.kind === kind; })[0];
+      var existing = kind === 'ambiguous' ? null : pendingFixes.filter(function (fx) { return fx.key === key && fx.kind === kind; })[0];
       var value = isEmptyToken(raw) ? null : parseValue(raw);
       if (existing) { existing.count++; if (value != null) existing.value = value; return; }   // repeats fixed together
       pendingFixes.push({ name: nm, key: key, value: value, kind: kind, cands: cands, count: 1 });
@@ -520,7 +516,7 @@
   function updateBadge() {
     var n = pendingFixes.length;
     ui.unmatchedBadge.hidden = !n;
-    ui.unmatchedBadge.textContent = n + (n === 1 ? ' name unmatched' : ' names unmatched');
+    ui.unmatchedBadge.textContent = n + (n === 1 ? ' name to check' : ' names to check');
   }
 
   function renderLearned() {
@@ -529,7 +525,7 @@
     ui.learnedBox.hidden = !keys.length;
     if (!keys.length) { ui.learnedList.innerHTML = ''; return; }
     var byId = {};
-    current.features.forEach(function (f) { byId[f.id] = f; });
+    ((layers[current.level] && layers[current.level].features) || current.features).forEach(function (f) { byId[f.id] = f; });
     ui.learnedBox.querySelector('summary').textContent = 'Remembered matches · ' + keys.length;
     ui.learnedList.innerHTML = keys.map(function (k) {
       var f = byId[m[k]];
@@ -638,7 +634,7 @@
     var isText = /\.(csv|tsv|txt)$/.test(name) || /^text\//.test(type) || type === 'application/csv';
     if (!isSheet && !isText) { setStatus('Use a CSV, TSV or Excel file.'); return; }
     if (isSheet) {
-      if (!window.XLSX) { setStatus('Excel support is still loading, try again in a second.'); return; }
+      if (!window.XLSX) { setStatus(window.__xlsxFailed ? 'Excel support could not be loaded. Reload the page and try again.' : 'Excel support is still loading, try again in a second.'); return; }
       var fr = new FileReader();
       fr.onerror = function () { setStatus('Could not read ' + file.name + '.'); };
       fr.onload = function () {
@@ -853,6 +849,7 @@
   //  Colour scale
   // ---------------------------------------------------------------------------
   var CLAMPED = { Greys: 1, Blues: 1, Greens: 1, Oranges: 1, Reds: 1, Purples: 1, YlOrRd: 1, YlGnBu: 1 };
+  var QUALITATIVE = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab'];
   var DIVERGING = { RdBu: 1, RdYlGn: 1 };
 
   function interpolator() {
@@ -888,7 +885,7 @@
       }
       var colours;
       if (ramp === 'custom' || ramp === 'Greys') colours = d3.quantize(interp, Math.max(cats.length + (other ? 1 : 0), 2));
-      else { colours = d3.schemeTableau10.slice(); if (ui.reverse.checked) colours.reverse(); }
+      else { colours = QUALITATIVE.slice(); if (ui.reverse.checked) colours.reverse(); }
       var lookup = {};
       cats.forEach(function (c, i) { lookup[c] = colours[i % colours.length]; });
       var otherColour = other ? (ramp === 'custom' || ramp === 'Greys' ? colours[cats.length] : '#9ca3af') : null;
@@ -975,14 +972,19 @@
   function makeDraggable(sel, key, base, anchor) {
     anchor = anchor || base;
     var off = offsets[key] ? offsets[key] : { dx: base.x - anchor.x, dy: base.y - anchor.y, band: anchor.band || null };
-    function apply() { sel.attr('transform', 'translate(' + (anchor.x + off.dx) + ',' + (anchor.y + off.dy) + ')'); }
+    function apply() {
+      sel.attr('transform', 'translate(' + (anchor.x + off.dx) + ',' + (anchor.y + off.dy) + ')');
+      if (selectedKey === key) showSelection();          // outline and remove button travel with the element
+    }
     apply();
-    sel.attr('class', 'drag').attr('data-key', key);
+    sel.attr('class', 'drag').attr('data-key', key).attr('tabindex', 0).attr('role', 'button');
     sel.on('click', function (e) { e.stopPropagation(); select(key); });
+    sel.on('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(key); } });
     var pending = { dx: 0, dy: 0 }, startPt = null, moving = false;
     function screenPt(e) { var se = e.sourceEvent; var t = se && se.touches && se.touches[0]; return t ? [t.clientX, t.clientY] : [se ? se.clientX : 0, se ? se.clientY : 0]; }
     sel.call(d3.drag()
-      .on('start', function (e) { pending = { dx: 0, dy: 0 }; startPt = screenPt(e); moving = false; })
+      .clickDistance(6)
+      .on('start', function (e) { pending = { dx: 0, dy: 0 }; startPt = screenPt(e); moving = false; if (selectedKey && selectedKey !== key) deselect(); })
       .on('drag', function (e) {
         pending.dx += e.dx; pending.dy += e.dy;      // d3 reports deltas in canvas units already
         if (!moving) {
@@ -1240,7 +1242,7 @@
         ui.tip.style.display = 'block';
         ui.tip.style.left = e.clientX + 'px'; ui.tip.style.top = (e.pointerType === 'touch' ? e.clientY - 36 : e.clientY) + 'px';
       })
-      .on('pointerleave pointercancel', function () { ui.tip.style.display = 'none'; });
+      .on('pointerleave pointercancel', function (e) { if (e.pointerType !== 'touch') ui.tip.style.display = 'none'; });
 
     // --- boundary meshes ---
     function outline(key, filter, width) {
@@ -1313,7 +1315,7 @@
         if (panStart.cancelled) return;
         panStart.mx += e.dx; panStart.my += e.dy;
         if (!panStart.moved) {
-          var se = e.sourceEvent, t = se && se.touches && se.touches[0];
+          var t = se && se.touches && se.touches[0];
           var cx = t ? t.clientX : se.clientX, cy = t ? t.clientY : se.clientY;
           if ((cx - panStart.sx) * (cx - panStart.sx) + (cy - panStart.sy) * (cy - panStart.sy) < 36) return;
           panStart.moved = true;
@@ -1372,6 +1374,7 @@
   }
   ui.selDelete.addEventListener('click', function (e) { e.stopPropagation(); deleteSelected(); });
   ui.stage.addEventListener('click', function (e) { if (!e.target.closest('.drag')) deselect(); if (!e.target.closest('.region')) ui.tip.style.display = 'none'; });
+  document.addEventListener('pointerdown', function (e) { if (!e.target.closest('#stage')) ui.tip.style.display = 'none'; });
   document.addEventListener('keydown', function (e) {
     if (!selectedKey) return;
     var tag = (document.activeElement && document.activeElement.tagName) || '';
@@ -1455,17 +1458,13 @@
     ui.zoomValue.textContent = Math.round(view.k * 100) + '%';
     if (!silent) { render(); save(); }
   }
-  function previewZoom(k) {
-    var layer = svgNode && svgNode.querySelector('.map-layer');
-    if (!layer || !lastLayout) return;
-    var r = k / view.k;
-    layer.setAttribute('transform', 'translate(' + lastLayout.cx + ',' + lastLayout.cy + ') scale(' + r + ') translate(' + (-lastLayout.cx) + ',' + (-lastLayout.cy) + ')');
-    ui.zoomValue.textContent = Math.round(k * 100) + '%';
-    ui.selTools.hidden = true;
-  }
-  ui.mapZoom.addEventListener('input', function () { previewZoom(+ui.mapZoom.value / 100); });
-  ui.mapZoom.addEventListener('change', function () { clearTimeout(renderTimer); setZoom(+ui.mapZoom.value / 100); });
-  ui.zoomIn.addEventListener('click', function () { setZoom(view.k + 0.1); });
+  ui.mapZoom.addEventListener('input', function () {
+    if (!lastLayout || !svgNode) return;
+    var k0 = gesture ? gesture.k0 : view.k;
+    zoomAbout(lastLayout.cx, lastLayout.cy, (+ui.mapZoom.value / 100) / k0);
+  });
+  ui.mapZoom.addEventListener('change', function () { clearTimeout(renderTimer); if (gesture) commitZoom(); else setZoom(+ui.mapZoom.value / 100); });
+  ui.zoomIn.addEventListener('click', function () { zoomCentre(view.k + 0.1); });
 
   // Zoom so that the canvas point under the pointer stays put.
   function canvasPoint(clientX, clientY) {
@@ -1476,7 +1475,6 @@
   var gesture = null;          // { k0, dx0, dy0, r, px, py } during a wheel or pinch gesture
   function zoomAbout(px, py, r) {
     if (!lastLayout) return;
-    var cx = lastLayout.cx, cy = lastLayout.cy;
     var k0 = gesture ? gesture.k0 : view.k, dx0 = gesture ? gesture.dx0 : view.dx, dy0 = gesture ? gesture.dy0 : view.dy;
     var k1 = Math.max(0.5, Math.min(4, k0 * r));
     r = k1 / k0;
@@ -1491,10 +1489,18 @@
     if (!gesture) return;
     var g = gesture; gesture = null;
     var cx = lastLayout.cx, cy = lastLayout.cy;
+    var k1 = Math.max(0.5, Math.min(4, Math.round(g.k0 * g.r * 20) / 20));
+    var r = k1 / g.k0;
     // screen = cx + (fit - cx) * k + dx ; keep the point (px, py) fixed while k scales by r
-    view.dx = (g.px - cx) - (g.px - cx - g.dx0) * g.r;
-    view.dy = (g.py - cy) - (g.py - cy - g.dy0) * g.r;
-    setZoom(g.k0 * g.r);
+    view.dx = (g.px - cx) - (g.px - cx - g.dx0) * r;
+    view.dy = (g.py - cy) - (g.py - cy - g.dy0) * r;
+    setZoom(k1);
+  }
+  function zoomCentre(k1) {
+    if (!lastLayout || !svgNode || !current.features.length) { setZoom(k1); return; }
+    gesture = null;
+    zoomAbout(lastLayout.cx, lastLayout.cy, k1 / view.k);
+    commitZoom();
   }
   var wheelTimer = null;
   ui.stage.addEventListener('wheel', function (e) {
@@ -1515,17 +1521,17 @@
     pinch = { d0: touchDist(e.touches), px: mid.x, py: mid.y };
     gesture = null;
     e.preventDefault();
-  }, { passive: false });
+  }, { passive: false, capture: true });
   ui.stage.addEventListener('touchmove', function (e) {
     if (!pinch || e.touches.length !== 2) return;
     e.preventDefault();
     zoomAbout(pinch.px, pinch.py, touchDist(e.touches) / pinch.d0);
-  }, { passive: false });
+  }, { passive: false, capture: true });
   function endPinch() { if (!pinch) return; pinch = null; commitZoom(); }
-  ui.stage.addEventListener('touchend', endPinch);
-  ui.stage.addEventListener('touchcancel', endPinch);
+  ui.stage.addEventListener('touchend', endPinch, true);
+  ui.stage.addEventListener('touchcancel', endPinch, true);
 
-  ui.zoomOut.addEventListener('click', function () { setZoom(view.k - 0.1); });
+  ui.zoomOut.addEventListener('click', function () { zoomCentre(view.k - 0.1); });
   ui.zoomReset.addEventListener('click', function () { view.dx = 0; view.dy = 0; setZoom(1); });
 
   // ---------------------------------------------------------------------------
@@ -1542,7 +1548,9 @@
   function svgString() {
     var clone = svgNode.cloneNode(true);
     clone.querySelectorAll('.sel-box').forEach(function (el) { el.parentNode.removeChild(el); });
-    clone.querySelectorAll('[data-id], [data-key], [class], [style]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('data-key'); el.removeAttribute('class'); el.removeAttribute('style'); });
+    clone.querySelectorAll('[data-id], [data-key], [class], [style], [tabindex], [role]').forEach(function (el) {
+      ['data-id', 'data-key', 'class', 'style', 'tabindex', 'role'].forEach(function (a) { el.removeAttribute(a); });
+    });
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
   }
 
@@ -1600,7 +1608,7 @@
   }
 
   function exportPdf() {
-    if (!window.jspdf) { alert('PDF support is still loading, try again in a second.'); return; }
+    if (!window.jspdf) { alert(window.__pdfFailed ? 'PDF support could not be loaded. Reload the page and try again.' : 'PDF support is still loading, try again in a second.'); return; }
     rasterize(3).then(function (c) {
       var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
       var doc = new window.jspdf.jsPDF({ orientation: W >= H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'] });
@@ -1701,17 +1709,6 @@
         });
         assets.forEach(function (a) { if (!a.id || assets.some(function (b) { return b !== a && b.id === a.id; })) a.id = (d3.max(assets, function (b) { return b.id; }) || 0) + 1; });
         assetSeq = Math.max(+data.assetSeq || 0, (d3.max(assets, function (a) { return a.id; }) || 0) + 1);
-      } else {
-        // older saves kept a single title, subtitle and source
-        var legacyPos = st.titlePos || 'tl';
-        var dark = st.background === '#0f172a';
-        [['title', st.title, st.titleSize], ['subtitle', st.subtitle, st.subtitleSize], ['source', st.source, st.sourceSize]].forEach(function (l) {
-          if (!l[1]) return;
-          var d = ASSET_KINDS[l[0]];
-          assets.push({ id: assetSeq++, kind: l[0], text: l[1], size: +l[2] || d.size, font: 'sans', weight: d.weight, italic: false,
-            colour: st.textColour && st.textColour !== '#111111' ? st.textColour : (dark ? d.dark : d.colour),
-            pos: l[0] === 'source' ? 'b' + legacyPos[1] : legacyPos });
-        });
       }
     } catch (e) { /* ignore */ }
   }
@@ -1724,7 +1721,7 @@
     region.district = '';
     if (region.state && ui.level.value === 'states') ui.level.value = 'districts';
     view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
-    Promise.resolve(populateDistricts()).then(refresh);
+    Promise.resolve(populateDistricts()).then(refresh).catch(function (err) { setStatus('Could not load boundaries: ' + err.message); });
   });
   ui.regionDistrict.addEventListener('change', function () {
     region.district = ui.regionDistrict.value;
@@ -1733,7 +1730,7 @@
     refresh();
   });
   ui.level.addEventListener('change', function () {
-    if (ui.level.value === 'districts' && region.district) { region.district = ''; ui.regionDistrict.value = ''; }
+    if (ui.level.value !== 'subdistricts' && region.district) { region.district = ''; ui.regionDistrict.value = ''; }
     view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     refresh();
   });
@@ -1766,6 +1763,13 @@
     ui.fileDrop.addEventListener(ev, function (e) { e.preventDefault(); ui.fileDrop.classList.remove('over'); });
   });
   ui.fileDrop.addEventListener('drop', function (e) { readFile(e.dataTransfer.files[0]); });
+  // a file dropped anywhere on the page loads instead of navigating away
+  document.addEventListener('dragover', function (e) { if (e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types, 'Files') !== -1) e.preventDefault(); });
+  document.addEventListener('drop', function (e) {
+    if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+    e.preventDefault();
+    if (!e.target.closest('#fileDrop')) readFile(e.dataTransfer.files[0]);
+  });
   ui.tableSearch.addEventListener('input', buildTable);
 
   $('resetLayout').addEventListener('click', function () { offsets = {}; view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true); render(); save(); });
@@ -1816,13 +1820,6 @@
     ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';
   }
 
-  // the site header is sticky and wraps on phones, so the pinned preview needs its live height
-  function syncHeaderHeight() {
-    var header = document.querySelector('.site-header');
-    document.documentElement.style.setProperty('--header-h', (header ? header.offsetHeight : 56) + 'px');
-  }
-  window.addEventListener('resize', syncHeaderHeight);
-  syncHeaderHeight();
   var resizeTimer = null;
   window.addEventListener('resize', function () {                 // keep the canvas fitted to its frame
     clearTimeout(resizeTimer);
@@ -1842,5 +1839,5 @@
     ui.regionState.value = region.state;
     if (ui.regionState.value !== region.state) { region.state = ''; region.district = ''; }
     return populateDistricts();
-  }).then(refresh);
+  }).then(refresh).catch(function (err) { setStatus('Could not load boundaries: ' + err.message); });
 })();
