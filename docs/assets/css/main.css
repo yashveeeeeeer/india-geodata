@@ -387,6 +387,7 @@ main { flex: 1; }
   border-bottom: 1px solid var(--color-border);
 }
 .about-page h3 { font-size: 1rem; font-weight: 600; margin: 18px 0 6px; }
+#map-maker { scroll-margin-top: 76px; }   /* land below the sticky header when linked from the map maker */
 .about-page p { margin-bottom: 12px; font-size: 0.95rem; line-height: 1.7; color: var(--color-text); }
 .about-page a { color: var(--color-accent); text-decoration: underline; text-decoration-color: rgba(245,158,11,0.35); text-underline-offset: 2px; }
 .about-page a:hover { text-decoration-color: var(--color-accent); }
@@ -424,6 +425,7 @@ main { flex: 1; }
    ========================================================================== */
 @media (max-width: 768px) {
   .site-header { height: auto; padding: 10px 0; }
+  #map-maker { scroll-margin-top: 112px; }
   .header-inner { flex-direction: column; gap: 6px; padding: 0 16px; }
   .site-nav { gap: 16px; flex-wrap: wrap; justify-content: center; }
 
