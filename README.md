@@ -7,7 +7,19 @@ A unified, structured collection of India's openly-licensed geospatial data — 
 
 Browse and download at **[india-geodata](https://yashveeeeeeer.github.io/india-geodata)**
 
-Make your own map from a spreadsheet with the **[India Map Maker](https://yashveeeeeeer.github.io/india-geodata/maps/)** — states, districts, sub-districts, blocks, parliamentary and assembly constituencies; free, no watermark, runs entirely in the browser.
+---
+
+## India Map Maker — free online map maker for India
+
+**[Open the map maker](https://yashveeeeeeer.github.io/india-geodata/maps/)** · paste a spreadsheet, get a coloured map. No sign-up, no watermark, nothing is uploaded.
+
+[![India Map Maker: literacy rate by state, 2011](docs/assets/img/map-maker.png)](https://yashveeeeeeer.github.io/india-geodata/maps/)
+
+- Map all of India, one state or one district by **state, district, sub-district, block, parliamentary or assembly constituency**
+- Paste from Excel or Google Sheets, or drop a CSV / Excel file; misspelt names are flagged and fixable, or use the template CSV with official codes
+- Colour palettes, legend, labels, title and source text, zoom and pan
+- Export **PNG, SVG, PDF** and CSV, or save a project file to reopen later
+- Plain HTML, CSS and JavaScript in [`docs/maps/`](docs/maps/) and [`docs/assets/js/`](docs/assets/js/); boundaries built by [`scripts/build-map-layers.py`](scripts/build-map-layers.py)
 
 ---
 

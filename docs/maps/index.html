@@ -1,8 +1,11 @@
 ---
 layout: default
-title: "India Map Maker"
-description: "Turn a spreadsheet into a map of India by state, district, sub-district, block or constituency, in your browser. Free and open, no sign-up, no watermark. Export PNG, SVG or PDF."
-image: /assets/img/map-maker.png
+title: "India Map Maker: Free Online Map Maker for India"
+description: "Free online map maker for India. Paste a spreadsheet to colour a map by state, district, block or constituency. No sign-up, no watermark. Export PNG, SVG or PDF."
+image:
+  path: /assets/img/map-maker.png
+  width: 1200
+  height: 630
 permalink: /maps/
 ---
 
@@ -10,7 +13,10 @@ permalink: /maps/
   <noscript><p class="status">The map maker needs JavaScript.</p></noscript>
 
   <div class="maps-intro">
-    <h1>India Map Maker</h1>
+    <div class="maps-title">
+      <h1>India Map Maker</h1>
+      <a class="info-link" href="{{ site.baseurl }}/about#map-maker" aria-label="About India Map Maker" title="About this tool"><svg viewBox="0 0 10 10" width="10" height="10" aria-hidden="true" focusable="false"><circle cx="5" cy="2.1" r="1.1" fill="currentColor"/><path d="M5 4.4v4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+    </div>
   </div>
 
   <div class="maps-layout">
@@ -284,6 +290,73 @@ permalink: /maps/
 
 <div class="map-tip" id="mapTip"></div>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "{{ site.url }}{{ site.baseurl }}/maps/#app",
+      "name": "India Map Maker",
+      "alternateName": "Free online map maker for India",
+      "url": "{{ site.url }}{{ site.baseurl }}/maps/",
+      "description": "{{ page.description }}",
+      "applicationCategory": "DesignApplication",
+      "applicationSubCategory": "Map maker",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "inLanguage": "en",
+      "softwareVersion": "1.1.0",
+      "datePublished": "2026-09-09",
+      "image": "{{ site.url }}{{ site.baseurl }}/assets/img/map-maker.png",
+      "screenshot": "{{ site.url }}{{ site.baseurl }}/assets/img/map-maker.png",
+      "featureList": [
+        "Map of India by state, district, sub-district, block, parliamentary or assembly constituency",
+        "Paste from Excel or Google Sheets, or upload CSV and Excel files",
+        "Automatic name matching with fixes for misspelt names",
+        "Colour palettes, legend, labels, title, subtitle and source text",
+        "Export PNG, SVG, PDF and CSV without a watermark",
+        "Runs in the browser, no upload, no sign-up"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Yashveer Singh",
+        "url": "https://github.com/yashveeeeeeer"
+      },
+      "license": "https://github.com/yashveeeeeeer/india-geodata/blob/main/LICENSE",
+      "sameAs": "https://github.com/yashveeeeeeer/india-geodata",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "India Geodata",
+        "url": "{{ site.url }}{{ site.baseurl }}/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "India Geodata",
+          "item": "{{ site.url }}{{ site.baseurl }}/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "India Map Maker",
+          "item": "{{ site.url }}{{ site.baseurl }}/maps/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous"></script>
 <script src="{{ site.baseurl }}/assets/js/maps-core.js?v={{ site.time | date: '%s' }}"></script>

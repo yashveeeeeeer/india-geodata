@@ -12,6 +12,8 @@ All notable changes to this dataset repository will be documented here.
 - Map Maker boundary layers grouped by type: administrative (states, districts, sub-districts, blocks) and electoral (parliamentary and assembly constituencies), built from the LGD release files
 - Map Maker: template CSV with region codes that matches exactly when filled in and uploaded; sheet and value-column pickers for workbooks with several; project files that save and reopen a whole map; level switches to match the names pasted
 - `scripts/build-map-layers.py` to regenerate the simplified TopoJSON layers from the LGD release files
+- Map Maker: info link to a new About-page section, structured data and a link-preview image
+
 
 ## [1.0.0] - 2026-03-07
 
