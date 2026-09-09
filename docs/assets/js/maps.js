@@ -26,7 +26,6 @@
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
     assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
     unmatchedBadge: $('unmatchedBadge'), regionList: $('regionList'), learnedList: $('learnedList'), learnedBox: $('learnedBox'),
-    zoomMiniIn: $('zoomMiniIn'), zoomMiniOut: $('zoomMiniOut'),
     stage: $('stage'), tip: $('mapTip')
   };
 
@@ -1309,6 +1308,9 @@
       .on('start', function (e) { var se = e.sourceEvent, t = se && se.touches && se.touches[0]; panStart = { dx: view.dx, dy: view.dy, mx: 0, my: 0, sx: t ? t.clientX : se.clientX, sy: t ? t.clientY : se.clientY, moved: false }; })
       .on('drag', function (e) {
         if (!panStart) return;
+        var se = e.sourceEvent;
+        if (se && se.touches && se.touches.length > 1) { panStart.cancelled = true; return; }
+        if (panStart.cancelled) return;
         panStart.mx += e.dx; panStart.my += e.dy;
         if (!panStart.moved) {
           var se = e.sourceEvent, t = se && se.touches && se.touches[0];
@@ -1319,6 +1321,7 @@
         layer.attr('transform', 'translate(' + panStart.mx + ',' + panStart.my + ')');
       })
       .on('end', function () {
+        if (panStart && panStart.cancelled) { panStart = null; return; }
         if (!panStart || !panStart.moved) { layer.attr('transform', null); panStart = null; return; }
         view.dx = panStart.dx + panStart.mx; view.dy = panStart.dy + panStart.my;
         panStart = null;
@@ -1463,8 +1466,65 @@
   ui.mapZoom.addEventListener('input', function () { previewZoom(+ui.mapZoom.value / 100); });
   ui.mapZoom.addEventListener('change', function () { clearTimeout(renderTimer); setZoom(+ui.mapZoom.value / 100); });
   ui.zoomIn.addEventListener('click', function () { setZoom(view.k + 0.1); });
-  ui.zoomMiniIn.addEventListener('click', function () { setZoom(view.k + 0.25); });
-  ui.zoomMiniOut.addEventListener('click', function () { setZoom(view.k - 0.25); });
+
+  // Zoom so that the canvas point under the pointer stays put.
+  function canvasPoint(clientX, clientY) {
+    var pt = svgNode.createSVGPoint(); pt.x = clientX; pt.y = clientY;
+    var ctm = svgNode.getScreenCTM();
+    return ctm ? pt.matrixTransform(ctm.inverse()) : { x: clientX, y: clientY };
+  }
+  var gesture = null;          // { k0, dx0, dy0, r, px, py } during a wheel or pinch gesture
+  function zoomAbout(px, py, r) {
+    if (!lastLayout) return;
+    var cx = lastLayout.cx, cy = lastLayout.cy;
+    var k0 = gesture ? gesture.k0 : view.k, dx0 = gesture ? gesture.dx0 : view.dx, dy0 = gesture ? gesture.dy0 : view.dy;
+    var k1 = Math.max(0.5, Math.min(4, k0 * r));
+    r = k1 / k0;
+    var layer = svgNode && svgNode.querySelector('.map-layer');
+    if (layer) layer.setAttribute('transform', 'translate(' + px + ',' + py + ') scale(' + r + ') translate(' + (-px) + ',' + (-py) + ')');
+    gesture = { k0: k0, dx0: dx0, dy0: dy0, r: r, px: px, py: py };
+    ui.zoomValue.textContent = Math.round(k1 * 100) + '%';
+    ui.mapZoom.value = Math.round(k1 * 100);
+    ui.selTools.hidden = true;
+  }
+  function commitZoom() {
+    if (!gesture) return;
+    var g = gesture; gesture = null;
+    var cx = lastLayout.cx, cy = lastLayout.cy;
+    // screen = cx + (fit - cx) * k + dx ; keep the point (px, py) fixed while k scales by r
+    view.dx = (g.px - cx) - (g.px - cx - g.dx0) * g.r;
+    view.dy = (g.py - cy) - (g.py - cy - g.dy0) * g.r;
+    setZoom(g.k0 * g.r);
+  }
+  var wheelTimer = null;
+  ui.stage.addEventListener('wheel', function (e) {
+    if (!(e.ctrlKey || e.metaKey) || !svgNode || !current.features.length) return;
+    e.preventDefault();
+    var p = canvasPoint(e.clientX, e.clientY);
+    var step = Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.0015));
+    zoomAbout(gesture ? gesture.px : p.x, gesture ? gesture.py : p.y, (gesture ? gesture.r : 1) * step);
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(commitZoom, 160);
+  }, { passive: false });
+
+  var pinch = null;            // { d0, px, py }
+  function touchDist(t) { var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.sqrt(dx * dx + dy * dy); }
+  ui.stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 2 || !svgNode || !current.features.length) return;
+    var mid = canvasPoint((e.touches[0].clientX + e.touches[1].clientX) / 2, (e.touches[0].clientY + e.touches[1].clientY) / 2);
+    pinch = { d0: touchDist(e.touches), px: mid.x, py: mid.y };
+    gesture = null;
+    e.preventDefault();
+  }, { passive: false });
+  ui.stage.addEventListener('touchmove', function (e) {
+    if (!pinch || e.touches.length !== 2) return;
+    e.preventDefault();
+    zoomAbout(pinch.px, pinch.py, touchDist(e.touches) / pinch.d0);
+  }, { passive: false });
+  function endPinch() { if (!pinch) return; pinch = null; commitZoom(); }
+  ui.stage.addEventListener('touchend', endPinch);
+  ui.stage.addEventListener('touchcancel', endPinch);
+
   ui.zoomOut.addEventListener('click', function () { setZoom(view.k - 0.1); });
   ui.zoomReset.addEventListener('click', function () { view.dx = 0; view.dy = 0; setZoom(1); });
 
@@ -1763,6 +1823,11 @@
   }
   window.addEventListener('resize', syncHeaderHeight);
   syncHeaderHeight();
+  var resizeTimer = null;
+  window.addEventListener('resize', function () {                 // keep the canvas fitted to its frame
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { if (svgNode) showSelection(); }, 150);
+  });
 
   // ---------------------------------------------------------------------------
   //  Boot

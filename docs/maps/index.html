@@ -5,7 +5,7 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=13">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=14">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
@@ -227,9 +227,9 @@ permalink: /maps/
           <div class="field">
             <label for="mapZoom">Map zoom</label>
             <div class="zoom-row">
-              <button class="btn-plain secondary" id="zoomOut" type="button" aria-label="Zoom out">&minus;</button>
+              <button class="btn-plain secondary icon-btn" id="zoomOut" type="button" aria-label="Zoom out"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
               <input type="range" id="mapZoom" min="50" max="400" step="5" value="100">
-              <button class="btn-plain secondary" id="zoomIn" type="button" aria-label="Zoom in">+</button>
+              <button class="btn-plain secondary icon-btn" id="zoomIn" type="button" aria-label="Zoom in"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
               <span class="zoom-value" id="zoomValue">100%</span>
               <button class="btn-plain secondary" id="zoomReset" type="button">Fit</button>
             </div>
@@ -242,7 +242,7 @@ permalink: /maps/
             <div class="field"><label for="northSize">Arrow size</label><input type="number" id="northSize" min="20" max="200" value="60"></div>
           </div>
           <div class="btn-row"><button class="btn-plain secondary" id="resetLayout" type="button">Reset positions</button></div>
-          <p class="hint">Drag the map to move it. Drag any text, the legend or the arrow to place it.</p>
+          <p class="hint">Ctrl + scroll or pinch to zoom the map, drag to move it. Drag text, legend or arrow to place them.</p>
         </div>
       </details>
 
@@ -263,10 +263,7 @@ permalink: /maps/
     </aside>
 
     <section class="maps-stage">
-      <div class="stage-frame"><div id="stage"></div><div class="stage-hint" id="stageHint" hidden>Paste data or press Sample to colour the map</div><button type="button" class="unmatched-badge" id="unmatchedBadge" hidden></button><div class="zoom-mini" id="zoomMini"><button type="button" id="zoomMiniOut" aria-label="Zoom out">&minus;</button><button type="button" id="zoomMiniIn" aria-label="Zoom in">+</button></div><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove">&times;</button></div></div>
-      <div class="stage-note">
-        <span>Boundaries: <a href="{{ site.baseurl }}/#administrative">LGD via India Geodata</a> · <a href="https://github.com/yashveeeeeeer/india-geodata/tree/main/docs/maps">Source</a></span>
-      </div>
+      <div class="stage-frame"><div id="stage"></div><div class="stage-hint" id="stageHint" hidden>Paste data or press Sample to colour the map</div><button type="button" class="unmatched-badge" id="unmatchedBadge" hidden></button><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div>
     </section>
 
   </div>
@@ -278,4 +275,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=14"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=15"></script>
