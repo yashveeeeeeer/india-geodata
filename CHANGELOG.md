@@ -8,6 +8,7 @@ All notable changes to this dataset repository will be documented here.
 - Map Maker (`docs/maps/`): paste or upload a spreadsheet and get a choropleth of India, one state, or one district at state, district or sub-district level; PNG, SVG, PDF and CSV export
 - Map Maker text assets (title, subtitle, note, source) with per-item font, size, style, colour and position; map zoom and pan; frame styles; draggable overlays with collision-free initial placement
 - Map Maker name matching: common spelling variants resolve automatically, and unmatched or ambiguous names get a picker with suggestions; chosen matches are remembered and listed; guessed matches show with an undo; an unmatched-count badge sits on the map; a region list with names and codes can be downloaded
+- Map Maker on phones: pinned preview under the header that shrinks while typing, touch-sized controls, floating zoom buttons, touch tooltips, share-sheet exports, an Upload button for CSV and Excel with wider file type support, Excel files with title rows, percent and date cells
 - `scripts/build-map-layers.py` to regenerate the simplified TopoJSON layers from the LGD release files
 
 ## [1.0.0] - 2026-03-07

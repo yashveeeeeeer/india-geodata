@@ -26,6 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  -webkit-user-select: none;
   user-select: none;
 }
 .panel > summary::-webkit-details-marker { display: none; }
@@ -79,14 +80,27 @@
 .file-drop {
   border: 1px dashed var(--color-border);
   border-radius: var(--radius-sm);
-  padding: 10px;
-  text-align: center;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
   font-size: 0.8rem;
   color: var(--color-muted);
   cursor: pointer;
 }
 .file-drop:hover, .file-drop.over { border-color: var(--color-accent); color: var(--color-text); }
-.file-drop input { display: none; }
+.file-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
+.file-drop:active .file-drop-btn { border-color: var(--color-accent); }
+.file-drop-btn {
+  display: inline-flex; align-items: center;
+  font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px;
+  border: 1px solid var(--color-border); color: var(--color-text); background: var(--color-bg);
+}
+.file-drop:hover .file-drop-btn { border-color: var(--color-accent); }
+.file-drop:focus-within .file-drop-btn { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.12); }
+@media (hover: none), (max-width: 900px) { .file-drop-hint { display: none; } .file-drop { border-style: solid; } }
 
 .status { font-size: 0.78rem; color: var(--color-muted); }
 .status strong { color: var(--color-text); font-weight: 600; }
@@ -110,7 +124,7 @@
 .unmatched-badge:hover { background: #991b1b; }
 
 /* --- collapsible values table --- */
-details.sub > summary { list-style: none; cursor: pointer; font-size: 0.78rem; color: var(--color-muted); padding: 4px 0; user-select: none; }
+details.sub > summary { list-style: none; cursor: pointer; font-size: 0.78rem; color: var(--color-muted); padding: 4px 0; -webkit-user-select: none; user-select: none; }
 details.sub > summary::-webkit-details-marker { display: none; }
 details.sub > summary::before { content: "▸ "; }
 details.sub[open] > summary::before { content: "▾ "; }
@@ -118,7 +132,7 @@ details.sub > input { margin-bottom: 6px; }
 
 .value-table-wrap { max-height: 300px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
 .value-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-.value-table td { padding: 3px 6px; border-bottom: 1px solid var(--color-bg-light); vertical-align: middle; }
+.value-table td { padding: 3px 6px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
 .value-table td:first-child { width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 0; }
 .value-table td small { color: var(--color-muted); }
 .maps-side .value-table input[type="text"] { width: 100%; font: inherit; font-size: 0.8rem; padding: 2px 6px; border: 1px solid transparent; border-radius: 3px; background: transparent; text-align: right; }
@@ -143,7 +157,7 @@ details.sub > input { margin-bottom: 6px; }
 .stage-frame svg .map-layer:active { cursor: grabbing; }
 
 /* --- Stage --- */
-.maps-stage { position: sticky; top: calc(var(--header-height) + 12px); }
+.maps-stage { position: sticky; top: calc(var(--header-h, var(--header-height)) + 12px); }
 .stage-frame { position: relative; display: flex; justify-content: center; }
 .stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 110px); display: block; border: 1px solid var(--color-border); }
 .stage-hint {
@@ -162,9 +176,17 @@ details.sub > input { margin-bottom: 6px; }
 .sel-tools button:hover { background: #b91c1c; }
 .asset.flash { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
 .stage-frame svg path { transition: opacity 0.1s; }
-.stage-frame svg .region:hover { opacity: 0.75; }
+.stage-frame svg { touch-action: manipulation; }
+@media (hover: hover) {
+  .stage-frame svg .region:hover { opacity: 0.75; }
+  .stage-frame svg .drag:hover { opacity: 0.8; }
+}
 .stage-frame svg .drag { cursor: move; }
-.stage-frame svg .drag:hover { opacity: 0.8; }
+.zoom-mini { position: absolute; right: 8px; bottom: 8px; z-index: 4; display: none; gap: 6px; }
+.zoom-mini button {
+  width: 40px; height: 40px; border-radius: 50%; font-size: 22px; line-height: 1;
+  background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);
+}
 .stage-note { display: flex; justify-content: flex-end; align-items: center; margin-top: 8px; font-size: 0.78rem; color: var(--color-muted); gap: 12px; flex-wrap: wrap; }
 .stage-note a { color: var(--color-muted); text-decoration: underline; text-underline-offset: 2px; }
 .stage-note a:hover { color: var(--color-text); }
@@ -186,11 +208,50 @@ details.sub > input { margin-bottom: 6px; }
 .loading { opacity: 0.5; pointer-events: none; }
 
 @media (max-width: 900px) {
-  .maps-layout { grid-template-columns: 1fr; }
-  .maps-stage { position: static; order: -1; }
-  .stage-frame svg { max-height: 70vh; }
+  .maps-page { padding: 12px; }
+  .maps-intro { margin-bottom: 10px; }
+  .maps-intro h1 { font-size: 1.25rem; }
+  .maps-layout { grid-template-columns: 1fr; gap: 12px; }
+  /* the preview stays pinned under the header while the controls scroll beneath it */
+  .maps-stage { position: sticky; top: var(--header-h, 78px); order: -1; z-index: 20; background: var(--color-bg); padding-bottom: 6px; margin: 0 -12px; padding-left: 12px; padding-right: 12px; border-bottom: 1px solid var(--color-border); }
+  .stage-frame { justify-content: center; }
+  .stage-frame svg { width: auto; max-width: 100%; max-height: 42vh; max-height: 42dvh; }
+  .stage-note { font-size: 0.72rem; margin-top: 4px; }
+  .maps-side select, .maps-side input[type="text"], .maps-side input[type="number"], .maps-side textarea, .maps-side .fix-row select { font-size: 16px; min-height: 42px; }
+  .maps-side textarea { min-height: 96px; }
+  .maps-side input[type="color"] { height: 42px; }
+  .btn-plain, .file-drop-btn { min-height: 40px; padding: 8px 14px; font-size: 0.9rem; }
+  .btn-row { gap: 8px; }
+  .check { min-height: 40px; }
+  .check input { width: 20px; height: 20px; }
+  .panel > summary { padding: 12px 14px; font-size: 0.95rem; }
+  .sel-tools button { width: 34px; height: 34px; font-size: 20px; }
+  .unmatched-badge { top: 8px; right: 8px; font-size: 0.8rem; padding: 6px 12px; }
+  .stage-hint { font-size: 0.78rem; bottom: 8px; max-width: 90%; white-space: normal; text-align: center; }
+  .zoom-row .btn-plain { min-height: 36px; padding: 6px 12px; }
+  .value-table-wrap { max-height: 240px; }
+  .maps-side .value-table input[type="text"] { min-height: 40px; font-size: 16px; border-color: var(--color-border); }
+  .stage-note { display: none; }
+  .zoom-mini { display: flex; }
+  .zoom-row .btn-plain { min-height: 40px; min-width: 40px; padding: 6px 10px; }
+  .zoom-row input[type="range"] { height: 40px; }
+  .sel-tools button { width: 40px; height: 40px; font-size: 22px; }
+  .asset-del { min-height: 40px; padding: 8px 12px; font-size: 0.85rem; }
+  details.sub > summary { padding: 10px 0; font-size: 0.9rem; }
+  .unmatched-badge { min-height: 40px; display: inline-flex; align-items: center; }
+  .hint, .status, .fix-val, .zoom-value, .asset-head, .field > label, .field > .field-label { font-size: 0.85rem; }
+  /* while a control has focus (keyboard up), the pinned preview shrinks and scroll targets clear it */
+  .maps-side:focus-within ~ .maps-stage .stage-frame svg { max-height: 22vh; max-height: 22dvh; }
+  .maps-side .asset, .maps-side .unmatched, .maps-side .fix-row, .maps-side input, .maps-side select, .maps-side textarea { scroll-margin-top: calc(42vh + var(--header-h, 78px) + 48px); scroll-margin-top: calc(42dvh + var(--header-h, 78px) + 48px); }
+}
+/* touch phones in landscape are wider than 900px but still need 16px inputs */
+@media (hover: none) and (pointer: coarse) {
+  .maps-side select, .maps-side input[type="text"], .maps-side input[type="number"], .maps-side textarea, .maps-side .fix-row select, .maps-side .value-table input[type="text"] { font-size: 16px; }
 }
 @media (max-width: 480px) {
-  .maps-page { padding: 16px; }
   .row-3 { grid-template-columns: 1fr 1fr; }
+  .stage-frame svg { max-height: 38vh; max-height: 38dvh; }
+  .maps-side .panel:first-of-type .row { grid-template-columns: 1fr; }
+  .fix-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .maps-side .fix-row select, .fix-row .fix-undo { grid-column: 1 / -1; }
 }

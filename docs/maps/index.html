@@ -5,7 +5,7 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=10">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=13">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
@@ -45,7 +45,11 @@ permalink: /maps/
         <summary>Data</summary>
         <div class="panel-body">
           <textarea id="paste" aria-label="Paste names and values" placeholder="Name&#9;Value&#10;Kerala&#9;94&#10;Bihar&#9;61" spellcheck="false"></textarea>
-          <label class="file-drop" id="fileDrop">Or drop a CSV / Excel file<input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls"></label>
+          <label class="file-drop" id="fileDrop">
+            <span class="file-drop-btn">Upload CSV or Excel</span>
+            <span class="file-drop-hint">or drop a file here</span>
+            <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods,text/csv,text/comma-separated-values,text/tab-separated-values,text/plain,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.oasis.opendocument.spreadsheet">
+          </label>
           <div class="btn-row">
             <button class="btn-plain" id="applyData" type="button">Apply</button>
             <button class="btn-plain secondary" id="clearData" type="button">Clear</button>
@@ -259,7 +263,7 @@ permalink: /maps/
     </aside>
 
     <section class="maps-stage">
-      <div class="stage-frame"><div id="stage"></div><div class="stage-hint" id="stageHint" hidden>Paste data or press Sample to colour the map</div><button type="button" class="unmatched-badge" id="unmatchedBadge" hidden></button><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove">&times;</button></div></div>
+      <div class="stage-frame"><div id="stage"></div><div class="stage-hint" id="stageHint" hidden>Paste data or press Sample to colour the map</div><button type="button" class="unmatched-badge" id="unmatchedBadge" hidden></button><div class="zoom-mini" id="zoomMini"><button type="button" id="zoomMiniOut" aria-label="Zoom out">&minus;</button><button type="button" id="zoomMiniIn" aria-label="Zoom in">+</button></div><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove">&times;</button></div></div>
       <div class="stage-note">
         <span>Boundaries: <a href="{{ site.baseurl }}/#administrative">LGD via India Geodata</a> · <a href="https://github.com/yashveeeeeeer/india-geodata/tree/main/docs/maps">Source</a></span>
       </div>
@@ -274,4 +278,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=11"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=14"></script>

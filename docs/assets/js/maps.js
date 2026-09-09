@@ -26,6 +26,7 @@
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
     assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
     unmatchedBadge: $('unmatchedBadge'), regionList: $('regionList'), learnedList: $('learnedList'), learnedBox: $('learnedBox'),
+    zoomMiniIn: $('zoomMiniIn'), zoomMiniOut: $('zoomMiniOut'),
     stage: $('stage'), tip: $('mapTip')
   };
 
@@ -104,6 +105,7 @@
   var assets = [];
   var assetSeq = 1;
   var view = { k: 1, dx: 0, dy: 0 };     // map zoom and pan
+  var TOUCH = window.matchMedia && matchMedia('(hover: none) and (pointer: coarse)').matches;
   var selectedKey = null;                // overlay selected on the canvas (asset-N, legend, north)
   var lastLayout = null;                 // { cx, cy } centre of the map area from the last render
 
@@ -224,7 +226,12 @@
     lakshadweepislands: 'lakshadweep', dadranagarhaveli: 'dadraandnagarhavelianddamananddiu', dnh: 'dadraandnagarhavelianddamananddiu',
     dadraandnagarhavelidamananddiu: 'dadraandnagarhavelianddamananddiu', dadraandnagarhaveliandamananddiu: 'dadraandnagarhavelianddamananddiu',
     arunachal: 'arunachalpradesh', himachal: 'himachalpradesh', madhya: 'madhyapradesh', odissa: 'odisha', orisa: 'odisha',
-    tamilnad: 'tamilnadu', tamilnaadu: 'tamilnadu', maharastra: 'maharashtra', maharashtrastate: 'maharashtra', chattisgarhstate: 'chhattisgarh'
+    tamilnad: 'tamilnadu', tamilnaadu: 'tamilnadu', maharastra: 'maharashtra', maharashtrastate: 'maharashtra', chattisgarhstate: 'chhattisgarh',
+    north24parganas: '24paraganasnorth', south24parganas: '24paraganassouth', '24parganasnorth': '24paraganasnorth', '24parganassouth': '24paraganassouth',
+    northtwentyfourparganas: '24paraganasnorth', southtwentyfourparganas: '24paraganassouth', twentyfourparganasnorth: '24paraganasnorth',
+    twentyfourparganassouth: '24paraganassouth', north24pgs: '24paraganasnorth', south24pgs: '24paraganassouth', gurgaon: 'gurugram', cuddapah: 'ysr', kadapa: 'ysr', ysrkadapa: 'ysr',
+    sriganganagar: 'ganganagar', mewat: 'nuh', palamau: 'palamu', hazaribag: 'hazaribagh', kancheepuram: 'kanchipuram', tiruvallur: 'thiruvallur',
+    tiruvannamalai: 'tiruvannamalai', villupuram: 'viluppuram', trivandrumdistrict: 'thiruvananthapuram', ernakulum: 'ernakulam', calicutdistrict: 'kozhikode'
   };
 
   var HEADER_WORDS = /^(name|names|region|regions|area|state|states|ut|stateut|statesuts|st|district|districts|dist|subdistrict|subdistricts|tehsil|taluk|taluka|mandal|block|unit|place|location)$/;
@@ -256,12 +263,20 @@
   function suggestFeatures(name, n) {
     var k = compact(name);
     k = ALIASES[k] || k;
-    return current.features.map(function (f) { return { f: f, s: similarity(k, compact(f.properties.name)) }; })
+    var tk = tokenKey(name);
+    return current.features.map(function (f) { return { f: f, s: Math.max(similarity(k, compact(f.properties.name)), similarity(tk, tokenKey(f.properties.name))) }; })
       .filter(function (x) { return x.s >= 0.45; })
       .sort(function (a, b) { return b.s - a.s; })
       .slice(0, n || 3).map(function (x) { return x.f; });
   }
   function digitsOnly(s) { return /^\d+$/.test(String(s).trim()); }
+  // Same as compact() but with the words sorted, so "North 24 Parganas" and "24 Parganas North" agree.
+  function tokenKey(s) {
+    var words = String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/&/g, ' and ')
+      .replace(/\b(district|dist|distt|dt|state|u\.?t\.?|union territory|the)\b\.?/g, '')
+      .split(/[^a-z0-9]+/).filter(Boolean).sort();
+    return words.join('');
+  }
 
   function levenshtein(a, b) {
     if (Math.abs(a.length - b.length) > 2) return 99;
@@ -278,16 +293,18 @@
   }
 
   function buildIndex(feats) {
-    var byName = {}, byCode = {}, byId = {};
+    var byName = {}, byCode = {}, byId = {}, byTokens = {};
     feats.forEach(function (f) {
       var p = f.properties;
       var k = compact(p.name);
       (byName[k] = byName[k] || []).push(f);
+      var tk = tokenKey(p.name);
+      (byTokens[tk] = byTokens[tk] || []).push(f);
       byCode[String(p.lgd)] = f;
       byId[f.id] = f;
       if (p.census) byCode[String(p.census).replace(/^0+/, '')] = f;
     });
-    return { byName: byName, byCode: byCode, byId: byId, keys: Object.keys(byName) };
+    return { byName: byName, byCode: byCode, byId: byId, byTokens: byTokens, keys: Object.keys(byName), tokenKeys: Object.keys(byTokens) };
   }
 
   var stateKeys = null;
@@ -338,13 +355,24 @@
     if (learned && idx.byId[learned]) { lastMatchKind = 'learned'; return idx.byId[learned]; }
     if (ALIASES[k]) { k = ALIASES[k]; lastMatchKind = 'alias'; }
     var cands = idx.byName[k];
+    var tk = tokenKey(name);
+    if (!cands && idx.byTokens[tk]) { cands = idx.byTokens[tk]; lastMatchKind = 'fuzzy'; }       // same words, different order
     if (!cands) {
-      var pref = idx.keys.filter(function (key) { return key.indexOf(k) === 0 || k.indexOf(key) === 0; });
+      // one name starts with the other, but only when they are close in length (so "North" never swallows "North 24 Parganas")
+      var pref = idx.keys.filter(function (key) {
+        var shorter = Math.min(key.length, k.length), longer = Math.max(key.length, k.length);
+        return (key.indexOf(k) === 0 || k.indexOf(key) === 0) && shorter >= 5 && shorter / longer >= 0.6;
+      });
       if (pref.length === 1) { cands = idx.byName[pref[0]]; lastMatchKind = 'fuzzy'; }
     }
     if (!cands && k.length >= 5) {
-      var close = idx.keys.filter(function (key) { return levenshtein(k, key) <= (k.length > 8 ? 2 : 1); });
+      var tol = k.length > 8 ? 2 : 1;
+      var close = idx.keys.filter(function (key) { return levenshtein(k, key) <= tol; });
       if (close.length === 1) { cands = idx.byName[close[0]]; lastMatchKind = 'fuzzy'; }
+      if (!cands) {
+        var closeT = idx.tokenKeys.filter(function (key) { return levenshtein(tk, key) <= tol; });
+        if (closeT.length === 1) { cands = idx.byTokens[closeT[0]]; lastMatchKind = 'fuzzy'; }
+      }
     }
     if (!cands) return null;
     if (cands.length === 1) return cands[0];
@@ -380,6 +408,8 @@
     if (!rows.length) return;
 
     var level = current.level;
+    // title or blank rows above the real header (common in exported sheets)
+    while (rows.length > 1 && rows[0].filter(function (c) { return c !== ''; }).length < 2) rows.shift();
     // column count: the widest row that at least two rows reach (a lone trailing note does not count)
     var byLen = {};
     rows.forEach(function (r) { byLen[r.length] = (byLen[r.length] || 0) + 1; });
@@ -387,6 +417,23 @@
     while (ncol > 2 && (byLen[ncol] || 0) < 2 && rows[0].length !== ncol) ncol--;
     var nameCol = 0, hintCol = -1, valueCol = ncol - 1;
     if (ncol < 2) { setStatus('Need at least two columns: name and value.'); return; }
+
+    // the name column is the first one that mostly holds text (skips blank or row-number columns)
+    function textShare(c) {
+      var n = 0, t = 0;
+      rows.forEach(function (r) { if (r[c] != null && r[c] !== '') { n++; if (isNaN(toNumber(r[c]))) t++; } });
+      return n ? t / n : 0;
+    }
+    var textCols = [];
+    for (var c = 0; c < valueCol; c++) if (textShare(c) >= 0.5) textCols.push(c);
+    if (textCols.length === 1) nameCol = textCols[0];
+    else if (textCols.length > 1 && textCols[0] > 0) nameCol = textCols[0];
+    // the value column is the last mostly-numeric column after the name (so a trailing date or note column is skipped)
+    for (var vc = ncol - 1; vc > nameCol; vc--) {
+      var filled = rows.filter(function (r) { return r[vc] != null && r[vc] !== ''; });
+      var numeric = filled.filter(function (r) { return !isNaN(toNumber(r[vc])) || isEmptyToken(r[vc]); });
+      if (filled.length && numeric.length / filled.length >= 0.5) { valueCol = vc; break; }
+    }
 
     var idx = buildIndex(current.features);
 
@@ -404,14 +451,16 @@
     var headerValue = header ? (header[valueCol] || '') : '';
     valueHeaders[level] = /^(value|values|val|data|number|numbers|amount|count|figure)$/i.test(headerValue) ? '' : headerValue;
 
-    // with three or more columns, work out which of the first two holds the state (or district)
-    if (ncol >= 3 && level !== 'states') {
-      var headerHint = header ? [0, 1].filter(function (c) { return /^(state|ut|stateut|st|states|district|dist)$/.test(compact(header[c] || '')); }) : [];
-      if (headerHint.length === 1 && !(header && HEADER_WORDS.test(compact(header[1 - headerHint[0]] || '')) && /^(district|dist)$/.test(compact(header[headerHint[0]])) && level === 'districts')) {
-        hintCol = headerHint[0]; nameCol = hintCol === 0 ? 1 : 0;
+    // with two or more text columns, work out which one holds the state (or district)
+    var pair = textCols.length >= 2 ? textCols.slice(0, 2) : (ncol >= 3 ? [0, 1] : null);
+    if (pair && level !== 'states') {
+      var headerHint = header ? pair.filter(function (c) { return /^(state|ut|stateut|st|states|district|dist)$/.test(compact(header[c] || '')); }) : [];
+      var otherOf = function (c) { return c === pair[0] ? pair[1] : pair[0]; };
+      if (headerHint.length === 1 && !(header && HEADER_WORDS.test(compact(header[otherOf(headerHint[0])] || '')) && /^(district|dist)$/.test(compact(header[headerHint[0]])) && level === 'districts')) {
+        hintCol = headerHint[0]; nameCol = otherOf(hintCol);
       } else {
-        var hits = [0, 1].map(function (c) { return rows.filter(function (r) { return isParentName(r[c]); }).length; });
-        if (hits[0] || hits[1]) { hintCol = hits[0] >= hits[1] ? 0 : 1; nameCol = hintCol === 0 ? 1 : 0; }
+        var hits = pair.map(function (c) { return rows.filter(function (r) { return isParentName(r[c]); }).length; });
+        if (hits[0] || hits[1]) { hintCol = hits[0] >= hits[1] ? pair[0] : pair[1]; nameCol = otherOf(hintCol); }
       }
     }
 
@@ -585,17 +634,32 @@
   function readFile(file) {
     if (!file) return;
     var name = file.name.toLowerCase();
-    if (/\.(xlsx|xls)$/.test(name)) {
+    var type = (file.type || '').toLowerCase();
+    var isSheet = /\.(xlsx|xls|xlsm|ods)$/.test(name) || /spreadsheet|ms-excel|opendocument/.test(type);
+    var isText = /\.(csv|tsv|txt)$/.test(name) || /^text\//.test(type) || type === 'application/csv';
+    if (!isSheet && !isText) { setStatus('Use a CSV, TSV or Excel file.'); return; }
+    if (isSheet) {
       if (!window.XLSX) { setStatus('Excel support is still loading, try again in a second.'); return; }
       var fr = new FileReader();
+      fr.onerror = function () { setStatus('Could not read ' + file.name + '.'); };
       fr.onload = function () {
-        var wb = XLSX.read(new Uint8Array(fr.result), { type: 'array' });
-        var ws = wb.Sheets[wb.SheetNames[0]];
-        applyRows(XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }));
+        try {
+          var wb = XLSX.read(new Uint8Array(fr.result), { type: 'array', cellDates: true });
+          var rows = null;
+          for (var i = 0; i < wb.SheetNames.length && !rows; i++) {       // first sheet that has at least two columns of data
+            // formatted text keeps percentages as "12%" and dates readable; plain numbers still parse
+            var cand = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[i]], { header: 1, raw: false, defval: '' });
+            if (cand.some(function (r) { return r.filter(function (c) { return c !== ''; }).length >= 2; })) rows = cand;
+          }
+          if (!rows) { setStatus('No sheet with a name and value column in ' + file.name + '.'); return; }
+          ui.paste.value = rows.map(function (r) { return r.join('\t'); }).join('\n');
+          applyRows(rows);
+        } catch (err) { setStatus('Could not read ' + file.name + ': ' + err.message); }
       };
       fr.readAsArrayBuffer(file);
     } else {
       var tr = new FileReader();
+      tr.onerror = function () { setStatus('Could not read ' + file.name + '.'); };
       tr.onload = function () { ui.paste.value = tr.result; applyRows(parseText(tr.result)); };
       tr.readAsText(file);
     }
@@ -651,7 +715,7 @@
     render();
     save();
     var input = ui.assetList.querySelector('[data-asset="' + a.id + '"] input[data-prop="text"]');
-    if (input) { input.focus(); input.select(); }
+    if (input && !TOUCH) { input.focus(); input.select(); }
     return a;
   }
 
@@ -916,18 +980,23 @@
     apply();
     sel.attr('class', 'drag').attr('data-key', key);
     sel.on('click', function (e) { e.stopPropagation(); select(key); });
-    var pending = { dx: 0, dy: 0 };
+    var pending = { dx: 0, dy: 0 }, startPt = null, moving = false;
+    function screenPt(e) { var se = e.sourceEvent; var t = se && se.touches && se.touches[0]; return t ? [t.clientX, t.clientY] : [se ? se.clientX : 0, se ? se.clientY : 0]; }
     sel.call(d3.drag()
-      .on('start', function () { pending = { dx: 0, dy: 0 }; })
+      .on('start', function (e) { pending = { dx: 0, dy: 0 }; startPt = screenPt(e); moving = false; })
       .on('drag', function (e) {
         pending.dx += e.dx; pending.dy += e.dy;      // d3 reports deltas in canvas units already
-        if (!offsets[key] && pending.dx * pending.dx + pending.dy * pending.dy < 9) return;   // ignore jitter
+        if (!moving) {
+          var pt = screenPt(e), ddx = pt[0] - startPt[0], ddy = pt[1] - startPt[1];
+          if (ddx * ddx + ddy * ddy < 36) return;       // under 6 screen px is a wobbly tap, not a drag
+          moving = true;
+        }
         offsets[key] = off;
         off.dx += pending.dx; off.dy += pending.dy;
         pending = { dx: 0, dy: 0 };
         apply();
       })
-      .on('end', function () { save(); }));
+      .on('end', function () { if (moving) save(); }));
   }
 
   function cachedMesh(key, object, filter) {
@@ -1164,15 +1233,15 @@
       })
       .attr('stroke', bc).attr('stroke-width', bw).attr('stroke-linejoin', 'round')
       .attr('stroke-dasharray', borderDash).attr('stroke-linecap', ui.borderStyle.value === 'dotted' ? 'round' : null)
-      .on('mousemove', function (e, d) {
+      .on('pointermove pointerdown', function (e, d) {
         var p = d.properties;
         var label = p.name + (p.state && current.level !== 'states' ? ', ' + (current.level === 'subdistricts' ? p.district : p.state) : '');
         var v = vals[d.id];
         ui.tip.textContent = label + ' · ' + (has(v) ? fmt(v) : (v == null || v === '' ? 'no data' : String(v)));
         ui.tip.style.display = 'block';
-        ui.tip.style.left = e.clientX + 'px'; ui.tip.style.top = e.clientY + 'px';
+        ui.tip.style.left = e.clientX + 'px'; ui.tip.style.top = (e.pointerType === 'touch' ? e.clientY - 36 : e.clientY) + 'px';
       })
-      .on('mouseleave', function () { ui.tip.style.display = 'none'; });
+      .on('pointerleave pointercancel', function () { ui.tip.style.display = 'none'; });
 
     // --- boundary meshes ---
     function outline(key, filter, width) {
@@ -1236,13 +1305,21 @@
     var panStart = null;
     layer.call(d3.drag()
       .touchable(function () { return view.k !== 1 || view.dx || view.dy; })
-      .on('start', function () { panStart = { dx: view.dx, dy: view.dy, mx: 0, my: 0 }; })
+      .filter(function (e) { return !e.button && !(e.touches && e.touches.length > 1); })
+      .on('start', function (e) { var se = e.sourceEvent, t = se && se.touches && se.touches[0]; panStart = { dx: view.dx, dy: view.dy, mx: 0, my: 0, sx: t ? t.clientX : se.clientX, sy: t ? t.clientY : se.clientY, moved: false }; })
       .on('drag', function (e) {
+        if (!panStart) return;
         panStart.mx += e.dx; panStart.my += e.dy;
+        if (!panStart.moved) {
+          var se = e.sourceEvent, t = se && se.touches && se.touches[0];
+          var cx = t ? t.clientX : se.clientX, cy = t ? t.clientY : se.clientY;
+          if ((cx - panStart.sx) * (cx - panStart.sx) + (cy - panStart.sy) * (cy - panStart.sy) < 36) return;
+          panStart.moved = true;
+        }
         layer.attr('transform', 'translate(' + panStart.mx + ',' + panStart.my + ')');
       })
       .on('end', function () {
-        if (!panStart || (Math.abs(panStart.mx) < 1 && Math.abs(panStart.my) < 1)) { layer.attr('transform', null); return; }
+        if (!panStart || !panStart.moved) { layer.attr('transform', null); panStart = null; return; }
         view.dx = panStart.dx + panStart.mx; view.dy = panStart.dy + panStart.my;
         panStart = null;
         render(); save();
@@ -1277,8 +1354,9 @@
     d3.select(svgNode).append('rect').attr('class', 'sel-box')
       .attr('x', bb.x + tx - padPx).attr('y', bb.y + ty - padPx).attr('width', bb.width + padPx * 2).attr('height', bb.height + padPx * 2).attr('rx', 3);
     var r = node.getBoundingClientRect(), host = ui.selTools.parentNode.getBoundingClientRect();
-    ui.selTools.style.left = Math.round(r.right - host.left - 6) + 'px';
-    ui.selTools.style.top = Math.round(r.top - host.top - 18) + 'px';
+    var btn = TOUCH ? 40 : 24;
+    ui.selTools.style.left = Math.round(Math.max(0, Math.min(host.width - btn, r.right - host.left - btn / 4))) + 'px';
+    ui.selTools.style.top = Math.round(Math.max(0, r.top - host.top - btn * 0.75)) + 'px';
     ui.selTools.hidden = false;
   }
   function deleteSelected() {
@@ -1290,7 +1368,7 @@
     else if (key.indexOf('asset-') === 0) removeAsset(+key.slice(6));
   }
   ui.selDelete.addEventListener('click', function (e) { e.stopPropagation(); deleteSelected(); });
-  ui.stage.addEventListener('click', function (e) { if (!e.target.closest('.drag')) deselect(); });
+  ui.stage.addEventListener('click', function (e) { if (!e.target.closest('.drag')) deselect(); if (!e.target.closest('.region')) ui.tip.style.display = 'none'; });
   document.addEventListener('keydown', function (e) {
     if (!selectedKey) return;
     var tag = (document.activeElement && document.activeElement.tagName) || '';
@@ -1385,6 +1463,8 @@
   ui.mapZoom.addEventListener('input', function () { previewZoom(+ui.mapZoom.value / 100); });
   ui.mapZoom.addEventListener('change', function () { clearTimeout(renderTimer); setZoom(+ui.mapZoom.value / 100); });
   ui.zoomIn.addEventListener('click', function () { setZoom(view.k + 0.1); });
+  ui.zoomMiniIn.addEventListener('click', function () { setZoom(view.k + 0.25); });
+  ui.zoomMiniOut.addEventListener('click', function () { setZoom(view.k - 0.25); });
   ui.zoomOut.addEventListener('click', function () { setZoom(view.k - 0.1); });
   ui.zoomReset.addEventListener('click', function () { view.dx = 0; view.dy = 0; setZoom(1); });
 
@@ -1407,12 +1487,23 @@
   }
 
   function download(blob, name) {
+    var file = null;
+    try { file = new File([blob], name, { type: blob.type }); } catch (e) { /* older browsers */ }
+    if (TOUCH && file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: name }).catch(function (err) { if (err && err.name !== 'AbortError') anchorDownload(blob, name); });
+      return;
+    }
+    anchorDownload(blob, name);
+  }
+  function anchorDownload(blob, name) {
+    var url = URL.createObjectURL(blob);
+    if (!('download' in HTMLAnchorElement.prototype)) { window.open(url, '_blank'); return; }
     var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
+    a.href = url;
     a.download = name;
     document.body.appendChild(a);
     a.click();
-    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 200);
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 60000);
   }
 
   function rasterize(scale) {
@@ -1436,8 +1527,15 @@
   function exportFailed(err) { alert('Export failed: ' + (err && err.message ? err.message : err)); }
 
   function exportPng(scale) {
-    rasterize(scale).then(function (c) {
-      c.toBlob(function (b) { if (!b) return exportFailed(new Error('image too large for this browser')); download(b, slug() + (scale > 1 ? '@' + scale + 'x' : '') + '.png'); }, 'image/png');
+    var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
+    var cap = Math.sqrt((TOUCH ? 16e6 : 64e6) / (W * H));           // stay under the browser's canvas area limit
+    var used = Math.min(scale, Math.floor(cap * 4) / 4);
+    rasterize(used).then(function (c) {
+      if (ui.background.value !== 'transparent') {
+        var px = c.getContext('2d').getImageData(Math.floor(c.width / 2), Math.floor(c.height / 2), 1, 1).data;
+        if (px[3] === 0) throw new Error('the image came out blank, try a smaller size');
+      }
+      c.toBlob(function (b) { if (!b) return exportFailed(new Error('image too large for this browser')); download(b, slug() + (used > 1 ? '@' + used + 'x' : '') + '.png'); }, 'image/png');
     }).catch(exportFailed);
   }
 
@@ -1447,7 +1545,7 @@
       var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
       var doc = new window.jspdf.jsPDF({ orientation: W >= H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'] });
       doc.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, W, H);
-      doc.save(slug() + '.pdf');
+      download(doc.output('blob'), slug() + '.pdf');
     }).catch(exportFailed);
   }
 
@@ -1476,7 +1574,7 @@
   // ---------------------------------------------------------------------------
   //  Persistence
   // ---------------------------------------------------------------------------
-  var saveTimer = null;
+  var saveTimer = null, saveFailed = false;
   function save() {
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () {
@@ -1485,9 +1583,11 @@
       try {
         localStorage.setItem(STORE_KEY, JSON.stringify({
           settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets,
-          assets: assets, assetSeq: assetSeq, autoSuffix: autoSuffix, paste: ui.paste.value, userAliases: userAliases, labelSizeAuto: labelSizeAuto
+          assets: assets, assetSeq: assetSeq, autoSuffix: autoSuffix, paste: ui.paste.value.length < 500000 ? ui.paste.value : '',
+          userAliases: userAliases, labelSizeAuto: labelSizeAuto
         }));
-      } catch (e) { /* storage unavailable */ }
+        saveFailed = false;
+      } catch (e) { if (!saveFailed) { saveFailed = true; setStatus('This browser is not saving your work between visits.'); } }
     }, 300);
   }
 
@@ -1579,7 +1679,10 @@
   });
 
   ui.applyData.addEventListener('click', function () { applyRows(parseText(ui.paste.value)); });
-  ui.paste.addEventListener('input', function () { save(); });
+  ui.paste.addEventListener('input', function (e) {
+    if (e.inputType === 'insertFromPaste' || /[\n\t]/.test(e.data || '')) applyRows(parseText(ui.paste.value));
+    else save();
+  });
   ui.paste.addEventListener('paste', function () { setTimeout(function () { applyRows(parseText(ui.paste.value)); }, 0); });
   ui.clearData.addEventListener('click', function () {
     values[current.level] = {};
@@ -1652,6 +1755,14 @@
     ui.northField.hidden = !ui.northArrow.checked;
     ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';
   }
+
+  // the site header is sticky and wraps on phones, so the pinned preview needs its live height
+  function syncHeaderHeight() {
+    var header = document.querySelector('.site-header');
+    document.documentElement.style.setProperty('--header-h', (header ? header.offsetHeight : 56) + 'px');
+  }
+  window.addEventListener('resize', syncHeaderHeight);
+  syncHeaderHeight();
 
   // ---------------------------------------------------------------------------
   //  Boot
