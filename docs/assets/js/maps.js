@@ -109,6 +109,8 @@
   function levelMap(init) { var m = {}; LEVEL_KEYS.forEach(function (k) { m[k] = typeof init === 'function' ? init() : init; }); return m; }
   function parentOf(p, level) { return (LAYERS[level || current.level].parent === 'district' ? p.district : p.state) || ''; }
   function hasDistrictParent(level) { return LAYERS[level || current.level].parent === 'district'; }
+  // the district picker only means something for districts and for layers that nest inside districts
+  function usesDistricts(level) { return level === 'districts' || hasDistrictParent(level); }
   var layers = {};                       // level -> { topo, object, features }
   var values = levelMap(function () { return {}; });            // level -> id -> value
   var valueHeaders = levelMap('');
@@ -214,7 +216,7 @@
       fillSelect(ui.regionDistrict, opts, 'All districts');
       ui.regionDistrict.value = region.district;
       if (ui.regionDistrict.value !== region.district) { region.district = ''; }
-      ui.districtField.hidden = false;
+      ui.districtField.hidden = !usesDistricts(ui.level.value);
     });
   }
 
@@ -1658,8 +1660,8 @@
     setBusy(true);
     rasterize(3).then(function (c) {
       var W = +svgNode.getAttribute('width'), H = +svgNode.getAttribute('height');
-      var doc = new window.jspdf.jsPDF({ orientation: W >= H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'] });
-      doc.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      var doc = new window.jspdf.jsPDF({ orientation: W >= H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'], compress: true });
+      doc.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, W, H, undefined, 'FAST');   // deflate the bitmap, else a plain map is tens of MB
       setBusy(false);
       download(doc.output('blob'), slug() + '.pdf');
     }).catch(exportFailed);
@@ -1807,6 +1809,7 @@
   });
   ui.level.addEventListener('change', function () {
     if (!hasDistrictParent(ui.level.value) && region.district) { region.district = ''; ui.regionDistrict.value = ''; }
+    ui.districtField.hidden = !region.state || !usesDistricts(ui.level.value);
     view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     refresh();
   });

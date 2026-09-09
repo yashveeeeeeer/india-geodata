@@ -3,7 +3,9 @@ description: "Download India's open geospatial data — administrative boundarie
 baseurl: "/india-geodata"
 url: "https://yashveeeeeeer.github.io"
 
-author: Yashveer Singh
+author:
+  name: Yashveer Singh
+  twitter: yashv_r
 twitter:
   username: yashv_r
 social:
