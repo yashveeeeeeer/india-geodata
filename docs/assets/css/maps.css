@@ -90,8 +90,19 @@
 
 .status { font-size: 0.78rem; color: var(--color-muted); }
 .status strong { color: var(--color-text); font-weight: 600; }
-.unmatched { font-size: 0.76rem; color: var(--color-muted); max-height: 90px; overflow-y: auto; line-height: 1.5; }
-.unmatched span { display: inline-block; margin: 0 6px 2px 0; padding: 0 6px; border: 1px solid var(--color-border); border-radius: 10px; }
+.unmatched { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+.unmatched:empty { display: none; }
+.fix-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.1fr); gap: 6px; align-items: center; font-size: 0.8rem; }
+.fix-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #b91c1c; }
+.fix-val { color: var(--color-muted); font-size: 0.76rem; white-space: nowrap; }
+.maps-side .fix-row select { padding: 4px 6px; font-size: 0.8rem; }
+
+/* --- collapsible values table --- */
+details.sub > summary { list-style: none; cursor: pointer; font-size: 0.78rem; color: var(--color-muted); padding: 4px 0; user-select: none; }
+details.sub > summary::-webkit-details-marker { display: none; }
+details.sub > summary::before { content: "▸ "; }
+details.sub[open] > summary::before { content: "▾ "; }
+details.sub > input { margin-bottom: 6px; }
 
 .value-table-wrap { max-height: 300px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
 .value-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
@@ -120,9 +131,14 @@
 .stage-frame svg .map-layer:active { cursor: grabbing; }
 
 /* --- Stage --- */
-.maps-stage { position: sticky; top: calc(var(--header-height) + 16px); }
+.maps-stage { position: sticky; top: calc(var(--header-height) + 12px); }
 .stage-frame { position: relative; display: flex; justify-content: center; }
-.stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 160px); display: block; border: 1px solid var(--color-border); }
+.stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 110px); display: block; border: 1px solid var(--color-border); }
+.stage-hint {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  font-size: 0.8rem; color: var(--color-muted); background: rgba(255,255,255,0.9);
+  border: 1px solid var(--color-border); border-radius: 20px; padding: 4px 12px; pointer-events: none; white-space: nowrap;
+}
 .stage-frame svg .sel-box { fill: none; stroke: var(--color-accent); stroke-width: 1.5; stroke-dasharray: 4 3; pointer-events: none; }
 .sel-tools { position: absolute; z-index: 5; display: flex; gap: 4px; }
 .sel-tools button {

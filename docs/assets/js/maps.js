@@ -34,9 +34,9 @@
     'labelSize', 'decimals', 'numberStyle', 'prefix', 'suffix', 'legendTitle', 'legendPos', 'legendSize', 'labelColour', 'textColour'];
 
   var SCALE_HINTS = {
-    quantile: 'Same number of regions in each colour. Suits skewed data such as population, income or GDP, where a few regions dwarf the rest.',
-    equal: 'Same value range for each colour. Suits evenly spread data such as literacy rate, vote share or sex ratio, where the ranges themselves matter.',
-    continuous: 'One smooth gradient, no groups. Suits gradual change such as rainfall, temperature or elevation, when the overall pattern matters more than exact ranks.'
+    quantile: 'Equal counts per colour. Good for skewed data like population or income.',
+    equal: 'Equal value ranges. Good for evenly spread data like rates or shares.',
+    continuous: 'Smooth gradient. Good for gradual change like rainfall or temperature.'
   };
 
   // Colour presets swapped in when the background flips between light and dark.
@@ -81,7 +81,7 @@
     title: { label: 'Title', size: 34, weight: 700, pos: 'tl', colour: '#111111', dark: '#f1f5f9', text: 'Map title' },
     subtitle: { label: 'Subtitle', size: 18, weight: 400, pos: 'tl', colour: '#4b5563', dark: '#cbd5e1', text: 'Subtitle' },
     text: { label: 'Text', size: 14, weight: 400, pos: 'br', colour: '#111111', dark: '#f1f5f9', text: 'Your note' },
-    source: { label: 'Source', size: 12, weight: 400, pos: 'bl', colour: '#6b7280', dark: '#94a3b8', text: 'Source: ' }
+    source: { label: 'Source', size: 13, weight: 400, pos: 'bl', colour: '#6b7280', dark: '#94a3b8', text: 'Source: ' }
   };
   var BAND_POS = ['tl', 'tc', 'tr', 'bl', 'bc', 'br'];
   var CORNER_POS = ['tl', 'tr', 'bl', 'br'];
@@ -93,6 +93,9 @@
   var region = { state: '', district: '' };
   var current = { level: 'districts', features: [], object: null, topo: null };
   var lastMatch = null;
+  var pendingFixes = [];                 // rows the user can match by hand: { name, value, kind, cands }
+  var userAliases = { states: {}, districts: {}, subdistricts: {} };   // level -> compact name -> feature id
+  var labelSizeAuto = true;              // label size follows the level until the user edits it
   var autoSuffix = false;
   var offsets = {};                      // drag offsets per overlay key -> { dx, dy }
   var meshCache = {};
@@ -147,6 +150,7 @@
     return loadLayer(level).then(function (layer) {
       var sub = filterFeatures(layer, level);
       current = { level: level, features: sub.features, object: sub.object, topo: layer.topo };
+      if (labelSizeAuto) ui.labelSize.value = suggestedLabelSize(sub.features.length);
       buildTable();
       render();
       save();
@@ -208,14 +212,51 @@
     andamanandnicobar: 'andamanandnicobarislands', aandnislands: 'andamanandnicobarislands',
     dadraandnagarhaveli: 'dadraandnagarhavelianddamananddiu', damananddiu: 'dadraandnagarhavelianddamananddiu',
     dnhanddd: 'dadraandnagarhavelianddamananddiu', jandk: 'jammuandkashmir', jk: 'jammuandkashmir',
-    up: 'uttarpradesh', mp: 'madhyapradesh', hp: 'himachalpradesh', ap: 'andhrapradesh', tn: 'tamilnadu', wb: 'westbengal'
+    up: 'uttarpradesh', mp: 'madhyapradesh', hp: 'himachalpradesh', ap: 'andhrapradesh', tn: 'tamilnadu', wb: 'westbengal',
+    kerela: 'kerala', karnatak: 'karnataka', gujrat: 'gujarat', rajastan: 'rajasthan', panjab: 'punjab', hariyana: 'haryana',
+    chhatisgarh: 'chhattisgarh', uttarkhand: 'uttarakhand', utarakhand: 'uttarakhand', jharkand: 'jharkhand', bengal: 'westbengal',
+    andhra: 'andhrapradesh', telanganastate: 'telangana', jammukashmir: 'jammuandkashmir', jammuandkashmirut: 'jammuandkashmir',
+    ladakhut: 'ladakh', newdelhi: 'delhi', delhinct: 'delhi', nctdelhi: 'delhi', puducherryut: 'puducherry', chandigarhut: 'chandigarh',
+    andamannicobar: 'andamanandnicobarislands', andamanandnicobarisland: 'andamanandnicobarislands', andamans: 'andamanandnicobarislands',
+    lakshadweepislands: 'lakshadweep', dadranagarhaveli: 'dadraandnagarhavelianddamananddiu', dnh: 'dadraandnagarhavelianddamananddiu',
+    dadraandnagarhavelidamananddiu: 'dadraandnagarhavelianddamananddiu', dadraandnagarhaveliandamananddiu: 'dadraandnagarhavelianddamananddiu',
+    arunachal: 'arunachalpradesh', himachal: 'himachalpradesh', madhya: 'madhyapradesh', odissa: 'odisha', orisa: 'odisha',
+    tamilnad: 'tamilnadu', tamilnaadu: 'tamilnadu', maharastra: 'maharashtra', maharashtrastate: 'maharashtra', chattisgarhstate: 'chhattisgarh'
   };
 
   var HEADER_WORDS = /^(name|names|region|regions|area|state|states|ut|stateut|statesuts|st|district|districts|dist|subdistrict|subdistricts|tehsil|taluk|taluka|mandal|block|unit|place|location)$/;
 
   function compact(s) {
     return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-      .replace(/&/g, ' and ').replace(/\b(district|dist|distt|dt)\b\.?/g, '').replace(/[^a-z0-9]+/g, '');
+      .replace(/&/g, ' and ').replace(/\b(district|dist|distt|dt)\b\.?/g, '')
+      .replace(/\b(state|u\.?t\.?|union territory|the)\b\.?/g, '').replace(/[^a-z0-9]+/g, '');
+  }
+
+  // General edit distance for suggestion scoring.
+  function editDistance(a, b) {
+    var prev = [], cur = [], i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur = [i];
+      for (j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  function similarity(a, b) {
+    if (a === b) return 1;
+    if (!a || !b) return 0;
+    if (a.indexOf(b) === 0 || b.indexOf(a) === 0) return 0.9 - Math.abs(a.length - b.length) / (4 * Math.max(a.length, b.length));
+    if (a.indexOf(b) !== -1 || b.indexOf(a) !== -1) return 0.8;
+    return 1 - editDistance(a, b) / Math.max(a.length, b.length);
+  }
+  function suggestFeatures(name, n) {
+    var k = compact(name);
+    k = ALIASES[k] || k;
+    return current.features.map(function (f) { return { f: f, s: similarity(k, compact(f.properties.name)) }; })
+      .filter(function (x) { return x.s >= 0.45; })
+      .sort(function (a, b) { return b.s - a.s; })
+      .slice(0, n || 3).map(function (x) { return x.f; });
   }
   function digitsOnly(s) { return /^\d+$/.test(String(s).trim()); }
 
@@ -234,15 +275,16 @@
   }
 
   function buildIndex(feats) {
-    var byName = {}, byCode = {};
+    var byName = {}, byCode = {}, byId = {};
     feats.forEach(function (f) {
       var p = f.properties;
       var k = compact(p.name);
       (byName[k] = byName[k] || []).push(f);
       byCode[String(p.lgd)] = f;
+      byId[f.id] = f;
       if (p.census) byCode[String(p.census).replace(/^0+/, '')] = f;
     });
-    return { byName: byName, byCode: byCode, keys: Object.keys(byName) };
+    return { byName: byName, byCode: byCode, byId: byId, keys: Object.keys(byName) };
   }
 
   var stateKeys = null;
@@ -285,6 +327,8 @@
     if (m && !hint && isParentName(m[2])) { name = m[1]; hint = m[2]; }
 
     var k = compact(name);
+    var learned = userAliases[current.level][k];
+    if (learned && idx.byId[learned]) return idx.byId[learned];
     k = ALIASES[k] || k;
     var cands = idx.byName[k];
     if (!cands) {
@@ -368,17 +412,18 @@
     var vals = values[level] = {};
     var matched = 0, empty = 0, unmatched = [], ambiguous = [];
     var percentCount = 0;
+    pendingFixes = [];
+    function parseValue(raw) { var n = toNumber(raw); return isNaN(n) ? raw : n; }
     rows.forEach(function (r) {
       var nm = r[nameCol] || '';
       if (!nm) return;
-      var f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
-      if (!f) { unmatched.push(nm); return; }
-      if (f.ambiguous) { ambiguous.push(nm); return; }
       var raw = r[valueCol];
+      var f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
+      if (!f) { unmatched.push(nm); pendingFixes.push({ name: nm, value: isEmptyToken(raw) ? null : parseValue(raw), kind: 'unmatched', cands: suggestFeatures(nm, 3) }); return; }
+      if (f.ambiguous) { ambiguous.push(nm); pendingFixes.push({ name: nm, value: isEmptyToken(raw) ? null : parseValue(raw), kind: 'ambiguous', cands: f.ambiguous }); return; }
       if (isEmptyToken(raw)) { empty++; return; }
       if (/%\s*$/.test(raw)) percentCount++;
-      var n = toNumber(raw);
-      vals[f.id] = isNaN(n) ? raw : n;
+      vals[f.id] = parseValue(raw);
       matched++;
     });
     var isPercent = percentCount && percentCount >= matched / 2;
@@ -401,10 +446,49 @@
       parts.push('<strong>' + lastMatch.ambiguous.length + '</strong> ambiguous (add a ' + (current.level === 'subdistricts' ? 'district' : 'state') + ' column)');
     }
     ui.matchStatus.innerHTML = parts.join(' · ');
-    ui.unmatched.innerHTML = lastMatch.unmatched.concat(lastMatch.ambiguous).map(function (n) {
-      return '<span>' + escapeHtml(n) + '</span>';
+    renderFixes();
+  }
+
+  function featureLabel(f) {
+    var p = f.properties;
+    var parent = current.level === 'subdistricts' ? p.district : (current.level === 'districts' ? p.state : '');
+    return p.name + (parent && !region.state ? ' (' + parent + ')' : '');
+  }
+
+  function renderFixes() {
+    if (!pendingFixes.length) { ui.unmatched.innerHTML = ''; return; }
+    var all = current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); });
+    var allOpts = all.map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
+    ui.unmatched.innerHTML = pendingFixes.map(function (fx, i) {
+      var sugg = fx.cands.map(function (f) { return '<option value="' + f.id + '">' + escapeHtml(featureLabel(f)) + '</option>'; }).join('');
+      return '<div class="fix-row">' +
+        '<span class="fix-name" title="' + escapeHtml(fx.name) + '">' + escapeHtml(fx.name) + '</span>' +
+        '<span class="fix-val">' + (fx.value == null ? '' : escapeHtml(fmt(fx.value))) + '</span>' +
+        '<select data-fix="' + i + '" aria-label="Match ' + escapeHtml(fx.name) + '">' +
+          '<option value="">' + (fx.kind === 'ambiguous' ? 'Which one?' : 'Match to…') + '</option>' +
+          (sugg ? '<optgroup label="' + (fx.kind === 'ambiguous' ? 'Candidates' : 'Suggestions') + '">' + sugg + '</optgroup>' : '') +
+          (fx.kind === 'ambiguous' ? '' : '<optgroup label="All regions">' + allOpts + '</optgroup>') +
+        '</select></div>';
     }).join('');
   }
+
+  ui.unmatched.addEventListener('change', function (e) {
+    var sel = e.target.closest('select[data-fix]');
+    if (!sel || !sel.value) return;
+    var fx = pendingFixes[+sel.dataset.fix];
+    var f = current.features.filter(function (x) { return x.id === sel.value; })[0];
+    if (!fx || !f) return;
+    if (fx.value != null) values[current.level][f.id] = fx.value;
+    if (fx.kind === 'unmatched') userAliases[current.level][compact(fx.name)] = f.id;   // remembered for next time
+    pendingFixes.splice(+sel.dataset.fix, 1);
+    if (lastMatch) {
+      lastMatch.matched += fx.value != null ? 1 : 0;
+      if (fx.value == null) lastMatch.empty++;
+      var list = fx.kind === 'ambiguous' ? lastMatch.ambiguous : lastMatch.unmatched;
+      var at = list.indexOf(fx.name); if (at !== -1) list.splice(at, 1);
+    }
+    reportMatch(); buildTable(); render(); save();
+  });
 
   function setStatus(msg) { ui.matchStatus.textContent = msg; ui.unmatched.innerHTML = ''; }
 
@@ -452,7 +536,12 @@
         '</td><td><input type="text" data-id="' + f.id + '" aria-label="Value for ' + escapeHtml(p.name) + '" value="' + (v == null ? '' : escapeHtml(v)) + '"></td></tr>';
     });
     ui.valueTable.innerHTML = html || '<tr><td colspan="2"><small>No regions</small></td></tr>';
+    var withData = current.features.filter(function (f) { return vals[f.id] != null && vals[f.id] !== ''; }).length;
+    $('valuesSummary').textContent = 'Values · ' + withData + ' of ' + current.features.length;
   }
+
+  // Label size that suits the number of regions drawn, used until the user sets one.
+  function suggestedLabelSize(n) { return n <= 40 ? 14 : n <= 120 ? 12 : n <= 800 ? 9 : 7; }
 
   ui.valueTable.addEventListener('change', function (e) {
     var input = e.target.closest('input[data-id]');
@@ -772,13 +861,14 @@
     ui.tip.style.display = 'none';
     var size = ui.canvas.value.split('x').map(Number);
     var W = size[0] || 1000, H = size[1] || 1000;
-    var pad = Math.round(W * 0.04);
+    var pad = Math.round(W * 0.03);
     var textColour = ui.textColour.value;
     var bg = ui.background.value;
     var vals = values[current.level];
     var colour = buildScale(vals);
     var noData = ui.noData.value;
     var has = colour ? colour.has : function () { return false; };
+    $('stageHint').hidden = !!colour || !current.features.length;
 
     ui.stage.innerHTML = '';
     var svg = d3.select(ui.stage).append('svg')
@@ -963,7 +1053,7 @@
     noteGroups.forEach(function (n) { place('asset-' + n.asset.id, n.sel, n.asset.pos); });
 
     // --- map ---
-    var levelFactor = current.level === 'subdistricts' ? (region.state ? 0.75 : 0.5) : 1;
+    var levelFactor = current.level === 'subdistricts' ? (region.state ? 0.6 : 0.25) : 1;
     var bw = ui.borderStyle.value === 'none' ? 0 : +ui.borderWidth.value * levelFactor;
     var ow = ui.outlineStyle.value === 'none' ? 0 : +ui.outlineWidth.value;
     var bc = ui.borderColour.value, oc = ui.outlineColour.value;
@@ -1042,9 +1132,10 @@
         if (ui.showValues.checked && has(v)) lines.push(fmt(v));
         if (!lines.length) return;
         var b = boxes[i];
-        var widest = d3.max(lines, function (l) { return l.length; }) * ls * 0.58;
-        var lh = ls * 1.2 * lines.length;
-        if (b.w < widest * 0.85 || b.h < lh) return;
+        function textW(arr) { return d3.max(arr, function (l) { return l.length; }) * ls * 0.58; }
+        var widest = textW(lines), lh = ls * 1.2 * lines.length;
+        if (lines.length > 1 && (b.w < widest || b.h < lh)) { lines = lines.slice(0, 1); widest = textW(lines); lh = ls * 1.2; }   // drop the value before the name
+        if (b.w < widest || b.h < lh) return;
         var c = path.centroid(d);
         if (isNaN(c[0])) return;
         var lb = { x: c[0] - widest / 2, y: c[1] - lh / 2, w: widest, h: lh };
@@ -1310,7 +1401,7 @@
       try {
         localStorage.setItem(STORE_KEY, JSON.stringify({
           settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets,
-          assets: assets, assetSeq: assetSeq, view: view, autoSuffix: autoSuffix, paste: ui.paste.value
+          assets: assets, assetSeq: assetSeq, autoSuffix: autoSuffix, paste: ui.paste.value, userAliases: userAliases, labelSizeAuto: labelSizeAuto
         }));
       } catch (e) { /* storage unavailable */ }
     }, 300);
@@ -1345,7 +1436,14 @@
       });
       autoSuffix = !!data.autoSuffix;
       if (typeof data.paste === 'string') ui.paste.value = data.paste;
-      if (data.view && isFinite(data.view.k)) view = { k: Math.max(0.5, Math.min(4, data.view.k)), dx: +data.view.dx || 0, dy: +data.view.dy || 0 };
+      view = { k: 1, dx: 0, dy: 0 };   // zoom and pan always start fresh
+      if (data.userAliases && typeof data.userAliases === 'object') {
+        ['states', 'districts', 'subdistricts'].forEach(function (lv) {
+          var m = data.userAliases[lv];
+          if (m && typeof m === 'object') Object.keys(m).forEach(function (k) { if (typeof m[k] === 'string') userAliases[lv][k] = m[k]; });
+        });
+      }
+      labelSizeAuto = data.labelSizeAuto !== false;
       if (Array.isArray(data.assets)) {
         assets = data.assets.filter(function (a) { return a && typeof a === 'object' && Object.prototype.hasOwnProperty.call(ASSET_KINDS, a.kind); }).map(function (a) {
           var d = ASSET_KINDS[a.kind];
@@ -1452,6 +1550,7 @@
     renderTimer = setTimeout(function () { render(); save(); }, 120);
   }
 
+  ui.labelSize.addEventListener('input', function () { labelSizeAuto = false; });
   SETTING_IDS.forEach(function (id) {
     if (id === 'level') return;
     var el = ui[id];

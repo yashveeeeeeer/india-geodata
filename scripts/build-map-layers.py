@@ -50,6 +50,25 @@ STATE_NAMES = {
 }
 
 
+SMALL_WORDS = {"of", "and", "the", "cum", "de", "da", "e"}
+
+
+def clean_name(raw):
+    """Tidy a unit name: drop stray asterisks, title-case shouting names, keep short codes."""
+    name = str(raw).strip().rstrip("*").strip()
+    if not name:
+        return "Unnamed"
+    if name.isupper() and len(name) > 3:
+        words = []
+        for w in name.split():
+            parts = w.split("-")
+            parts = [p if p in ("&",) else (p.lower() if p.lower() in SMALL_WORDS else p.capitalize()) for p in parts]
+            words.append("-".join(parts))
+        name = " ".join(words)
+        name = name[0].upper() + name[1:]
+    return name
+
+
 def state_title(raw):
     if raw in STATE_NAMES:
         return STATE_NAMES[raw]
@@ -86,14 +105,14 @@ def build(level, spec, cache, pct, out_dir):
 
     gdf = gpd.read_parquet(src)
     gdf = gdf[list(spec["fields"]) + ["geometry"]].rename(columns=spec["fields"])
-    gdf["name"] = gdf["name"].astype(str).str.strip()
+    gdf["name"] = gdf["name"].astype(str).map(clean_name)
     if level == "states":
         gdf["name"] = gdf["name"].map(state_title)
     else:
         gdf["state"] = gdf["state"].astype(str).map(state_title)
         gdf["state_lgd"] = gdf["state_lgd"].astype(int)
     if "district" in gdf:
-        gdf["district"] = gdf["district"].astype(str).str.strip()
+        gdf["district"] = gdf["district"].astype(str).map(clean_name)
         gdf["dist_lgd"] = gdf["dist_lgd"].astype(int)
     gdf["lgd"] = gdf["lgd"].astype(int)
     gdf["census"] = gdf["census"].astype(str).str.strip()

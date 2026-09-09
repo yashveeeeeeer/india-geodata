@@ -5,7 +5,7 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=8">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=9">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
@@ -53,8 +53,11 @@ permalink: /maps/
           </div>
           <div class="status" id="matchStatus"></div>
           <div class="unmatched" id="unmatched"></div>
-          <input type="text" id="tableSearch" aria-label="Search regions" placeholder="Search regions">
-          <div class="value-table-wrap"><table class="value-table"><tbody id="valueTable"></tbody></table></div>
+          <details class="sub">
+            <summary id="valuesSummary">Values</summary>
+            <input type="text" id="tableSearch" aria-label="Search regions" placeholder="Search regions">
+            <div class="value-table-wrap"><table class="value-table"><tbody id="valueTable"></tbody></table></div>
+          </details>
         </div>
       </details>
 
@@ -125,7 +128,7 @@ permalink: /maps/
             </div>
             <div class="field"><label for="outlineWidth">Width</label><input type="number" id="outlineWidth" min="0" max="6" step="0.25" value="1.25"></div>
           </div>
-          <p class="hint">Inner lines separate the coloured regions. Outer lines draw the country, state and district edges.</p>
+          <p class="hint">Inner lines split regions; outer lines mark state and country edges.</p>
         </div>
       </details>
 
@@ -137,7 +140,7 @@ permalink: /maps/
             <label class="check"><input type="checkbox" id="showValues"> Values</label>
           </div>
           <div class="row">
-            <div class="field"><label for="labelSize">Size</label><input type="number" id="labelSize" min="4" max="40" value="9"></div>
+            <div class="field"><label for="labelSize">Size</label><input type="number" id="labelSize" min="4" max="40" value="12"></div>
             <div class="field"><label for="labelColour">Colour</label><input type="color" id="labelColour" value="#111111"></div>
           </div>
           <div class="row">
@@ -162,7 +165,7 @@ permalink: /maps/
             <div class="field"><label for="legendPos">Position</label>
               <select id="legendPos"><option value="bl" selected>Bottom left</option><option value="br">Bottom right</option><option value="tl">Top left</option><option value="tr">Top right</option></select>
             </div>
-            <div class="field"><label for="legendSize">Size</label><input type="number" id="legendSize" min="6" max="40" value="13"></div>
+            <div class="field"><label for="legendSize">Size</label><input type="number" id="legendSize" min="6" max="40" value="16"></div>
           </div>
           <div class="field"><label for="textColour">Legend and arrow colour</label><input type="color" id="textColour" value="#111111"></div>
         </div>
@@ -251,7 +254,7 @@ permalink: /maps/
     </aside>
 
     <section class="maps-stage">
-      <div class="stage-frame"><div id="stage"></div><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove">&times;</button></div></div>
+      <div class="stage-frame"><div id="stage"></div><div class="stage-hint" id="stageHint" hidden>Paste data or press Sample to colour the map</div><div class="sel-tools" id="selTools" hidden><button type="button" id="selDelete" aria-label="Remove selected item" title="Remove">&times;</button></div></div>
       <div class="stage-note">
         <span>Boundaries: <a href="{{ site.baseurl }}/#administrative">LGD via India Geodata</a> · <a href="https://github.com/yashveeeeeeer/india-geodata/tree/main/docs/maps">Source</a></span>
       </div>
@@ -266,4 +269,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=9"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=10"></script>
