@@ -8,10 +8,6 @@
 
 .maps-intro { margin-bottom: 16px; }
 .maps-intro h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
-.maps-title { display: flex; align-items: center; gap: 10px; }
-.info-link { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--color-muted); color: var(--color-muted); flex: none; }
-.info-link::before { content: ""; position: absolute; inset: -10px; }   /* 40px touch target, nothing visible */
-.info-link:hover, .info-link:focus-visible { border-color: var(--color-accent); color: var(--color-accent); }
 
 .maps-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; align-items: start; }
 

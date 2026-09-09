@@ -1933,6 +1933,23 @@
   syncUi();
   setZoom(view.k, true);
   renderAssetList();
+  // Panels: Region and Data start open; each browser remembers what the user opened or closed
+  var PANEL_KEY = 'igd-mapmaker-panels';
+  (function () {
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(PANEL_KEY)) || {}; } catch (e) { saved = {}; }
+    document.querySelectorAll('.maps-side details.panel').forEach(function (p) {
+      var sum = p.querySelector('summary');
+      var key = sum ? sum.textContent.trim() : '';
+      if (!key) return;
+      if (Object.prototype.hasOwnProperty.call(saved, key)) p.open = !!saved[key];
+      p.addEventListener('toggle', function () {
+        saved[key] = p.open;
+        try { localStorage.setItem(PANEL_KEY, JSON.stringify(saved)); } catch (e) { /* storage blocked */ }
+      });
+    });
+  })();
+
   Promise.all([loadLayer('states'), loadLayer(ui.level.value)]).then(function (res) {
     populateStates(res[0]);
     ui.regionState.value = region.state;
