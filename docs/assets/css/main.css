@@ -387,7 +387,12 @@ main { flex: 1; }
   border-bottom: 1px solid var(--color-border);
 }
 .about-page h3 { font-size: 1rem; font-weight: 600; margin: 18px 0 6px; }
-#map-maker { scroll-margin-top: 76px; }   /* land below the sticky header when linked from the map maker */
+#map-maker { scroll-margin-top: 76px; }
+.about-more > summary { display: inline-block; list-style: none; cursor: pointer; color: var(--color-accent); font-size: 0.95rem; text-decoration: underline; text-decoration-color: rgba(245,158,11,0.35); text-underline-offset: 2px; margin: 2px 0 12px; }
+.about-more > summary::-webkit-details-marker { display: none; }
+.about-more > summary:hover { text-decoration-color: var(--color-accent); }
+.about-more > summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 2px; }
+.about-more[open] > summary .more, .about-more:not([open]) > summary .less { display: none; }   /* land below the sticky header when linked from the map maker */
 .about-page p { margin-bottom: 12px; font-size: 0.95rem; line-height: 1.7; color: var(--color-text); }
 .about-page a { color: var(--color-accent); text-decoration: underline; text-decoration-color: rgba(245,158,11,0.35); text-underline-offset: 2px; }
 .about-page a:hover { text-decoration-color: var(--color-accent); }
