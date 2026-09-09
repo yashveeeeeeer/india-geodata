@@ -1,0 +1,216 @@
+---
+layout: default
+title: "Map Maker — free India choropleth maps"
+description: "Paste a spreadsheet and get a state, district or sub-district map of India. Free, no watermark, no sign-up. Export PNG, SVG or PDF."
+permalink: /maps/
+---
+
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=1">
+
+<div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
+
+  <div class="maps-intro">
+    <h1>Map Maker</h1>
+    <p>Paste a spreadsheet, get a map. Free, no watermark, nothing leaves your browser.</p>
+  </div>
+
+  <div class="maps-layout">
+
+    <aside class="maps-side">
+
+      <details class="panel" open>
+        <summary>Region</summary>
+        <div class="panel-body">
+          <div class="row">
+            <div class="field">
+              <label for="regionState">Area</label>
+              <select id="regionState"><option value="">India</option></select>
+            </div>
+            <div class="field">
+              <label for="level">Divide into</label>
+              <select id="level">
+                <option value="states">States</option>
+                <option value="districts" selected>Districts</option>
+                <option value="subdistricts">Sub-districts</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="districtField" hidden>
+            <label for="regionDistrict">District</label>
+            <select id="regionDistrict"><option value="">All districts</option></select>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Data</summary>
+        <div class="panel-body">
+          <textarea id="paste" placeholder="Name&#9;Value&#10;Kerala&#9;94&#10;Bihar&#9;61" spellcheck="false"></textarea>
+          <label class="file-drop" id="fileDrop">Or drop a CSV / Excel file<input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls"></label>
+          <div class="btn-row">
+            <button class="btn-plain" id="applyData" type="button">Apply</button>
+            <button class="btn-plain secondary" id="clearData" type="button">Clear</button>
+            <button class="btn-plain secondary" id="sampleData" type="button">Sample</button>
+          </div>
+          <div class="status" id="matchStatus"></div>
+          <div class="unmatched" id="unmatched"></div>
+          <input type="text" id="tableSearch" placeholder="Search regions">
+          <div class="value-table-wrap"><table class="value-table"><tbody id="valueTable"></tbody></table></div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Colours</summary>
+        <div class="panel-body">
+          <div class="row">
+            <div class="field">
+              <label for="ramp">Palette</label>
+              <select id="ramp">
+                <option value="Greys" selected>Greys</option>
+                <option value="Blues">Blues</option>
+                <option value="Greens">Greens</option>
+                <option value="Oranges">Oranges</option>
+                <option value="Reds">Reds</option>
+                <option value="Purples">Purples</option>
+                <option value="YlOrRd">Yellow to red</option>
+                <option value="YlGnBu">Yellow to blue</option>
+                <option value="Viridis">Viridis</option>
+                <option value="RdBu">Red / blue</option>
+                <option value="RdYlGn">Red / green</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="scaleMode">Scale</label>
+              <select id="scaleMode">
+                <option value="quantile" selected>Buckets (quantile)</option>
+                <option value="equal">Buckets (equal)</option>
+                <option value="continuous">Continuous</option>
+              </select>
+            </div>
+          </div>
+          <div class="row" id="customColours" hidden>
+            <div class="field"><label for="colourLow">Low</label><input type="color" id="colourLow" value="#f1f1f1"></div>
+            <div class="field"><label for="colourHigh">High</label><input type="color" id="colourHigh" value="#111111"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="buckets">Buckets</label><input type="number" id="buckets" min="2" max="9" value="5"></div>
+            <div class="field">
+              <label for="noData">No data</label>
+              <select id="noData">
+                <option value="#ffffff" selected>White</option>
+                <option value="#e5e7eb">Grey</option>
+                <option value="hatch">Hatched</option>
+                <option value="none">Hidden</option>
+              </select>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="reverse"> Reverse palette</label>
+          <div class="row row-3">
+            <div class="field"><label for="borderColour">Borders</label><input type="color" id="borderColour" value="#333333"></div>
+            <div class="field"><label for="borderWidth">Width</label><input type="number" id="borderWidth" min="0" max="4" step="0.25" value="0.5"></div>
+            <div class="field"><label for="outlineWidth">Outer</label><input type="number" id="outlineWidth" min="0" max="6" step="0.25" value="1.25"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="background">Background</label>
+              <select id="background"><option value="#ffffff" selected>White</option><option value="transparent">Transparent</option><option value="#0f172a">Dark</option></select>
+            </div>
+            <div class="field"><label for="canvas">Size</label>
+              <select id="canvas">
+                <option value="1000x1000" selected>Square</option>
+                <option value="1200x900">4 : 3</option>
+                <option value="1600x900">16 : 9</option>
+                <option value="900x1200">3 : 4</option>
+                <option value="1000x1414">A4 portrait</option>
+                <option value="1414x1000">A4 landscape</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Labels &amp; legend</summary>
+        <div class="panel-body">
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="showNames"> Names</label>
+            <label class="check"><input type="checkbox" id="showValues"> Values</label>
+            <label class="check"><input type="checkbox" id="showLegend" checked> Legend</label>
+          </div>
+          <div class="row row-3">
+            <div class="field"><label for="labelSize">Label size</label><input type="number" id="labelSize" min="4" max="40" value="9"></div>
+            <div class="field"><label for="decimals">Decimals</label><input type="number" id="decimals" min="0" max="6" value="0"></div>
+            <div class="field"><label for="numberStyle">Numbers</label>
+              <select id="numberStyle"><option value="plain">Plain</option><option value="indian" selected>12,34,567</option><option value="lakh">Lakh / Crore</option><option value="metric">K / M / B</option></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="prefix">Prefix</label><input type="text" id="prefix" placeholder="₹"></div>
+            <div class="field"><label for="suffix">Suffix</label><input type="text" id="suffix" placeholder="%"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="legendTitle">Legend title</label><input type="text" id="legendTitle"></div>
+            <div class="field"><label for="legendPos">Legend position</label>
+              <select id="legendPos"><option value="bl" selected>Bottom left</option><option value="br">Bottom right</option><option value="tl">Top left</option><option value="tr">Top right</option></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="legendSize">Legend size</label><input type="number" id="legendSize" min="6" max="40" value="13"></div>
+            <div class="field"><label for="labelColour">Label colour</label><input type="color" id="labelColour" value="#111111"></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Text</summary>
+        <div class="panel-body">
+          <div class="field"><label for="title">Title</label><input type="text" id="title"></div>
+          <div class="row"><div class="field"><label for="titleSize">Title size</label><input type="number" id="titleSize" min="8" max="120" value="34"></div>
+            <div class="field"><label for="align">Align</label><select id="align"><option value="start" selected>Left</option><option value="middle">Centre</option></select></div></div>
+          <div class="field"><label for="subtitle">Subtitle</label><input type="text" id="subtitle"></div>
+          <div class="field"><label for="subtitleSize">Subtitle size</label><input type="number" id="subtitleSize" min="6" max="80" value="18"></div>
+          <div class="field"><label for="source">Source / note</label><input type="text" id="source"></div>
+          <div class="field"><label for="sourceSize">Source size</label><input type="number" id="sourceSize" min="6" max="40" value="12"></div>
+          <div class="row">
+            <div class="field"><label for="textColour">Text colour</label><input type="color" id="textColour" value="#111111"></div>
+            <div class="field"><label for="font">Font</label>
+              <select id="font"><option value="Helvetica Neue, Helvetica, Arial, sans-serif" selected>Sans</option><option value="Georgia, Times New Roman, serif">Serif</option><option value="Consolas, Menlo, monospace">Mono</option></select>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Export</summary>
+        <div class="panel-body">
+          <div class="btn-row">
+            <button class="btn-plain" data-export="png" data-scale="1" type="button">PNG</button>
+            <button class="btn-plain" data-export="png" data-scale="2" type="button">PNG 2×</button>
+            <button class="btn-plain" data-export="png" data-scale="4" type="button">PNG 4×</button>
+            <button class="btn-plain secondary" data-export="svg" type="button">SVG</button>
+            <button class="btn-plain secondary" data-export="pdf" type="button">PDF</button>
+            <button class="btn-plain secondary" data-export="csv" type="button">Data CSV</button>
+          </div>
+        </div>
+      </details>
+
+    </aside>
+
+    <section class="maps-stage">
+      <div class="stage-frame" id="stage"></div>
+      <div class="stage-note">
+        <span id="stageInfo"></span>
+        <span>Boundaries: <a href="{{ site.baseurl }}/#administrative">LGD via India Geodata</a> · <a href="https://github.com/yashveeeeeeer/india-geodata/tree/main/docs/maps">Source</a></span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="map-tip" id="mapTip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=1"></script>

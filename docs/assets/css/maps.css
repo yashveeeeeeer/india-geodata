@@ -1,0 +1,146 @@
+/* ==========================================================================
+   India Geodata — Map Maker
+   ========================================================================== */
+
+.maps-page { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+.maps-intro { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.maps-intro h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+.maps-intro p { font-size: 0.9rem; color: var(--color-muted); }
+
+.maps-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; align-items: start; }
+
+/* --- Sidebar --- */
+.maps-side { display: flex; flex-direction: column; gap: 8px; }
+.panel {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+}
+.panel > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.panel > summary::-webkit-details-marker { display: none; }
+.panel > summary::after { content: "+"; color: var(--color-muted); font-weight: 400; }
+.panel[open] > summary::after { content: "–"; }
+.panel[open] > summary { border-bottom: 1px solid var(--color-border); }
+.panel-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label, .row label { font-size: 0.74rem; font-weight: 500; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.row-3 { grid-template-columns: 1fr 1fr 1fr; }
+.row .field { min-width: 0; }
+
+.maps-side select, .maps-side input[type="text"], .maps-side input[type="number"], .maps-side textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 0.86rem;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+}
+.maps-side select:focus, .maps-side input:focus, .maps-side textarea:focus { border-color: var(--color-text); }
+.maps-side textarea { min-height: 88px; resize: vertical; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.4; }
+.maps-side input[type="color"] { width: 100%; height: 30px; padding: 0 2px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); cursor: pointer; }
+.maps-side input[type="range"] { width: 100%; accent-color: var(--color-text); }
+
+.check { display: flex; align-items: center; gap: 8px; font-size: 0.86rem; cursor: pointer; }
+.check input { accent-color: var(--color-text); width: 15px; height: 15px; }
+.checks { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+
+.btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-plain {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 1px solid var(--color-text);
+  border-radius: 6px;
+  background: var(--color-text);
+  color: #fff;
+  transition: opacity var(--transition);
+}
+.btn-plain:hover { opacity: 0.85; }
+.btn-plain.secondary { background: var(--color-bg); color: var(--color-text); }
+.btn-plain.secondary:hover { background: var(--color-bg-light); }
+.btn-plain:disabled { opacity: 0.4; cursor: default; }
+
+.file-drop {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.file-drop:hover, .file-drop.over { border-color: var(--color-text); color: var(--color-text); }
+.file-drop input { display: none; }
+
+.status { font-size: 0.78rem; color: var(--color-muted); }
+.status strong { color: var(--color-text); font-weight: 600; }
+.unmatched { font-size: 0.76rem; color: var(--color-muted); max-height: 90px; overflow-y: auto; line-height: 1.5; }
+.unmatched span { display: inline-block; margin: 0 6px 2px 0; padding: 0 6px; border: 1px solid var(--color-border); border-radius: 10px; }
+
+.value-table-wrap { max-height: 300px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.value-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.value-table td { padding: 3px 6px; border-bottom: 1px solid var(--color-bg-light); vertical-align: middle; }
+.value-table td:first-child { width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 0; }
+.value-table td small { color: var(--color-muted); }
+.value-table input { width: 100%; font: inherit; font-size: 0.8rem; padding: 2px 6px; border: 1px solid transparent; border-radius: 3px; background: transparent; text-align: right; }
+.value-table input:hover { border-color: var(--color-border); }
+.value-table input:focus { border-color: var(--color-text); outline: none; background: var(--color-bg); }
+
+/* --- Stage --- */
+.maps-stage { position: sticky; top: calc(var(--header-height) + 16px); }
+.stage-frame {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: repeating-conic-gradient(#f1f5f9 0 25%, #fff 0 50%) 0 0 / 16px 16px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}
+.stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 160px); display: block; box-shadow: var(--shadow-sm); }
+.stage-frame svg path { transition: opacity 0.1s; }
+.stage-frame svg .region:hover { opacity: 0.75; }
+.stage-note { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.78rem; color: var(--color-muted); gap: 12px; flex-wrap: wrap; }
+.stage-note a { color: var(--color-muted); text-decoration: underline; text-underline-offset: 2px; }
+.stage-note a:hover { color: var(--color-text); }
+
+.map-tip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+  background: var(--color-text);
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transform: translate(-50%, calc(-100% - 10px));
+  white-space: nowrap;
+  display: none;
+}
+
+.loading { opacity: 0.5; pointer-events: none; }
+
+@media (max-width: 900px) {
+  .maps-layout { grid-template-columns: 1fr; }
+  .maps-stage { position: static; order: -1; }
+  .stage-frame svg { max-height: 70vh; }
+}
+@media (max-width: 480px) {
+  .maps-page { padding: 16px; }
+  .row-3 { grid-template-columns: 1fr 1fr; }
+}

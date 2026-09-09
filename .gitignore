@@ -35,3 +35,6 @@ downloads/
 tmp/
 temp_downloads/
 temp_transport/
+
+# local build cache
+.cache/

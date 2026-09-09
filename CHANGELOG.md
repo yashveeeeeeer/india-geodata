@@ -2,6 +2,12 @@
 
 All notable changes to this dataset repository will be documented here.
 
+## [Unreleased]
+
+### Added
+- Map Maker (`docs/maps/`): paste or upload a spreadsheet and get a choropleth of India, one state, or one district at state, district or sub-district level; PNG, SVG, PDF and CSV export
+- `scripts/build-map-layers.py` to regenerate the simplified TopoJSON layers from the LGD release files
+
 ## [1.0.0] - 2026-03-07
 
 ### Added
