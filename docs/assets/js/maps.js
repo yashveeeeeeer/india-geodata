@@ -643,7 +643,7 @@
     current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); }).forEach(function (f) {
       var p = f.properties;
       var v = values[current.level][f.id];
-      rows.push([p.name, current.level === 'states' ? '' : parentOf(p), p.lgd, v == null ? '' : v]);
+      rows.push([csvSafe(p.name), csvSafe(current.level === 'states' ? '' : parentOf(p)), p.lgd, v == null ? '' : csvSafe(v)]);
     });
     download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), (regionLabel() + ' ' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-template.csv');
   });
@@ -1691,17 +1691,6 @@
     fr.readAsText(file);
   }
 
-  function exportCsv() {
-    var vals = values[current.level];
-    var rows = [['name', 'parent', 'lgd_code', 'value']];
-    current.features.forEach(function (f) {
-      var p = f.properties;
-      var v = vals[f.id];
-      rows.push([csvSafe(p.name), csvSafe(current.level === 'states' ? '' : parentOf(p)), p.lgd, v == null ? '' : csvSafe(v)]);
-    });
-    download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), slug() + '.csv');
-  }
-
   document.querySelectorAll('[data-export]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       if (!svgNode) return;
@@ -1711,7 +1700,6 @@
       else if (kind === 'project') exportProject();
       else if (kind === 'svg') download(new Blob([svgString()], { type: 'image/svg+xml' }), slug() + '.svg');
       else if (kind === 'pdf') exportPdf();
-      else if (kind === 'csv') exportCsv();
     });
   });
 
