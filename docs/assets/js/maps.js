@@ -49,7 +49,7 @@
   var ui = {
     regionState: $('regionState'), regionDistrict: $('regionDistrict'), districtField: $('districtField'), level: $('level'),
     paste: $('paste'), fileInput: $('fileInput'), fileDrop: $('fileDrop'),
-    applyData: $('applyData'), clearData: $('clearData'), sampleData: $('sampleData'),
+    applyData: $('applyData'), clearData: $('clearData'),
     matchStatus: $('matchStatus'), unmatched: $('unmatched'), tableSearch: $('tableSearch'), valueTable: $('valueTable'),
     ramp: $('ramp'), scaleMode: $('scaleMode'), customColours: $('customColours'), colourLow: $('colourLow'), colourHigh: $('colourHigh'),
     buckets: $('buckets'), noData: $('noData'), reverse: $('reverse'),
@@ -1850,15 +1850,6 @@
   }
   ui.reportLink.addEventListener('focus', updateReportLink);
   ui.reportLink.addEventListener('mouseenter', updateReportLink);
-  ui.sampleData.addEventListener('click', function () {
-    var vals = values[current.level] = {};
-    current.features.forEach(function (f, i) {
-      var seed = Math.sin(i * 12.9898 + f.properties.lgd) * 43758.5453;
-      vals[f.id] = Math.round((seed - Math.floor(seed)) * 1000) / 10;
-    });
-    valueHeaders[current.level] = 'Sample values';
-    lastMatch = null; reportMatch(); buildTable(); render(); save();
-  });
   ui.fileInput.addEventListener('change', function () { readFile(ui.fileInput.files[0]); ui.fileInput.value = ''; });
   ['dragenter', 'dragover'].forEach(function (ev) {
     ui.fileDrop.addEventListener(ev, function (e) { e.preventDefault(); ui.fileDrop.classList.add('over'); });
@@ -1925,7 +1916,6 @@
     ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';
     ui.legendTitle.placeholder = valueHeaders[current.level] || '';
     var hasData = Object.keys(values[current.level] || {}).length > 0;
-    ui.sampleData.hidden = hasData;
     ui.copyImage.hidden = !(navigator.clipboard && window.ClipboardItem);
   }
 
