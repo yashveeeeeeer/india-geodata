@@ -40,14 +40,21 @@
     continuous: 'One smooth gradient, no groups. Suits gradual change such as rainfall, temperature or elevation, when the overall pattern matters more than exact ranks.'
   };
 
-  var LEVEL_LABEL = { states: 'states', districts: 'districts', subdistricts: 'sub-districts' };
+  // Colour presets swapped in when the background flips between light and dark.
+  var PRESETS = {
+    light: { textColour: '#111111', labelColour: '#111111', borderColour: '#333333', outlineColour: '#333333', noData: '#e5e7eb' },
+    dark: { textColour: '#f1f5f9', labelColour: '#f1f5f9', borderColour: '#94a3b8', outlineColour: '#cbd5e1', noData: '#334155' }
+  };
 
   var layers = {};                       // level -> { topo, object, features }
   var values = { states: {}, districts: {}, subdistricts: {} };   // level -> id -> value
-  var valueHeader = '';
+  var valueHeaders = { states: '', districts: '', subdistricts: '' };
   var region = { state: '', district: '' };
   var current = { level: 'districts', features: [], object: null, topo: null };
   var lastMatch = null;
+  var autoSuffix = false;
+  var offsets = {};                      // drag offsets per overlay: title, source, legend, north -> { dx, dy }
+  var meshCache = {};
 
   // ---------------------------------------------------------------------------
   //  Data loading
@@ -102,32 +109,41 @@
     });
   }
 
-  function populateStates(layer) {
-    var opts = layer.features.map(function (f) { return { lgd: String(f.properties.lgd), name: f.properties.name }; })
-      .sort(function (a, b) { return a.name.localeCompare(b.name); });
-    opts.forEach(function (o) {
+  function fillSelect(sel, opts, firstLabel) {
+    sel.innerHTML = '<option value="">' + firstLabel + '</option>';
+    opts.sort(function (a, b) { return a.name.localeCompare(b.name); }).forEach(function (o) {
       var el = document.createElement('option');
       el.value = o.lgd; el.textContent = o.name;
-      ui.regionState.appendChild(el);
+      sel.appendChild(el);
     });
   }
 
+  function populateStates(layer) {
+    fillSelect(ui.regionState, layer.features.map(function (f) { return { lgd: String(f.properties.lgd), name: f.properties.name }; }), 'India');
+  }
+
   function populateDistricts() {
-    ui.regionDistrict.innerHTML = '<option value="">All districts</option>';
-    if (!region.state) { ui.districtField.hidden = true; return; }
+    if (!region.state) { fillSelect(ui.regionDistrict, [], 'All districts'); ui.districtField.hidden = true; return; }
     return loadLayer('districts').then(function (layer) {
       var opts = layer.features.filter(function (f) { return String(f.properties.state_lgd) === region.state; })
-        .map(function (f) { return { lgd: String(f.properties.lgd), name: f.properties.name }; })
-        .sort(function (a, b) { return a.name.localeCompare(b.name); });
-      opts.forEach(function (o) {
-        var el = document.createElement('option');
-        el.value = o.lgd; el.textContent = o.name;
-        ui.regionDistrict.appendChild(el);
-      });
+        .map(function (f) { return { lgd: String(f.properties.lgd), name: f.properties.name }; });
+      fillSelect(ui.regionDistrict, opts, 'All districts');
       ui.regionDistrict.value = region.district;
       if (ui.regionDistrict.value !== region.district) { region.district = ''; }
       ui.districtField.hidden = false;
     });
+  }
+
+  function regionLabel() {
+    if (region.district) {
+      var d = ui.regionDistrict.options[ui.regionDistrict.selectedIndex];
+      if (d && d.value) return d.textContent;
+    }
+    if (region.state) {
+      var s = ui.regionState.options[ui.regionState.selectedIndex];
+      if (s && s.value) return s.textContent;
+    }
+    return 'India';
   }
 
   // ---------------------------------------------------------------------------
@@ -148,6 +164,8 @@
     dnhanddd: 'dadraandnagarhavelianddamananddiu', jandk: 'jammuandkashmir', jk: 'jammuandkashmir',
     up: 'uttarpradesh', mp: 'madhyapradesh', hp: 'himachalpradesh', ap: 'andhrapradesh', tn: 'tamilnadu', wb: 'westbengal'
   };
+
+  var HEADER_WORDS = /^(name|names|region|regions|area|state|states|ut|stateut|statesuts|st|district|districts|dist|subdistrict|subdistricts|tehsil|taluk|taluka|mandal|block|unit|place|location)$/;
 
   function compact(s) {
     return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -192,22 +210,33 @@
     return !!stateKeys[ALIASES[k] || k];
   }
 
-  function pickByState(cands, stateHint) {
-    if (!stateHint) return null;
-    var h = compact(stateHint);
+  // A "parent" hint is a state name, or a district name when sub-districts are drawn.
+  function isParentName(v) {
+    if (isStateName(v)) return true;
+    if (current.level !== 'subdistricts' || !v) return false;
+    var k = compact(v);
+    k = ALIASES[k] || k;
+    return current.features.some(function (f) { return compact(f.properties.district || '') === k; });
+  }
+
+  function pickByParent(cands, hint) {
+    if (!hint) return null;
+    var h = compact(hint);
     h = ALIASES[h] || h;
-    var hits = cands.filter(function (f) { return compact(f.properties.state || '') === h; });
+    var hits = cands.filter(function (f) {
+      return compact(f.properties.state || '') === h || compact(f.properties.district || '') === h;
+    });
     return hits.length === 1 ? hits[0] : null;
   }
 
-  function matchName(raw, stateHint, idx) {
+  function matchName(raw, hint, idx) {
     var name = String(raw).trim();
     if (!name) return null;
     if (digitsOnly(name)) return idx.byCode[name.replace(/^0+/, '')] || null;
 
-    // "Bilaspur, Himachal Pradesh" or "Bilaspur (HP)"
+    // "Bilaspur, Himachal Pradesh" or "Bilaspur (HP)": only split when the tail is a real parent name
     var m = name.match(/^(.*?)[\s]*[,(]\s*([^)]+)\)?\s*$/);
-    if (m && !stateHint) { name = m[1]; stateHint = m[2]; }
+    if (m && !hint && isParentName(m[2])) { name = m[1]; hint = m[2]; }
 
     var k = compact(name);
     k = ALIASES[k] || k;
@@ -222,7 +251,7 @@
     }
     if (!cands) return null;
     if (cands.length === 1) return cands[0];
-    return pickByState(cands, stateHint) || { ambiguous: cands };
+    return pickByParent(cands, hint) || { ambiguous: cands };
   }
 
   // ---------------------------------------------------------------------------
@@ -235,55 +264,81 @@
     return useTab ? d3.tsvParseRows(lines.join('\n')) : d3.csvParseRows(lines.join('\n'));
   }
 
+  var EMPTY_TOKENS = /^(na|n\/a|n\.a\.?|nan|null|nil|none|-{1,3}|–|—|\.\.|\.|\?|#n\/a|#value!|#div\/0!|#ref!)$/i;
+  function isEmptyToken(v) { return v == null || String(v).trim() === '' || EMPTY_TOKENS.test(String(v).trim()); }
+
   function toNumber(v) {
     if (typeof v === 'number') return isFinite(v) ? v : NaN;
-    var s = String(v).trim().replace(/[₹$,%\s]/g, '').replace(/^\((.*)\)$/, '-$1');
+    var s = String(v).trim().replace(/[−–]/, '-').replace(/^(rs\.?|inr|₹|\$|€|£)\s*/i, '').replace(/[₹$€£,%\s]/g, '').replace(/^\((.*)\)$/, '-$1');
     if (s === '' || s === '-') return NaN;
     return Number(s);
   }
 
   function applyRows(rows) {
-    rows = rows.map(function (r) { return r.map(function (c) { return c == null ? '' : String(c).trim(); }); })
-      .filter(function (r) { return r.some(function (c) { return c !== ''; }); });
+    rows = rows.map(function (r) {
+      r = r.map(function (c) { return c == null ? '' : String(c).trim(); });
+      while (r.length && r[r.length - 1] === '') r.pop();
+      return r;
+    }).filter(function (r) { return r.length; });
     if (!rows.length) return;
 
     var level = current.level;
+    // column count: the widest row that at least two rows reach (a lone trailing note does not count)
+    var byLen = {};
+    rows.forEach(function (r) { byLen[r.length] = (byLen[r.length] || 0) + 1; });
     var ncol = d3.max(rows, function (r) { return r.length; });
-    var nameCol = 0, stateCol = -1, valueCol = ncol - 1;
+    while (ncol > 2 && (byLen[ncol] || 0) < 2 && rows[0].length !== ncol) ncol--;
+    var nameCol = 0, hintCol = -1, valueCol = ncol - 1;
     if (ncol < 2) { setStatus('Need at least two columns: name and value.'); return; }
 
-    // header detection
+    var idx = buildIndex(current.features);
+
+    // header detection: value cell not numeric while others are, or a first cell that reads like a column label
     var header = null;
+    var first = rows[0];
     var numericRows = rows.filter(function (r) { return !isNaN(toNumber(r[valueCol])); }).length;
-    if (numericRows >= 1 && isNaN(toNumber(rows[0][valueCol]))) {
-      header = rows[0];
-      valueHeader = header[valueCol];
+    var firstLooksLikeLabel = HEADER_WORDS.test(compact(first[0] || '')) || HEADER_WORDS.test(compact(first[1] || ''));
+    var firstUnmatched = rows.length > 1 && !matchName(first[0], '', idx) && (ncol < 3 || !matchName(first[1], '', idx));
+    if ((numericRows >= 1 && isNaN(toNumber(first[valueCol]))) || firstLooksLikeLabel || (firstUnmatched && isNaN(toNumber(first[valueCol])))) {
+      header = first;
       rows = rows.slice(1);
     }
+    var headerValue = header ? header[valueCol] : '';
+    valueHeaders[level] = /^(value|values|val|data|number|numbers|amount|count|figure)$/i.test(headerValue) ? '' : headerValue;
 
-    // with three or more columns, work out which of the first two holds the state
+    // with three or more columns, work out which of the first two holds the state (or district)
     if (ncol >= 3 && level !== 'states') {
-      var headerState = header ? [0, 1].filter(function (c) { return /^(state|ut|state\/ut|st)$/.test(compact(header[c] || '')); }) : [];
-      if (headerState.length === 1) {
-        stateCol = headerState[0]; nameCol = stateCol === 0 ? 1 : 0;
+      var headerHint = header ? [0, 1].filter(function (c) { return /^(state|ut|stateut|st|states|district|dist)$/.test(compact(header[c] || '')); }) : [];
+      if (headerHint.length === 1 && !(header && HEADER_WORDS.test(compact(header[1 - headerHint[0]] || '')) && /^(district|dist)$/.test(compact(header[headerHint[0]])) && level === 'districts')) {
+        hintCol = headerHint[0]; nameCol = hintCol === 0 ? 1 : 0;
       } else {
-        var hits = [0, 1].map(function (c) { return rows.filter(function (r) { return isStateName(r[c]); }).length; });
-        if (hits[0] || hits[1]) { stateCol = hits[0] >= hits[1] ? 0 : 1; nameCol = stateCol === 0 ? 1 : 0; }
+        var hits = [0, 1].map(function (c) { return rows.filter(function (r) { return isParentName(r[c]); }).length; });
+        if (hits[0] || hits[1]) { hintCol = hits[0] >= hits[1] ? 0 : 1; nameCol = hintCol === 0 ? 1 : 0; }
       }
     }
 
-    var idx = buildIndex(current.features);
-    var vals = values[level];
-    var matched = 0, unmatched = [], ambiguous = [];
+    // a paste replaces the level's data
+    var vals = values[level] = {};
+    var matched = 0, empty = 0, unmatched = [], ambiguous = [];
+    var percentCount = 0;
     rows.forEach(function (r) {
-      var f = matchName(r[nameCol], stateCol >= 0 ? r[stateCol] : '', idx);
-      if (!f) { unmatched.push(r[nameCol]); return; }
+      var nm = r[nameCol] || '';
+      if (!nm) return;
+      var f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
+      if (!f) { unmatched.push(nm); return; }
       if (f.ambiguous) { ambiguous.push(r[nameCol]); return; }
-      var n = toNumber(r[valueCol]);
-      vals[f.id] = isNaN(n) ? r[valueCol] : n;
+      var raw = r[valueCol];
+      if (isEmptyToken(raw)) { empty++; return; }
+      if (/%\s*$/.test(raw)) percentCount++;
+      var n = toNumber(raw);
+      vals[f.id] = isNaN(n) ? raw : n;
       matched++;
     });
-    lastMatch = { matched: matched, unmatched: unmatched, ambiguous: ambiguous };
+    var isPercent = percentCount && percentCount >= matched / 2;
+    if (isPercent && !ui.suffix.value) { ui.suffix.value = '%'; autoSuffix = true; }
+    else if (!isPercent && autoSuffix && ui.suffix.value === '%') { ui.suffix.value = ''; autoSuffix = false; }
+
+    lastMatch = { matched: matched, empty: empty, unmatched: unmatched, ambiguous: ambiguous };
     reportMatch();
     buildTable();
     render();
@@ -293,8 +348,11 @@
   function reportMatch() {
     if (!lastMatch) { ui.matchStatus.textContent = ''; ui.unmatched.innerHTML = ''; return; }
     var parts = ['<strong>' + lastMatch.matched + '</strong> matched'];
+    if (lastMatch.empty) parts.push('<strong>' + lastMatch.empty + '</strong> without a value');
     if (lastMatch.unmatched.length) parts.push('<strong>' + lastMatch.unmatched.length + '</strong> not found');
-    if (lastMatch.ambiguous.length) parts.push('<strong>' + lastMatch.ambiguous.length + '</strong> ambiguous (add a state column)');
+    if (lastMatch.ambiguous.length) {
+      parts.push('<strong>' + lastMatch.ambiguous.length + '</strong> ambiguous (add a ' + (current.level === 'subdistricts' ? 'district' : 'state') + ' column)');
+    }
     ui.matchStatus.innerHTML = parts.join(' · ');
     ui.unmatched.innerHTML = lastMatch.unmatched.concat(lastMatch.ambiguous).map(function (n) {
       return '<span>' + escapeHtml(n) + '</span>';
@@ -354,7 +412,7 @@
     if (!input) return;
     var vals = values[current.level];
     var raw = input.value.trim();
-    if (raw === '') delete vals[input.dataset.id];
+    if (isEmptyToken(raw)) delete vals[input.dataset.id];
     else { var n = toNumber(raw); vals[input.dataset.id] = isNaN(n) ? raw : n; }
     render();
     save();
@@ -363,16 +421,20 @@
   // ---------------------------------------------------------------------------
   //  Number formatting
   // ---------------------------------------------------------------------------
+  var autoDecimals = 0;
+
+  function decimals() {
+    var v = ui.decimals.value;
+    return v === '' ? autoDecimals : Math.max(0, Math.min(6, +v || 0));
+  }
+
   function indianGroup(intStr) {
     if (intStr.length <= 3) return intStr;
     var last3 = intStr.slice(-3), rest = intStr.slice(0, -3);
     return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3;
   }
 
-  function fmt(v) {
-    if (v == null || v === '') return '';
-    if (typeof v !== 'number') return String(v);
-    var d = +ui.decimals.value || 0;
+  function fmtNumber(v, d) {
     var style = ui.numberStyle.value;
     var neg = v < 0 ? '-' : '';
     var a = Math.abs(v);
@@ -384,17 +446,36 @@
     } else {
       var fixed = a.toFixed(d).split('.');
       var intPart = fixed[0];
-      if (style === 'indian') intPart = indianGroup(intPart);
+      if (style === 'indian' || style === 'lakh') intPart = indianGroup(intPart);
       else if (style === 'metric') intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       s = intPart + (fixed[1] ? '.' + fixed[1] : '');
     }
-    return (ui.prefix.value || '') + neg + s + (ui.suffix.value || '');
+    return neg + s;
+  }
+
+  function fmt(v) {
+    if (v == null || v === '') return '';
+    if (typeof v !== 'number') return String(v);
+    return (ui.prefix.value || '') + fmtNumber(v, decimals()) + (ui.suffix.value || '');
+  }
+
+  // Pick enough decimals to tell the given break values apart.
+  function computeAutoDecimals(nums, breaks) {
+    if (nums.every(function (n) { return Number.isInteger(n); })) return 0;
+    var pts = (breaks && breaks.length > 1 ? breaks : nums).slice().sort(d3.ascending);
+    var minStep = Infinity;
+    for (var i = 1; i < pts.length; i++) { var s = pts[i] - pts[i - 1]; if (s > 0 && s < minStep) minStep = s; }
+    if (!isFinite(minStep)) {
+      return Math.min(3, d3.max(nums, function (n) { var f = String(n).split('.')[1]; return f ? f.length : 0; }) || 1);
+    }
+    return Math.min(3, Math.max(1, d3.precisionFixed(minStep)));
   }
 
   // ---------------------------------------------------------------------------
   //  Colour scale
   // ---------------------------------------------------------------------------
   var CLAMPED = { Greys: 1, Blues: 1, Greens: 1, Oranges: 1, Reds: 1, Purples: 1, YlOrRd: 1, YlGnBu: 1 };
+  var DIVERGING = { RdBu: 1, RdYlGn: 1 };
 
   function interpolator() {
     var name = ui.ramp.value;
@@ -402,65 +483,151 @@
     if (name === 'custom') base = d3.interpolateLab(ui.colourLow.value, ui.colourHigh.value);
     else {
       var fn = d3['interpolate' + name];
-      base = CLAMPED[name] ? function (t) { return fn(0.08 + 0.87 * t); } : fn;
+      base = CLAMPED[name] ? function (t) { return fn(0.15 + 0.8 * t); } : fn;
     }
     return ui.reverse.checked ? function (t) { return base(1 - t); } : base;
   }
 
+  function isNum(v) { return typeof v === 'number' && isFinite(v); }
+
   function buildScale(vals) {
     var entries = current.features.map(function (f) { return vals[f.id]; }).filter(function (v) { return v != null && v !== ''; });
     if (!entries.length) return null;
-    var nums = entries.filter(function (v) { return typeof v === 'number'; });
+    var nums = entries.filter(isNum);
     var interp = interpolator();
+    var ramp = ui.ramp.value;
 
+    // --- categorical: text wins the majority ---
     if (nums.length < entries.length / 2) {
-      var cats = Array.from(new Set(entries.map(String))).sort();
-      var colours = d3.quantize(interp, Math.max(cats.length, 2)).slice(0, cats.length);
-      var ord = d3.scaleOrdinal().domain(cats).range(colours);
-      return { type: 'categorical', scale: function (v) { return ord(String(v)); }, categories: cats, colours: colours };
+      var counts = {}, order = [];
+      entries.forEach(function (v) { var k = String(v); if (!(k in counts)) { counts[k] = 0; order.push(k); } counts[k]++; });
+      var cats = order.slice();
+      var other = null;
+      if (cats.length > 10) {
+        cats = order.slice().sort(function (a, b) { return counts[b] - counts[a]; }).slice(0, 9);
+        cats = order.filter(function (k) { return cats.indexOf(k) !== -1; });
+        other = 'Other';
+      }
+      var colours;
+      if (ramp === 'custom' || ramp === 'Greys') colours = d3.quantize(interp, Math.max(cats.length + (other ? 1 : 0), 2));
+      else { colours = d3.schemeTableau10.slice(); if (ui.reverse.checked) colours.reverse(); }
+      var lookup = {};
+      cats.forEach(function (c, i) { lookup[c] = colours[i % colours.length]; });
+      var otherColour = other ? (ramp === 'custom' || ramp === 'Greys' ? colours[cats.length] : '#9ca3af') : null;
+      return {
+        type: 'categorical',
+        has: function (v) { return v != null && v !== ''; },
+        scale: function (v) { var k = String(v); return k in lookup ? lookup[k] : otherColour; },
+        items: cats.map(function (c) { return { label: c, colour: lookup[c] }; }).concat(other ? [{ label: other, colour: otherColour }] : [])
+      };
     }
 
-    var ext = d3.extent(nums);
+    // --- numeric ---
+    var uniq = Array.from(new Set(nums)).sort(d3.ascending);
+    var ext = [uniq[0], uniq[uniq.length - 1]];
     var mode = ui.scaleMode.value;
-    if (mode === 'continuous' || ext[0] === ext[1]) {
-      var seq = d3.scaleSequential(interp).domain(ext);
-      return { type: 'continuous', scale: function (v) { return typeof v === 'number' ? seq(v) : null; }, extent: ext, interp: interp };
+    var diverging = DIVERGING[ramp] && ext[0] < 0 && ext[1] > 0;
+
+    if (uniq.length === 1) {
+      autoDecimals = computeAutoDecimals(nums);
+      var one = interp(0.75);
+      return { type: 'buckets', has: isNum, scale: function (v) { return isNum(v) ? one : null; }, items: [{ label: fmt(uniq[0]), colour: one }], single: true };
     }
-    var k = Math.min(9, Math.max(2, +ui.buckets.value || 5));
-    var range = d3.quantize(interp, k);
-    var sc = mode === 'quantile' ? d3.scaleQuantile().domain(nums).range(range) : d3.scaleQuantize().domain(ext).range(range);
-    var thresholds = mode === 'quantile' ? sc.quantiles() : sc.thresholds();
-    return { type: 'buckets', scale: function (v) { return typeof v === 'number' ? sc(v) : null; }, thresholds: thresholds, extent: ext, colours: range };
+
+    if (mode === 'continuous') {
+      autoDecimals = computeAutoDecimals(nums, ext);
+      var seq = diverging ? d3.scaleDiverging(interp).domain([ext[0], 0, ext[1]]) : d3.scaleSequential(interp).domain(ext);
+      return { type: 'continuous', has: isNum, scale: function (v) { return isNum(v) ? seq(v) : null; }, extent: ext, interp: interp, mid: diverging ? 0 : null };
+    }
+
+    var k = Math.min(9, Math.max(2, +ui.buckets.value || 5), uniq.length);
+    if (DIVERGING[ramp] && mode === 'equal' && k % 2 === 0) k = k < 9 ? k + 1 : k - 1;
+    var thresholds;
+    if (mode === 'quantile') {
+      var sorted = nums.slice().sort(d3.ascending);
+      thresholds = d3.range(1, k).map(function (i) { return d3.quantileSorted(sorted, i / k); });
+    } else {
+      var lo = diverging ? -Math.max(-ext[0], ext[1]) : ext[0];
+      var hi = diverging ? Math.max(-ext[0], ext[1]) : ext[1];
+      var step = (hi - lo) / k;
+      thresholds = d3.range(1, k).map(function (i) { return lo + step * i; });
+    }
+    var integers = nums.every(function (v) { return Number.isInteger(v); });
+    var symmetric = diverging && mode === 'equal';
+    var labLo = symmetric ? -Math.max(-ext[0], ext[1]) : ext[0];
+    var labHi = symmetric ? Math.max(-ext[0], ext[1]) : ext[1];
+    function tidy(ts) {
+      if (integers) ts = ts.map(Math.ceil);      // whole-number data gets whole-number breaks
+      return Array.from(new Set(ts)).filter(function (t) { return t > labLo && t <= labHi; }).sort(d3.ascending);
+    }
+    thresholds = tidy(thresholds);
+    if (mode === 'quantile' && thresholds.length < k - 1) {
+      // heavy ties (many zeros): spread the classes over the distinct values instead
+      thresholds = tidy(d3.range(1, k).map(function (i) { return d3.quantileSorted(uniq, i / k); }));
+    }
+    var n = thresholds.length + 1;
+    var colours = d3.quantize(interp, Math.max(n, 2)).slice(0, n);
+    if (n === 1) colours = [interp(0.75)];
+    var sc = d3.scaleThreshold().domain(thresholds).range(colours);
+    autoDecimals = computeAutoDecimals(nums, [ext[0]].concat(thresholds, [ext[1]]));
+
+    var items = colours.map(function (c, i) {
+      var lo2 = i === 0 ? labLo : thresholds[i - 1];
+      var hi2 = i === n - 1 ? labHi : thresholds[i];
+      var label;
+      if (n === 1 || i === n - 1) label = lo2 === hi2 ? fmt(lo2) : fmt(lo2) + ' – ' + fmt(hi2);
+      else if (integers) label = hi2 - 1 <= lo2 ? fmt(lo2) : fmt(lo2) + ' – ' + fmt(hi2 - 1);
+      else label = fmt(lo2) + ' – <' + fmt(hi2);
+      return { label: label, colour: c };
+    });
+    return { type: 'buckets', has: isNum, scale: function (v) { return isNum(v) ? sc(v) : null; }, items: items };
   }
 
   // ---------------------------------------------------------------------------
   //  Render
   // ---------------------------------------------------------------------------
   var svgNode = null;
-  var offsets = {};          // drag offsets per overlay: { title, source, legend, north } -> { dx, dy }
 
   function intersects(a, b) {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
   }
 
-  function makeDraggable(sel, key, base) {
-    var off = offsets[key] || { dx: 0, dy: 0 };
-    function apply() { sel.attr('transform', 'translate(' + (base.x + off.dx) + ',' + (base.y + off.dy) + ')'); }
+  // base: where the element sits now. anchor: the position its drag offset is measured from
+  // (the preferred corner), so a dragged element never jumps when the map re-renders.
+  function makeDraggable(sel, key, base, anchor) {
+    anchor = anchor || base;
+    var off = offsets[key] ? offsets[key] : { dx: base.x - anchor.x, dy: base.y - anchor.y };
+    function apply() { sel.attr('transform', 'translate(' + (anchor.x + off.dx) + ',' + (anchor.y + off.dy) + ')'); }
     apply();
     sel.attr('class', 'drag');
+    var pending = { dx: 0, dy: 0 };
     sel.call(d3.drag()
-      .on('start', function () { off = offsets[key] = offsets[key] || { dx: 0, dy: 0 }; })
+      .on('start', function () { pending = { dx: 0, dy: 0 }; })
       .on('drag', function (e) {
         var k = (+svgNode.getAttribute('width')) / svgNode.getBoundingClientRect().width;
-        off.dx += e.dx * k; off.dy += e.dy * k;
+        pending.dx += e.dx * k; pending.dy += e.dy * k;
+        if (!offsets[key] && pending.dx * pending.dx + pending.dy * pending.dy < 9) return;   // ignore jitter
+        offsets[key] = off;
+        off.dx += pending.dx; off.dy += pending.dy;
+        pending = { dx: 0, dy: 0 };
         apply();
       })
       .on('end', function () { save(); }));
   }
 
+  function cachedMesh(key, object, filter) {
+    var k = current.level + '|' + region.state + '|' + region.district + '|' + key + '|' + object.geometries.length;
+    if (!meshCache[k]) {
+      if (Object.keys(meshCache).length > 40) meshCache = {};
+      meshCache[k] = topojson.mesh(current.topo, object, filter);
+    }
+    return meshCache[k];
+  }
+
   function render() {
+    ui.tip.style.display = 'none';
     var size = ui.canvas.value.split('x').map(Number);
-    var W = size[0], H = size[1];
+    var W = size[0] || 1000, H = size[1] || 1000;
     var pad = Math.round(W * 0.04);
     var font = ui.font.value;
     var textColour = ui.textColour.value;
@@ -468,6 +635,7 @@
     var vals = values[current.level];
     var colour = buildScale(vals);
     var noData = ui.noData.value;
+    var has = colour ? colour.has : function () { return false; };
 
     ui.stage.innerHTML = '';
     var svg = d3.select(ui.stage).append('svg')
@@ -528,14 +696,36 @@
 
     if (!current.features.length) return;
 
+    // --- which features are drawn: with "Hidden" no-data, only the ones with data ---
+    var hideEmpty = noData === 'none' && colour;
+    var drawFeats = current.features, drawObj = current.object, meshKey = 'all';
+    if (hideEmpty) {
+      var keepIds = {};
+      current.features.forEach(function (f) { if (has(vals[f.id])) keepIds[f.id] = true; });
+      drawFeats = current.features.filter(function (f) { return keepIds[f.id]; });
+      drawObj = { type: 'GeometryCollection', geometries: current.object.geometries.filter(function (g) { return keepIds[String(g.id)]; }) };
+      meshKey = 'vis' + Object.keys(keepIds).sort().join(',');
+      if (!drawFeats.length) { drawFeats = current.features; drawObj = current.object; meshKey = 'all'; hideEmpty = false; }
+    }
+
     // --- projection ---
-    var fc = { type: 'FeatureCollection', features: current.features };
+    var fc = { type: 'FeatureCollection', features: drawFeats };
     var projection = d3.geoMercator();
     var path = d3.geoPath(projection);
     function fit() { projection.fitExtent([[pad, mapTop], [W - pad, mapBottom]], fc); }
     fit();
+    var boundsCache = null;
+    function featureBoxes() {
+      if (!boundsCache) {
+        boundsCache = drawFeats.map(function (f) {
+          var b = path.bounds(f);
+          return { x: b[0][0], y: b[0][1], w: b[1][0] - b[0][0], h: b[1][1] - b[0][1] };
+        });
+      }
+      return boundsCache;
+    }
 
-    // --- overlay placement: pick a corner that does not cover the map, else make room ---
+    // --- overlay placement: the chosen corner, else the other corner on the same edge, else a band ---
     var occupied = [];
     function cornerBox(corner, w, h) {
       return {
@@ -546,42 +736,49 @@
     }
     function hits(box) {
       if (occupied.some(function (o) { return intersects(o, box); })) return true;
-      return current.features.some(function (f) {
-        var b = path.bounds(f);
-        return intersects({ x: b[0][0], y: b[0][1], w: b[1][0] - b[0][0], h: b[1][1] - b[0][1] }, box);
-      });
+      return featureBoxes().some(function (b) { return intersects(b, box); });
     }
     function place(key, sel, pref) {
       var bb = sel.node().getBBox();
       var w = bb.width, h = bb.height;
-      var origin = { x: -bb.x, y: -bb.y };      // shift so the group's top-left sits on the box
+      var origin = { x: -bb.x, y: -bb.y };
+      var prefBox = cornerBox(pref, w, h);
       var box;
       if (offsets[key]) {
-        box = cornerBox(pref, w, h);
+        box = { x: prefBox.x + offsets[key].dx, y: prefBox.y + offsets[key].dy, w: w, h: h };
       } else {
-        var order = [pref].concat(['tl', 'tr', 'bl', 'br'].filter(function (c) { return c !== pref; }));
-        for (var i = 0; i < order.length && !box; i++) {
-          var cand = cornerBox(order[i], w, h);
+        var sameEdge = pref[0] + (pref[1] === 'l' ? 'r' : 'l');
+        [pref, sameEdge].forEach(function (c) {
+          if (box) return;
+          var cand = cornerBox(c, w, h);
           if (!hits(cand)) box = cand;
-        }
+        });
         if (!box) {
-          // reserve a band above or below the map, then refit the map
           var band = h + pad * 0.5;
-          if (pref[0] === 'b') { mapBottom -= band; fit(); box = { x: cornerBox(pref, w, h).x, y: mapBottom + pad * 0.5, w: w, h: h }; }
-          else { mapTop += band; fit(); box = { x: cornerBox(pref, w, h).x, y: mapTop - band, w: w, h: h }; }
+          var tries = 0;
+          while (!box && tries < 3) {
+            if (pref[0] === 'b') { mapBottom -= band; fit(); boundsCache = null; box = { x: prefBox.x, y: mapBottom + pad * 0.5, w: w, h: h }; }
+            else { mapTop += band; fit(); boundsCache = null; box = { x: prefBox.x, y: mapTop - band, w: w, h: h }; }
+            var other = { x: cornerBox(sameEdge, w, h).x, y: box.y, w: w, h: h };
+            if (occupied.some(function (o) { return intersects(o, box); })) box = occupied.some(function (o) { return intersects(o, other); }) ? null : other;
+            tries++;
+          }
+          if (!box) box = { x: prefBox.x, y: pref[0] === 'b' ? mapBottom + pad * 0.5 : mapTop - band, w: w, h: h };
         }
       }
       occupied.push(box);
-      makeDraggable(sel, key, { x: box.x + origin.x, y: box.y + origin.y });
+      makeDraggable(sel, key, { x: box.x + origin.x, y: box.y + origin.y }, { x: prefBox.x + origin.x, y: prefBox.y + origin.y });
     }
 
     var arrow = ui.northArrow.checked ? drawNorthArrow(overG, textColour) : null;
-    var legend = (ui.showLegend.checked && colour) ? drawLegend(overG, colour, textColour) : null;
+    var showLegend = ui.showLegend.checked && colour && drawFeats.length > 1;
+    var legend = showLegend ? drawLegend(overG, colour, textColour, vals) : null;
     if (arrow) place('north', arrow, ui.northPos.value);
     if (legend) place('legend', legend, ui.legendPos.value);
 
     // --- map ---
-    var bw = ui.borderStyle.value === 'none' ? 0 : +ui.borderWidth.value;
+    var levelFactor = current.level === 'subdistricts' ? (region.state ? 0.75 : 0.5) : 1;
+    var bw = ui.borderStyle.value === 'none' ? 0 : +ui.borderWidth.value * levelFactor;
     var ow = ui.outlineStyle.value === 'none' ? 0 : +ui.outlineWidth.value;
     var bc = ui.borderColour.value, oc = ui.outlineColour.value;
     function dash(style, w) {
@@ -592,13 +789,13 @@
     var borderDash = dash(ui.borderStyle.value, Math.max(bw, 0.5));
     var outlineDash = dash(ui.outlineStyle.value, Math.max(ow, 0.5));
 
-    mapG.selectAll('path').data(current.features).enter().append('path')
+    mapG.selectAll('path').data(drawFeats).enter().append('path')
       .attr('class', 'region')
       .attr('d', path)
       .attr('data-id', function (d) { return d.id; })
       .attr('fill', function (d) {
         var v = vals[d.id];
-        var c = colour && v != null && v !== '' ? colour.scale(v) : null;
+        var c = colour && has(v) ? colour.scale(v) : null;
         if (c) return c;
         if (noData === 'hatch') return 'url(#hatch)';
         if (noData === 'none') return 'none';
@@ -610,27 +807,26 @@
         var p = d.properties;
         var label = p.name + (p.state && current.level !== 'states' ? ', ' + (current.level === 'subdistricts' ? p.district : p.state) : '');
         var v = vals[d.id];
-        ui.tip.textContent = label + ' · ' + (v == null || v === '' ? 'no data' : fmt(v));
+        ui.tip.textContent = label + ' · ' + (has(v) ? fmt(v) : (v == null || v === '' ? 'no data' : String(v)));
         ui.tip.style.display = 'block';
         ui.tip.style.left = e.clientX + 'px'; ui.tip.style.top = e.clientY + 'px';
       })
       .on('mouseleave', function () { ui.tip.style.display = 'none'; });
 
     // --- boundary meshes ---
-    var topo = current.topo, obj = current.object;
-    function outline(filter, width) {
+    function outline(key, filter, width) {
       if (!width) return;
-      mapG.append('path').attr('d', path(topojson.mesh(topo, obj, filter)))
+      mapG.append('path').attr('d', path(cachedMesh(meshKey + '|' + key, drawObj, filter)))
         .attr('fill', 'none').attr('stroke', oc).attr('stroke-width', width).attr('stroke-linejoin', 'round')
         .attr('stroke-dasharray', outlineDash).attr('stroke-linecap', ui.outlineStyle.value === 'dotted' ? 'round' : null);
     }
     if (current.level === 'subdistricts' && !region.district) {
-      outline(function (a, b) { return a !== b && a.properties.dist_lgd !== b.properties.dist_lgd; }, ow * 0.5);
+      outline('district', function (a, b) { return a !== b && a.properties.dist_lgd !== b.properties.dist_lgd; }, ow * 0.5);
     }
     if (current.level !== 'states' && !region.state) {
-      outline(function (a, b) { return a !== b && a.properties.state_lgd !== b.properties.state_lgd; }, ow * 0.8);
+      outline('state', function (a, b) { return a !== b && a.properties.state_lgd !== b.properties.state_lgd; }, ow * 0.8);
     }
-    outline(function (a, b) { return a === b; }, ow);
+    outline('outer', function (a, b) { return a === b; }, ow);
 
     // --- labels ---
     if (ui.showNames.checked || ui.showValues.checked) {
@@ -638,22 +834,26 @@
       var halo = bg === 'transparent' ? '#ffffff' : bg;
       var lg = mapG.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
         .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
-      current.features.forEach(function (d) {
+      var boxes = featureBoxes();
+      var placed = [];
+      drawFeats.forEach(function (d, i) {
         var v = vals[d.id];
-        if (noData === 'none' && (v == null || v === '')) return;
         var lines = [];
         if (ui.showNames.checked) lines.push(d.properties.name);
-        if (ui.showValues.checked && v != null && v !== '') lines.push(fmt(v));
+        if (ui.showValues.checked && has(v)) lines.push(fmt(v));
         if (!lines.length) return;
-        var b = path.bounds(d);
-        var bwid = b[1][0] - b[0][0], bhei = b[1][1] - b[0][1];
+        var b = boxes[i];
         var widest = d3.max(lines, function (l) { return l.length; }) * ls * 0.58;
-        if (bwid < widest * 0.85 || bhei < ls * 1.2 * lines.length) return;
+        var lh = ls * 1.2 * lines.length;
+        if (b.w < widest * 0.85 || b.h < lh) return;
         var c = path.centroid(d);
         if (isNaN(c[0])) return;
+        var lb = { x: c[0] - widest / 2, y: c[1] - lh / 2, w: widest, h: lh };
+        if (placed.some(function (o) { return intersects(o, lb); })) return;
+        placed.push(lb);
         var t = lg.append('text').attr('x', c[0]).attr('y', c[1] - (lines.length - 1) * ls * 0.6);
-        lines.forEach(function (l, i) {
-          t.append('tspan').attr('x', c[0]).attr('dy', i ? ls * 1.15 : 0).attr('font-weight', i === 0 && lines.length > 1 ? 600 : 400).text(l);
+        lines.forEach(function (l, i2) {
+          t.append('tspan').attr('x', c[0]).attr('dy', i2 ? ls * 1.15 : 0).attr('font-weight', i2 === 0 && lines.length > 1 ? 600 : 400).text(l);
         });
       });
     }
@@ -672,43 +872,39 @@
   }
 
   // Legend: built at the origin; render() positions it.
-  function drawLegend(parent, colour, textColour) {
+  function drawLegend(parent, colour, textColour, vals) {
     var fs = +ui.legendSize.value;
     var sw = fs * 1.3, gap = fs * 0.35;
-    var title = ui.legendTitle.value || valueHeader || '';
-    var items = [];
-    if (colour.type === 'buckets') {
-      var edges = [colour.extent[0]].concat(colour.thresholds, [colour.extent[1]]);
-      colour.colours.forEach(function (c, i) {
-        items.push({ colour: c, label: fmt(edges[i]) + ' – ' + fmt(edges[i + 1]) });
-      });
-    } else if (colour.type === 'categorical') {
-      colour.categories.forEach(function (cat, i) { items.push({ colour: colour.colours[i], label: cat }); });
-    }
-
+    var title = ui.legendTitle.value || valueHeaders[current.level] || '';
     var lg = parent.append('g').attr('font-size', fs).attr('fill', textColour);
     var y = 0;
     if (title) { lg.append('text').attr('x', 0).attr('y', fs).attr('font-weight', 600).text(title); y = fs * 1.6; }
 
+    function swatch(fill, label) {
+      lg.append('rect').attr('x', 0).attr('y', y).attr('width', sw).attr('height', sw).attr('fill', fill).attr('stroke', '#000').attr('stroke-opacity', 0.15);
+      lg.append('text').attr('x', sw + gap * 2).attr('y', y + sw * 0.72).text(label);
+      y += sw + gap;
+    }
+
     if (colour.type === 'continuous') {
       var grad = d3.select(svgNode).select('defs').append('linearGradient').attr('id', 'legendGrad');
-      d3.range(0, 1.001, 0.1).forEach(function (t) { grad.append('stop').attr('offset', (t * 100) + '%').attr('stop-color', colour.interp(t)); });
+      var lo = colour.extent[0], hi = colour.extent[1];
+      d3.range(0, 1.001, 0.05).forEach(function (t) { grad.append('stop').attr('offset', (t * 100) + '%').attr('stop-color', colour.scale(lo + (hi - lo) * t)); });
       var width = fs * 14;
       lg.append('rect').attr('x', 0).attr('y', y).attr('width', width).attr('height', fs * 0.9).attr('fill', 'url(#legendGrad)');
-      lg.append('text').attr('x', 0).attr('y', y + fs * 2).text(fmt(colour.extent[0]));
-      lg.append('text').attr('x', width).attr('y', y + fs * 2).attr('text-anchor', 'end').text(fmt(colour.extent[1]));
+      lg.append('text').attr('x', 0).attr('y', y + fs * 2).text(fmt(lo));
+      lg.append('text').attr('x', width).attr('y', y + fs * 2).attr('text-anchor', 'end').text(fmt(hi));
+      if (colour.mid !== null && colour.mid !== undefined) {
+        var mx = width * (colour.mid - lo) / (hi - lo);
+        lg.append('text').attr('x', mx).attr('y', y + fs * 2).attr('text-anchor', 'middle').text(fmt(colour.mid));
+      }
       y += fs * 2.2;
     } else {
-      items.forEach(function (it) {
-        lg.append('rect').attr('x', 0).attr('y', y).attr('width', sw).attr('height', sw).attr('fill', it.colour).attr('stroke', '#00000022');
-        lg.append('text').attr('x', sw + gap * 2).attr('y', y + sw * 0.72).text(it.label);
-        y += sw + gap;
-      });
+      colour.items.forEach(function (it) { swatch(it.colour, it.label); });
     }
-    if (ui.noData.value !== 'none' && current.features.some(function (f) { var v = values[current.level][f.id]; return v == null || v === ''; })) {
-      var nd = ui.noData.value === 'hatch' ? 'url(#hatch)' : ui.noData.value;
-      lg.append('rect').attr('x', 0).attr('y', y).attr('width', sw).attr('height', sw).attr('fill', nd).attr('stroke', '#00000033');
-      lg.append('text').attr('x', sw + gap * 2).attr('y', y + sw * 0.72).text('No data');
+    var anyEmpty = current.features.some(function (f) { return !colour.has(vals[f.id]); });
+    if (ui.noData.value !== 'none' && anyEmpty) {
+      swatch(ui.noData.value === 'hatch' ? 'url(#hatch)' : ui.noData.value, 'No data');
     }
     return lg;
   }
@@ -717,13 +913,14 @@
   //  Export
   // ---------------------------------------------------------------------------
   function slug() {
-    var s = (ui.title.value || 'india-' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    var base = ui.title.value || (regionLabel() + ' ' + current.level);
+    var s = base.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     return s || 'map';
   }
 
   function svgString() {
     var clone = svgNode.cloneNode(true);
-    clone.querySelectorAll('[data-id], [class]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('class'); });
+    clone.querySelectorAll('[data-id], [class], [style]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('class'); el.removeAttribute('style'); });
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
   }
 
@@ -802,7 +999,7 @@
       var settings = {};
       SETTING_IDS.forEach(function (id) { var el = ui[id]; settings[id] = el.type === 'checkbox' ? el.checked : el.value; });
       try {
-        localStorage.setItem(STORE_KEY, JSON.stringify({ settings: settings, region: region, values: values, valueHeader: valueHeader, offsets: offsets }));
+        localStorage.setItem(STORE_KEY, JSON.stringify({ settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets }));
       } catch (e) { /* storage unavailable */ }
     }, 300);
   }
@@ -815,11 +1012,16 @@
       Object.keys(data.settings || {}).forEach(function (id) {
         var el = ui[id];
         if (!el) return;
-        if (el.type === 'checkbox') el.checked = !!data.settings[id]; else el.value = data.settings[id];
+        if (el.type === 'checkbox') { el.checked = !!data.settings[id]; return; }
+        var before = el.value;
+        el.value = data.settings[id];
+        if (el.tagName === 'SELECT' && el.value !== String(data.settings[id])) el.value = before;   // stale option: keep default
+        if (el.type === 'number' && el.value === '' && id !== 'decimals') el.value = before;
       });
       if (data.values) values = Object.assign({ states: {}, districts: {}, subdistricts: {} }, data.values);
       if (data.region) region = data.region;
-      valueHeader = data.valueHeader || '';
+      valueHeaders = Object.assign({ states: '', districts: '', subdistricts: '' }, data.valueHeaders || {});
+      if (typeof data.valueHeader === 'string' && data.valueHeader) valueHeaders[ui.level.value] = data.valueHeader;
       offsets = data.offsets || {};
     } catch (e) { /* ignore */ }
   }
@@ -847,7 +1049,7 @@
   ui.paste.addEventListener('paste', function () { setTimeout(function () { applyRows(parseText(ui.paste.value)); }, 0); });
   ui.clearData.addEventListener('click', function () {
     values[current.level] = {};
-    ui.paste.value = ''; lastMatch = null; valueHeader = '';
+    ui.paste.value = ''; lastMatch = null; valueHeaders[current.level] = '';
     reportMatch(); buildTable(); render(); save();
   });
   ui.sampleData.addEventListener('click', function () {
@@ -856,7 +1058,7 @@
       var seed = Math.sin(i * 12.9898 + f.properties.lgd) * 43758.5453;
       vals[f.id] = Math.round((seed - Math.floor(seed)) * 1000) / 10;
     });
-    valueHeader = 'Sample values';
+    valueHeaders[current.level] = 'Sample values';
     lastMatch = null; reportMatch(); buildTable(); render(); save();
   });
   ui.fileInput.addEventListener('change', function () { readFile(ui.fileInput.files[0]); ui.fileInput.value = ''; });
@@ -868,38 +1070,58 @@
   });
   ui.fileDrop.addEventListener('drop', function (e) { readFile(e.dataTransfer.files[0]); });
   ui.tableSearch.addEventListener('input', buildTable);
+
   $('resetLayout').addEventListener('click', function () { offsets = {}; render(); save(); });
-  var POS_KEYS = { titlePos: ['title', 'source'], legendPos: ['legend'], northPos: ['north'] };
+  var POS_KEYS = { titlePos: ['title', 'source'], legendPos: ['legend'], northPos: ['north'], canvas: ['title', 'source', 'legend', 'north'] };
   Object.keys(POS_KEYS).forEach(function (id) {
     ui[id].addEventListener('change', function () { POS_KEYS[id].forEach(function (k) { delete offsets[k]; }); });
   });
 
+  // background flips: swap colours that still sit on the previous preset
+  var lastBackground = ui.background.value;
+  ui.background.addEventListener('change', function () {
+    var from = PRESETS[lastBackground === '#0f172a' ? 'dark' : 'light'];
+    var to = PRESETS[ui.background.value === '#0f172a' ? 'dark' : 'light'];
+    if (from !== to) {
+      Object.keys(to).forEach(function (id) { if (ui[id].value === from[id]) ui[id].value = to[id]; });
+    }
+    lastBackground = ui.background.value;
+  });
+
+  var renderTimer = null;
+  function renderSoon() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(function () { render(); save(); }, 120);
+  }
+
   SETTING_IDS.forEach(function (id) {
     if (id === 'level') return;
     var el = ui[id];
-    var ev = (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'number')) ? 'input' : 'change';
-    el.addEventListener(ev, function () {
-      syncUi();
-      render(); save();
-    });
-    if (ev === 'input') el.addEventListener('change', function () { render(); save(); });
+    var typed = el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'number' || el.type === 'color');
+    if (typed) {
+      el.addEventListener('input', function () { syncUi(); renderSoon(); });
+      el.addEventListener('change', function () { clearTimeout(renderTimer); syncUi(); render(); save(); });
+    } else {
+      el.addEventListener('change', function () { syncUi(); render(); save(); });
+    }
   });
 
-  // ---------------------------------------------------------------------------
-  //  Boot
-  // ---------------------------------------------------------------------------
   function syncUi() {
     ui.customColours.hidden = ui.ramp.value !== 'custom';
     ui.northField.hidden = !ui.northArrow.checked;
     ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';
   }
 
+  // ---------------------------------------------------------------------------
+  //  Boot
+  // ---------------------------------------------------------------------------
   restore();
+  lastBackground = ui.background.value;
   syncUi();
   loadLayer('states').then(function (layer) {
     populateStates(layer);
     ui.regionState.value = region.state;
-    if (ui.regionState.value !== region.state) region.state = '';
+    if (ui.regionState.value !== region.state) { region.state = ''; region.district = ''; }
     return populateDistricts();
   }).then(refresh);
 })();

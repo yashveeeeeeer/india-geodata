@@ -5,7 +5,7 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=4">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=5">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
@@ -98,8 +98,9 @@ permalink: /maps/
           <div class="field">
             <label for="noData">Regions with no data</label>
             <select id="noData">
-              <option value="#ffffff" selected>White</option>
-              <option value="#e5e7eb">Grey</option>
+              <option value="#ffffff">White</option>
+              <option value="#e5e7eb" selected>Grey</option>
+              <option value="#334155">Dark grey</option>
               <option value="hatch">Hatched</option>
               <option value="none">Hidden</option>
             </select>
@@ -143,7 +144,7 @@ permalink: /maps/
             <div class="field"><label for="numberStyle">Number format</label>
               <select id="numberStyle"><option value="plain">Plain</option><option value="indian" selected>12,34,567</option><option value="lakh">Lakh / Crore</option><option value="metric">K / M / B</option></select>
             </div>
-            <div class="field"><label for="decimals">Decimals</label><input type="number" id="decimals" min="0" max="6" value="0"></div>
+            <div class="field"><label for="decimals">Decimals</label><input type="number" id="decimals" min="0" max="6" placeholder="auto"></div>
           </div>
           <div class="row">
             <div class="field"><label for="prefix">Prefix</label><input type="text" id="prefix" placeholder="₹"></div>
@@ -254,4 +255,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=4"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=6"></script>
