@@ -16,20 +16,29 @@
     matchStatus: $('matchStatus'), unmatched: $('unmatched'), tableSearch: $('tableSearch'), valueTable: $('valueTable'),
     ramp: $('ramp'), scaleMode: $('scaleMode'), customColours: $('customColours'), colourLow: $('colourLow'), colourHigh: $('colourHigh'),
     buckets: $('buckets'), noData: $('noData'), reverse: $('reverse'),
-    borderColour: $('borderColour'), borderWidth: $('borderWidth'), outlineWidth: $('outlineWidth'),
+    borderColour: $('borderColour'), borderStyle: $('borderStyle'), borderWidth: $('borderWidth'),
+    outlineColour: $('outlineColour'), outlineStyle: $('outlineStyle'), outlineWidth: $('outlineWidth'), scaleHint: $('scaleHint'),
+    northArrow: $('northArrow'), northField: $('northField'), northPos: $('northPos'), northSize: $('northSize'),
     background: $('background'), canvas: $('canvas'),
     showNames: $('showNames'), showValues: $('showValues'), showLegend: $('showLegend'),
     labelSize: $('labelSize'), decimals: $('decimals'), numberStyle: $('numberStyle'), prefix: $('prefix'), suffix: $('suffix'),
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'),
-    title: $('title'), titleSize: $('titleSize'), align: $('align'), subtitle: $('subtitle'), subtitleSize: $('subtitleSize'),
+    title: $('title'), titleSize: $('titleSize'), titlePos: $('titlePos'), subtitle: $('subtitle'), subtitleSize: $('subtitleSize'),
     source: $('source'), sourceSize: $('sourceSize'), textColour: $('textColour'), font: $('font'),
-    stage: $('stage'), stageInfo: $('stageInfo'), tip: $('mapTip')
+    stage: $('stage'), tip: $('mapTip')
   };
 
   var SETTING_IDS = ['level', 'ramp', 'scaleMode', 'colourLow', 'colourHigh', 'buckets', 'noData', 'reverse',
-    'borderColour', 'borderWidth', 'outlineWidth', 'background', 'canvas', 'showNames', 'showValues', 'showLegend',
+    'borderColour', 'borderStyle', 'borderWidth', 'outlineColour', 'outlineStyle', 'outlineWidth', 'background', 'canvas',
+    'showNames', 'showValues', 'showLegend', 'northArrow', 'northPos', 'northSize',
     'labelSize', 'decimals', 'numberStyle', 'prefix', 'suffix', 'legendTitle', 'legendPos', 'legendSize', 'labelColour',
-    'title', 'titleSize', 'align', 'subtitle', 'subtitleSize', 'source', 'sourceSize', 'textColour', 'font'];
+    'title', 'titleSize', 'titlePos', 'subtitle', 'subtitleSize', 'source', 'sourceSize', 'textColour', 'font'];
+
+  var SCALE_HINTS = {
+    quantile: 'Same number of regions in each colour. Suits skewed data such as population, income or GDP, where a few regions dwarf the rest.',
+    equal: 'Same value range for each colour. Suits evenly spread data such as literacy rate, vote share or sex ratio, where the ranges themselves matter.',
+    continuous: 'One smooth gradient, no groups. Suits gradual change such as rainfall, temperature or elevation, when the overall pattern matters more than exact ranks.'
+  };
 
   var LEVEL_LABEL = { states: 'states', districts: 'districts', subdistricts: 'sub-districts' };
 
@@ -89,7 +98,7 @@
       render();
       save();
     }).catch(function (err) {
-      ui.stageInfo.textContent = 'Could not load boundaries: ' + err.message;
+      setStatus('Could not load boundaries: ' + err.message);
     });
   }
 
@@ -456,10 +465,24 @@
     if (bg !== 'transparent') svg.append('rect').attr('width', W).attr('height', H).attr('fill', bg);
 
     // --- text block ---
-    var y = pad;
     var titleSize = +ui.titleSize.value, subSize = +ui.subtitleSize.value, srcSize = +ui.sourceSize.value;
-    var anchor = ui.align.value;
-    var tx = anchor === 'middle' ? W / 2 : pad;
+    var tpos = ui.titlePos.value;
+    var anchor = tpos[1] === 'l' ? 'start' : tpos[1] === 'c' ? 'middle' : 'end';
+    var tx = anchor === 'start' ? pad : anchor === 'middle' ? W / 2 : W - pad;
+    var blockH = (ui.title.value ? titleSize * 1.35 : 0) + (ui.subtitle.value ? subSize * 1.4 : 0);
+    var srcH = ui.source.value ? srcSize * 1.8 : 0;
+    var gap = blockH ? pad * 0.5 : 0;
+    var mapTop, mapBottom, blockY;
+    if (tpos[0] === 't') {
+      blockY = pad;
+      mapTop = pad + blockH + gap;
+      mapBottom = H - pad - srcH;
+    } else {
+      mapTop = pad;
+      mapBottom = H - pad - srcH - blockH - gap;
+      blockY = mapBottom + gap;
+    }
+    var y = blockY;
     if (ui.title.value) {
       y += titleSize;
       svg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', titleSize).attr('font-weight', 700).attr('fill', textColour).text(ui.title.value);
@@ -468,21 +491,27 @@
     if (ui.subtitle.value) {
       y += subSize;
       svg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', subSize).attr('fill', textColour).attr('opacity', 0.75).text(ui.subtitle.value);
-      y += subSize * 0.4;
     }
-    var mapTop = y + (y > pad ? pad * 0.5 : 0);
-    var mapBottom = H - pad - (ui.source.value ? srcSize * 1.8 : 0);
     if (ui.source.value) {
       svg.append('text').attr('x', tx).attr('y', H - pad).attr('text-anchor', anchor).attr('font-size', srcSize).attr('fill', textColour).attr('opacity', 0.65).text(ui.source.value);
     }
 
-    if (!current.features.length) { ui.stageInfo.textContent = 'No regions to draw.'; return; }
+    if (!current.features.length) return;
 
     // --- map ---
     var fc = { type: 'FeatureCollection', features: current.features };
     var projection = d3.geoMercator().fitExtent([[pad, mapTop], [W - pad, mapBottom]], fc);
     var path = d3.geoPath(projection);
-    var bw = +ui.borderWidth.value, ow = +ui.outlineWidth.value, bc = ui.borderColour.value;
+    var bw = ui.borderStyle.value === 'none' ? 0 : +ui.borderWidth.value;
+    var ow = ui.outlineStyle.value === 'none' ? 0 : +ui.outlineWidth.value;
+    var bc = ui.borderColour.value, oc = ui.outlineColour.value;
+    function dash(style, w) {
+      if (style === 'dashed') return (w * 4) + ' ' + (w * 3);
+      if (style === 'dotted') return '0.1 ' + (w * 2);
+      return null;
+    }
+    var borderDash = dash(ui.borderStyle.value, Math.max(bw, 0.5));
+    var outlineDash = dash(ui.outlineStyle.value, Math.max(ow, 0.5));
 
     var g = svg.append('g');
     g.selectAll('path').data(current.features).enter().append('path')
@@ -498,6 +527,7 @@
         return noData;
       })
       .attr('stroke', bc).attr('stroke-width', bw).attr('stroke-linejoin', 'round')
+      .attr('stroke-dasharray', borderDash).attr('stroke-linecap', ui.borderStyle.value === 'dotted' ? 'round' : null)
       .on('mousemove', function (e, d) {
         var p = d.properties;
         var label = p.name + (p.state && current.level !== 'states' ? ', ' + (current.level === 'subdistricts' ? p.district : p.state) : '');
@@ -510,16 +540,19 @@
 
     // --- boundary meshes ---
     var topo = current.topo, obj = current.object;
+    function outline(filter, width) {
+      if (!width) return;
+      svg.append('path').attr('d', path(topojson.mesh(topo, obj, filter)))
+        .attr('fill', 'none').attr('stroke', oc).attr('stroke-width', width).attr('stroke-linejoin', 'round')
+        .attr('stroke-dasharray', outlineDash).attr('stroke-linecap', ui.outlineStyle.value === 'dotted' ? 'round' : null);
+    }
     if (current.level === 'subdistricts' && !region.district) {
-      svg.append('path').attr('d', path(topojson.mesh(topo, obj, function (a, b) { return a !== b && a.properties.dist_lgd !== b.properties.dist_lgd; })))
-        .attr('fill', 'none').attr('stroke', bc).attr('stroke-width', Math.max(bw * 2, ow * 0.5)).attr('stroke-linejoin', 'round');
+      outline(function (a, b) { return a !== b && a.properties.dist_lgd !== b.properties.dist_lgd; }, ow * 0.5);
     }
     if (current.level !== 'states' && !region.state) {
-      svg.append('path').attr('d', path(topojson.mesh(topo, obj, function (a, b) { return a !== b && a.properties.state_lgd !== b.properties.state_lgd; })))
-        .attr('fill', 'none').attr('stroke', bc).attr('stroke-width', ow * 0.8).attr('stroke-linejoin', 'round');
+      outline(function (a, b) { return a !== b && a.properties.state_lgd !== b.properties.state_lgd; }, ow * 0.8);
     }
-    svg.append('path').attr('d', path(topojson.mesh(topo, obj, function (a, b) { return a === b; })))
-      .attr('fill', 'none').attr('stroke', bc).attr('stroke-width', ow).attr('stroke-linejoin', 'round');
+    outline(function (a, b) { return a === b; }, ow);
 
     // --- labels ---
     if (ui.showNames.checked || ui.showValues.checked) {
@@ -547,11 +580,26 @@
       });
     }
 
+    // --- north arrow ---
+    if (ui.northArrow.checked) drawNorthArrow(svg, { W: W, pad: pad, top: mapTop, bottom: mapBottom, textColour: textColour });
+
     // --- legend ---
     if (ui.showLegend.checked && colour) drawLegend(svg, colour, { W: W, H: H, pad: pad, top: mapTop, bottom: mapBottom, textColour: textColour });
 
-    var withData = current.features.filter(function (f) { return vals[f.id] != null && vals[f.id] !== ''; }).length;
-    ui.stageInfo.textContent = current.features.length + ' ' + LEVEL_LABEL[current.level] + ' · ' + withData + ' with data · ' + W + ' × ' + H + ' px';
+  }
+
+  function drawNorthArrow(svg, box) {
+    var s = +ui.northSize.value || 60;
+    var pos = ui.northPos.value;
+    var cx = pos[1] === 'l' ? box.pad + s * 0.3 : box.W - box.pad - s * 0.3;
+    var top = pos[0] === 't' ? box.top : box.bottom - s;
+    var g = svg.append('g').attr('transform', 'translate(' + cx + ',' + top + ')')
+      .attr('fill', box.textColour).attr('stroke', box.textColour).attr('stroke-width', Math.max(0.75, s * 0.018)).attr('stroke-linejoin', 'round');
+    var tip = s * 0.3, base = s * 0.66, notch = s * 0.58, hw = s * 0.13;
+    g.append('text').attr('y', s * 0.22).attr('text-anchor', 'middle').attr('font-size', s * 0.24).attr('font-weight', 600).attr('stroke', 'none').text('N');
+    g.append('path').attr('d', 'M0,' + tip + ' L' + (-hw) + ',' + base + ' L0,' + notch + ' Z');
+    g.append('path').attr('d', 'M0,' + tip + ' L' + hw + ',' + base + ' L0,' + notch + ' Z').attr('fill', 'none');
+    g.append('line').attr('x1', 0).attr('y1', notch).attr('x2', 0).attr('y2', s);
   }
 
   function drawLegend(svg, colour, box) {
@@ -762,7 +810,7 @@
     var el = ui[id];
     var ev = (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'number')) ? 'input' : 'change';
     el.addEventListener(ev, function () {
-      ui.customColours.hidden = ui.ramp.value !== 'custom';
+      syncUi();
       render(); save();
     });
     if (ev === 'input') el.addEventListener('change', function () { render(); save(); });
@@ -771,8 +819,14 @@
   // ---------------------------------------------------------------------------
   //  Boot
   // ---------------------------------------------------------------------------
+  function syncUi() {
+    ui.customColours.hidden = ui.ramp.value !== 'custom';
+    ui.northField.hidden = !ui.northArrow.checked;
+    ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';
+  }
+
   restore();
-  ui.customColours.hidden = ui.ramp.value !== 'custom';
+  syncUi();
   loadLayer('states').then(function (layer) {
     populateStates(layer);
     ui.regionState.value = region.state;

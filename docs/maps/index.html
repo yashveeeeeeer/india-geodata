@@ -5,13 +5,12 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=1">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=3">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
   <div class="maps-intro">
     <h1>Map Maker</h1>
-    <p>Paste a spreadsheet, get a map. Free, no watermark, nothing leaves your browser.</p>
   </div>
 
   <div class="maps-layout">
@@ -59,27 +58,32 @@ permalink: /maps/
         </div>
       </details>
 
-      <details class="panel">
+      <details class="panel" open>
         <summary>Colours</summary>
         <div class="panel-body">
+          <div class="field">
+            <label for="ramp">Palette</label>
+            <select id="ramp">
+              <option value="Blues" selected>Blues</option>
+              <option value="Greens">Greens</option>
+              <option value="Oranges">Oranges</option>
+              <option value="Reds">Reds</option>
+              <option value="Purples">Purples</option>
+              <option value="Greys">Greys</option>
+              <option value="YlOrRd">Yellow to red</option>
+              <option value="YlGnBu">Yellow to blue</option>
+              <option value="Viridis">Viridis</option>
+              <option value="RdBu">Red / blue</option>
+              <option value="RdYlGn">Red / green</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div class="row" id="customColours" hidden>
+            <div class="field"><label for="colourLow">Low</label><input type="color" id="colourLow" value="#f1f1f1"></div>
+            <div class="field"><label for="colourHigh">High</label><input type="color" id="colourHigh" value="#111111"></div>
+          </div>
+          <label class="check"><input type="checkbox" id="reverse"> Reverse palette</label>
           <div class="row">
-            <div class="field">
-              <label for="ramp">Palette</label>
-              <select id="ramp">
-                <option value="Greys" selected>Greys</option>
-                <option value="Blues">Blues</option>
-                <option value="Greens">Greens</option>
-                <option value="Oranges">Oranges</option>
-                <option value="Reds">Reds</option>
-                <option value="Purples">Purples</option>
-                <option value="YlOrRd">Yellow to red</option>
-                <option value="YlGnBu">Yellow to blue</option>
-                <option value="Viridis">Viridis</option>
-                <option value="RdBu">Red / blue</option>
-                <option value="RdYlGn">Red / green</option>
-                <option value="custom">Custom</option>
-              </select>
-            </div>
             <div class="field">
               <label for="scaleMode">Scale</label>
               <select id="scaleMode">
@@ -88,33 +92,110 @@ permalink: /maps/
                 <option value="continuous">Continuous</option>
               </select>
             </div>
+            <div class="field"><label for="buckets">Buckets</label><input type="number" id="buckets" min="2" max="9" value="5"></div>
           </div>
-          <div class="row" id="customColours" hidden>
-            <div class="field"><label for="colourLow">Low</label><input type="color" id="colourLow" value="#f1f1f1"></div>
-            <div class="field"><label for="colourHigh">High</label><input type="color" id="colourHigh" value="#111111"></div>
+          <p class="hint" id="scaleHint"></p>
+          <div class="field">
+            <label for="noData">Regions with no data</label>
+            <select id="noData">
+              <option value="#ffffff" selected>White</option>
+              <option value="#e5e7eb">Grey</option>
+              <option value="hatch">Hatched</option>
+              <option value="none">Hidden</option>
+            </select>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Borders</summary>
+        <div class="panel-body">
+          <div class="row row-3">
+            <div class="field"><label for="borderColour">Inner</label><input type="color" id="borderColour" value="#333333"></div>
+            <div class="field"><label for="borderStyle">Style</label>
+              <select id="borderStyle"><option value="solid" selected>Solid</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option><option value="none">None</option></select>
+            </div>
+            <div class="field"><label for="borderWidth">Width</label><input type="number" id="borderWidth" min="0" max="4" step="0.25" value="0.5"></div>
+          </div>
+          <div class="row row-3">
+            <div class="field"><label for="outlineColour">Outer</label><input type="color" id="outlineColour" value="#333333"></div>
+            <div class="field"><label for="outlineStyle">Style</label>
+              <select id="outlineStyle"><option value="solid" selected>Solid</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option><option value="none">None</option></select>
+            </div>
+            <div class="field"><label for="outlineWidth">Width</label><input type="number" id="outlineWidth" min="0" max="6" step="0.25" value="1.25"></div>
+          </div>
+          <p class="hint">Inner lines separate the coloured regions. Outer lines draw the country, state and district edges.</p>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Labels</summary>
+        <div class="panel-body">
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="showNames"> Names</label>
+            <label class="check"><input type="checkbox" id="showValues"> Values</label>
           </div>
           <div class="row">
-            <div class="field"><label for="buckets">Buckets</label><input type="number" id="buckets" min="2" max="9" value="5"></div>
-            <div class="field">
-              <label for="noData">No data</label>
-              <select id="noData">
-                <option value="#ffffff" selected>White</option>
-                <option value="#e5e7eb">Grey</option>
-                <option value="hatch">Hatched</option>
-                <option value="none">Hidden</option>
+            <div class="field"><label for="labelSize">Size</label><input type="number" id="labelSize" min="4" max="40" value="9"></div>
+            <div class="field"><label for="labelColour">Colour</label><input type="color" id="labelColour" value="#111111"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="numberStyle">Number format</label>
+              <select id="numberStyle"><option value="plain">Plain</option><option value="indian" selected>12,34,567</option><option value="lakh">Lakh / Crore</option><option value="metric">K / M / B</option></select>
+            </div>
+            <div class="field"><label for="decimals">Decimals</label><input type="number" id="decimals" min="0" max="6" value="0"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="prefix">Prefix</label><input type="text" id="prefix" placeholder="₹"></div>
+            <div class="field"><label for="suffix">Suffix</label><input type="text" id="suffix" placeholder="%"></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Legend</summary>
+        <div class="panel-body">
+          <label class="check"><input type="checkbox" id="showLegend" checked> Show legend</label>
+          <div class="field"><label for="legendTitle">Title</label><input type="text" id="legendTitle"></div>
+          <div class="row">
+            <div class="field"><label for="legendPos">Position</label>
+              <select id="legendPos"><option value="bl" selected>Bottom left</option><option value="br">Bottom right</option><option value="tl">Top left</option><option value="tr">Top right</option></select>
+            </div>
+            <div class="field"><label for="legendSize">Size</label><input type="number" id="legendSize" min="6" max="40" value="13"></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Title &amp; text</summary>
+        <div class="panel-body">
+          <div class="field"><label for="title">Title</label><input type="text" id="title"></div>
+          <div class="row">
+            <div class="field"><label for="titleSize">Title size</label><input type="number" id="titleSize" min="8" max="120" value="34"></div>
+            <div class="field"><label for="titlePos">Position</label>
+              <select id="titlePos">
+                <option value="tl" selected>Top left</option><option value="tc">Top centre</option><option value="tr">Top right</option>
+                <option value="bl">Bottom left</option><option value="bc">Bottom centre</option><option value="br">Bottom right</option>
               </select>
             </div>
           </div>
-          <label class="check"><input type="checkbox" id="reverse"> Reverse palette</label>
-          <div class="row row-3">
-            <div class="field"><label for="borderColour">Borders</label><input type="color" id="borderColour" value="#333333"></div>
-            <div class="field"><label for="borderWidth">Width</label><input type="number" id="borderWidth" min="0" max="4" step="0.25" value="0.5"></div>
-            <div class="field"><label for="outlineWidth">Outer</label><input type="number" id="outlineWidth" min="0" max="6" step="0.25" value="1.25"></div>
-          </div>
+          <div class="field"><label for="subtitle">Subtitle</label><input type="text" id="subtitle"></div>
+          <div class="field"><label for="subtitleSize">Subtitle size</label><input type="number" id="subtitleSize" min="6" max="80" value="18"></div>
+          <div class="field"><label for="source">Source / note</label><input type="text" id="source"></div>
+          <div class="field"><label for="sourceSize">Source size</label><input type="number" id="sourceSize" min="6" max="40" value="12"></div>
           <div class="row">
-            <div class="field"><label for="background">Background</label>
-              <select id="background"><option value="#ffffff" selected>White</option><option value="transparent">Transparent</option><option value="#0f172a">Dark</option></select>
+            <div class="field"><label for="textColour">Text colour</label><input type="color" id="textColour" value="#111111"></div>
+            <div class="field"><label for="font">Font</label>
+              <select id="font"><option value="Helvetica Neue, Helvetica, Arial, sans-serif" selected>Sans</option><option value="Georgia, Times New Roman, serif">Serif</option><option value="Consolas, Menlo, monospace">Mono</option></select>
             </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>Canvas</summary>
+        <div class="panel-body">
+          <div class="row">
             <div class="field"><label for="canvas">Size</label>
               <select id="canvas">
                 <option value="1000x1000" selected>Square</option>
@@ -125,57 +206,16 @@ permalink: /maps/
                 <option value="1414x1000">A4 landscape</option>
               </select>
             </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="panel">
-        <summary>Labels &amp; legend</summary>
-        <div class="panel-body">
-          <div class="checks">
-            <label class="check"><input type="checkbox" id="showNames"> Names</label>
-            <label class="check"><input type="checkbox" id="showValues"> Values</label>
-            <label class="check"><input type="checkbox" id="showLegend" checked> Legend</label>
-          </div>
-          <div class="row row-3">
-            <div class="field"><label for="labelSize">Label size</label><input type="number" id="labelSize" min="4" max="40" value="9"></div>
-            <div class="field"><label for="decimals">Decimals</label><input type="number" id="decimals" min="0" max="6" value="0"></div>
-            <div class="field"><label for="numberStyle">Numbers</label>
-              <select id="numberStyle"><option value="plain">Plain</option><option value="indian" selected>12,34,567</option><option value="lakh">Lakh / Crore</option><option value="metric">K / M / B</option></select>
+            <div class="field"><label for="background">Background</label>
+              <select id="background"><option value="#ffffff" selected>White</option><option value="transparent">Transparent</option><option value="#0f172a">Dark</option></select>
             </div>
           </div>
-          <div class="row">
-            <div class="field"><label for="prefix">Prefix</label><input type="text" id="prefix" placeholder="₹"></div>
-            <div class="field"><label for="suffix">Suffix</label><input type="text" id="suffix" placeholder="%"></div>
-          </div>
-          <div class="row">
-            <div class="field"><label for="legendTitle">Legend title</label><input type="text" id="legendTitle"></div>
-            <div class="field"><label for="legendPos">Legend position</label>
-              <select id="legendPos"><option value="bl" selected>Bottom left</option><option value="br">Bottom right</option><option value="tl">Top left</option><option value="tr">Top right</option></select>
+          <label class="check"><input type="checkbox" id="northArrow"> North arrow</label>
+          <div class="row" id="northField" hidden>
+            <div class="field"><label for="northPos">Arrow position</label>
+              <select id="northPos"><option value="tr" selected>Top right</option><option value="tl">Top left</option><option value="br">Bottom right</option><option value="bl">Bottom left</option></select>
             </div>
-          </div>
-          <div class="row">
-            <div class="field"><label for="legendSize">Legend size</label><input type="number" id="legendSize" min="6" max="40" value="13"></div>
-            <div class="field"><label for="labelColour">Label colour</label><input type="color" id="labelColour" value="#111111"></div>
-          </div>
-        </div>
-      </details>
-
-      <details class="panel">
-        <summary>Text</summary>
-        <div class="panel-body">
-          <div class="field"><label for="title">Title</label><input type="text" id="title"></div>
-          <div class="row"><div class="field"><label for="titleSize">Title size</label><input type="number" id="titleSize" min="8" max="120" value="34"></div>
-            <div class="field"><label for="align">Align</label><select id="align"><option value="start" selected>Left</option><option value="middle">Centre</option></select></div></div>
-          <div class="field"><label for="subtitle">Subtitle</label><input type="text" id="subtitle"></div>
-          <div class="field"><label for="subtitleSize">Subtitle size</label><input type="number" id="subtitleSize" min="6" max="80" value="18"></div>
-          <div class="field"><label for="source">Source / note</label><input type="text" id="source"></div>
-          <div class="field"><label for="sourceSize">Source size</label><input type="number" id="sourceSize" min="6" max="40" value="12"></div>
-          <div class="row">
-            <div class="field"><label for="textColour">Text colour</label><input type="color" id="textColour" value="#111111"></div>
-            <div class="field"><label for="font">Font</label>
-              <select id="font"><option value="Helvetica Neue, Helvetica, Arial, sans-serif" selected>Sans</option><option value="Georgia, Times New Roman, serif">Serif</option><option value="Consolas, Menlo, monospace">Mono</option></select>
-            </div>
+            <div class="field"><label for="northSize">Arrow size</label><input type="number" id="northSize" min="20" max="200" value="60"></div>
           </div>
         </div>
       </details>
@@ -199,7 +239,6 @@ permalink: /maps/
     <section class="maps-stage">
       <div class="stage-frame" id="stage"></div>
       <div class="stage-note">
-        <span id="stageInfo"></span>
         <span>Boundaries: <a href="{{ site.baseurl }}/#administrative">LGD via India Geodata</a> · <a href="https://github.com/yashveeeeeeer/india-geodata/tree/main/docs/maps">Source</a></span>
       </div>
     </section>
@@ -213,4 +252,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=1"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=3"></script>
