@@ -24,7 +24,7 @@
     showNames: $('showNames'), showValues: $('showValues'), showLegend: $('showLegend'),
     labelSize: $('labelSize'), decimals: $('decimals'), numberStyle: $('numberStyle'), prefix: $('prefix'), suffix: $('suffix'),
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
-    assetList: $('assetList'),
+    assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
     stage: $('stage'), tip: $('mapTip')
   };
 
@@ -99,6 +99,8 @@
   var assets = [];
   var assetSeq = 1;
   var view = { k: 1, dx: 0, dy: 0 };     // map zoom and pan
+  var selectedKey = null;                // overlay selected on the canvas (asset-N, legend, north)
+  var lastLayout = null;                 // { cx, cy } centre of the map area from the last render
 
   // ---------------------------------------------------------------------------
   //  Data loading
@@ -739,7 +741,8 @@
     var off = offsets[key] ? offsets[key] : { dx: base.x - anchor.x, dy: base.y - anchor.y, band: anchor.band || null };
     function apply() { sel.attr('transform', 'translate(' + (anchor.x + off.dx) + ',' + (anchor.y + off.dy) + ')'); }
     apply();
-    sel.attr('class', 'drag');
+    sel.attr('class', 'drag').attr('data-key', key);
+    sel.on('click', function (e) { e.stopPropagation(); select(key); });
     var pending = { dx: 0, dy: 0 };
     sel.call(d3.drag()
       .on('start', function () { pending = { dx: 0, dy: 0 }; })
@@ -886,6 +889,7 @@
       }
     }
     fit();
+    lastLayout = { cx: W / 2, cy: (mapTop + mapBottom) / 2 };
     var boundsCache = null;
     function featureBoxes() {
       if (!boundsCache) {
@@ -1070,7 +1074,55 @@
       }));
 
     drawFrame(svg, W, H, pad);
+    showSelection();
   }
+
+  // --- on-canvas selection: click a text, the legend or the arrow to get a remove button ---
+  function select(key) {
+    selectedKey = key;
+    showSelection();
+    if (key && key.indexOf('asset-') === 0) {
+      var row = ui.assetList.querySelector('[data-asset="' + key.slice(6) + '"]');
+      if (row) {
+        var panel = row.closest('details'); if (panel) panel.open = true;
+        row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        row.classList.add('flash');
+        setTimeout(function () { row.classList.remove('flash'); }, 1200);
+      }
+    }
+  }
+  function deselect() { selectedKey = null; showSelection(); }
+  function showSelection() {
+    d3.select(svgNode).selectAll('.sel-box').remove();
+    var node = selectedKey && svgNode ? svgNode.querySelector('[data-key="' + selectedKey + '"]') : null;
+    if (!node) { selectedKey = null; ui.selTools.hidden = true; return; }
+    var bb = node.getBBox(), m = node.transform.baseVal.consolidate();
+    var tx = m ? m.matrix.e : 0, ty = m ? m.matrix.f : 0;
+    var padPx = 6;
+    d3.select(svgNode).append('rect').attr('class', 'sel-box')
+      .attr('x', bb.x + tx - padPx).attr('y', bb.y + ty - padPx).attr('width', bb.width + padPx * 2).attr('height', bb.height + padPx * 2).attr('rx', 3);
+    var r = node.getBoundingClientRect(), host = ui.selTools.parentNode.getBoundingClientRect();
+    ui.selTools.style.left = Math.round(r.right - host.left - 6) + 'px';
+    ui.selTools.style.top = Math.round(r.top - host.top - 18) + 'px';
+    ui.selTools.hidden = false;
+  }
+  function deleteSelected() {
+    var key = selectedKey;
+    if (!key) return;
+    selectedKey = null;
+    if (key === 'legend') { ui.showLegend.checked = false; render(); save(); }
+    else if (key === 'north') { ui.northArrow.checked = false; syncUi(); render(); save(); }
+    else if (key.indexOf('asset-') === 0) removeAsset(+key.slice(6));
+  }
+  ui.selDelete.addEventListener('click', function (e) { e.stopPropagation(); deleteSelected(); });
+  ui.stage.addEventListener('click', function (e) { if (!e.target.closest('.drag')) deselect(); });
+  document.addEventListener('keydown', function (e) {
+    if (!selectedKey) return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); deleteSelected(); }
+    else if (e.key === 'Escape') deselect();
+  });
 
   function drawFrame(svg, W, H, pad) {
     var style = ui.frameStyle.value;
@@ -1147,7 +1199,15 @@
     ui.zoomValue.textContent = Math.round(view.k * 100) + '%';
     if (!silent) { render(); save(); }
   }
-  ui.mapZoom.addEventListener('input', function () { setZoom(+ui.mapZoom.value / 100, true); renderSoon(); });
+  function previewZoom(k) {
+    var layer = svgNode && svgNode.querySelector('.map-layer');
+    if (!layer || !lastLayout) return;
+    var r = k / view.k;
+    layer.setAttribute('transform', 'translate(' + lastLayout.cx + ',' + lastLayout.cy + ') scale(' + r + ') translate(' + (-lastLayout.cx) + ',' + (-lastLayout.cy) + ')');
+    ui.zoomValue.textContent = Math.round(k * 100) + '%';
+    ui.selTools.hidden = true;
+  }
+  ui.mapZoom.addEventListener('input', function () { previewZoom(+ui.mapZoom.value / 100); });
   ui.mapZoom.addEventListener('change', function () { clearTimeout(renderTimer); setZoom(+ui.mapZoom.value / 100); });
   ui.zoomIn.addEventListener('click', function () { setZoom(view.k + 0.1); });
   ui.zoomOut.addEventListener('click', function () { setZoom(view.k - 0.1); });
@@ -1166,7 +1226,8 @@
 
   function svgString() {
     var clone = svgNode.cloneNode(true);
-    clone.querySelectorAll('[data-id], [class], [style]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('class'); el.removeAttribute('style'); });
+    clone.querySelectorAll('.sel-box').forEach(function (el) { el.parentNode.removeChild(el); });
+    clone.querySelectorAll('[data-id], [data-key], [class], [style]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('data-key'); el.removeAttribute('class'); el.removeAttribute('style'); });
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
   }
 

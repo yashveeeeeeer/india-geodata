@@ -121,15 +121,18 @@
 
 /* --- Stage --- */
 .maps-stage { position: sticky; top: calc(var(--header-height) + 16px); }
-.stage-frame {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  background: repeating-conic-gradient(#f1f5f9 0 25%, #fff 0 50%) 0 0 / 16px 16px;
-  padding: 12px;
-  display: flex;
-  justify-content: center;
+.stage-frame { position: relative; display: flex; justify-content: center; }
+.stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 160px); display: block; border: 1px solid var(--color-border); }
+.stage-frame svg .sel-box { fill: none; stroke: var(--color-accent); stroke-width: 1.5; stroke-dasharray: 4 3; pointer-events: none; }
+.sel-tools { position: absolute; z-index: 5; display: flex; gap: 4px; }
+.sel-tools button {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--color-text); color: #fff; font-size: 15px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-sm);
 }
-.stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 160px); display: block; box-shadow: var(--shadow-sm); }
+.sel-tools button:hover { background: #b91c1c; }
+.asset.flash { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
 .stage-frame svg path { transition: opacity 0.1s; }
 .stage-frame svg .region:hover { opacity: 0.75; }
 .stage-frame svg .drag { cursor: move; }
