@@ -36,7 +36,7 @@
 
 .field { display: flex; flex-direction: column; gap: 4px; }
 .hint { font-size: 0.76rem; line-height: 1.45; color: var(--color-muted); margin: -2px 0 0; }
-.field label, .row label { font-size: 0.74rem; font-weight: 500; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.field > label, .field > .field-label { font-size: 0.74rem; font-weight: 500; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .row-3 { grid-template-columns: 1fr 1fr 1fr; }
 .row .field { min-width: 0; }
@@ -75,7 +75,6 @@
 .btn-plain:hover { opacity: 0.85; }
 .btn-plain.secondary { background: var(--color-bg); color: var(--color-muted); border-color: var(--color-border); }
 .btn-plain.secondary:hover { border-color: var(--color-accent); color: var(--color-text); }
-.btn-plain:disabled { opacity: 0.4; cursor: default; }
 
 .file-drop {
   border: 1px dashed var(--color-border);
@@ -99,9 +98,9 @@
 .value-table td { padding: 3px 6px; border-bottom: 1px solid var(--color-bg-light); vertical-align: middle; }
 .value-table td:first-child { width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 0; }
 .value-table td small { color: var(--color-muted); }
-.value-table input { width: 100%; font: inherit; font-size: 0.8rem; padding: 2px 6px; border: 1px solid transparent; border-radius: 3px; background: transparent; text-align: right; }
-.value-table input:hover { border-color: var(--color-border); }
-.value-table input:focus { border-color: var(--color-accent); outline: none; background: var(--color-bg); }
+.maps-side .value-table input[type="text"] { width: 100%; font: inherit; font-size: 0.8rem; padding: 2px 6px; border: 1px solid transparent; border-radius: 3px; background: transparent; text-align: right; }
+.maps-side .value-table input[type="text"]:hover { border-color: var(--color-border); }
+.maps-side .value-table input[type="text"]:focus { border-color: var(--color-accent); outline: none; background: var(--color-bg); box-shadow: none; }
 
 /* --- Text assets --- */
 #assetList { display: flex; flex-direction: column; gap: 8px; }

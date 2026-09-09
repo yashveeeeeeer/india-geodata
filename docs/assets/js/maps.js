@@ -46,14 +46,35 @@
   };
 
   var FONTS = {
-    sans: { label: 'Sans', stack: 'Helvetica Neue, Helvetica, Arial, sans-serif' },
-    humanist: { label: 'Humanist', stack: 'Segoe UI, Tahoma, Geneva, sans-serif' },
-    rounded: { label: 'Rounded', stack: 'Verdana, Trebuchet MS, sans-serif' },
-    condensed: { label: 'Condensed', stack: 'Arial Narrow, Roboto Condensed, Helvetica, sans-serif' },
-    serif: { label: 'Serif', stack: 'Georgia, Times New Roman, serif' },
-    classic: { label: 'Classic serif', stack: 'Times New Roman, Times, serif' },
-    mono: { label: 'Mono', stack: 'Consolas, Menlo, Courier New, monospace' }
+    sans: { label: 'Sans', stack: 'Helvetica Neue, Helvetica, Arial, sans-serif', em: 0.52 },
+    humanist: { label: 'Humanist', stack: 'Segoe UI, Tahoma, Geneva, sans-serif', em: 0.53 },
+    rounded: { label: 'Rounded', stack: 'Verdana, Trebuchet MS, sans-serif', em: 0.6 },
+    condensed: { label: 'Condensed', stack: 'Arial Narrow, Roboto Condensed, Helvetica, sans-serif', em: 0.45 },
+    serif: { label: 'Serif', stack: 'Georgia, Times New Roman, serif', em: 0.52 },
+    classic: { label: 'Classic serif', stack: 'Times New Roman, Times, serif', em: 0.48 },
+    mono: { label: 'Mono', stack: 'Consolas, Menlo, Courier New, monospace', em: 0.6 }
   };
+  var HEX = /^#[0-9a-f]{6}$/i;
+
+  // Break text into lines that fit maxWidth, using the font's average glyph width.
+  function wrapText(text, size, fontKey, weight, maxWidth) {
+    var em = (FONTS[fontKey] || FONTS.sans).em * (weight >= 600 ? 1.07 : 1);
+    var perChar = size * em;
+    var maxChars = Math.max(4, Math.floor(maxWidth / perChar));
+    var lines = [];
+    String(text).split(/\r?\n|\\n/).forEach(function (para) {
+      var words = para.split(/\s+/).filter(Boolean);
+      if (!words.length) return;
+      var line = '';
+      words.forEach(function (w) {
+        while (w.length > maxChars) { if (line) { lines.push(line); line = ''; } lines.push(w.slice(0, maxChars)); w = w.slice(maxChars); }
+        var next = line ? line + ' ' + w : w;
+        if (next.length > maxChars && line) { lines.push(line); line = w; } else line = next;
+      });
+      if (line) lines.push(line);
+    });
+    return lines.length ? lines : [''];
+  }
 
   // Text assets: each one is added, styled and removed on its own.
   var ASSET_KINDS = {
@@ -322,7 +343,8 @@
     var numericRows = rows.filter(function (r) { return !isNaN(toNumber(r[valueCol])); }).length;
     var firstLooksLikeLabel = HEADER_WORDS.test(compact(first[0] || '')) || HEADER_WORDS.test(compact(first[1] || ''));
     var firstUnmatched = rows.length > 1 && !matchName(first[0], '', idx) && (ncol < 3 || !matchName(first[1], '', idx));
-    if ((numericRows >= 1 && isNaN(toNumber(first[valueCol]))) || firstLooksLikeLabel || (firstUnmatched && isNaN(toNumber(first[valueCol])))) {
+    var firstValueIsText = isNaN(toNumber(first[valueCol])) && !isEmptyToken(first[valueCol]);
+    if ((numericRows >= 1 && firstValueIsText) || firstLooksLikeLabel || (firstUnmatched && firstValueIsText)) {
       header = first;
       rows = rows.slice(1);
     }
@@ -425,7 +447,7 @@
       var v = vals[f.id];
       html += '<tr><td title="' + escapeHtml(p.name) + '">' + escapeHtml(p.name) +
         (showParent ? ' <small>' + escapeHtml(level === 'subdistricts' ? p.district : p.state) + '</small>' : '') +
-        '</td><td><input type="text" data-id="' + f.id + '" value="' + (v == null ? '' : escapeHtml(v)) + '"></td></tr>';
+        '</td><td><input type="text" data-id="' + f.id + '" aria-label="Value for ' + escapeHtml(p.name) + '" value="' + (v == null ? '' : escapeHtml(v)) + '"></td></tr>';
     });
     ui.valueTable.innerHTML = html || '<tr><td colspan="2"><small>No regions</small></td></tr>';
   }
@@ -473,21 +495,22 @@
     assets.forEach(function (a) {
       var kind = ASSET_KINDS[a.kind];
       var positions = a.kind === 'text' ? CORNER_POS : BAND_POS;
+      var idp = 'asset' + a.id + '-';
       html += '<div class="asset" data-asset="' + a.id + '">' +
-        '<div class="asset-head"><span>' + kind.label + '</span><button class="asset-del" type="button" data-del="' + a.id + '">Remove</button></div>' +
-        '<input type="text" data-prop="text" value="' + escapeHtml(a.text) + '" placeholder="' + escapeHtml(kind.text) + '">' +
+        '<div class="asset-head"><span>' + kind.label + '</span><button class="asset-del" type="button" data-del="' + a.id + '" aria-label="Remove ' + kind.label.toLowerCase() + '">Remove</button></div>' +
+        '<input type="text" data-prop="text" aria-label="' + kind.label + ' text" value="' + escapeHtml(a.text) + '" placeholder="' + escapeHtml(kind.text) + '">' +
         '<div class="row row-3">' +
-          '<div class="field"><label>Size</label><input type="number" data-prop="size" min="6" max="160" value="' + a.size + '"></div>' +
-          '<div class="field"><label>Font</label><select data-prop="font">' +
+          '<div class="field"><label for="' + idp + 'size">Size</label><input id="' + idp + 'size" type="number" data-prop="size" min="6" max="160" value="' + a.size + '"></div>' +
+          '<div class="field"><label for="' + idp + 'font">Font</label><select id="' + idp + 'font" data-prop="font">' +
             Object.keys(FONTS).map(function (k) { return '<option value="' + k + '"' + (a.font === k ? ' selected' : '') + '>' + FONTS[k].label + '</option>'; }).join('') +
           '</select></div>' +
-          '<div class="field"><label>Colour</label><input type="color" data-prop="colour" value="' + a.colour + '"></div>' +
+          '<div class="field"><label for="' + idp + 'colour">Colour</label><input id="' + idp + 'colour" type="color" data-prop="colour" value="' + escapeHtml(a.colour) + '"></div>' +
         '</div>' +
         '<div class="row">' +
-          '<div class="field"><label>Position</label><select data-prop="pos">' +
+          '<div class="field"><label for="' + idp + 'pos">Position</label><select id="' + idp + 'pos" data-prop="pos">' +
             positions.map(function (p) { return '<option value="' + p + '"' + (a.pos === p ? ' selected' : '') + '>' + POS_LABEL[p] + '</option>'; }).join('') +
           '</select></div>' +
-          '<div class="field"><label>Style</label><div class="checks">' +
+          '<div class="field"><span class="field-label">Style</span><div class="checks">' +
             '<label class="check"><input type="checkbox" data-prop="bold"' + (a.weight >= 600 ? ' checked' : '') + '> Bold</label>' +
             '<label class="check"><input type="checkbox" data-prop="italic"' + (a.italic ? ' checked' : '') + '> Italic</label>' +
           '</div></div>' +
@@ -503,10 +526,10 @@
     return assetById(+box.dataset.asset);
   }
 
-  function updateAssetProp(a, el) {
+  function updateAssetProp(a, el, commit) {
     var prop = el.dataset.prop;
     if (prop === 'text') a.text = el.value;
-    else if (prop === 'size') a.size = Math.max(6, Math.min(160, +el.value || a.size));
+    else if (prop === 'size') { a.size = Math.max(6, Math.min(160, +el.value || a.size)); if (commit && +el.value !== a.size) el.value = a.size; }
     else if (prop === 'font') a.font = el.value;
     else if (prop === 'colour') a.colour = el.value;
     else if (prop === 'pos') { a.pos = el.value; delete offsets['asset-' + a.id]; }
@@ -523,7 +546,7 @@
   ui.assetList.addEventListener('change', function (e) {
     var a = assetFromEvent(e);
     if (!a || !e.target.dataset.prop) return;
-    updateAssetProp(a, e.target);
+    updateAssetProp(a, e.target, true);
     clearTimeout(renderTimer);
     render(); save();
   });
@@ -658,7 +681,7 @@
     }
 
     var k = Math.min(9, Math.max(2, +ui.buckets.value || 5), uniq.length);
-    if (DIVERGING[ramp] && mode === 'equal' && k % 2 === 0) k = k < 9 ? k + 1 : k - 1;
+    if (diverging && mode === 'equal' && k % 2 === 0 && uniq.length > 2) k = k < 9 ? k + 1 : k - 1;
     var thresholds;
     if (mode === 'quantile') {
       var sorted = nums.slice().sort(d3.ascending);
@@ -709,13 +732,11 @@
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
   }
 
-  function canvasScale() { return (+svgNode.getAttribute('width')) / svgNode.getBoundingClientRect().width; }
-
   // base: where the element sits now. anchor: the position its drag offset is measured from
   // (the preferred corner), so a dragged element never jumps when the map re-renders.
   function makeDraggable(sel, key, base, anchor) {
     anchor = anchor || base;
-    var off = offsets[key] ? offsets[key] : { dx: base.x - anchor.x, dy: base.y - anchor.y };
+    var off = offsets[key] ? offsets[key] : { dx: base.x - anchor.x, dy: base.y - anchor.y, band: anchor.band || null };
     function apply() { sel.attr('transform', 'translate(' + (anchor.x + off.dx) + ',' + (anchor.y + off.dy) + ')'); }
     apply();
     sel.attr('class', 'drag');
@@ -723,8 +744,7 @@
     sel.call(d3.drag()
       .on('start', function () { pending = { dx: 0, dy: 0 }; })
       .on('drag', function (e) {
-        var k = canvasScale();
-        pending.dx += e.dx * k; pending.dy += e.dy * k;
+        pending.dx += e.dx; pending.dy += e.dy;      // d3 reports deltas in canvas units already
         if (!offsets[key] && pending.dx * pending.dx + pending.dy * pending.dy < 9) return;   // ignore jitter
         offsets[key] = off;
         off.dx += pending.dx; off.dy += pending.dy;
@@ -780,28 +800,42 @@
     var bandAssets = assets.filter(function (a) { return a.kind !== 'text' && a.text.trim(); });
     var topAssets = bandAssets.filter(function (a) { return a.pos[0] === 't'; }).sort(function (a, b) { return BAND_ORDER[a.kind] - BAND_ORDER[b.kind]; });
     var bottomAssets = bandAssets.filter(function (a) { return a.pos[0] === 'b'; }).sort(function (a, b) { return BAND_ORDER[a.kind] - BAND_ORDER[b.kind]; });
-    function assetHeight(a) { return a.size * 1.35; }
-    function drawTextAsset(a, baseline) {
+    var lineH = 1.25;
+    function assetLines(a, maxWidth) { return wrapText(a.text, a.size, a.font, a.weight, maxWidth); }
+    function assetHeight(a) { return assetLines(a, W - 2 * pad).length * a.size * lineH + a.size * 0.1; }
+    function textNode(g, a, x, firstBaseline, anchor, maxWidth) {
+      var t = g.append('text').attr('x', x).attr('y', firstBaseline).attr('text-anchor', anchor)
+        .attr('font-family', (FONTS[a.font] || FONTS.sans).stack).attr('font-size', a.size).attr('font-weight', a.weight)
+        .attr('font-style', a.italic ? 'italic' : null).attr('fill', a.colour);
+      assetLines(a, maxWidth).forEach(function (l, i) { t.append('tspan').attr('x', x).attr('dy', i ? a.size * lineH : 0).text(l); });
+      return t;
+    }
+    function drawTextAsset(a, top) {
       var anchor = a.pos[1] === 'l' ? 'start' : a.pos[1] === 'c' ? 'middle' : 'end';
       var x = anchor === 'start' ? pad : anchor === 'middle' ? W / 2 : W - pad;
       var g = overG.append('g');
-      g.append('text').attr('x', x).attr('y', baseline).attr('text-anchor', anchor)
-        .attr('font-family', (FONTS[a.font] || FONTS.sans).stack).attr('font-size', a.size).attr('font-weight', a.weight)
-        .attr('font-style', a.italic ? 'italic' : null).attr('fill', a.colour).text(a.text);
+      textNode(g, a, x, top + a.size, anchor, W - 2 * pad);
       return g;
     }
+    var minMapHeight = Math.round(H * 0.3);
+    var topH = d3.sum(topAssets, assetHeight) + (topAssets.length ? pad * 0.5 : 0);
+    var bottomH = d3.sum(bottomAssets, assetHeight) + (bottomAssets.length ? pad * 0.5 : 0);
     var y = pad;
     topAssets.forEach(function (a) {
-      var g = drawTextAsset(a, y + a.size);
+      var g = drawTextAsset(a, y);
       makeDraggable(g, 'asset-' + a.id, { x: 0, y: 0 });
       y += assetHeight(a);
     });
-    var mapTop = y + (topAssets.length ? pad * 0.5 : 0);
-    var bottomH = d3.sum(bottomAssets, assetHeight);
-    var mapBottom = H - pad - bottomH - (bottomAssets.length ? pad * 0.5 : 0);
-    y = mapBottom + (bottomAssets.length ? pad * 0.5 : 0);
+    var mapTop = pad + topH;
+    var mapBottom = H - pad - bottomH;
+    if (mapBottom - mapTop < minMapHeight) {   // too much text for the canvas: keep a usable map and let text overlap
+      var mid = (mapTop + mapBottom) / 2;
+      mapTop = Math.min(H - pad - minMapHeight, Math.max(pad, Math.round(mid - minMapHeight / 2)));
+      mapBottom = mapTop + minMapHeight;
+    }
+    y = H - pad - bottomH + (bottomAssets.length ? pad * 0.5 : 0);
     bottomAssets.forEach(function (a) {
-      var g = drawTextAsset(a, y + a.size);
+      var g = drawTextAsset(a, y);
       makeDraggable(g, 'asset-' + a.id, { x: 0, y: 0 });
       y += assetHeight(a);
     });
@@ -810,13 +844,22 @@
     var noteAssets = assets.filter(function (a) { return a.kind === 'text' && a.text.trim(); });
     var noteGroups = noteAssets.map(function (a) {
       var g = overG.append('g');
-      g.append('text').attr('x', 0).attr('y', a.size).attr('text-anchor', 'start')
-        .attr('font-family', (FONTS[a.font] || FONTS.sans).stack).attr('font-size', a.size).attr('font-weight', a.weight)
-        .attr('font-style', a.italic ? 'italic' : null).attr('fill', a.colour).text(a.text);
+      textNode(g, a, 0, a.size, 'start', Math.min(W * 0.4, W - 2 * pad));
       return { asset: a, sel: g };
     });
 
-    if (!current.features.length) { noteGroups.forEach(function (n) { makeDraggable(n.sel, 'asset-' + n.asset.id, { x: pad, y: mapTop }); }); drawFrame(svg, W, H, pad); return; }
+    if (!current.features.length) {
+      var stack = { tl: 0, tr: 0, bl: 0, br: 0 };
+      noteGroups.forEach(function (n) {
+        var bb = n.sel.node().getBBox();
+        var c = n.asset.pos;
+        var x = c[1] === 'l' ? pad : W - pad - bb.width;
+        var yy = c[0] === 't' ? mapTop + stack[c] : mapBottom - bb.height - stack[c];
+        stack[c] += bb.height + pad * 0.3;
+        makeDraggable(n.sel, 'asset-' + n.asset.id, { x: x - bb.x, y: yy - bb.y });
+      });
+      drawFrame(svg, W, H, pad); return;
+    }
 
     // --- which features are drawn: with "Hidden" no-data, only the ones with data ---
     var hideEmpty = noData === 'none' && colour;
@@ -872,8 +915,15 @@
       var w = bb.width, h = bb.height;
       var origin = { x: -bb.x, y: -bb.y };
       var prefBox = cornerBox(pref, w, h);
-      var box;
+      var box, bandUsed = null;
+      function reserveBand() {
+        var band = h + pad * 0.5;
+        if (mapBottom - mapTop - band < minMapHeight) return null;
+        if (pref[0] === 'b') { mapBottom -= band; fit(); boundsCache = null; return { x: prefBox.x, y: mapBottom + pad * 0.5, w: w, h: h }; }
+        mapTop += band; fit(); boundsCache = null; return { x: prefBox.x, y: mapTop - band, w: w, h: h };
+      }
       if (offsets[key]) {
+        if (offsets[key].band) reserveBand();   // keep the room that was made for it before it was dragged
         box = { x: prefBox.x + offsets[key].dx, y: prefBox.y + offsets[key].dy, w: w, h: h };
       } else {
         var sameEdge = pref[0] + (pref[1] === 'l' ? 'r' : 'l');
@@ -883,20 +933,22 @@
           if (!hits(cand)) box = cand;
         });
         if (!box) {
-          var band = h + pad * 0.5;
+          var savedTop = mapTop, savedBottom = mapBottom;
           var tries = 0;
           while (!box && tries < 3) {
-            if (pref[0] === 'b') { mapBottom -= band; fit(); boundsCache = null; box = { x: prefBox.x, y: mapBottom + pad * 0.5, w: w, h: h }; }
-            else { mapTop += band; fit(); boundsCache = null; box = { x: prefBox.x, y: mapTop - band, w: w, h: h }; }
-            var other = { x: cornerBox(sameEdge, w, h).x, y: box.y, w: w, h: h };
-            if (occupied.some(function (o) { return intersects(o, box); })) box = occupied.some(function (o) { return intersects(o, other); }) ? null : other;
+            var cand = reserveBand();
+            if (!cand) break;
+            var other = { x: cornerBox(sameEdge, w, h).x, y: cand.y, w: w, h: h };
+            if (!occupied.some(function (o) { return intersects(o, cand); })) box = cand;
+            else if (!occupied.some(function (o) { return intersects(o, other); })) box = other;
             tries++;
           }
-          if (!box) box = { x: prefBox.x, y: pref[0] === 'b' ? mapBottom + pad * 0.5 : mapTop - band, w: w, h: h };
+          if (box) bandUsed = pref[0];
+          else { mapTop = savedTop; mapBottom = savedBottom; fit(); boundsCache = null; box = prefBox; }   // no room: chosen corner, user can drag
         }
       }
       occupied.push(box);
-      makeDraggable(sel, key, { x: box.x + origin.x, y: box.y + origin.y }, { x: prefBox.x + origin.x, y: prefBox.y + origin.y });
+      makeDraggable(sel, key, { x: box.x + origin.x, y: box.y + origin.y }, { x: prefBox.x + origin.x, y: prefBox.y + origin.y, band: bandUsed });
     }
 
     var arrow = ui.northArrow.checked ? drawNorthArrow(overG, textColour) : null;
@@ -966,7 +1018,19 @@
       var lg = layer.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
         .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
       var boxes = featureBoxes();
-      var placed = [];
+      var grid = {}, cell = Math.max(20, ls * 6);
+      function cellsOf(b) {
+        var out = [];
+        for (var gx = Math.floor(b.x / cell); gx <= Math.floor((b.x + b.w) / cell); gx++)
+          for (var gy = Math.floor(b.y / cell); gy <= Math.floor((b.y + b.h) / cell); gy++) out.push(gx + ',' + gy);
+        return out;
+      }
+      var placed = {
+        hit: function (b) {
+          return cellsOf(b).some(function (c) { return (grid[c] || []).some(function (o) { return intersects(o, b); }); });
+        },
+        push: function (b) { cellsOf(b).forEach(function (c) { (grid[c] = grid[c] || []).push(b); }); }
+      };
       drawFeats.forEach(function (d, i) {
         var v = vals[d.id];
         var lines = [];
@@ -980,7 +1044,7 @@
         var c = path.centroid(d);
         if (isNaN(c[0])) return;
         var lb = { x: c[0] - widest / 2, y: c[1] - lh / 2, w: widest, h: lh };
-        if (placed.some(function (o) { return intersects(o, lb); })) return;
+        if (placed.hit(lb)) return;
         placed.push(lb);
         var t = lg.append('text').attr('x', c[0]).attr('y', c[1] - (lines.length - 1) * ls * 0.6);
         lines.forEach(function (l, i2) {
@@ -992,10 +1056,10 @@
     // --- drag the map itself to pan ---
     var panStart = null;
     layer.call(d3.drag()
+      .touchable(function () { return view.k !== 1 || view.dx || view.dy; })
       .on('start', function () { panStart = { dx: view.dx, dy: view.dy, mx: 0, my: 0 }; })
       .on('drag', function (e) {
-        var k = canvasScale();
-        panStart.mx += e.dx * k; panStart.my += e.dy * k;
+        panStart.mx += e.dx; panStart.my += e.dy;
         layer.attr('transform', 'translate(' + panStart.mx + ',' + panStart.my + ')');
       })
       .on('end', function () {
@@ -1096,6 +1160,7 @@
     var title = assets.filter(function (a) { return a.kind === 'title' && a.text.trim(); })[0];
     var base = title ? title.text : (regionLabel() + ' ' + current.level);
     var s = base.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (!s) s = (regionLabel() + ' ' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     return s || 'map';
   }
 
@@ -1132,10 +1197,12 @@
     });
   }
 
+  function exportFailed(err) { alert('Export failed: ' + (err && err.message ? err.message : err)); }
+
   function exportPng(scale) {
     rasterize(scale).then(function (c) {
-      c.toBlob(function (b) { download(b, slug() + (scale > 1 ? '@' + scale + 'x' : '') + '.png'); }, 'image/png');
-    });
+      c.toBlob(function (b) { if (!b) return exportFailed(new Error('image too large for this browser')); download(b, slug() + (scale > 1 ? '@' + scale + 'x' : '') + '.png'); }, 'image/png');
+    }).catch(exportFailed);
   }
 
   function exportPdf() {
@@ -1145,7 +1212,7 @@
       var doc = new window.jspdf.jsPDF({ orientation: W >= H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'] });
       doc.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, W, H);
       doc.save(slug() + '.pdf');
-    });
+    }).catch(exportFailed);
   }
 
   function exportCsv() {
@@ -1182,7 +1249,7 @@
       try {
         localStorage.setItem(STORE_KEY, JSON.stringify({
           settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets,
-          assets: assets, assetSeq: assetSeq, view: view
+          assets: assets, assetSeq: assetSeq, view: view, autoSuffix: autoSuffix, paste: ui.paste.value
         }));
       } catch (e) { /* storage unavailable */ }
     }, 300);
@@ -1202,15 +1269,35 @@
         el.value = st[id];
         if (el.tagName === 'SELECT' && el.value !== String(st[id])) el.value = before;   // stale option: keep default
         if (el.type === 'number' && el.value === '' && id !== 'decimals') el.value = before;
+        if (el.type === 'color' && !HEX.test(String(st[id]))) el.value = before;
       });
-      if (data.values) values = Object.assign({ states: {}, districts: {}, subdistricts: {} }, data.values);
-      if (data.region) region = data.region;
+      ['states', 'districts', 'subdistricts'].forEach(function (lv) {
+        var v = data.values && data.values[lv];
+        if (v && typeof v === 'object' && !Array.isArray(v)) values[lv] = v;
+      });
+      if (data.region && typeof data.region === 'object') region = { state: String(data.region.state || ''), district: String(data.region.district || '') };
       valueHeaders = Object.assign({ states: '', districts: '', subdistricts: '' }, data.valueHeaders || {});
-      offsets = data.offsets || {};
+      offsets = {};
+      Object.keys(data.offsets || {}).forEach(function (k) {
+        var o = data.offsets[k];
+        if (o && isFinite(o.dx) && isFinite(o.dy)) offsets[k] = { dx: +o.dx, dy: +o.dy, band: o.band || null };
+      });
+      autoSuffix = !!data.autoSuffix;
+      if (typeof data.paste === 'string') ui.paste.value = data.paste;
       if (data.view && isFinite(data.view.k)) view = { k: Math.max(0.5, Math.min(4, data.view.k)), dx: +data.view.dx || 0, dy: +data.view.dy || 0 };
       if (Array.isArray(data.assets)) {
-        assets = data.assets.filter(function (a) { return a && ASSET_KINDS[a.kind]; });
-        assetSeq = data.assetSeq || (d3.max(assets, function (a) { return a.id; }) || 0) + 1;
+        assets = data.assets.filter(function (a) { return a && typeof a === 'object' && Object.prototype.hasOwnProperty.call(ASSET_KINDS, a.kind); }).map(function (a) {
+          var d = ASSET_KINDS[a.kind];
+          var posOk = (a.kind === 'text' ? CORNER_POS : BAND_POS).indexOf(a.pos) !== -1;
+          return {
+            id: isFinite(a.id) ? +a.id : 0, kind: a.kind, text: typeof a.text === 'string' ? a.text : d.text,
+            size: isFinite(a.size) ? Math.max(6, Math.min(160, +a.size)) : d.size, font: Object.prototype.hasOwnProperty.call(FONTS, a.font) ? a.font : 'sans',
+            weight: a.weight >= 600 ? 700 : 400, italic: !!a.italic, colour: HEX.test(String(a.colour)) ? a.colour : d.colour,
+            pos: posOk ? a.pos : d.pos
+          };
+        });
+        assets.forEach(function (a) { if (!a.id || assets.some(function (b) { return b !== a && b.id === a.id; })) a.id = (d3.max(assets, function (b) { return b.id; }) || 0) + 1; });
+        assetSeq = Math.max(+data.assetSeq || 0, (d3.max(assets, function (a) { return a.id; }) || 0) + 1);
       } else {
         // older saves kept a single title, subtitle and source
         var legacyPos = st.titlePos || 'tl';
@@ -1244,10 +1331,12 @@
   });
   ui.level.addEventListener('change', function () {
     if (ui.level.value === 'districts' && region.district) { region.district = ''; ui.regionDistrict.value = ''; }
+    view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     refresh();
   });
 
   ui.applyData.addEventListener('click', function () { applyRows(parseText(ui.paste.value)); });
+  ui.paste.addEventListener('input', function () { save(); });
   ui.paste.addEventListener('paste', function () { setTimeout(function () { applyRows(parseText(ui.paste.value)); }, 0); });
   ui.clearData.addEventListener('click', function () {
     values[current.level] = {};
@@ -1278,7 +1367,7 @@
   Object.keys(POS_KEYS).forEach(function (id) {
     ui[id].addEventListener('change', function () { POS_KEYS[id].forEach(function (k) { delete offsets[k]; }); });
   });
-  ui.canvas.addEventListener('change', function () { offsets = {}; });
+  ui.canvas.addEventListener('change', function () { offsets = {}; view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true); });
 
   // background flips: swap colours that still sit on the previous preset, including default text colours
   var lastBackground = ui.background.value;

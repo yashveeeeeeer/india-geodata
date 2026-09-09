@@ -5,7 +5,7 @@ description: "Paste a spreadsheet and get a state, district or sub-district map 
 permalink: /maps/
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=6">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=7">
 
 <div class="maps-page" id="mapMaker" data-base="{{ site.baseurl }}/maps/data/">
 
@@ -44,7 +44,7 @@ permalink: /maps/
       <details class="panel" open>
         <summary>Data</summary>
         <div class="panel-body">
-          <textarea id="paste" placeholder="Name&#9;Value&#10;Kerala&#9;94&#10;Bihar&#9;61" spellcheck="false"></textarea>
+          <textarea id="paste" aria-label="Paste names and values" placeholder="Name&#9;Value&#10;Kerala&#9;94&#10;Bihar&#9;61" spellcheck="false"></textarea>
           <label class="file-drop" id="fileDrop">Or drop a CSV / Excel file<input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls"></label>
           <div class="btn-row">
             <button class="btn-plain" id="applyData" type="button">Apply</button>
@@ -53,7 +53,7 @@ permalink: /maps/
           </div>
           <div class="status" id="matchStatus"></div>
           <div class="unmatched" id="unmatched"></div>
-          <input type="text" id="tableSearch" placeholder="Search regions">
+          <input type="text" id="tableSearch" aria-label="Search regions" placeholder="Search regions">
           <div class="value-table-wrap"><table class="value-table"><tbody id="valueTable"></tbody></table></div>
         </div>
       </details>
@@ -266,4 +266,4 @@ permalink: /maps/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script src="{{ site.baseurl }}/assets/js/maps.js?v=7"></script>
+<script src="{{ site.baseurl }}/assets/js/maps.js?v=8"></script>
