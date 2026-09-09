@@ -116,6 +116,8 @@
 .stage-frame svg { width: 100%; height: auto; max-height: calc(100vh - 160px); display: block; box-shadow: var(--shadow-sm); }
 .stage-frame svg path { transition: opacity 0.1s; }
 .stage-frame svg .region:hover { opacity: 0.75; }
+.stage-frame svg .drag { cursor: move; }
+.stage-frame svg .drag:hover { opacity: 0.8; }
 .stage-note { display: flex; justify-content: flex-end; align-items: center; margin-top: 8px; font-size: 0.78rem; color: var(--color-muted); gap: 12px; flex-wrap: wrap; }
 .stage-note a { color: var(--color-muted); text-decoration: underline; text-underline-offset: 2px; }
 .stage-note a:hover { color: var(--color-text); }

@@ -437,6 +437,26 @@
   //  Render
   // ---------------------------------------------------------------------------
   var svgNode = null;
+  var offsets = {};          // drag offsets per overlay: { title, source, legend, north } -> { dx, dy }
+
+  function intersects(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+
+  function makeDraggable(sel, key, base) {
+    var off = offsets[key] || { dx: 0, dy: 0 };
+    function apply() { sel.attr('transform', 'translate(' + (base.x + off.dx) + ',' + (base.y + off.dy) + ')'); }
+    apply();
+    sel.attr('class', 'drag');
+    sel.call(d3.drag()
+      .on('start', function () { off = offsets[key] = offsets[key] || { dx: 0, dy: 0 }; })
+      .on('drag', function (e) {
+        var k = (+svgNode.getAttribute('width')) / svgNode.getBoundingClientRect().width;
+        off.dx += e.dx * k; off.dy += e.dy * k;
+        apply();
+      })
+      .on('end', function () { save(); }));
+  }
 
   function render() {
     var size = ui.canvas.value.split('x').map(Number);
@@ -464,7 +484,7 @@
 
     if (bg !== 'transparent') svg.append('rect').attr('width', W).attr('height', H).attr('fill', bg);
 
-    // --- text block ---
+    // --- text block: title + subtitle in one draggable group, source in another ---
     var titleSize = +ui.titleSize.value, subSize = +ui.subtitleSize.value, srcSize = +ui.sourceSize.value;
     var tpos = ui.titlePos.value;
     var anchor = tpos[1] === 'l' ? 'start' : tpos[1] === 'c' ? 'middle' : 'end';
@@ -482,26 +502,85 @@
       mapBottom = H - pad - srcH - blockH - gap;
       blockY = mapBottom + gap;
     }
-    var y = blockY;
-    if (ui.title.value) {
-      y += titleSize;
-      svg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', titleSize).attr('font-weight', 700).attr('fill', textColour).text(ui.title.value);
-      y += titleSize * 0.35;
-    }
-    if (ui.subtitle.value) {
-      y += subSize;
-      svg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', subSize).attr('fill', textColour).attr('opacity', 0.75).text(ui.subtitle.value);
+
+    var mapG = svg.append('g');          // map layers
+    var overG = svg.append('g');         // overlays, always above the map
+
+    if (ui.title.value || ui.subtitle.value) {
+      var tg = overG.append('g');
+      var y = blockY;
+      if (ui.title.value) {
+        y += titleSize;
+        tg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', titleSize).attr('font-weight', 700).attr('fill', textColour).text(ui.title.value);
+        y += titleSize * 0.35;
+      }
+      if (ui.subtitle.value) {
+        y += subSize;
+        tg.append('text').attr('x', tx).attr('y', y).attr('text-anchor', anchor).attr('font-size', subSize).attr('fill', textColour).attr('opacity', 0.75).text(ui.subtitle.value);
+      }
+      makeDraggable(tg, 'title', { x: 0, y: 0 });
     }
     if (ui.source.value) {
-      svg.append('text').attr('x', tx).attr('y', H - pad).attr('text-anchor', anchor).attr('font-size', srcSize).attr('fill', textColour).attr('opacity', 0.65).text(ui.source.value);
+      var sg = overG.append('g');
+      sg.append('text').attr('x', tx).attr('y', H - pad).attr('text-anchor', anchor).attr('font-size', srcSize).attr('fill', textColour).attr('opacity', 0.65).text(ui.source.value);
+      makeDraggable(sg, 'source', { x: 0, y: 0 });
     }
 
     if (!current.features.length) return;
 
-    // --- map ---
+    // --- projection ---
     var fc = { type: 'FeatureCollection', features: current.features };
-    var projection = d3.geoMercator().fitExtent([[pad, mapTop], [W - pad, mapBottom]], fc);
+    var projection = d3.geoMercator();
     var path = d3.geoPath(projection);
+    function fit() { projection.fitExtent([[pad, mapTop], [W - pad, mapBottom]], fc); }
+    fit();
+
+    // --- overlay placement: pick a corner that does not cover the map, else make room ---
+    var occupied = [];
+    function cornerBox(corner, w, h) {
+      return {
+        x: corner[1] === 'l' ? pad : W - pad - w,
+        y: corner[0] === 't' ? mapTop : mapBottom - h,
+        w: w, h: h
+      };
+    }
+    function hits(box) {
+      if (occupied.some(function (o) { return intersects(o, box); })) return true;
+      return current.features.some(function (f) {
+        var b = path.bounds(f);
+        return intersects({ x: b[0][0], y: b[0][1], w: b[1][0] - b[0][0], h: b[1][1] - b[0][1] }, box);
+      });
+    }
+    function place(key, sel, pref) {
+      var bb = sel.node().getBBox();
+      var w = bb.width, h = bb.height;
+      var origin = { x: -bb.x, y: -bb.y };      // shift so the group's top-left sits on the box
+      var box;
+      if (offsets[key]) {
+        box = cornerBox(pref, w, h);
+      } else {
+        var order = [pref].concat(['tl', 'tr', 'bl', 'br'].filter(function (c) { return c !== pref; }));
+        for (var i = 0; i < order.length && !box; i++) {
+          var cand = cornerBox(order[i], w, h);
+          if (!hits(cand)) box = cand;
+        }
+        if (!box) {
+          // reserve a band above or below the map, then refit the map
+          var band = h + pad * 0.5;
+          if (pref[0] === 'b') { mapBottom -= band; fit(); box = { x: cornerBox(pref, w, h).x, y: mapBottom + pad * 0.5, w: w, h: h }; }
+          else { mapTop += band; fit(); box = { x: cornerBox(pref, w, h).x, y: mapTop - band, w: w, h: h }; }
+        }
+      }
+      occupied.push(box);
+      makeDraggable(sel, key, { x: box.x + origin.x, y: box.y + origin.y });
+    }
+
+    var arrow = ui.northArrow.checked ? drawNorthArrow(overG, textColour) : null;
+    var legend = (ui.showLegend.checked && colour) ? drawLegend(overG, colour, textColour) : null;
+    if (arrow) place('north', arrow, ui.northPos.value);
+    if (legend) place('legend', legend, ui.legendPos.value);
+
+    // --- map ---
     var bw = ui.borderStyle.value === 'none' ? 0 : +ui.borderWidth.value;
     var ow = ui.outlineStyle.value === 'none' ? 0 : +ui.outlineWidth.value;
     var bc = ui.borderColour.value, oc = ui.outlineColour.value;
@@ -513,8 +592,7 @@
     var borderDash = dash(ui.borderStyle.value, Math.max(bw, 0.5));
     var outlineDash = dash(ui.outlineStyle.value, Math.max(ow, 0.5));
 
-    var g = svg.append('g');
-    g.selectAll('path').data(current.features).enter().append('path')
+    mapG.selectAll('path').data(current.features).enter().append('path')
       .attr('class', 'region')
       .attr('d', path)
       .attr('data-id', function (d) { return d.id; })
@@ -542,7 +620,7 @@
     var topo = current.topo, obj = current.object;
     function outline(filter, width) {
       if (!width) return;
-      svg.append('path').attr('d', path(topojson.mesh(topo, obj, filter)))
+      mapG.append('path').attr('d', path(topojson.mesh(topo, obj, filter)))
         .attr('fill', 'none').attr('stroke', oc).attr('stroke-width', width).attr('stroke-linejoin', 'round')
         .attr('stroke-dasharray', outlineDash).attr('stroke-linecap', ui.outlineStyle.value === 'dotted' ? 'round' : null);
     }
@@ -558,7 +636,7 @@
     if (ui.showNames.checked || ui.showValues.checked) {
       var ls = +ui.labelSize.value;
       var halo = bg === 'transparent' ? '#ffffff' : bg;
-      var lg = svg.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
+      var lg = mapG.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
         .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
       current.features.forEach(function (d) {
         var v = vals[d.id];
@@ -579,30 +657,22 @@
         });
       });
     }
-
-    // --- north arrow ---
-    if (ui.northArrow.checked) drawNorthArrow(svg, { W: W, pad: pad, top: mapTop, bottom: mapBottom, textColour: textColour });
-
-    // --- legend ---
-    if (ui.showLegend.checked && colour) drawLegend(svg, colour, { W: W, H: H, pad: pad, top: mapTop, bottom: mapBottom, textColour: textColour });
-
   }
 
-  function drawNorthArrow(svg, box) {
+  // North arrow: the letter N over a half-filled triangle. Built at the origin; render() positions it.
+  function drawNorthArrow(parent, textColour) {
     var s = +ui.northSize.value || 60;
-    var pos = ui.northPos.value;
-    var cx = pos[1] === 'l' ? box.pad + s * 0.3 : box.W - box.pad - s * 0.3;
-    var top = pos[0] === 't' ? box.top : box.bottom - s;
-    var g = svg.append('g').attr('transform', 'translate(' + cx + ',' + top + ')')
-      .attr('fill', box.textColour).attr('stroke', box.textColour).attr('stroke-width', Math.max(0.75, s * 0.018)).attr('stroke-linejoin', 'round');
-    var tip = s * 0.3, base = s * 0.66, notch = s * 0.58, hw = s * 0.13;
-    g.append('text').attr('y', s * 0.22).attr('text-anchor', 'middle').attr('font-size', s * 0.24).attr('font-weight', 600).attr('stroke', 'none').text('N');
+    var g = parent.append('g')
+      .attr('fill', textColour).attr('stroke', textColour).attr('stroke-width', Math.max(0.75, s * 0.02)).attr('stroke-linejoin', 'round');
+    var tip = s * 0.34, base = s * 0.98, notch = s * 0.86, hw = s * 0.2;
+    g.append('text').attr('y', s * 0.26).attr('text-anchor', 'middle').attr('font-size', s * 0.3).attr('font-weight', 700).attr('stroke', 'none').text('N');
     g.append('path').attr('d', 'M0,' + tip + ' L' + (-hw) + ',' + base + ' L0,' + notch + ' Z');
     g.append('path').attr('d', 'M0,' + tip + ' L' + hw + ',' + base + ' L0,' + notch + ' Z').attr('fill', 'none');
-    g.append('line').attr('x1', 0).attr('y1', notch).attr('x2', 0).attr('y2', s);
+    return g;
   }
 
-  function drawLegend(svg, colour, box) {
+  // Legend: built at the origin; render() positions it.
+  function drawLegend(parent, colour, textColour) {
     var fs = +ui.legendSize.value;
     var sw = fs * 1.3, gap = fs * 0.35;
     var title = ui.legendTitle.value || valueHeader || '';
@@ -616,15 +686,14 @@
       colour.categories.forEach(function (cat, i) { items.push({ colour: colour.colours[i], label: cat }); });
     }
 
-    var lg = svg.append('g').attr('font-size', fs).attr('fill', box.textColour);
+    var lg = parent.append('g').attr('font-size', fs).attr('fill', textColour);
     var y = 0;
     if (title) { lg.append('text').attr('x', 0).attr('y', fs).attr('font-weight', 600).text(title); y = fs * 1.6; }
 
-    var width;
     if (colour.type === 'continuous') {
-      var grad = svg.select('defs').append('linearGradient').attr('id', 'legendGrad');
+      var grad = d3.select(svgNode).select('defs').append('linearGradient').attr('id', 'legendGrad');
       d3.range(0, 1.001, 0.1).forEach(function (t) { grad.append('stop').attr('offset', (t * 100) + '%').attr('stop-color', colour.interp(t)); });
-      width = fs * 14;
+      var width = fs * 14;
       lg.append('rect').attr('x', 0).attr('y', y).attr('width', width).attr('height', fs * 0.9).attr('fill', 'url(#legendGrad)');
       lg.append('text').attr('x', 0).attr('y', y + fs * 2).text(fmt(colour.extent[0]));
       lg.append('text').attr('x', width).attr('y', y + fs * 2).attr('text-anchor', 'end').text(fmt(colour.extent[1]));
@@ -635,19 +704,13 @@
         lg.append('text').attr('x', sw + gap * 2).attr('y', y + sw * 0.72).text(it.label);
         y += sw + gap;
       });
-      width = sw + gap * 2 + d3.max(items, function (it) { return it.label.length; }) * fs * 0.6;
     }
     if (ui.noData.value !== 'none' && current.features.some(function (f) { var v = values[current.level][f.id]; return v == null || v === ''; })) {
       var nd = ui.noData.value === 'hatch' ? 'url(#hatch)' : ui.noData.value;
       lg.append('rect').attr('x', 0).attr('y', y).attr('width', sw).attr('height', sw).attr('fill', nd).attr('stroke', '#00000033');
       lg.append('text').attr('x', sw + gap * 2).attr('y', y + sw * 0.72).text('No data');
-      y += sw + gap;
     }
-
-    var pos = ui.legendPos.value;
-    var lx = pos[1] === 'l' ? box.pad : box.W - box.pad - width;
-    var ly = pos[0] === 't' ? box.top : box.bottom - y;
-    lg.attr('transform', 'translate(' + lx + ',' + ly + ')');
+    return lg;
   }
 
   // ---------------------------------------------------------------------------
@@ -660,7 +723,7 @@
 
   function svgString() {
     var clone = svgNode.cloneNode(true);
-    clone.querySelectorAll('[data-id]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('class'); });
+    clone.querySelectorAll('[data-id], [class]').forEach(function (el) { el.removeAttribute('data-id'); el.removeAttribute('class'); });
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
   }
 
@@ -739,7 +802,7 @@
       var settings = {};
       SETTING_IDS.forEach(function (id) { var el = ui[id]; settings[id] = el.type === 'checkbox' ? el.checked : el.value; });
       try {
-        localStorage.setItem(STORE_KEY, JSON.stringify({ settings: settings, region: region, values: values, valueHeader: valueHeader }));
+        localStorage.setItem(STORE_KEY, JSON.stringify({ settings: settings, region: region, values: values, valueHeader: valueHeader, offsets: offsets }));
       } catch (e) { /* storage unavailable */ }
     }, 300);
   }
@@ -757,6 +820,7 @@
       if (data.values) values = Object.assign({ states: {}, districts: {}, subdistricts: {} }, data.values);
       if (data.region) region = data.region;
       valueHeader = data.valueHeader || '';
+      offsets = data.offsets || {};
     } catch (e) { /* ignore */ }
   }
 
@@ -804,6 +868,11 @@
   });
   ui.fileDrop.addEventListener('drop', function (e) { readFile(e.dataTransfer.files[0]); });
   ui.tableSearch.addEventListener('input', buildTable);
+  $('resetLayout').addEventListener('click', function () { offsets = {}; render(); save(); });
+  var POS_KEYS = { titlePos: ['title', 'source'], legendPos: ['legend'], northPos: ['north'] };
+  Object.keys(POS_KEYS).forEach(function (id) {
+    ui[id].addEventListener('change', function () { POS_KEYS[id].forEach(function (k) { delete offsets[k]; }); });
+  });
 
   SETTING_IDS.forEach(function (id) {
     if (id === 'level') return;
