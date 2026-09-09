@@ -7,7 +7,7 @@ A unified, structured collection of India's openly-licensed geospatial data — 
 
 Browse and download at **[india-geodata](https://yashveeeeeeer.github.io/india-geodata)**
 
-Make your own state, district or sub-district map from a spreadsheet with the **[India Map Maker](https://yashveeeeeeer.github.io/india-geodata/maps/)** — free, no watermark, runs entirely in the browser.
+Make your own map from a spreadsheet with the **[India Map Maker](https://yashveeeeeeer.github.io/india-geodata/maps/)** — states, districts, sub-districts, blocks, parliamentary and assembly constituencies; free, no watermark, runs entirely in the browser.
 
 ---
 

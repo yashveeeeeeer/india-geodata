@@ -27,9 +27,16 @@ permalink: /maps/
             <div class="field">
               <label for="level">Divide into</label>
               <select id="level">
-                <option value="states">States</option>
-                <option value="districts" selected>Districts</option>
-                <option value="subdistricts">Sub-districts</option>
+                <optgroup label="Administrative">
+                  <option value="states">States</option>
+                  <option value="districts" selected>Districts</option>
+                  <option value="subdistricts">Sub-districts</option>
+                  <option value="blocks">Blocks</option>
+                </optgroup>
+                <optgroup label="Electoral">
+                  <option value="parliament">Parliamentary constituencies</option>
+                  <option value="assembly">Assembly constituencies</option>
+                </optgroup>
               </select>
             </div>
           </div>
@@ -47,13 +54,17 @@ permalink: /maps/
           <label class="file-drop" id="fileDrop">
             <span class="file-drop-btn">Upload CSV or Excel</span>
             <span class="file-drop-hint">or drop a file here</span>
-            <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods,text/csv,text/comma-separated-values,text/tab-separated-values,text/plain,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.oasis.opendocument.spreadsheet">
+            <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods,.json,text/csv,text/comma-separated-values,text/tab-separated-values,text/plain,application/json,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.oasis.opendocument.spreadsheet">
           </label>
+          <div class="row" id="sourcePick" hidden>
+            <div class="field" id="sheetField" hidden><label for="sheetPick">Sheet</label><select id="sheetPick"></select></div>
+            <div class="field" id="colField" hidden><label for="colPick">Value column</label><select id="colPick"></select></div>
+          </div>
           <div class="btn-row">
             <button class="btn-plain" id="applyData" type="button">Apply</button>
             <button class="btn-plain secondary" id="clearData" type="button">Clear</button>
             <button class="btn-plain secondary" id="sampleData" type="button">Sample</button>
-            <button class="btn-plain secondary" id="regionList" type="button" title="Download the region names and codes for this map">Region names</button>
+            <button class="btn-plain secondary" id="regionList" type="button" title="Fill the data in the existing CSV to show it over the map">Template CSV</button>
             <button class="btn-plain secondary" data-export="csv" type="button" title="Download the values on the map as CSV">Data CSV</button>
           </div>
           <div class="status" id="matchStatus" role="status"></div>
@@ -255,7 +266,9 @@ permalink: /maps/
             <button class="btn-plain secondary" data-export="svg" type="button">SVG</button>
             <button class="btn-plain secondary" data-export="pdf" type="button">PDF</button>
             <button class="btn-plain secondary" data-export="copy" id="copyImage" type="button" hidden>Copy image</button>
+            <button class="btn-plain secondary" data-export="project" type="button" title="Save everything on this page as a file you can open again with Upload">Save project</button>
           </div>
+          <p class="hint" id="saveNote" hidden>Saved in this browser</p>
           <p class="hint"><a id="reportLink" href="https://github.com/yashveeeeeeer/india-geodata/issues/new" target="_blank" rel="noopener">Report a problem</a></p>
         </div>
       </details>
@@ -273,4 +286,5 @@ permalink: /maps/
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous"></script>
+<script src="{{ site.baseurl }}/assets/js/maps-core.js?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ site.baseurl }}/assets/js/maps.js?v={{ site.time | date: '%s' }}"></script>

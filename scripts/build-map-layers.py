@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build simplified TopoJSON boundary layers for the map maker (docs/maps/).
 
-Reads the LGD boundary files published in this repository's GitHub Releases,
+Reads the LGD administrative and electoral boundary files published in this repository's GitHub Releases,
 keeps only the fields the map maker needs, simplifies with mapshaper and
 writes one TopoJSON file per level into docs/maps/data/.
 
@@ -39,6 +39,23 @@ LAYERS = {
         "fields": {"sdtname": "name", "subdt_lgd": "lgd", "sdtcode11": "census",
                    "dtname": "district", "dist_lgd": "dist_lgd",
                    "stname": "state", "state_lgd": "state_lgd"},
+    },
+    "blocks": {
+        "url": f"{RELEASE}/admin/blocks/LGD_Blocks.parquet",
+        "fields": {"block_name": "name", "block_lgd": "lgd", "blkcode11": "census",
+                   "district": "district", "dist_lgd": "dist_lgd",
+                   "state": "state", "state_lgd": "state_lgd"},
+    },
+    "parliament": {
+        "url": f"{RELEASE}/electoral/constituencies/LGD_Parliament_Constituencies.parquet",
+        "fields": {"pc_name": "name", "pc_id": "lgd", "pc_no": "census",
+                   "st_name": "state", "State_LGD": "state_lgd"},
+    },
+    "assembly": {
+        "url": f"{RELEASE}/electoral/constituencies/LGD_Assembly_Constituencies.parquet",
+        "fields": {"ac_name": "name", "AC_ID": "lgd", "ac_no": "census",
+                   "dist_name": "district", "Dist_LGD": "dist_lgd",
+                   "st_name": "state", "State_LGD": "state_lgd"},
     },
 }
 
@@ -112,9 +129,9 @@ def build(level, spec, cache, pct, out_dir):
         gdf["state_lgd"] = gdf["state_lgd"].astype(int)
     if "district" in gdf:
         gdf["district"] = gdf["district"].astype(str).map(clean_name)
-        gdf["dist_lgd"] = gdf["dist_lgd"].astype(int)
+        gdf["dist_lgd"] = gdf["dist_lgd"].fillna(0).astype(int)
     gdf["lgd"] = gdf["lgd"].astype(int)
-    gdf["census"] = gdf["census"].astype(str).str.strip()
+    gdf["census"] = gdf["census"].map(lambda v: str(int(v)) if isinstance(v, float) and v == v and float(v).is_integer() else str(v).strip())
     gdf = dedupe_ids(gdf)
 
     tmp_geojson = os.path.join(cache, f"{level}.geojson")

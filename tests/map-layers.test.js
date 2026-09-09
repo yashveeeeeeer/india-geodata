@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA = path.join(__dirname, '..', 'docs', 'maps', 'data');
-const JS = fs.readFileSync(path.join(__dirname, '..', 'docs', 'assets', 'js', 'maps.js'), 'utf8');
+const Core = require('../docs/assets/js/maps-core.js');
 
 function layer(name) {
   const topo = JSON.parse(fs.readFileSync(path.join(DATA, name + '.topo.json'), 'utf8'));
@@ -21,7 +21,10 @@ function compact(s) {
 const REQUIRED = {
   states: ['name', 'lgd', 'census'],
   districts: ['name', 'lgd', 'census', 'state', 'state_lgd'],
-  subdistricts: ['name', 'lgd', 'census', 'district', 'dist_lgd', 'state', 'state_lgd']
+  subdistricts: ['name', 'lgd', 'census', 'district', 'dist_lgd', 'state', 'state_lgd'],
+  blocks: ['name', 'lgd', 'census', 'district', 'dist_lgd', 'state', 'state_lgd'],
+  parliament: ['name', 'lgd', 'census', 'state', 'state_lgd'],
+  assembly: ['name', 'lgd', 'census', 'district', 'dist_lgd', 'state', 'state_lgd']
 };
 
 for (const name of Object.keys(REQUIRED)) {
@@ -44,12 +47,13 @@ test('feature counts match the published boundaries', () => {
   assert.strictEqual(layer('states').length, 36);
   assert.strictEqual(layer('districts').length, 785);
   assert.ok(layer('subdistricts').length > 6000);
+  assert.strictEqual(layer('parliament').length, 543);
+  assert.ok(layer('assembly').length > 4000);
+  assert.ok(layer('blocks').length > 7000);
 });
 
 test('every alias target is a real state or district name', () => {
-  const m = JS.match(/var ALIASES = \{([\s\S]*?)\n  \};/);
-  assert.ok(m, 'ALIASES table found');
-  const targets = [...m[1].matchAll(/:\s*'([a-z0-9]+)'/g)].map(x => x[1]);
+  const targets = Object.keys(Core.ALIASES).map(k => Core.ALIASES[k]);
   const known = new Set();
   for (const name of ['states', 'districts']) for (const g of layer(name)) known.add(compact(g.properties.name));
   const missing = [...new Set(targets)].filter(t => !known.has(t));

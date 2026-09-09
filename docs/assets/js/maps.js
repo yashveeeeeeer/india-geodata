@@ -13,6 +13,16 @@
     return;
   }
 
+  if (!window.IGDMapCore) { if (statusEl) statusEl.textContent = 'Part of the map maker did not load. Reload the page.'; return; }
+  var Core = window.IGDMapCore;
+  var FONTS = Core.FONTS, HEX = Core.HEX, ALIASES = Core.ALIASES, HEADER_WORDS = Core.HEADER_WORDS;
+  var CLAMPED = Core.CLAMPED, QUALITATIVE = Core.QUALITATIVE, DIVERGING = Core.DIVERGING;
+  var compact = Core.compact, tokenKey = Core.tokenKey, digitsOnly = Core.digitsOnly, editDistance = Core.editDistance;
+  var levenshtein = Core.levenshtein, similarity = Core.similarity, isEmptyToken = Core.isEmptyToken, toNumber = Core.toNumber;
+  var wrapText = Core.wrapText, indianGroup = Core.indianGroup, computeAutoDecimals = Core.computeAutoDecimals;
+  function parseText(text) { return Core.parseText(text, d3); }
+  function fmtNumber(v, d) { return Core.fmtNumber(v, d, ui.numberStyle.value); }
+
   var BASE = root.dataset.base;
   var ASSETS = root.dataset.assets || BASE.replace(/maps\/data\/$/, 'assets/');
   var DATA_V = root.dataset.v ? '?v=' + encodeURIComponent(root.dataset.v) : '';
@@ -54,6 +64,7 @@
     assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
     unmatchedBadge: $('unmatchedBadge'), regionList: $('regionList'), learnedList: $('learnedList'), learnedBox: $('learnedBox'),
     bucketsField: $('bucketsField'), stageLoading: $('stageLoading'), startOver: $('startOver'), copyImage: $('copyImage'), reportLink: $('reportLink'), exportRow: $('exportRow'),
+    sourcePick: $('sourcePick'), sheetField: $('sheetField'), sheetPick: $('sheetPick'), colField: $('colField'), colPick: $('colPick'),
     stage: $('stage'), tip: $('mapTip')
   };
 
@@ -74,37 +85,6 @@
     dark: { textColour: '#f1f5f9', labelColour: '#f1f5f9', borderColour: '#94a3b8', outlineColour: '#cbd5e1', noData: '#334155', frameColour: '#f1f5f9' }
   };
 
-  var FONTS = {
-    sans: { label: 'Sans', stack: 'Helvetica Neue, Helvetica, Arial, sans-serif', em: 0.52 },
-    humanist: { label: 'Humanist', stack: 'Segoe UI, Tahoma, Geneva, sans-serif', em: 0.53 },
-    rounded: { label: 'Rounded', stack: 'Verdana, Trebuchet MS, sans-serif', em: 0.6 },
-    condensed: { label: 'Condensed', stack: 'Arial Narrow, Roboto Condensed, Helvetica, sans-serif', em: 0.45 },
-    serif: { label: 'Serif', stack: 'Georgia, Times New Roman, serif', em: 0.52 },
-    classic: { label: 'Classic serif', stack: 'Times New Roman, Times, serif', em: 0.48 },
-    mono: { label: 'Mono', stack: 'Consolas, Menlo, Courier New, monospace', em: 0.6 }
-  };
-  var HEX = /^#[0-9a-f]{6}$/i;
-
-  // Break text into lines that fit maxWidth, using the font's average glyph width.
-  function wrapText(text, size, fontKey, weight, maxWidth) {
-    var em = (FONTS[fontKey] || FONTS.sans).em * (weight >= 600 ? 1.07 : 1);
-    var perChar = size * em;
-    var maxChars = Math.max(4, Math.floor(maxWidth / perChar));
-    var lines = [];
-    String(text).split(/\r?\n|\\n/).forEach(function (para) {
-      var words = para.split(/\s+/).filter(Boolean);
-      if (!words.length) return;
-      var line = '';
-      words.forEach(function (w) {
-        while (w.length > maxChars) { if (line) { lines.push(line); line = ''; } lines.push(w.slice(0, maxChars)); w = w.slice(maxChars); }
-        var next = line ? line + ' ' + w : w;
-        if (next.length > maxChars && line) { lines.push(line); line = w; } else line = next;
-      });
-      if (line) lines.push(line);
-    });
-    return lines.length ? lines : [''];
-  }
-
   // Text assets: each one is added, styled and removed on its own.
   var ASSET_KINDS = {
     title: { label: 'Title', size: 34, weight: 700, pos: 'tl', colour: '#111111', dark: '#f1f5f9', text: 'Map title' },
@@ -116,15 +96,28 @@
   var CORNER_POS = ['tl', 'tr', 'bl', 'br'];
   var POS_LABEL = { tl: 'Top left', tc: 'Top centre', tr: 'Top right', bl: 'Bottom left', bc: 'Bottom centre', br: 'Bottom right' };
 
+  // Boundary layers: which parent each one nests under decides the region filters and the outline meshes.
+  var LAYERS = {
+    states: { label: 'states', parent: null },
+    districts: { label: 'districts', parent: 'state' },
+    subdistricts: { label: 'sub-districts', parent: 'district' },
+    blocks: { label: 'blocks', parent: 'district' },
+    parliament: { label: 'parliamentary constituencies', parent: 'state' },
+    assembly: { label: 'assembly constituencies', parent: 'district' }
+  };
+  var LEVEL_KEYS = Object.keys(LAYERS);
+  function levelMap(init) { var m = {}; LEVEL_KEYS.forEach(function (k) { m[k] = typeof init === 'function' ? init() : init; }); return m; }
+  function parentOf(p, level) { return (LAYERS[level || current.level].parent === 'district' ? p.district : p.state) || ''; }
+  function hasDistrictParent(level) { return LAYERS[level || current.level].parent === 'district'; }
   var layers = {};                       // level -> { topo, object, features }
-  var values = { states: {}, districts: {}, subdistricts: {} };   // level -> id -> value
-  var valueHeaders = { states: '', districts: '', subdistricts: '' };
+  var values = levelMap(function () { return {}; });            // level -> id -> value
+  var valueHeaders = levelMap('');
   var region = { state: '', district: '' };
   var current = { level: 'districts', features: [], object: null, topo: null };
   var lastMatch = null;
   var pendingFixes = [];                 // rows the user can match by hand: { name, value, kind, cands, count }
   var assumed = [];                      // fuzzy matches accepted automatically: { name, f, value }, shown with an undo
-  var userAliases = { states: {}, districts: {}, subdistricts: {} };   // level -> compact name -> feature id
+  var userAliases = levelMap(function () { return {}; });       // level -> compact name -> feature id
   var labelSizeAuto = true;              // label size follows the level until the user edits it
   var autoSuffix = false;
   var offsets = {};                      // drag offsets per overlay key -> { dx, dy }
@@ -169,7 +162,7 @@
         if (region.state && String(p.state_lgd) !== region.state) return;
         if (region.district) {
           if (level === 'districts' && String(p.lgd) !== region.district) return;
-          if (level === 'subdistricts' && String(p.dist_lgd) !== region.district) return;
+          if (hasDistrictParent(level) && String(p.dist_lgd) !== region.district) return;
         }
       }
       keep.push(f);
@@ -240,62 +233,6 @@
   // ---------------------------------------------------------------------------
   //  Name matching
   // ---------------------------------------------------------------------------
-  var ALIASES = {
-    bangalore: 'bengaluruurban', bangaloreurban: 'bengaluruurban', bangalorerural: 'bengalururural',
-    mysore: 'mysuru', belgaum: 'belagavi', gulbarga: 'kalaburagi', bijapur: 'vijayapura', bellary: 'ballari',
-    tumkur: 'tumakuru', shimoga: 'shivamogga', chikmagalur: 'chikkamagaluru', hospet: 'vijayanagar',
-    allahabad: 'prayagraj', faizabad: 'ayodhya', hoshangabad: 'narmadapuram', orissa: 'odisha',
-    pondicherry: 'puducherry', uttaranchal: 'uttarakhand', bombay: 'mumbai', calcutta: 'kolkata', madras: 'chennai',
-    poona: 'pune', baroda: 'vadodara', cochin: 'ernakulam', trivandrum: 'thiruvananthapuram', calicut: 'kozhikode',
-    cannanore: 'kannur', quilon: 'kollam', alleppey: 'alappuzha', trichur: 'thrissur', palghat: 'palakkad',
-    tuticorin: 'tuticorin', thoothukudi: 'tuticorin', tanjore: 'thanjavur', trichy: 'tiruchirappalli', tiruchirapalli: 'tiruchirappalli',
-    nctofdelhi: 'delhi', nationalcapitalterritoryofdelhi: 'delhi', telengana: 'telangana', chattisgarh: 'chhattisgarh',
-    andamanandnicobar: 'andamanandnicobarislands', aandnislands: 'andamanandnicobarislands',
-    dadraandnagarhaveli: 'dadraandnagarhavelianddamananddiu', damananddiu: 'dadraandnagarhavelianddamananddiu',
-    dnhanddd: 'dadraandnagarhavelianddamananddiu', jandk: 'jammuandkashmir', jk: 'jammuandkashmir',
-    up: 'uttarpradesh', mp: 'madhyapradesh', hp: 'himachalpradesh', ap: 'andhrapradesh', tn: 'tamilnadu', wb: 'westbengal',
-    kerela: 'kerala', karnatak: 'karnataka', gujrat: 'gujarat', rajastan: 'rajasthan', panjab: 'punjab', hariyana: 'haryana',
-    chhatisgarh: 'chhattisgarh', uttarkhand: 'uttarakhand', utarakhand: 'uttarakhand', jharkand: 'jharkhand', bengal: 'westbengal',
-    andhra: 'andhrapradesh', telanganastate: 'telangana', jammukashmir: 'jammuandkashmir', jammuandkashmirut: 'jammuandkashmir',
-    ladakhut: 'ladakh', newdelhi: 'delhi', delhinct: 'delhi', nctdelhi: 'delhi', puducherryut: 'puducherry', chandigarhut: 'chandigarh',
-    andamannicobar: 'andamanandnicobarislands', andamanandnicobarisland: 'andamanandnicobarislands', andamans: 'andamanandnicobarislands',
-    lakshadweepislands: 'lakshadweep', dadranagarhaveli: 'dadraandnagarhavelianddamananddiu', dnh: 'dadraandnagarhavelianddamananddiu',
-    dadraandnagarhavelidamananddiu: 'dadraandnagarhavelianddamananddiu', dadraandnagarhaveliandamananddiu: 'dadraandnagarhavelianddamananddiu',
-    arunachal: 'arunachalpradesh', himachal: 'himachalpradesh', madhya: 'madhyapradesh', odissa: 'odisha', orisa: 'odisha',
-    tamilnad: 'tamilnadu', tamilnaadu: 'tamilnadu', maharastra: 'maharashtra', maharashtrastate: 'maharashtra', chattisgarhstate: 'chhattisgarh',
-    north24parganas: '24paraganasnorth', south24parganas: '24paraganassouth', '24parganasnorth': '24paraganasnorth', '24parganassouth': '24paraganassouth',
-    northtwentyfourparganas: '24paraganasnorth', southtwentyfourparganas: '24paraganassouth', twentyfourparganasnorth: '24paraganasnorth',
-    twentyfourparganassouth: '24paraganassouth', north24pgs: '24paraganasnorth', south24pgs: '24paraganassouth', gurgaon: 'gurugram', cuddapah: 'ysr', kadapa: 'ysr', ysrkadapa: 'ysr',
-    sriganganagar: 'ganganagar', mewat: 'nuh', palamau: 'palamu', hazaribag: 'hazaribagh', kancheepuram: 'kanchipuram', tiruvallur: 'thiruvallur',
-    tiruvannamalai: 'tiruvannamalai', villupuram: 'villupuram', trivandrumdistrict: 'thiruvananthapuram', ernakulum: 'ernakulam', calicutdistrict: 'kozhikode'
-  };
-
-  var HEADER_WORDS = /^(name|names|region|regions|area|state|states|ut|stateut|statesuts|st|district|districts|dist|subdistrict|subdistricts|tehsil|taluk|taluka|mandal|block|unit|place|location)$/;
-
-  function compact(s) {
-    return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-      .replace(/&/g, ' and ').replace(/\b(district|dist|distt|dt)\b\.?/g, '')
-      .replace(/\b(state|u\.?t\.?|union territory|the)\b\.?/g, '').replace(/[^a-z0-9]+/g, '');
-  }
-
-  // General edit distance for suggestion scoring.
-  function editDistance(a, b) {
-    var prev = [], cur = [], i, j;
-    for (j = 0; j <= b.length; j++) prev[j] = j;
-    for (i = 1; i <= a.length; i++) {
-      cur = [i];
-      for (j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-      prev = cur;
-    }
-    return prev[b.length];
-  }
-  function similarity(a, b) {
-    if (a === b) return 1;
-    if (!a || !b) return 0;
-    if (a.indexOf(b) === 0 || b.indexOf(a) === 0) return 0.9 - Math.abs(a.length - b.length) / (4 * Math.max(a.length, b.length));
-    if (a.indexOf(b) !== -1 || b.indexOf(a) !== -1) return 0.8;
-    return 1 - editDistance(a, b) / Math.max(a.length, b.length);
-  }
   function suggestFeatures(name, n) {
     var k = compact(name);
     k = ALIASES[k] || k;
@@ -305,20 +242,6 @@
       .sort(function (a, b) { return b.s - a.s; })
       .slice(0, n || 3).map(function (x) { return x.f; });
   }
-  function digitsOnly(s) { return /^\d+$/.test(String(s).trim()); }
-  // Same as compact() but with the words sorted, so "North 24 Parganas" and "24 Parganas North" agree.
-  function tokenKey(s) {
-    var words = String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/&/g, ' and ')
-      .replace(/\b(district|dist|distt|dt|state|u\.?t\.?|union territory|the)\b\.?/g, '')
-      .split(/[^a-z0-9]+/).filter(Boolean).sort();
-    return words.join('');
-  }
-
-  function levenshtein(a, b) {
-    if (Math.abs(a.length - b.length) > 2) return 99;   // quick reject for the auto-match tolerance
-    return editDistance(a, b);
-  }
-
   function buildIndex(feats) {
     var byName = {}, byCode = {}, byId = {}, byTokens = {};
     feats.forEach(function (f) {
@@ -348,7 +271,7 @@
   // A "parent" hint is a state name, or a district name when sub-districts are drawn.
   function isParentName(v) {
     if (isStateName(v)) return true;
-    if (current.level !== 'subdistricts' || !v) return false;
+    if (!hasDistrictParent() || !v) return false;
     var k = compact(v);
     k = ALIASES[k] || k;
     return current.features.some(function (f) { return compact(f.properties.district || '') === k; });
@@ -409,29 +332,6 @@
   // ---------------------------------------------------------------------------
   //  Parsing pasted / uploaded data
   // ---------------------------------------------------------------------------
-  function parseText(text) {
-    var lines = text.split(/\r?\n/).filter(function (l) { return l.trim(); });
-    if (!lines.length) return [];
-    var useTab = lines.some(function (l) { return l.indexOf('\t') !== -1; });
-    if (useTab) return d3.tsvParseRows(lines.join('\n'));
-    if (lines.some(function (l) { return l.indexOf(',') !== -1; })) return d3.csvParseRows(lines.join('\n'));
-    // "Kerala 94" typed by hand: split at the last run of spaces when the tail is a value
-    return lines.map(function (l) {
-      var m = l.trim().match(/^(.*\S)\s+(\S+)$/);
-      return m ? [m[1], m[2]] : [l.trim()];
-    });
-  }
-
-  var EMPTY_TOKENS = /^(na|n\/a|n\.a\.?|nan|null|nil|none|-{1,3}|–|—|\.\.|\.|\?|#n\/a|#value!|#div\/0!|#ref!)$/i;
-  function isEmptyToken(v) { return v == null || String(v).trim() === '' || EMPTY_TOKENS.test(String(v).trim()); }
-
-  function toNumber(v) {
-    if (typeof v === 'number') return isFinite(v) ? v : NaN;
-    var s = String(v).trim().replace(/[−–]/, '-').replace(/^(rs\.?|inr|₹|\$|€|£)\s*/i, '').replace(/[₹$€£,%\s]/g, '').replace(/^\((.*)\)$/, '-$1');
-    if (s === '' || s === '-') return NaN;
-    return Number(s);
-  }
-
   // Do most of the names belong to a different level than the one selected?
   function detectLevel(rows, nameCol) {
     var names = rows.map(function (r) { return r[nameCol] || ''; }).filter(Boolean);
@@ -447,7 +347,36 @@
     return null;
   }
 
+  var lastRows = null;                   // the rows behind the current match, so a column pick can rerun them
+  var valueColOverride = -1;
+  var sheets = null;                     // [{ name, rows }] when a workbook has more than one usable sheet
+
+  function showPickers(columns, valueCol, header) {
+    ui.sheetField.hidden = !(sheets && sheets.length > 1);
+    if (!ui.sheetField.hidden) {
+      ui.sheetPick.innerHTML = sheets.map(function (sh, i) { return '<option value="' + i + '"' + (sh.active ? ' selected' : '') + '>' + escapeHtml(sh.name) + '</option>'; }).join('');
+    }
+    ui.colField.hidden = columns.length < 2;
+    if (!ui.colField.hidden) {
+      ui.colPick.innerHTML = columns.map(function (c) {
+        var label = header && header[c] ? header[c] : 'Column ' + (c + 1);
+        return '<option value="' + c + '"' + (c === valueCol ? ' selected' : '') + '>' + escapeHtml(label) + '</option>';
+      }).join('');
+    }
+    ui.sourcePick.hidden = ui.sheetField.hidden && ui.colField.hidden;
+  }
+  ui.colPick.addEventListener('change', function () { valueColOverride = +ui.colPick.value; if (lastRows) applyRows(lastRows); });
+  ui.sheetPick.addEventListener('change', function () {
+    if (!sheets) return;
+    sheets.forEach(function (sh, i) { sh.active = i === +ui.sheetPick.value; });
+    valueColOverride = -1;
+    var sh = sheets[+ui.sheetPick.value];
+    ui.paste.value = sh.rows.map(function (r) { return r.join('\t'); }).join('\n');
+    applyRows(sh.rows);
+  });
+
   function applyRows(rows, fromRefresh) {
+    lastRows = rows;
     rows = rows.map(function (r) {
       r = r.map(function (c) { return c == null ? '' : String(c).trim(); });
       while (r.length && r[r.length - 1] === '') r.pop();
@@ -477,11 +406,14 @@
     if (textCols.length === 1) nameCol = textCols[0];
     else if (textCols.length > 1 && textCols[0] > 0) nameCol = textCols[0];
     // the value column is the last mostly-numeric column after the name (so a trailing date or note column is skipped)
+    var numericCols = [];
     for (var vc = ncol - 1; vc > nameCol; vc--) {
       var filled = rows.filter(function (r) { return r[vc] != null && r[vc] !== ''; });
       var numeric = filled.filter(function (r) { return !isNaN(toNumber(r[vc])) || isEmptyToken(r[vc]); });
-      if (filled.length && numeric.length / filled.length >= 0.5) { valueCol = vc; break; }
+      if (filled.length && numeric.length / filled.length >= 0.5) numericCols.unshift(vc);
     }
+    if (numericCols.length) valueCol = numericCols[numericCols.length - 1];
+    if (valueColOverride >= 0 && numericCols.indexOf(valueColOverride) !== -1) valueCol = valueColOverride;
 
     var idx = buildIndex(current.features);
 
@@ -507,8 +439,15 @@
       header = first;
       rows = rows.slice(1);
     }
+    // a template or any sheet with a code column matches by code, which is exact
+    var codeCol = -1;
+    if (header) header.forEach(function (h, c) { if (/^(lgdcode|lgd|code|regioncode)$/.test(compact(h || '')) && c !== valueCol) codeCol = c; });
     var headerValue = header ? (header[valueCol] || '') : '';
     valueHeaders[level] = /^(value|values|val|data|number|numbers|amount|count|figure)$/i.test(headerValue) ? '' : headerValue;
+    // codes are not values: keep them out of the column choices
+    var choosable = numericCols.filter(function (c) { return c !== codeCol && !(header && /^(lgdcode|lgd|code|regioncode|censuscode|census)$/.test(compact(header[c] || ''))); });
+    if (choosable.indexOf(valueCol) === -1 && choosable.length) { valueCol = valueColOverride >= 0 && choosable.indexOf(valueColOverride) !== -1 ? valueColOverride : choosable[choosable.length - 1]; valueHeaders[level] = header && !/^(value|values|val|data|number|numbers|amount|count|figure)$/i.test(header[valueCol] || '') ? (header[valueCol] || '') : ''; }
+    showPickers(choosable, valueCol, header);
 
     // with two or more text columns, work out which one holds the state (or district)
     var pair = textCols.length >= 2 ? textCols.slice(0, 2) : (ncol >= 3 ? [0, 1] : null);
@@ -541,7 +480,9 @@
       var nm = r[nameCol] || '';
       if (!nm) return;
       var raw = r[valueCol];
-      var f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
+      var f = null;
+      if (codeCol >= 0 && digitsOnly(r[codeCol] || '')) { f = idx.byCode[String(r[codeCol]).replace(/^0+/, '')] || null; lastMatchKind = 'exact'; }
+      if (!f) f = matchName(nm, hintCol >= 0 ? (r[hintCol] || '') : '', idx);
       if (!f) { unmatched.push(nm); addFix(nm, raw, 'unmatched', suggestFeatures(nm, 3)); return; }
       if (f.ambiguous) { ambiguous.push(nm); addFix(nm, raw, 'ambiguous', f.ambiguous); return; }
       if (isEmptyToken(raw)) { empty++; return; }
@@ -571,7 +512,7 @@
     if (lastMatch.empty) parts.push('<strong>' + lastMatch.empty + '</strong> without a value');
     if (nUnmatched) parts.push('<strong>' + nUnmatched + '</strong> not found');
     if (nAmbiguous) {
-      parts.push('<strong>' + nAmbiguous + '</strong> ambiguous (add a ' + (current.level === 'subdistricts' ? 'district' : 'state') + ' column)');
+      parts.push('<strong>' + nAmbiguous + '</strong> ambiguous (add a ' + (hasDistrictParent() ? 'district' : 'state') + ' column)');
     }
     ui.matchStatus.innerHTML = parts.join(' · ');
     ui.matchStatus.classList.remove('notice');
@@ -608,7 +549,7 @@
 
   function featureLabel(f) {
     var p = f.properties;
-    var parent = current.level === 'subdistricts' ? p.district : (current.level === 'districts' ? p.state : '');
+    var parent = current.level === 'states' ? '' : parentOf(p);
     return p.name + (parent && !region.state ? ' (' + parent + ')' : '');
   }
 
@@ -696,12 +637,13 @@
 
   // region list for the current view, so people can use our names or codes in their sheet
   ui.regionList.addEventListener('click', function () {
-    var rows = [['name', 'parent', 'lgd_code', 'census_code']];
+    var rows = [['name', 'parent', 'lgd_code', 'value']];
     current.features.slice().sort(function (a, b) { return a.properties.name.localeCompare(b.properties.name); }).forEach(function (f) {
       var p = f.properties;
-      rows.push([p.name, current.level === 'subdistricts' ? p.district : (p.state || ''), p.lgd, p.census || '']);
+      var v = values[current.level][f.id];
+      rows.push([p.name, current.level === 'states' ? '' : parentOf(p), p.lgd, v == null ? '' : v]);
     });
-    download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), (regionLabel() + ' ' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-names.csv');
+    download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), (regionLabel() + ' ' + current.level).toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-template.csv');
   });
 
   function setStatus(msg) { ui.matchStatus.textContent = msg; ui.matchStatus.classList.toggle('notice', !!msg); }
@@ -718,7 +660,10 @@
     var type = (file.type || '').toLowerCase();
     var isSheet = /\.(xlsx|xls|xlsm|ods)$/.test(name) || /spreadsheet|ms-excel|opendocument/.test(type);
     var isText = /\.(csv|tsv|txt)$/.test(name) || /^text\//.test(type) || type === 'application/csv';
-    if (!isSheet && !isText) { setStatus('Use a CSV, TSV or Excel file.'); return; }
+    var isProject = /\.json$/.test(name) || type === 'application/json';
+    if (isProject) { openProject(file); return; }
+    if (!isSheet && !isText) { setStatus('Use a CSV, TSV, Excel or project file.'); return; }
+    sheets = null; valueColOverride = -1;
     if (isSheet) {
       if (!window.XLSX) {
         setStatus('Loading spreadsheet support…');
@@ -730,13 +675,15 @@
       fr.onload = function () {
         try {
           var wb = XLSX.read(new Uint8Array(fr.result), { type: 'array', cellDates: true });
-          var rows = null;
-          for (var i = 0; i < wb.SheetNames.length && !rows; i++) {       // first sheet that has at least two columns of data
+          var usable = [];
+          wb.SheetNames.forEach(function (sn) {
             // formatted text keeps percentages as "12%" and dates readable; plain numbers still parse
-            var cand = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[i]], { header: 1, raw: false, defval: '' });
-            if (cand.some(function (r) { return r.filter(function (c) { return c !== ''; }).length >= 2; })) rows = cand;
-          }
-          if (!rows) { setStatus('No sheet with a name and value column in ' + file.name + '.'); return; }
+            var cand = XLSX.utils.sheet_to_json(wb.Sheets[sn], { header: 1, raw: false, defval: '' });
+            if (cand.some(function (r) { return r.filter(function (c) { return c !== ''; }).length >= 2; })) usable.push({ name: sn, rows: cand, active: !usable.length });
+          });
+          if (!usable.length) { setStatus('No sheet with a name and value column in ' + file.name + '.'); return; }
+          sheets = usable.length > 1 ? usable : null;
+          var rows = usable[0].rows;
           ui.paste.value = rows.map(function (r) { return r.join('\t'); }).join('\n');
           applyRows(rows);
         } catch (err) { setStatus('Could not read ' + file.name + ': ' + err.message); }
@@ -765,7 +712,7 @@
       if (q && compact(p.name).indexOf(q) === -1 && compact(p.state || '').indexOf(q) === -1) return;
       var v = vals[f.id];
       html += '<tr><td title="' + escapeHtml(p.name) + '">' + escapeHtml(p.name) +
-        (showParent ? ' <small>' + escapeHtml(level === 'subdistricts' ? p.district : p.state) + '</small>' : '') +
+        (showParent ? ' <small>' + escapeHtml(parentOf(p, level)) + '</small>' : '') +
         '</td><td><input type="text" data-id="' + f.id + '" aria-label="Value for ' + escapeHtml(p.name) + '" value="' + (v == null ? '' : escapeHtml(v)) + '"></td></tr>';
     });
     ui.valueTable.innerHTML = html || '<tr><td colspan="2"><small>No regions</small></td></tr>';
@@ -893,55 +840,15 @@
     return v === '' ? autoDecimals : Math.max(0, Math.min(6, +v || 0));
   }
 
-  function indianGroup(intStr) {
-    if (intStr.length <= 3) return intStr;
-    var last3 = intStr.slice(-3), rest = intStr.slice(0, -3);
-    return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3;
-  }
-
-  function fmtNumber(v, d) {
-    var style = ui.numberStyle.value;
-    var neg = v < 0 ? '-' : '';
-    var a = Math.abs(v);
-    var s;
-    if (style === 'lakh' && a >= 1e5) {
-      s = a >= 1e7 ? (a / 1e7).toFixed(Math.max(d, 1)) + ' Cr' : (a / 1e5).toFixed(Math.max(d, 1)) + ' L';
-    } else if (style === 'metric' && a >= 1e3) {
-      s = a >= 1e9 ? (a / 1e9).toFixed(Math.max(d, 1)) + 'B' : a >= 1e6 ? (a / 1e6).toFixed(Math.max(d, 1)) + 'M' : (a / 1e3).toFixed(Math.max(d, 1)) + 'K';
-    } else {
-      var fixed = a.toFixed(d).split('.');
-      var intPart = fixed[0];
-      if (style === 'indian' || style === 'lakh') intPart = indianGroup(intPart);
-      else if (style === 'metric') intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      s = intPart + (fixed[1] ? '.' + fixed[1] : '');
-    }
-    return neg + s;
-  }
-
   function fmt(v) {
     if (v == null || v === '') return '';
     if (typeof v !== 'number') return String(v);
     return (ui.prefix.value || '') + fmtNumber(v, decimals()) + (ui.suffix.value || '');
   }
 
-  // Pick enough decimals to tell the given break values apart.
-  function computeAutoDecimals(nums, breaks) {
-    if (nums.every(function (n) { return Number.isInteger(n); })) return 0;
-    var pts = (breaks && breaks.length > 1 ? breaks : nums).slice().sort(d3.ascending);
-    var minStep = Infinity;
-    for (var i = 1; i < pts.length; i++) { var s = pts[i] - pts[i - 1]; if (s > 0 && s < minStep) minStep = s; }
-    if (!isFinite(minStep)) {
-      return Math.min(3, d3.max(nums, function (n) { var f = String(n).split('.')[1]; return f ? f.length : 0; }) || 1);
-    }
-    return Math.min(3, Math.max(1, d3.precisionFixed(minStep)));
-  }
-
   // ---------------------------------------------------------------------------
   //  Colour scale
   // ---------------------------------------------------------------------------
-  var CLAMPED = { Greys: 1, Blues: 1, Greens: 1, Oranges: 1, Reds: 1, Purples: 1, YlOrRd: 1, YlGnBu: 1 };
-  var QUALITATIVE = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab'];
-  var DIVERGING = { RdBu: 1, RdYlGn: 1 };
 
   function interpolator() {
     var name = ui.ramp.value;
@@ -1311,7 +1218,7 @@
     noteGroups.forEach(function (n) { place('asset-' + n.asset.id, n.sel, n.asset.pos); });
 
     // --- map ---
-    var levelFactor = current.level === 'subdistricts' ? (region.state ? 0.6 : 0.25) : 1;
+    var levelFactor = drawFeats.length > 3000 ? 0.25 : drawFeats.length > 1000 ? 0.5 : 1;   // dense layers get hairline inner borders
     var bw = ui.borderStyle.value === 'none' ? 0 : +ui.borderWidth.value * levelFactor;
     var ow = ui.outlineStyle.value === 'none' ? 0 : +ui.outlineWidth.value;
     var bc = ui.borderColour.value, oc = ui.outlineColour.value;
@@ -1340,7 +1247,7 @@
       .attr('stroke-dasharray', borderDash).attr('stroke-linecap', ui.borderStyle.value === 'dotted' ? 'round' : null)
       .on('pointermove pointerdown', function (e, d) {
         var p = d.properties;
-        var label = p.name + (p.state && current.level !== 'states' ? ', ' + (current.level === 'subdistricts' ? p.district : p.state) : '');
+        var label = p.name + (current.level !== 'states' && parentOf(p) ? ', ' + parentOf(p) : '');
         var v = vals[d.id];
         ui.tip.textContent = label + ' · ' + (has(v) ? fmt(v) : (v == null || v === '' ? 'no data' : String(v)));
         ui.tip.style.display = 'block';
@@ -1355,7 +1262,7 @@
         .attr('fill', 'none').attr('stroke', oc).attr('stroke-width', width).attr('stroke-linejoin', 'round')
         .attr('stroke-dasharray', outlineDash).attr('stroke-linecap', ui.outlineStyle.value === 'dotted' ? 'round' : null);
     }
-    if (current.level === 'subdistricts' && !region.district) {
+    if (hasDistrictParent() && !region.district) {
       outline('district', function (a, b) { return a !== b && a.properties.dist_lgd !== b.properties.dist_lgd; }, ow * 0.5);
     }
     if (current.level !== 'states' && !region.state) {
@@ -1758,13 +1665,37 @@
     }).catch(exportFailed);
   }
 
+  function projectData() {
+    var settings = {};
+    SETTING_IDS.forEach(function (id) { var el = ui[id]; settings[id] = el.type === 'checkbox' ? el.checked : el.value; });
+    return { app: 'india-map-maker', version: 1, savedAt: new Date().toISOString(),
+      settings: settings, region: region, values: values, valueHeaders: valueHeaders, offsets: offsets,
+      assets: assets, assetSeq: assetSeq, autoSuffix: autoSuffix, paste: ui.paste.value, userAliases: userAliases, labelSizeAuto: labelSizeAuto };
+  }
+  function exportProject() {
+    download(new Blob([JSON.stringify(projectData())], { type: 'application/json' }), slug() + '.mapmaker.json');
+  }
+  function openProject(file) {
+    var fr = new FileReader();
+    fr.onerror = function () { setStatus('Could not read ' + file.name + '.'); };
+    fr.onload = function () {
+      try {
+        var data = JSON.parse(fr.result);
+        if (!data || data.app !== 'india-map-maker') { setStatus('That file is not a saved map project.'); return; }
+        localStorage.setItem(STORE_KEY, JSON.stringify(data));
+        location.reload();
+      } catch (e) { setStatus('Could not open ' + file.name + ': ' + e.message); }
+    };
+    fr.readAsText(file);
+  }
+
   function exportCsv() {
     var vals = values[current.level];
     var rows = [['name', 'parent', 'lgd_code', 'value']];
     current.features.forEach(function (f) {
       var p = f.properties;
       var v = vals[f.id];
-      rows.push([csvSafe(p.name), csvSafe(current.level === 'subdistricts' ? p.district : (p.state || '')), p.lgd, v == null ? '' : csvSafe(v)]);
+      rows.push([csvSafe(p.name), csvSafe(current.level === 'states' ? '' : parentOf(p)), p.lgd, v == null ? '' : csvSafe(v)]);
     });
     download(new Blob(['\ufeff' + d3.csvFormatRows(rows)], { type: 'text/csv;charset=utf-8' }), slug() + '.csv');
   }
@@ -1775,6 +1706,7 @@
       var kind = btn.dataset.export;
       if (kind === 'png') exportPng(+btn.dataset.scale || 1);
       else if (kind === 'copy') copyImage();
+      else if (kind === 'project') exportProject();
       else if (kind === 'svg') download(new Blob([svgString()], { type: 'image/svg+xml' }), slug() + '.svg');
       else if (kind === 'pdf') exportPdf();
       else if (kind === 'csv') exportCsv();
@@ -1797,6 +1729,7 @@
           userAliases: userAliases, labelSizeAuto: labelSizeAuto
         }));
         saveFailed = false;
+        $('saveNote').hidden = false;
       } catch (e) { if (!saveFailed) { saveFailed = true; setStatus('This browser is not saving your work between visits.'); } }
     }, 300);
   }
@@ -1818,12 +1751,12 @@
         if (el.type === 'number' && el.value === '' && id !== 'decimals') el.value = before;
         if (el.type === 'color' && !HEX.test(String(st[id]))) el.value = before;
       });
-      ['states', 'districts', 'subdistricts'].forEach(function (lv) {
+      LEVEL_KEYS.forEach(function (lv) {
         var v = data.values && data.values[lv];
         if (v && typeof v === 'object' && !Array.isArray(v)) values[lv] = v;
       });
       if (data.region && typeof data.region === 'object') region = { state: String(data.region.state || ''), district: String(data.region.district || '') };
-      valueHeaders = Object.assign({ states: '', districts: '', subdistricts: '' }, data.valueHeaders || {});
+      LEVEL_KEYS.forEach(function (lv) { if (data.valueHeaders && typeof data.valueHeaders[lv] === 'string') valueHeaders[lv] = data.valueHeaders[lv]; });
       offsets = {};
       Object.keys(data.offsets || {}).forEach(function (k) {
         var o = data.offsets[k];
@@ -1833,7 +1766,7 @@
       if (typeof data.paste === 'string') ui.paste.value = data.paste;
       view = { k: 1, dx: 0, dy: 0 };   // zoom and pan always start fresh
       if (data.userAliases && typeof data.userAliases === 'object') {
-        ['states', 'districts', 'subdistricts'].forEach(function (lv) {
+        LEVEL_KEYS.forEach(function (lv) {
           var m = data.userAliases[lv];
           if (m && typeof m === 'object') Object.keys(m).forEach(function (k) { if (typeof m[k] === 'string' && Object.prototype.hasOwnProperty.call(m, k)) userAliases[lv][k] = m[k]; });
         });
@@ -1868,22 +1801,22 @@
   });
   ui.regionDistrict.addEventListener('change', function () {
     region.district = ui.regionDistrict.value;
-    if (region.district && ui.level.value !== 'subdistricts') ui.level.value = 'subdistricts';
+    if (region.district && !hasDistrictParent(ui.level.value)) ui.level.value = 'subdistricts';
     view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     refresh();
   });
   ui.level.addEventListener('change', function () {
-    if (ui.level.value !== 'subdistricts' && region.district) { region.district = ''; ui.regionDistrict.value = ''; }
+    if (!hasDistrictParent(ui.level.value) && region.district) { region.district = ''; ui.regionDistrict.value = ''; }
     view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     refresh();
   });
 
-  ui.applyData.addEventListener('click', function () { applyRows(parseText(ui.paste.value)); });
+  ui.applyData.addEventListener('click', function () { sheets = null; valueColOverride = -1; applyRows(parseText(ui.paste.value)); });
   ui.paste.addEventListener('input', function (e) {
-    if (e.inputType === 'insertFromPaste' || e.inputType === 'insertLineBreak' || /[\n\t]/.test(e.data || '')) applyRows(parseText(ui.paste.value));
+    if (e.inputType === 'insertFromPaste' || e.inputType === 'insertLineBreak' || /[\n\t]/.test(e.data || '')) { sheets = null; valueColOverride = -1; applyRows(parseText(ui.paste.value)); }
     else save();
   });
-  ui.paste.addEventListener('paste', function () { setTimeout(function () { applyRows(parseText(ui.paste.value)); }, 0); });
+  ui.paste.addEventListener('paste', function () { setTimeout(function () { sheets = null; valueColOverride = -1; applyRows(parseText(ui.paste.value)); }, 0); });
   var undoSnapshot = null;
   function snapshot() {
     return { level: current.level, values: JSON.parse(JSON.stringify(values)), paste: ui.paste.value, headers: JSON.parse(JSON.stringify(valueHeaders)),
@@ -1911,7 +1844,7 @@
   });
   ui.startOver.addEventListener('click', function () {
     undoSnapshot = snapshot();
-    values = { states: {}, districts: {}, subdistricts: {} }; valueHeaders = { states: '', districts: '', subdistricts: '' };
+    values = levelMap(function () { return {}; }); valueHeaders = levelMap('');
     assets = []; offsets = {}; ui.paste.value = ''; lastMatch = null; pendingFixes = []; assumed = [];
     view = { k: 1, dx: 0, dy: 0 }; setZoom(1, true);
     SETTING_IDS.forEach(function (id) { var el = ui[id]; if (id === 'level') return; var d = el.getAttribute(el.type === 'checkbox' ? 'checked' : 'value'); if (el.tagName === 'SELECT') { el.value = el.querySelector('option[selected]') ? el.querySelector('option[selected]').value : el.options[0].value; } else if (el.type === 'checkbox') { el.checked = el.hasAttribute('checked'); } else { el.value = d == null ? '' : d; } });
