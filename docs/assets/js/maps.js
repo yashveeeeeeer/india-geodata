@@ -1022,7 +1022,6 @@
     var colour = buildScale(vals);
     var noData = ui.noData.value;
     var has = colour ? colour.has : function () { return false; };
-    $('stageHint').hidden = !!colour || !current.features.length;
 
     ui.stage.innerHTML = '';
     var svg = d3.select(ui.stage).append('svg')

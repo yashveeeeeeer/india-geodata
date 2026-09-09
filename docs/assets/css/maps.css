@@ -162,11 +162,6 @@ details.sub > input { margin-bottom: 6px; }
 .maps-stage { position: sticky; top: 12px; }
 .stage-frame { position: relative; display: flex; justify-content: center; overflow: hidden; }
 .stage-frame svg { width: auto; max-width: 100%; height: auto; max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px); display: block; border: 1px solid var(--color-border); }
-.stage-hint {
-  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
-  font-size: 0.8rem; color: var(--color-muted); background: rgba(255,255,255,0.9);
-  border: 1px solid var(--color-border); border-radius: 20px; padding: 4px 12px; pointer-events: none; white-space: nowrap;
-}
 .stage-frame svg .sel-box { fill: none; stroke: var(--color-accent); stroke-width: 1.5; stroke-dasharray: 4 3; pointer-events: none; }
 .sel-tools { position: absolute; z-index: 5; display: flex; gap: 4px; }
 .sel-tools button {
@@ -222,8 +217,7 @@ details.sub > input { margin-bottom: 6px; }
   .check input { width: 20px; height: 20px; }
   .panel > summary { padding: 12px 14px; font-size: 0.95rem; }
   .unmatched-badge { top: 8px; right: 8px; font-size: 0.8rem; padding: 6px 12px; min-height: 40px; display: inline-flex; align-items: center; }
-  .stage-hint { font-size: 0.78rem; bottom: 8px; max-width: 90%; white-space: normal; text-align: center; }
-  .value-table-wrap { max-height: 240px; }
+    .value-table-wrap { max-height: 240px; }
   .maps-side .value-table input[type="text"] { min-height: 40px; font-size: 16px; border-color: var(--color-border); }
   .zoom-row .btn-plain { min-height: 40px; min-width: 40px; padding: 6px 10px; }
   .icon-btn { width: 40px; height: 40px; }

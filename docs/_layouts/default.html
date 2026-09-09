@@ -9,10 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css?v=8">
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=15">{% endif %}
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=15">{% endif %}
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=15">{% endif %}
-  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=15">{% endif %}
+  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
+  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
+  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
+  {% if page.url contains "/maps/" %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v=16">{% endif %}
 </head>
 <body{% if page.url contains "/maps/" %} class="page-maps"{% endif %}>
   <header class="site-header">
@@ -33,9 +33,6 @@
     <div class="container">
       <p>India Geodata is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
       <p>Built with open data from India's government portals and community projects.</p>
-      {% if page.url contains "/maps/" %}
-      <p>Map boundaries: Local Government Directory, via <a href="{{ site.baseurl }}/#administrative">India Geodata</a>. <a href="https://github.com/yashveeeeeeer/india-geodata/tree/main/docs/maps">Map Maker source</a>.</p>
-      {% endif %}
     </div>
   </footer>
 
