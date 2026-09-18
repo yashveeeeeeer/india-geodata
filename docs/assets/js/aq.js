@@ -52,12 +52,14 @@
     download: document.getElementById('aqDownloadBtn'),
     gauge: document.getElementById('aqGauge'),
     dl: document.getElementById('aqDl'),
+    dlScope: document.getElementById('aqDlScope'),
     dlPick: document.getElementById('aqDlPick'),
     dlSearch: document.getElementById('aqDlSearch'),
     dlOptions: document.getElementById('aqDlOptions'),
+    dlRows: document.getElementById('aqDlRows'),
+    dlRowsWrap: document.getElementById('aqDlRowsWrap'),
     dlFrom: document.getElementById('aqDlFrom'),
     dlTo: document.getElementById('aqDlTo'),
-    dlSize: document.getElementById('aqDlSize'),
     dlGo: document.getElementById('aqDlGo'),
     find: document.getElementById('aqFind'),
     findList: document.getElementById('aqFindList')
@@ -1056,137 +1058,121 @@
   // ---------------------------------------------------------------------------
   //  Download dialog
   // ---------------------------------------------------------------------------
+  // Two questions only: which area, and what a row stands for inside it. The
+  // second depends on the first — inside one city the only thing below is a
+  // monitor, so there is nothing to ask and the control disappears.
+  var LEVELS_BELOW = {
+    india:   [['state', 'State'], ['city', 'City'], ['station', 'Station']],
+    state:   [['city', 'City'], ['station', 'Station']],
+    city:    [['station', 'Station']],
+    station: []
+  };
 
-  // Filenames read down the hierarchy, country first, so a folder of downloads
-  // sorts into place and each one says what it is without being opened:
-  //   air-quality-india-2024-11-01-to-2024-11-03-by-station.csv
-  //   air-quality-india-delhi-delhi-...
-  //   air-quality-india-delhi-delhi-anand-vihar-dpcc-...
-  function stationTail(name) {
-    var parts = String(name || '').split(' - ');
-    var agency = parts.length > 1 ? parts.pop() : '';
-    var place = parts.join(' - ').split(',')[0];       // drop the city, it is already above
-    return slugify(place + (agency ? '-' + agency : ''));
+  var dl = { scope: 'india', pick: '', rows: 'state' };
+
+  function dlSetScope(next) {
+    dl.scope = next;
+    dl.pick = '';
+    ui.dlSearch.value = '';
+    Array.prototype.forEach.call(ui.dlScope.children, function (b) {
+      var on = b.dataset.scope === next;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    ui.dlPick.hidden = next === 'india';
+    var levels = LEVELS_BELOW[next];
+    dl.rows = levels.length ? levels[0][0] : 'station';
+    dlRenderRows();
+    dlRenderList();
+    dlValidate();
   }
 
-  function downloadName(from, to) {
-    var parts = ['air-quality', 'india'];
-    var kind = scope();
-    var pick = ui.dlOptions.value;
-    if (kind === 'state') {
-      parts.push(slugify(pick));
-    } else if (kind === 'city') {
-      var c = cities.filter(function (x) { return x.id === pick; })[0];
-      if (c) parts.push(slugify(c.state), slugify(c.name));
-    } else if (kind === 'station') {
-      var st = stations.filter(function (x) { return x.id === pick; })[0];
-      if (st) parts.push(slugify(st.state), slugify(st.city), stationTail(st.name));
-    }
-    parts.push(from, 'to', to, rowMode() === 'city' ? 'by-city' : 'by-station');
-    return parts.filter(Boolean).join('-') + '.csv';
+  function dlRenderRows() {
+    var levels = LEVELS_BELOW[dl.scope];
+    // one option is not a choice; do not make the reader look at it
+    ui.dlRowsWrap.hidden = levels.length < 2;
+    ui.dlRows.innerHTML = levels.map(function (l) {
+      return '<button type="button" role="radio" data-rows="' + l[0] + '" aria-checked="' +
+        (l[0] === dl.rows) + '" class="' + (l[0] === dl.rows ? 'is-on' : '') + '">' + l[1] + '</button>';
+    }).join('');
   }
 
-  function scope() {
-    var el = document.querySelector('input[name="aqScope"]:checked');
-    return el ? el.value : 'india';
-  }
-  function rowMode() {
-    var el = document.querySelector('input[name="aqRows"]:checked');
-    return el ? el.value : 'station';
-  }
-
-  function scopeChoices(kind, q) {
-    var needle = (q || '').trim().toLowerCase();
+  function dlChoices() {
+    var q = ui.dlSearch.value.trim().toLowerCase();
     var list = [];
-    if (kind === 'state') {
+    if (dl.scope === 'state') {
       var seen = {};
       cities.forEach(function (c) { seen[c.state] = true; });
       list = Object.keys(seen).sort().map(function (st) { return { v: st, label: st }; });
-    } else if (kind === 'city') {
+    } else if (dl.scope === 'city') {
       list = cities.slice().sort(function (a, b) { return a.name.localeCompare(b.name); })
         .map(function (c) { return { v: c.id, label: c.name + ', ' + c.state }; });
-    } else if (kind === 'station') {
+    } else if (dl.scope === 'station') {
       list = stations.slice().sort(function (a, b) { return a.name.localeCompare(b.name); })
         .map(function (st) { return { v: st.id, label: st.name }; });
     }
-    if (!needle) return list.slice(0, 400);
-    return list.filter(function (o) {
-      return o.label.toLowerCase().indexOf(needle) !== -1;
-    }).slice(0, 400);
+    if (q) {
+      list = list.filter(function (o) { return o.label.toLowerCase().indexOf(q) !== -1; });
+    }
+    return list.slice(0, 300);
   }
 
-  // :has() covers current browsers; this keeps the selected state visible on older ones.
-  function markPicked() {
-    Array.prototype.forEach.call(
-      document.querySelectorAll('.aq-dl-scope label, .aq-dl-rows label'),
-      function (l) {
-        var input = l.querySelector('input');
-        l.classList.toggle('is-on', !!(input && input.checked));
-      });
-  }
-
-  function refreshChoices() {
-    markPicked();
-    var kind = scope();
-    ui.dlPick.hidden = kind === 'india';
-    if (kind === 'india') { estimate(); return; }
-    var opts = scopeChoices(kind, ui.dlSearch.value);
+  function dlRenderList() {
+    if (dl.scope === 'india') { ui.dlOptions.innerHTML = ''; return; }
+    var opts = dlChoices();
+    if (!opts.length) {
+      ui.dlOptions.innerHTML = '<p class="aq-dl-none">Nothing matches that.</p>';
+      return;
+    }
     ui.dlOptions.innerHTML = opts.map(function (o) {
-      return '<option value="' + esc(o.v) + '">' + esc(o.label) + '</option>';
+      return '<button type="button" role="option" data-v="' + esc(o.v) + '" aria-selected="' +
+        (o.v === dl.pick) + '" class="' + (o.v === dl.pick ? 'is-on' : '') + '" title="' +
+        esc(o.label) + '">' + esc(o.label) + '</button>';
     }).join('');
-    if (opts.length) ui.dlOptions.selectedIndex = 0;
-    estimate();
   }
 
-  // Which monitors the current selection covers.
-  function selectedStations() {
-    var kind = scope();
-    var pick = ui.dlOptions.value;
-    if (kind === 'india') return stations.map(function (s) { return s.id; });
-    if (kind === 'station') return pick ? [pick] : [];
-    if (kind === 'city') {
+  function dlStations() {
+    if (dl.scope === 'india') return stations.map(function (s) { return s.id; });
+    if (!dl.pick) return [];
+    if (dl.scope === 'station') return [dl.pick];
+    if (dl.scope === 'city') {
       return stations.filter(function (s) {
         var u = coverage && coverage.stationUnit && coverage.stationUnit[s.id];
-        return u && u.city === pick;
+        return u && u.city === dl.pick;
       }).map(function (s) { return s.id; });
     }
-    return stations.filter(function (s) { return s.state === pick; })
+    return stations.filter(function (s) { return s.state === dl.pick; })
       .map(function (s) { return s.id; });
   }
 
-  function dayCount() {
-    var a = ui.dlFrom.value, b = ui.dlTo.value;
-    if (!a || !b || a > b) return 0;
-    return Math.round((new Date(b) - new Date(a)) / 864e5) + 1;
-  }
-
-  function estimate() {
-    markPicked();
-    var sel = selectedStations();
-    var days = dayCount();
-    var rows;
-    if (rowMode() === 'city') {
-      var ids = {};
-      sel.forEach(function (sid) {
-        var u = coverage && coverage.stationUnit && coverage.stationUnit[sid];
-        if (u && u.city) ids[u.city] = true;
-      });
-      rows = Object.keys(ids).length * days;
-    } else {
-      rows = sel.length * days;
-    }
-    var mb = rows * 90 / 1048576;
-    var ok = days > 0 && rows > 0;
-    ui.dlSize.textContent = !ok
-      ? 'Nothing selected for that period.'
-      : 'about ' + rows.toLocaleString('en-IN') + ' rows, ' +
-        (mb < 1 ? Math.max(1, Math.round(mb * 1024)) + ' KB' : mb.toFixed(1) + ' MB');
-    ui.dlSize.classList.toggle('is-big', rows > 200000);
+  function dlValidate() {
+    var from = ui.dlFrom.value, to = ui.dlTo.value;
+    var ok = from && to && from <= to && dlStations().length > 0;
     ui.dlGo.disabled = !ok;
   }
 
-  // Pull every pollutant-year the chosen period touches, then build the rows.
-  function buildDownload() {
+  function dlLabelParts() {
+    var parts = ['air-quality', 'india'];
+    if (dl.scope === 'state') {
+      parts.push(slugify(dl.pick));
+    } else if (dl.scope === 'city') {
+      var c = cities.filter(function (x) { return x.id === dl.pick; })[0];
+      if (c) parts.push(slugify(c.state), slugify(c.name));
+    } else if (dl.scope === 'station') {
+      var st = stations.filter(function (x) { return x.id === dl.pick; })[0];
+      if (st) parts.push(slugify(st.state), slugify(st.city), stationTail(st.name));
+    }
+    return parts;
+  }
+
+  function stationTail(name) {
+    var bits = String(name || '').split(' - ');
+    var agency = bits.length > 1 ? bits.pop() : '';
+    var place = bits.join(' - ').split(',')[0];
+    return slugify(place + (agency ? '-' + agency : ''));
+  }
+
+  function dlBuild() {
     var from = ui.dlFrom.value, to = ui.dlTo.value;
     var years = {};
     for (var y = +from.slice(0, 4); y <= +to.slice(0, 4); y++) years[y] = true;
@@ -1201,14 +1187,13 @@
     });
 
     ui.dlGo.disabled = true;
-    ui.dlSize.textContent = 'Preparing the file...';
     return Promise.all(jobs).then(function () {
       var want = {};
-      selectedStations().forEach(function (sid) { want[sid] = true; });
+      dlStations().forEach(function (sid) { want[sid] = true; });
       var meta = {};
       stations.forEach(function (st) { if (want[st.id]) meta[st.id] = st; });
 
-      var table = {};      // date -> station -> pollutant -> value
+      var table = {};
       pols.forEach(function (p) {
         Object.keys(years).forEach(function (y) {
           var m = dailyCache[p + '-' + y];
@@ -1229,7 +1214,7 @@
       });
 
       var head, out = [];
-      if (rowMode() === 'station') {
+      if (dl.rows === 'station') {
         head = ['date', 'station_id', 'station', 'city', 'state', 'latitude', 'longitude'].concat(pols);
         Object.keys(table).sort().forEach(function (day) {
           Object.keys(table[day]).sort().forEach(function (sid) {
@@ -1241,40 +1226,75 @@
           });
         });
       } else {
-        head = ['date', 'city', 'state', 'monitors'].concat(pols);
+        // city or state: average within a city first, then across cities, so a
+        // monitor-dense city does not speak for a whole state
+        var byState = dl.rows === 'state';
+        head = byState ? ['date', 'state', 'cities', 'monitors'].concat(pols)
+                       : ['date', 'city', 'state', 'monitors'].concat(pols);
         Object.keys(table).sort().forEach(function (day) {
-          var byCity = {};
+          var cityAcc = {};
           Object.keys(table[day]).forEach(function (sid) {
             var st = meta[sid];
             if (!st) return;
             var key = st.city + '|' + st.state;
-            if (!byCity[key]) byCity[key] = { n: 0, sums: {}, counts: {} };
-            var c = byCity[key];
-            c.n++;
+            if (!cityAcc[key]) cityAcc[key] = { n: 0, sums: {}, counts: {} };
+            var a = cityAcc[key];
+            a.n++;
             pols.forEach(function (p) {
               var v = table[day][sid][p];
               if (v == null) return;
-              c.sums[p] = (c.sums[p] || 0) + v;
-              c.counts[p] = (c.counts[p] || 0) + 1;
+              a.sums[p] = (a.sums[p] || 0) + v;
+              a.counts[p] = (a.counts[p] || 0) + 1;
             });
           });
-          Object.keys(byCity).sort().forEach(function (key) {
-            var c = byCity[key], parts = key.split('|');
-            out.push([day, parts[0], parts[1], c.n].concat(pols.map(function (p) {
-              return c.counts[p] ? Math.round(c.sums[p] / c.counts[p] * 10) / 10 : '';
-            })));
+          var cityMeans = {};
+          Object.keys(cityAcc).forEach(function (key) {
+            var a = cityAcc[key], m2 = { n: a.n, vals: {} };
+            pols.forEach(function (p) {
+              if (a.counts[p]) m2.vals[p] = a.sums[p] / a.counts[p];
+            });
+            cityMeans[key] = m2;
           });
+
+          if (!byState) {
+            Object.keys(cityMeans).sort().forEach(function (key) {
+              var m2 = cityMeans[key], parts = key.split('|');
+              out.push([day, parts[0], parts[1], m2.n].concat(pols.map(function (p) {
+                return m2.vals[p] == null ? '' : Math.round(m2.vals[p] * 10) / 10;
+              })));
+            });
+          } else {
+            var stAcc = {};
+            Object.keys(cityMeans).forEach(function (key) {
+              var m2 = cityMeans[key], stName = key.split('|')[1];
+              if (!stAcc[stName]) stAcc[stName] = { cities: 0, n: 0, sums: {}, counts: {} };
+              var a = stAcc[stName];
+              a.cities++;
+              a.n += m2.n;
+              pols.forEach(function (p) {
+                if (m2.vals[p] == null) return;
+                a.sums[p] = (a.sums[p] || 0) + m2.vals[p];
+                a.counts[p] = (a.counts[p] || 0) + 1;
+              });
+            });
+            Object.keys(stAcc).sort().forEach(function (stName) {
+              var a = stAcc[stName];
+              out.push([day, stName, a.cities, a.n].concat(pols.map(function (p) {
+                return a.counts[p] ? Math.round(a.sums[p] / a.counts[p] * 10) / 10 : '';
+              })));
+            });
+          }
         });
       }
 
       if (!out.length) {
-        ui.dlSize.textContent = 'No readings in that period for this selection.';
-        ui.dlGo.disabled = false;
+        dlValidate();
         return;
       }
-      saveCsv([head].concat(out), downloadName(from, to));
-      estimate();
+      var name = dlLabelParts().concat([from, 'to', to, 'by-' + dl.rows]).join('-') + '.csv';
+      saveCsv([head].concat(out), name);
       ui.dl.close();
+      dlValidate();
     });
   }
 
@@ -1288,17 +1308,16 @@
     var max = yrs.length ? yrs[yrs.length - 1] + '-12-31' : '';
     ui.dlFrom.min = min; ui.dlFrom.max = max;
     ui.dlTo.min = min; ui.dlTo.max = max;
-    // default to whatever period the chart is showing, else the whole record
     ui.dlFrom.value = (current.range && current.range[0]) || min;
     ui.dlTo.value = (current.range && current.range[1]) || max;
+
     if (current.city) {
-      var cityRadio = document.querySelector('input[name="aqScope"][value="city"]');
-      if (cityRadio) cityRadio.checked = true;
-    }
-    refreshChoices();
-    if (current.city) {
-      ui.dlOptions.value = current.city.id;
-      estimate();
+      dlSetScope('city');
+      dl.pick = current.city.id;
+      dlRenderList();
+      dlValidate();
+    } else {
+      dlSetScope('india');
     }
     if (ui.dl.showModal) ui.dl.showModal(); else ui.dl.setAttribute('open', '');
   }
@@ -1503,17 +1522,29 @@
   });
 
   ui.download.addEventListener('click', openDownload);
-  Array.prototype.forEach.call(document.querySelectorAll('input[name="aqScope"]'), function (r) {
-    r.addEventListener('change', function () { ui.dlSearch.value = ''; refreshChoices(); });
+  ui.dlScope.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-scope]');
+    if (b) dlSetScope(b.dataset.scope);
   });
-  Array.prototype.forEach.call(document.querySelectorAll('input[name="aqRows"]'), function (r) {
-    r.addEventListener('change', estimate);
+  ui.dlRows.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-rows]');
+    if (!b) return;
+    dl.rows = b.dataset.rows;
+    dlRenderRows();
   });
-  ui.dlSearch.addEventListener('input', refreshChoices);
-  ui.dlOptions.addEventListener('change', estimate);
-  ui.dlFrom.addEventListener('change', estimate);
-  ui.dlTo.addEventListener('change', estimate);
-  ui.dlGo.addEventListener('click', function () { buildDownload(); });
+  ui.dlOptions.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-v]');
+    if (!b) return;
+    dl.pick = b.dataset.v;
+    dlRenderList();
+    dlValidate();
+  });
+  ui.dlSearch.addEventListener('input', dlRenderList);
+  ui.dlFrom.addEventListener('change', dlValidate);
+  ui.dlTo.addEventListener('change', dlValidate);
+  ui.dlGo.addEventListener('click', function () { dlBuild(); });
+  document.getElementById('aqDlCancel').addEventListener('click', function () { ui.dl.close(); });
+  document.getElementById('aqDlClose').addEventListener('click', function () { ui.dl.close(); });
 
   ui.prev.addEventListener('click', function () { stepDay(-1); });
   ui.next.addEventListener('click', function () { stepDay(1); });

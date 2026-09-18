@@ -268,63 +268,147 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
 
 /* --- Download dialog --- */
 .aq-dl {
-  width: min(420px, calc(100vw - 32px));
+  /* The global reset zeroes margin on everything, which also kills the margin:auto
+     a native modal relies on to centre itself — it was sitting against the left edge. */
+  margin: auto;
+  width: min(400px, calc(100vw - 28px));
+  max-height: calc(100vh - 40px);
   padding: 0;
+  overflow: hidden;                     /* nothing may push the dialog sideways */
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 12px 44px rgba(15, 23, 42, 0.2);
   color: var(--color-text);
 }
-.aq-dl::backdrop { background: rgba(15, 23, 42, 0.35); }
-.aq-dl-form { display: flex; flex-direction: column; gap: 14px; padding: 16px 18px 18px; }
+.aq-dl::backdrop { background: rgba(15, 23, 42, 0.4); }
+.aq-dl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 18px 18px;
+  min-width: 0;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
 .aq-dl-head { display: flex; align-items: center; justify-content: space-between; }
 .aq-dl-head h2 { font-size: 1rem; font-weight: 600; }
-.aq-dl-x { font-size: 1.3rem; line-height: 1; color: var(--color-muted); padding: 0 4px; }
+.aq-dl-x { font-size: 1.35rem; line-height: 1; color: var(--color-muted); padding: 0 4px; }
 .aq-dl-x:hover { color: var(--color-text); }
 
-.aq-dl-group { border: none; display: flex; flex-direction: column; gap: 5px; }
-.aq-dl-group legend {
+.aq-dl-scope { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; min-width: 0; }
+.aq-dl-scope button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 9px 10px;
+  font-size: 0.82rem;
+  text-align: left;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  background: var(--color-bg);
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+.aq-dl-scope button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aq-dl-scope button:hover { border-color: var(--color-accent); color: var(--color-text); }
+.aq-dl-scope button.is-on {
+  border-color: var(--color-primary);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.aq-dl-pick { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.aq-dl-pick input[type="search"] {
+  width: 100%;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 0.82rem;
+  padding: 7px 9px;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.aq-dl-pick input:focus { outline: none; border-color: var(--color-accent); }
+
+/* A list we control, so a long monitor name cannot widen the dialog. */
+.aq-dl-list {
+  min-width: 0;
+  max-height: 168px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.aq-dl-list button {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 6px 9px;
+  font-size: 0.8rem;
+  text-align: left;
+  color: var(--color-text);
+  background: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.aq-dl-list button:hover { background: var(--color-bg-light); }
+.aq-dl-list button.is-on { background: var(--color-bg-light); font-weight: 600; box-shadow: inset 2px 0 0 var(--color-primary); }
+.aq-dl-list .aq-dl-none { padding: 8px 9px; font-size: 0.78rem; color: var(--color-muted); }
+
+.aq-dl-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.aq-dl-label {
   font-size: 0.64rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-muted);
-  padding: 0 0 4px;
 }
-.aq-dl-group label { display: flex; align-items: center; gap: 7px; font-size: 0.84rem; cursor: pointer; }
-.aq-dl-group input[type="radio"] { accent-color: var(--color-primary); }
+.aq-dl-rows { display: flex; gap: 6px; min-width: 0; }
+.aq-dl-rows button {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 8px;
+  font-size: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  background: var(--color-bg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.aq-dl-rows button:hover { border-color: var(--color-accent); color: var(--color-text); }
+.aq-dl-rows button.is-on {
+  border-color: var(--color-primary);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  font-weight: 500;
+}
 
-.aq-dl-pick { display: flex; flex-direction: column; gap: 5px; margin: 4px 0 0 22px; }
-.aq-dl-pick input[type="search"], .aq-dl-dates input[type="date"] {
+.aq-dl-dates { display: flex; gap: 8px; min-width: 0; }
+.aq-dl-dates input[type="date"] {
+  flex: 1;
+  min-width: 0;
   font-family: inherit;
-  font-size: 0.82rem;
-  padding: 5px 7px;
+  font-size: 0.8rem;
+  padding: 6px 8px;
   color: var(--color-text);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
 }
-.aq-dl-pick select {
-  font-family: inherit;
-  font-size: 0.82rem;
-  padding: 3px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg);
-  color: var(--color-text);
-}
-.aq-dl-dates { display: flex; gap: 10px; }
-.aq-dl-dates label { flex: 1; flex-direction: column; align-items: stretch; gap: 3px; font-size: 0.74rem; color: var(--color-muted); }
-
-.aq-dl-size { font-size: 0.76rem; color: var(--color-muted); min-height: 1.2em; font-variant-numeric: tabular-nums; }
-.aq-dl-size.is-big { color: #b45309; }
 .aq-dl-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.aq-dl-actions .aq-btn { justify-content: center; }
+.aq-dl :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
 @media (max-width: 560px) {
   .aq-head { flex-wrap: wrap; gap: 8px; }
   .aq-dl-dates { flex-direction: column; }
 }
-
 
 /* --- Icons: one stroke weight everywhere, inheriting colour --- */
 .aq-ico {
@@ -338,47 +422,3 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
   stroke-linejoin: round;
 }
 .aq-btn { display: inline-flex; align-items: center; gap: 7px; }
-
-/* Scope reads as four things you can pick, not four sentences. */
-.aq-dl-scope { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.aq-dl-scope label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 10px;
-  font-size: 0.82rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-muted);
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
-}
-.aq-dl-scope label:hover { border-color: var(--color-accent); color: var(--color-text); }
-.aq-dl-scope input { position: absolute; opacity: 0; pointer-events: none; }
-.aq-dl-scope label.is-on,
-.aq-dl-scope label:has(input:checked) {
-  border-color: var(--color-primary);
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  font-weight: 500;
-}
-.aq-dl-scope label:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-
-.aq-dl-rows { display: flex; gap: 6px; }
-.aq-dl-rows label {
-  flex: 1;
-  justify-content: center;
-  padding: 7px 10px;
-  font-size: 0.82rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-muted);
-}
-.aq-dl-rows label:hover { border-color: var(--color-accent); color: var(--color-text); }
-.aq-dl-rows input { position: absolute; opacity: 0; pointer-events: none; }
-.aq-dl-rows label.is-on,
-.aq-dl-rows label:has(input:checked) {
-  border-color: var(--color-primary);
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  font-weight: 500;
-}
