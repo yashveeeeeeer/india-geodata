@@ -1966,6 +1966,28 @@
     size: 128 KB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/energy/power-plants/INDIA_ENERGY_PLANTS.geojson
+- name: air-quality-monitor-coverage
+  title: Air Quality Monitor Coverage by State and District
+  description: 'How well each state and district is covered by India''s continuous
+    air quality monitoring network. For every unit: the number of CPCB monitors inside
+    it, the number of monitored cities, and the share of its area lying within 50
+    km of any monitor. Nationally 36.2% of India''s land area is within 50 km of a
+    monitor, and 564 of 785 districts have none at all — the figure behind any claim
+    that a district or state has an air quality reading.'
+  category: environment
+  level: district
+  formats:
+  - csv
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/air-quality
+  files:
+  - name: monitor-coverage.csv
+    format: csv
+    size: ''
+    storage: repo
+    download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/air-quality/monitor-coverage.csv
 - name: env-coastal
   title: Coastal Zone Boundaries
   description: Coastal Regulation Zone (CRZ) boundaries and shoreline delineations
@@ -2120,32 +2142,32 @@
   files:
   - name: District_Wise_annual_flood_area.json
     format: json
-    size: 1.6 MB
+    size: 1.7 MB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_annual_flood_area.json
   - name: District_Wise_annual_flood_frac.json
     format: json
-    size: 1.5 MB
+    size: 1.6 MB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_annual_flood_frac.json
   - name: District_Wise_flood_risk_data.json
     format: json
-    size: 90 KB
+    size: 95 KB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_flood_risk_data.json
   - name: District_Wise_max_flood_area_frac.json
     format: json
-    size: 49 KB
+    size: 53 KB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/District_Wise_max_flood_area_frac.json
   - name: State_Wise_annual_flood_area.json
     format: json
-    size: 81 KB
+    size: 85 KB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_annual_flood_area.json
   - name: State_Wise_annual_flood_frac.json
     format: json
-    size: 72 KB
+    size: 76 KB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_annual_flood_frac.json
   - name: State_Wise_flood_risk_data.json
@@ -2155,7 +2177,7 @@
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_flood_risk_data.json
   - name: State_Wise_max_flood_area_frac.json
     format: json
-    size: 2 KB
+    size: 3 KB
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/environment/flood-atlas/State_Wise_max_flood_area_frac.json
   - name: Subbasin_Wise_flood_risk_data.json
@@ -2536,6 +2558,24 @@
     description: Point locations of public health facilities across India
     download_url: https://github.com/yashveeeeeeer/india-geodata/releases/download/healthcare/facilities/INDIA_HEALTH_FACILITIES_NIC.geojson
   release_url: https://github.com/yashveeeeeeer/india-geodata/releases/tag/healthcare/facilities
+- name: indian_communications
+  title: Indian Communications Infrastructure
+  description: Communication infrastructure for India — BBNL/Bharatnet broadband network
+    data and cell tower locations. Data is published as GitHub Releases on the maintainer’s
+    fork of ramSeraph/indian_communications.
+  category: infrastructure
+  level: national
+  formats:
+  - geojson
+  - csv
+  - zip
+  license_id: Unspecified
+  storage: external
+  release_tag: null
+  url: data/infrastructure/indian_communications
+  external_url: https://github.com/yashveeeeeeer/indian_communications/releases
+  external_docs: https://github.com/yashveeeeeeer/indian_communications/blob/main/README.md
+  files: []
 - name: infra-inland-waterways
   title: Inland Waterways
   description: Inland waterway routes, navigation canals, facilities (terminals, jetties,

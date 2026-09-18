@@ -50,7 +50,9 @@
     prev: document.getElementById('aqPrev'),
     next: document.getElementById('aqNext'),
     download: document.getElementById('aqDownloadBtn'),
-    gauge: document.getElementById('aqGauge')
+    gauge: document.getElementById('aqGauge'),
+    find: document.getElementById('aqFind'),
+    findList: document.getElementById('aqFindList')
   };
 
   var current = { pollutant: 'PM2.5', level: 'cities', city: null, range: null,
@@ -973,6 +975,71 @@
 
 
 
+
+  // ---------------------------------------------------------------------------
+  //  City search: the only way to reach a city without a mouse
+  // ---------------------------------------------------------------------------
+  var findMatches = [];
+  var findActive = -1;
+
+  function findClose() {
+    ui.findList.hidden = true;
+    ui.findList.innerHTML = '';
+    ui.find.setAttribute('aria-expanded', 'false');
+    ui.find.removeAttribute('aria-activedescendant');
+    findMatches = [];
+    findActive = -1;
+  }
+
+  function findRender(q) {
+    var needle = q.trim().toLowerCase();
+    if (!needle) { findClose(); return; }
+    findMatches = cities.filter(function (c) {
+      return (c.name + ' ' + c.state).toLowerCase().indexOf(needle) !== -1;
+    }).sort(function (a, b) {
+      // a name that starts with the query beats one that merely contains it
+      var as = a.name.toLowerCase().indexOf(needle) === 0 ? 0 : 1;
+      var bs = b.name.toLowerCase().indexOf(needle) === 0 ? 0 : 1;
+      return as - bs || b.n - a.n || a.name.localeCompare(b.name);
+    }).slice(0, 8);
+
+    if (!findMatches.length) { findClose(); return; }
+    ui.findList.innerHTML = findMatches.map(function (c, i) {
+      return '<li role="option" id="aqFindOpt' + i + '" aria-selected="false" data-i="' + i + '">' +
+        '<span>' + esc(c.name) + '</span><small>' + esc(c.state) + '</small></li>';
+    }).join('');
+    ui.findList.hidden = false;
+    ui.find.setAttribute('aria-expanded', 'true');
+    findActive = 0;
+    findHighlight();
+  }
+
+  function findHighlight() {
+    [].forEach.call(ui.findList.children, function (li, i) {
+      li.setAttribute('aria-selected', i === findActive ? 'true' : 'false');
+    });
+    var el = ui.findList.children[findActive];
+    if (el) {
+      ui.find.setAttribute('aria-activedescendant', el.id);
+      if (el.scrollIntoView) el.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function findChoose(i) {
+    var c = findMatches[i];
+    if (!c) return;
+    findClose();
+    ui.find.value = '';
+    ui.find.blur();
+    selectCity(c);
+    // put the city on screen, otherwise the selection ring is lost among 239 dots
+    var unit = coverage && coverage.cityUnit && coverage.cityUnit[c.id];
+    if (unit && unit.state && view) {
+      var f = statesFeat.filter(function (x) { return x.id === unit.state; })[0];
+      if (f) zoomToFeature(f);
+    }
+  }
+
   // ---------------------------------------------------------------------------
   //  Download: exactly what is on screen
   // ---------------------------------------------------------------------------
@@ -1232,6 +1299,28 @@
       if (current.city) updateRail();
       if (!ui.panel.hidden) drawChart(current.city ? seriesCache[current.city.id] : null);
     });
+  });
+
+  ui.find.addEventListener('input', function () { findRender(this.value); });
+  ui.find.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!findMatches.length) return;
+      e.preventDefault();
+      findActive = (findActive + (e.key === 'ArrowDown' ? 1 : -1) + findMatches.length) % findMatches.length;
+      findHighlight();
+    } else if (e.key === 'Enter') {
+      if (findActive >= 0) { e.preventDefault(); findChoose(findActive); }
+    } else if (e.key === 'Escape') {
+      findClose();
+      this.value = '';
+    }
+  });
+  ui.findList.addEventListener('click', function (e) {
+    var li = e.target.closest('[data-i]');
+    if (li) findChoose(+li.dataset.i);
+  });
+  document.addEventListener('click', function (e) {
+    if (!ui.findList.hidden && !e.target.closest('.aq-find')) findClose();
   });
 
   ui.download.addEventListener('click', downloadCurrent);

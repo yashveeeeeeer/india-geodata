@@ -64,6 +64,13 @@ permalink: /projects/air-quality/
     </div>
 
     <aside class="aq-rail">
+      <!-- The only way to reach a city without a mouse, and the fastest way with one. -->
+      <div class="aq-find">
+        <input type="search" id="aqFind" autocomplete="off" spellcheck="false"
+               placeholder="Search city" aria-label="Search for a city"
+               role="combobox" aria-expanded="false" aria-controls="aqFindList">
+        <ul class="aq-find-list" id="aqFindList" role="listbox" aria-label="Cities" hidden></ul>
+      </div>
       <div class="aq-place" id="aqPlace">India</div>
       <div class="aq-where" id="aqWhere"></div>
       <div class="aq-reading">
