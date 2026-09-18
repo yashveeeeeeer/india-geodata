@@ -1056,6 +1056,36 @@
   // ---------------------------------------------------------------------------
   //  Download dialog
   // ---------------------------------------------------------------------------
+
+  // Filenames read down the hierarchy, country first, so a folder of downloads
+  // sorts into place and each one says what it is without being opened:
+  //   air-quality-india-2024-11-01-to-2024-11-03-by-station.csv
+  //   air-quality-india-delhi-delhi-...
+  //   air-quality-india-delhi-delhi-anand-vihar-dpcc-...
+  function stationTail(name) {
+    var parts = String(name || '').split(' - ');
+    var agency = parts.length > 1 ? parts.pop() : '';
+    var place = parts.join(' - ').split(',')[0];       // drop the city, it is already above
+    return slugify(place + (agency ? '-' + agency : ''));
+  }
+
+  function downloadName(from, to) {
+    var parts = ['air-quality', 'india'];
+    var kind = scope();
+    var pick = ui.dlOptions.value;
+    if (kind === 'state') {
+      parts.push(slugify(pick));
+    } else if (kind === 'city') {
+      var c = cities.filter(function (x) { return x.id === pick; })[0];
+      if (c) parts.push(slugify(c.state), slugify(c.name));
+    } else if (kind === 'station') {
+      var st = stations.filter(function (x) { return x.id === pick; })[0];
+      if (st) parts.push(slugify(st.state), slugify(st.city), stationTail(st.name));
+    }
+    parts.push(from, 'to', to, rowMode() === 'city' ? 'by-city' : 'by-station');
+    return parts.filter(Boolean).join('-') + '.csv';
+  }
+
   function scope() {
     var el = document.querySelector('input[name="aqScope"]:checked');
     return el ? el.value : 'india';
@@ -1242,9 +1272,7 @@
         ui.dlGo.disabled = false;
         return;
       }
-      var chosen = ui.dlOptions.selectedOptions && ui.dlOptions.selectedOptions[0];
-      var label = scope() === 'india' ? 'india' : slugify(chosen ? chosen.text : scope());
-      saveCsv([head].concat(out), 'air-quality-' + label + '-' + from + '-to-' + to + '.csv');
+      saveCsv([head].concat(out), downloadName(from, to));
       estimate();
       ui.dl.close();
     });
