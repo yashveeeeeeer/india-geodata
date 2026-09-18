@@ -38,3 +38,7 @@ temp_transport/
 
 # local build cache
 .cache/
+
+# air quality pipeline working files (archive lives in GitHub Releases)
+.aq-snapshots/
+.aq-archive/
