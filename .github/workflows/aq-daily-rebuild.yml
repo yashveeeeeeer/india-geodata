@@ -1,0 +1,67 @@
+name: Air quality daily rebuild
+
+# The hourly job captures readings and publishes them as Parquet, but nothing
+# turned that into the files the map, chart and download actually read. The
+# archive grew while the page stayed frozen at its last hand-built snapshot.
+#
+# This closes the loop: once a day it folds the archive into those files and
+# commits them, so what we capture shows up without anyone remembering to run
+# anything.
+
+on:
+  schedule:
+    - cron: '50 19 * * *'      # 01:20 IST, after the day's last hourly run
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aq-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install --quiet pandas pyarrow
+
+      - name: Pull down the archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p .aq-archive
+          if ! gh release view aq-live >/dev/null 2>&1; then
+            echo "no archive release yet, nothing to fold in"
+            exit 0
+          fi
+          gh release download aq-live --pattern "aq-*.parquet" --dir .aq-archive --clobber
+
+      - name: Fold it into the page's data
+        run: python scripts/rebuild-aq-from-archive.py --archive-dir .aq-archive
+
+      - name: Commit what changed
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/projects/air-quality/data/daily docs/projects/air-quality/data/series
+          if git diff --cached --quiet; then
+            echo "no new days to publish"
+            exit 0
+          fi
+          git commit -m "Air quality: fold the archive into the published series"
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            echo "push rejected, rebasing (attempt $attempt)"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          done
+          echo "could not push after 3 attempts" >&2
+          exit 1
