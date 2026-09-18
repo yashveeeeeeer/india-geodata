@@ -1061,18 +1061,20 @@
   // Two questions only: which area, and what a row stands for inside it. The
   // second depends on the first — inside one city the only thing below is a
   // monitor, so there is nothing to ask and the control disappears.
-  var LEVELS_BELOW = {
+  // The level you picked at is itself a valid row, once more than one thing can
+  // be picked: three states as three daily rows is a real thing to want.
+  var LEVELS_AT_OR_BELOW = {
     india:   [['state', 'State'], ['city', 'City'], ['station', 'Station']],
-    state:   [['city', 'City'], ['station', 'Station']],
-    city:    [['station', 'Station']],
+    state:   [['state', 'State'], ['city', 'City'], ['station', 'Station']],
+    city:    [['city', 'City'], ['station', 'Station']],
     station: []
   };
 
-  var dl = { scope: 'india', pick: '', rows: 'state' };
+  var dl = { scope: 'india', picks: [], rows: 'state' };
 
   function dlSetScope(next) {
     dl.scope = next;
-    dl.pick = '';
+    dl.picks = [];
     ui.dlSearch.value = '';
     Array.prototype.forEach.call(ui.dlScope.children, function (b) {
       var on = b.dataset.scope === next;
@@ -1080,7 +1082,7 @@
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     ui.dlPick.hidden = next === 'india';
-    var levels = LEVELS_BELOW[next];
+    var levels = LEVELS_AT_OR_BELOW[next];
     dl.rows = levels.length ? levels[0][0] : 'station';
     dlRenderRows();
     dlRenderList();
@@ -1088,7 +1090,7 @@
   }
 
   function dlRenderRows() {
-    var levels = LEVELS_BELOW[dl.scope];
+    var levels = LEVELS_AT_OR_BELOW[dl.scope];
     // one option is not a choice; do not make the reader look at it
     ui.dlRowsWrap.hidden = levels.length < 2;
     ui.dlRows.innerHTML = levels.map(function (l) {
@@ -1097,8 +1099,16 @@
     }).join('');
   }
 
-  function dlChoices() {
-    var q = ui.dlSearch.value.trim().toLowerCase();
+  function dlAllChoices() {
+    var save = ui.dlSearch.value;
+    ui.dlSearch.value = '';
+    var all = dlChoices(true);
+    ui.dlSearch.value = save;
+    return all;
+  }
+
+  function dlChoices(all) {
+    var q = all ? '' : ui.dlSearch.value.trim().toLowerCase();
     var list = [];
     if (dl.scope === 'state') {
       var seen = {};
@@ -1114,34 +1124,50 @@
     if (q) {
       list = list.filter(function (o) { return o.label.toLowerCase().indexOf(q) !== -1; });
     }
-    return list.slice(0, 300);
+    return all ? list : list.slice(0, 300);
   }
 
   function dlRenderList() {
     if (dl.scope === 'india') { ui.dlOptions.innerHTML = ''; return; }
     var opts = dlChoices();
-    if (!opts.length) {
+    var chosen = {};
+    dl.picks.forEach(function (v) { chosen[v] = true; });
+
+    // With an empty box, whatever is picked rides at the top so a long list never
+    // hides it. While searching it does not, because the results are what you are
+    // looking at and a pinned earlier pick would sit in front of them.
+    var searching = ui.dlSearch.value.trim() !== '';
+    var picked = searching ? [] : dlAllChoices().filter(function (o) { return chosen[o.v]; });
+    var rest = searching ? opts : opts.filter(function (o) { return !chosen[o.v]; });
+
+    if (!picked.length && !rest.length) {
       ui.dlOptions.innerHTML = '<p class="aq-dl-none">Nothing matches that.</p>';
       return;
     }
-    ui.dlOptions.innerHTML = opts.map(function (o) {
+    function row(o, sep) {
       return '<button type="button" role="option" data-v="' + esc(o.v) + '" aria-selected="' +
-        (o.v === dl.pick) + '" class="' + (o.v === dl.pick ? 'is-on' : '') + '" title="' +
-        esc(o.label) + '">' + esc(o.label) + '</button>';
-    }).join('');
+        (!!chosen[o.v]) + '" class="' + (chosen[o.v] ? 'is-on' : '') + (sep ? ' aq-dl-sep' : '') +
+        '" title="' + esc(o.label) + '"><span class="aq-dl-tick"></span><span>' +
+        esc(o.label) + '</span></button>';
+    }
+    ui.dlOptions.innerHTML =
+      picked.map(function (o) { return row(o, false); }).join('') +
+      rest.map(function (o, i) { return row(o, i === 0 && picked.length > 0); }).join('');
   }
 
   function dlStations() {
     if (dl.scope === 'india') return stations.map(function (s) { return s.id; });
-    if (!dl.pick) return [];
-    if (dl.scope === 'station') return [dl.pick];
+    if (!dl.picks.length) return [];
+    var want = {};
+    dl.picks.forEach(function (p) { want[p] = true; });
+    if (dl.scope === 'station') return dl.picks.slice();
     if (dl.scope === 'city') {
       return stations.filter(function (s) {
         var u = coverage && coverage.stationUnit && coverage.stationUnit[s.id];
-        return u && u.city === dl.pick;
+        return u && want[u.city];
       }).map(function (s) { return s.id; });
     }
-    return stations.filter(function (s) { return s.state === dl.pick; })
+    return stations.filter(function (s) { return want[s.state]; })
       .map(function (s) { return s.id; });
   }
 
@@ -1151,18 +1177,28 @@
     ui.dlGo.disabled = !ok;
   }
 
+  // One or two places are named outright; beyond that a name would be unreadable,
+  // so it says how many.
   function dlLabelParts() {
     var parts = ['air-quality', 'india'];
-    if (dl.scope === 'state') {
-      parts.push(slugify(dl.pick));
-    } else if (dl.scope === 'city') {
-      var c = cities.filter(function (x) { return x.id === dl.pick; })[0];
-      if (c) parts.push(slugify(c.state), slugify(c.name));
-    } else if (dl.scope === 'station') {
-      var st = stations.filter(function (x) { return x.id === dl.pick; })[0];
-      if (st) parts.push(slugify(st.state), slugify(st.city), stationTail(st.name));
-    }
-    return parts;
+    var n = dl.picks.length;
+    if (dl.scope === 'india' || !n) return parts;
+    var plural = { state: 'states', city: 'cities', station: 'stations' }[dl.scope];
+    if (n > 2) return parts.concat([String(n), plural]);
+
+    dl.picks.forEach(function (p) {
+      if (dl.scope === 'state') {
+        parts.push(slugify(p));
+      } else if (dl.scope === 'city') {
+        var c = cities.filter(function (x) { return x.id === p; })[0];
+        if (c) parts.push(n === 1 ? slugify(c.state) : '', slugify(c.name));
+      } else {
+        var st = stations.filter(function (x) { return x.id === p; })[0];
+        if (st) parts.push(n === 1 ? slugify(st.state) : '', n === 1 ? slugify(st.city) : '',
+                           stationTail(st.name));
+      }
+    });
+    return parts.filter(Boolean);
   }
 
   function stationTail(name) {
@@ -1313,7 +1349,7 @@
 
     if (current.city) {
       dlSetScope('city');
-      dl.pick = current.city.id;
+      dl.picks = [current.city.id];
       dlRenderList();
       dlValidate();
     } else {
@@ -1535,8 +1571,14 @@
   ui.dlOptions.addEventListener('click', function (e) {
     var b = e.target.closest('[data-v]');
     if (!b) return;
-    dl.pick = b.dataset.v;
-    dlRenderList();
+    var v = b.dataset.v;
+    var i = dl.picks.indexOf(v);
+    if (i === -1) dl.picks.push(v); else dl.picks.splice(i, 1);
+    // Update this row in place. Re-rendering the list would rebuild every button
+    // under the pointer, lose the scroll position, and drop rapid picks.
+    var on = dl.picks.indexOf(v) !== -1;
+    b.classList.toggle('is-on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
     dlValidate();
   });
   ui.dlSearch.addEventListener('input', dlRenderList);

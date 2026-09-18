@@ -343,7 +343,9 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
   border-radius: var(--radius-sm);
 }
 .aq-dl-list button {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 7px;
   width: 100%;
   min-width: 0;
   padding: 6px 9px;
@@ -357,6 +359,29 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
 }
 .aq-dl-list button:hover { background: var(--color-bg-light); }
 .aq-dl-list button.is-on { background: var(--color-bg-light); font-weight: 600; box-shadow: inset 2px 0 0 var(--color-primary); }
+.aq-dl-list button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* An empty box until it is picked, then a tick. No count to read. */
+.aq-dl-tick {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  position: relative;
+}
+.aq-dl-list button.is-on .aq-dl-tick { background: var(--color-primary); border-color: var(--color-primary); }
+.aq-dl-list button.is-on .aq-dl-tick::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 3px;
+  height: 7px;
+  border: solid #fff;
+  border-width: 0 1.6px 1.6px 0;
+  transform: rotate(45deg);
+}
+.aq-dl-list .aq-dl-sep { border-top: 1px solid var(--color-border); }
 .aq-dl-list .aq-dl-none { padding: 8px 9px; font-size: 0.78rem; color: var(--color-muted); }
 
 .aq-dl-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
