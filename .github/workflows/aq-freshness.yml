@@ -1,0 +1,74 @@
+name: Air quality freshness
+
+# The hourly job can fail quietly — a revoked key, a changed endpoint, GitHub
+# disabling the schedule. The page would keep rendering plausible but frozen
+# numbers. This notices instead, and opens an issue so it cannot pass unseen.
+#
+# It also counts as repository activity, which keeps GitHub from disabling the
+# scheduled workflows after 60 days of quiet.
+
+on:
+  schedule:
+    - cron: '40 3 * * *'      # daily, well after the hourly job
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check how stale the feed is
+        id: check
+        run: |
+          set +e
+          out=$(python scripts/check-aq-freshness.py --max-age-hours 6)
+          code=$?
+          echo "status<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$out" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "$out"
+          exit 0
+
+      - name: Open or update an issue when stale
+        if: steps.check.outputs.code != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ steps.check.outputs.status }}
+        run: |
+          set -euo pipefail
+          title="Air quality feed is stale"
+          existing=$(gh issue list --state open --search "$title in:title" \
+                       --json number --jq '.[0].number // empty')
+          body=$(printf '%s\n\n%s\n\n%s\n' \
+            "The hourly air quality job has not published a fresh reading." \
+            "\`$STATUS\`" \
+            "Checked by .github/workflows/aq-freshness.yml. Look at the most recent run of \"Air quality hourly\": the usual causes are a missing or revoked DATA_GOV_IN_KEY, a change at data.gov.in, or GitHub having disabled the schedule.")
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body" --label "data" || \
+              gh issue create --title "$title" --body "$body"
+          fi
+
+      - name: Close the issue once the feed recovers
+        if: steps.check.outputs.code == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ steps.check.outputs.status }}
+        run: |
+          set -euo pipefail
+          existing=$(gh issue list --state open --search "Air quality feed is stale in:title" \
+                       --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Feed is publishing again: \`$STATUS\`"
+          fi

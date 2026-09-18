@@ -48,7 +48,8 @@
     levels: document.getElementById('aqLevels'),
     strip: document.getElementById('aqStrip'),
     prev: document.getElementById('aqPrev'),
-    next: document.getElementById('aqNext')
+    next: document.getElementById('aqNext'),
+    download: document.getElementById('aqDownloadBtn')
   };
 
   var current = { pollutant: 'PM2.5', level: 'cities', city: null, range: null,
@@ -888,6 +889,91 @@
   }
 
 
+
+  // ---------------------------------------------------------------------------
+  //  Download: exactly what is on screen
+  // ---------------------------------------------------------------------------
+  // A leading =, + or @ makes a spreadsheet treat the cell as a formula.
+  function csvSafe(v) {
+    if (v == null) return '';
+    var t = String(v);
+    if (/^[=+@\-]/.test(t) && isNaN(Number(t))) t = "'" + t;
+    return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+
+  function toCsv(rows) {
+    return rows.map(function (r) { return r.map(csvSafe).join(','); }).join('\n');
+  }
+
+  function saveCsv(rows, name) {
+    var blob = new Blob(['﻿' + toCsv(rows)], { type: 'text/csv;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 30000);
+  }
+
+  function slugify(v) {
+    return String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  // With a city chosen the download is that city's series, every pollutant, over
+  // whatever period the chart is showing. Otherwise it is the map: one row per
+  // place at the instant on screen, at whichever level is displayed.
+  function downloadCurrent() {
+    var when = current.day || (latest && latest.updated) || 'latest';
+    if (current.city && seriesCache[current.city.id]) {
+      var doc = seriesCache[current.city.id];
+      var pols = Object.keys(doc.series).sort();
+      var days = {};
+      pols.forEach(function (p) {
+        var w = windowed(doc.series[p]);
+        if (!w) return;
+        w.t.forEach(function (t, i) {
+          (days[t] = days[t] || {})[p] = w.v[i];
+          days[t]._n = Math.max(days[t]._n || 0, w.n[i]);
+        });
+      });
+      var rows = [['date', 'city', 'state'].concat(pols).concat(['monitors'])];
+      Object.keys(days).sort().forEach(function (t) {
+        rows.push([t, current.city.name, current.city.state]
+          .concat(pols.map(function (p) { return days[t][p] == null ? '' : days[t][p]; }))
+          .concat([days[t]._n || '']));
+      });
+      saveCsv(rows, 'air-quality-' + slugify(current.city.name) + '-daily.csv');
+      return;
+    }
+
+    var p = current.pollutant;
+    var unit = POLLUTANTS[p].unit;
+    if (current.level === 'cities') {
+      var vals = valuesFor(p);
+      var rows2 = [['city', 'state', 'pollutant', 'value', 'unit', 'monitors', 'when']];
+      cities.slice().sort(function (a, b) { return a.name.localeCompare(b.name); })
+        .forEach(function (c) {
+          if (vals[c.id] == null) return;
+          rows2.push([c.name, c.state, p, vals[c.id], unit, c.n, when]);
+        });
+      saveCsv(rows2, 'air-quality-cities-' + slugify(p) + '-' + slugify(when) + '.csv');
+      return;
+    }
+
+    var level = current.level;
+    var uv = unitValues(level, p);
+    var rows3 = [[level === 'states' ? 'state' : 'district', 'lgd_code', 'pollutant',
+                  'value', 'unit', 'monitors', 'cities', 'pct_area_within_reach', 'when']];
+    Object.keys(uv).sort().forEach(function (id) {
+      var m = unitMeta(level, id) || {};
+      rows3.push([m.name || id, m.lgd || '', p, Math.round(uv[id].v * 10) / 10, unit,
+                  m.stations == null ? '' : m.stations, uv[id].cities,
+                  m.cover == null ? '' : m.cover, when]);
+    });
+    saveCsv(rows3, 'air-quality-' + level + '-' + slugify(p) + '-' + slugify(when) + '.csv');
+  }
+
   // ---------------------------------------------------------------------------
   //  Time strip: the national series, the playhead and the range in one control
   // ---------------------------------------------------------------------------
@@ -1045,6 +1131,8 @@
       if (!ui.panel.hidden) drawChart(current.city ? seriesCache[current.city.id] : null);
     });
   });
+
+  ui.download.addEventListener('click', downloadCurrent);
 
   ui.prev.addEventListener('click', function () { stepDay(-1); });
   ui.next.addEventListener('click', function () { stepDay(1); });
