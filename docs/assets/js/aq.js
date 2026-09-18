@@ -51,6 +51,14 @@
     next: document.getElementById('aqNext'),
     download: document.getElementById('aqDownloadBtn'),
     gauge: document.getElementById('aqGauge'),
+    dl: document.getElementById('aqDl'),
+    dlPick: document.getElementById('aqDlPick'),
+    dlSearch: document.getElementById('aqDlSearch'),
+    dlOptions: document.getElementById('aqDlOptions'),
+    dlFrom: document.getElementById('aqDlFrom'),
+    dlTo: document.getElementById('aqDlTo'),
+    dlSize: document.getElementById('aqDlSize'),
+    dlGo: document.getElementById('aqDlGo'),
     find: document.getElementById('aqFind'),
     findList: document.getElementById('aqFindList')
   };
@@ -1045,58 +1053,254 @@
     return String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
-  // With a city chosen the download is that city's series, every pollutant, over
-  // whatever period the chart is showing. Otherwise it is the map: one row per
-  // place at the instant on screen, at whichever level is displayed.
-  function downloadCurrent() {
-    var when = current.day || (latest && latest.updated) || 'latest';
-    if (current.city && seriesCache[current.city.id]) {
-      var doc = seriesCache[current.city.id];
-      var pols = Object.keys(doc.series).sort();
-      var days = {};
-      pols.forEach(function (p) {
-        var w = windowed(doc.series[p]);
-        if (!w) return;
-        w.t.forEach(function (t, i) {
-          (days[t] = days[t] || {})[p] = w.v[i];
-          days[t]._n = Math.max(days[t]._n || 0, w.n[i]);
-        });
-      });
-      var rows = [['date', 'city', 'state'].concat(pols).concat(['monitors'])];
-      Object.keys(days).sort().forEach(function (t) {
-        rows.push([t, current.city.name, current.city.state]
-          .concat(pols.map(function (p) { return days[t][p] == null ? '' : days[t][p]; }))
-          .concat([days[t]._n || '']));
-      });
-      saveCsv(rows, 'air-quality-' + slugify(current.city.name) + '-daily.csv');
-      return;
-    }
+  // ---------------------------------------------------------------------------
+  //  Download dialog
+  // ---------------------------------------------------------------------------
 
-    var p = current.pollutant;
-    var unit = POLLUTANTS[p].unit;
-    if (current.level === 'cities') {
-      var vals = valuesFor(p);
-      var rows2 = [['city', 'state', 'pollutant', 'value', 'unit', 'monitors', 'when']];
-      cities.slice().sort(function (a, b) { return a.name.localeCompare(b.name); })
-        .forEach(function (c) {
-          if (vals[c.id] == null) return;
-          rows2.push([c.name, c.state, p, vals[c.id], unit, c.n, when]);
-        });
-      saveCsv(rows2, 'air-quality-cities-' + slugify(p) + '-' + slugify(when) + '.csv');
-      return;
-    }
+  // Filenames read down the hierarchy, country first, so a folder of downloads
+  // sorts into place and each one says what it is without being opened:
+  //   air-quality-india-2024-11-01-to-2024-11-03-by-station.csv
+  //   air-quality-india-delhi-delhi-...
+  //   air-quality-india-delhi-delhi-anand-vihar-dpcc-...
+  function stationTail(name) {
+    var parts = String(name || '').split(' - ');
+    var agency = parts.length > 1 ? parts.pop() : '';
+    var place = parts.join(' - ').split(',')[0];       // drop the city, it is already above
+    return slugify(place + (agency ? '-' + agency : ''));
+  }
 
-    var level = current.level;
-    var uv = unitValues(level, p);
-    var rows3 = [[level === 'states' ? 'state' : 'district', 'lgd_code', 'pollutant',
-                  'value', 'unit', 'monitors', 'cities', 'pct_area_within_reach', 'when']];
-    Object.keys(uv).sort().forEach(function (id) {
-      var m = unitMeta(level, id) || {};
-      rows3.push([m.name || id, m.lgd || '', p, Math.round(uv[id].v * 10) / 10, unit,
-                  m.stations == null ? '' : m.stations, uv[id].cities,
-                  m.cover == null ? '' : m.cover, when]);
+  function downloadName(from, to) {
+    var parts = ['air-quality', 'india'];
+    var kind = scope();
+    var pick = ui.dlOptions.value;
+    if (kind === 'state') {
+      parts.push(slugify(pick));
+    } else if (kind === 'city') {
+      var c = cities.filter(function (x) { return x.id === pick; })[0];
+      if (c) parts.push(slugify(c.state), slugify(c.name));
+    } else if (kind === 'station') {
+      var st = stations.filter(function (x) { return x.id === pick; })[0];
+      if (st) parts.push(slugify(st.state), slugify(st.city), stationTail(st.name));
+    }
+    parts.push(from, 'to', to, rowMode() === 'city' ? 'by-city' : 'by-station');
+    return parts.filter(Boolean).join('-') + '.csv';
+  }
+
+  function scope() {
+    var el = document.querySelector('input[name="aqScope"]:checked');
+    return el ? el.value : 'india';
+  }
+  function rowMode() {
+    var el = document.querySelector('input[name="aqRows"]:checked');
+    return el ? el.value : 'station';
+  }
+
+  function scopeChoices(kind, q) {
+    var needle = (q || '').trim().toLowerCase();
+    var list = [];
+    if (kind === 'state') {
+      var seen = {};
+      cities.forEach(function (c) { seen[c.state] = true; });
+      list = Object.keys(seen).sort().map(function (st) { return { v: st, label: st }; });
+    } else if (kind === 'city') {
+      list = cities.slice().sort(function (a, b) { return a.name.localeCompare(b.name); })
+        .map(function (c) { return { v: c.id, label: c.name + ', ' + c.state }; });
+    } else if (kind === 'station') {
+      list = stations.slice().sort(function (a, b) { return a.name.localeCompare(b.name); })
+        .map(function (st) { return { v: st.id, label: st.name }; });
+    }
+    if (!needle) return list.slice(0, 400);
+    return list.filter(function (o) {
+      return o.label.toLowerCase().indexOf(needle) !== -1;
+    }).slice(0, 400);
+  }
+
+  // :has() covers current browsers; this keeps the selected state visible on older ones.
+  function markPicked() {
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.aq-dl-scope label, .aq-dl-rows label'),
+      function (l) {
+        var input = l.querySelector('input');
+        l.classList.toggle('is-on', !!(input && input.checked));
+      });
+  }
+
+  function refreshChoices() {
+    markPicked();
+    var kind = scope();
+    ui.dlPick.hidden = kind === 'india';
+    if (kind === 'india') { estimate(); return; }
+    var opts = scopeChoices(kind, ui.dlSearch.value);
+    ui.dlOptions.innerHTML = opts.map(function (o) {
+      return '<option value="' + esc(o.v) + '">' + esc(o.label) + '</option>';
+    }).join('');
+    if (opts.length) ui.dlOptions.selectedIndex = 0;
+    estimate();
+  }
+
+  // Which monitors the current selection covers.
+  function selectedStations() {
+    var kind = scope();
+    var pick = ui.dlOptions.value;
+    if (kind === 'india') return stations.map(function (s) { return s.id; });
+    if (kind === 'station') return pick ? [pick] : [];
+    if (kind === 'city') {
+      return stations.filter(function (s) {
+        var u = coverage && coverage.stationUnit && coverage.stationUnit[s.id];
+        return u && u.city === pick;
+      }).map(function (s) { return s.id; });
+    }
+    return stations.filter(function (s) { return s.state === pick; })
+      .map(function (s) { return s.id; });
+  }
+
+  function dayCount() {
+    var a = ui.dlFrom.value, b = ui.dlTo.value;
+    if (!a || !b || a > b) return 0;
+    return Math.round((new Date(b) - new Date(a)) / 864e5) + 1;
+  }
+
+  function estimate() {
+    markPicked();
+    var sel = selectedStations();
+    var days = dayCount();
+    var rows;
+    if (rowMode() === 'city') {
+      var ids = {};
+      sel.forEach(function (sid) {
+        var u = coverage && coverage.stationUnit && coverage.stationUnit[sid];
+        if (u && u.city) ids[u.city] = true;
+      });
+      rows = Object.keys(ids).length * days;
+    } else {
+      rows = sel.length * days;
+    }
+    var mb = rows * 90 / 1048576;
+    var ok = days > 0 && rows > 0;
+    ui.dlSize.textContent = !ok
+      ? 'Nothing selected for that period.'
+      : 'about ' + rows.toLocaleString('en-IN') + ' rows, ' +
+        (mb < 1 ? Math.max(1, Math.round(mb * 1024)) + ' KB' : mb.toFixed(1) + ' MB');
+    ui.dlSize.classList.toggle('is-big', rows > 200000);
+    ui.dlGo.disabled = !ok;
+  }
+
+  // Pull every pollutant-year the chosen period touches, then build the rows.
+  function buildDownload() {
+    var from = ui.dlFrom.value, to = ui.dlTo.value;
+    var years = {};
+    for (var y = +from.slice(0, 4); y <= +to.slice(0, 4); y++) years[y] = true;
+    var pols = Object.keys(POLLUTANTS);
+    var jobs = [];
+    pols.forEach(function (p) {
+      Object.keys(years).forEach(function (y) {
+        if (dailyIndex && (dailyIndex[p] || []).indexOf(String(y)) !== -1) {
+          jobs.push(loadDaily(p, String(y)).catch(function () { return null; }));
+        }
+      });
     });
-    saveCsv(rows3, 'air-quality-' + level + '-' + slugify(p) + '-' + slugify(when) + '.csv');
+
+    ui.dlGo.disabled = true;
+    ui.dlSize.textContent = 'Preparing the file...';
+    return Promise.all(jobs).then(function () {
+      var want = {};
+      selectedStations().forEach(function (sid) { want[sid] = true; });
+      var meta = {};
+      stations.forEach(function (st) { if (want[st.id]) meta[st.id] = st; });
+
+      var table = {};      // date -> station -> pollutant -> value
+      pols.forEach(function (p) {
+        Object.keys(years).forEach(function (y) {
+          var m = dailyCache[p + '-' + y];
+          if (!m) return;
+          for (var i = 0; i < m.t.length; i++) {
+            var day = m.t[i];
+            if (day < from || day > to) continue;
+            var row = m.v[i];
+            for (var j = 0; j < m.stations.length; j++) {
+              var sid = m.stations[j];
+              if (!want[sid] || row[j] == null) continue;
+              if (!table[day]) table[day] = {};
+              if (!table[day][sid]) table[day][sid] = {};
+              table[day][sid][p] = row[j];
+            }
+          }
+        });
+      });
+
+      var head, out = [];
+      if (rowMode() === 'station') {
+        head = ['date', 'station_id', 'station', 'city', 'state', 'latitude', 'longitude'].concat(pols);
+        Object.keys(table).sort().forEach(function (day) {
+          Object.keys(table[day]).sort().forEach(function (sid) {
+            var st = meta[sid] || {};
+            out.push([day, sid, st.name || '', st.city || '', st.state || '', st.lat, st.lon]
+              .concat(pols.map(function (p) {
+                return table[day][sid][p] == null ? '' : table[day][sid][p];
+              })));
+          });
+        });
+      } else {
+        head = ['date', 'city', 'state', 'monitors'].concat(pols);
+        Object.keys(table).sort().forEach(function (day) {
+          var byCity = {};
+          Object.keys(table[day]).forEach(function (sid) {
+            var st = meta[sid];
+            if (!st) return;
+            var key = st.city + '|' + st.state;
+            if (!byCity[key]) byCity[key] = { n: 0, sums: {}, counts: {} };
+            var c = byCity[key];
+            c.n++;
+            pols.forEach(function (p) {
+              var v = table[day][sid][p];
+              if (v == null) return;
+              c.sums[p] = (c.sums[p] || 0) + v;
+              c.counts[p] = (c.counts[p] || 0) + 1;
+            });
+          });
+          Object.keys(byCity).sort().forEach(function (key) {
+            var c = byCity[key], parts = key.split('|');
+            out.push([day, parts[0], parts[1], c.n].concat(pols.map(function (p) {
+              return c.counts[p] ? Math.round(c.sums[p] / c.counts[p] * 10) / 10 : '';
+            })));
+          });
+        });
+      }
+
+      if (!out.length) {
+        ui.dlSize.textContent = 'No readings in that period for this selection.';
+        ui.dlGo.disabled = false;
+        return;
+      }
+      saveCsv([head].concat(out), downloadName(from, to));
+      estimate();
+      ui.dl.close();
+    });
+  }
+
+  function openDownload() {
+    var yrs = [];
+    Object.keys(dailyIndex || {}).forEach(function (p) {
+      (dailyIndex[p] || []).forEach(function (y) { if (yrs.indexOf(y) === -1) yrs.push(y); });
+    });
+    yrs.sort();
+    var min = yrs.length ? yrs[0] + '-01-01' : '';
+    var max = yrs.length ? yrs[yrs.length - 1] + '-12-31' : '';
+    ui.dlFrom.min = min; ui.dlFrom.max = max;
+    ui.dlTo.min = min; ui.dlTo.max = max;
+    // default to whatever period the chart is showing, else the whole record
+    ui.dlFrom.value = (current.range && current.range[0]) || min;
+    ui.dlTo.value = (current.range && current.range[1]) || max;
+    if (current.city) {
+      var cityRadio = document.querySelector('input[name="aqScope"][value="city"]');
+      if (cityRadio) cityRadio.checked = true;
+    }
+    refreshChoices();
+    if (current.city) {
+      ui.dlOptions.value = current.city.id;
+      estimate();
+    }
+    if (ui.dl.showModal) ui.dl.showModal(); else ui.dl.setAttribute('open', '');
   }
 
   // ---------------------------------------------------------------------------
@@ -1298,7 +1502,18 @@
     if (!ui.findList.hidden && !e.target.closest('.aq-find')) findClose();
   });
 
-  ui.download.addEventListener('click', downloadCurrent);
+  ui.download.addEventListener('click', openDownload);
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="aqScope"]'), function (r) {
+    r.addEventListener('change', function () { ui.dlSearch.value = ''; refreshChoices(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="aqRows"]'), function (r) {
+    r.addEventListener('change', estimate);
+  });
+  ui.dlSearch.addEventListener('input', refreshChoices);
+  ui.dlOptions.addEventListener('change', estimate);
+  ui.dlFrom.addEventListener('change', estimate);
+  ui.dlTo.addEventListener('change', estimate);
+  ui.dlGo.addEventListener('click', function () { buildDownload(); });
 
   ui.prev.addEventListener('click', function () { stepDay(-1); });
   ui.next.addEventListener('click', function () { stepDay(1); });

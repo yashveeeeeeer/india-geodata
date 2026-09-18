@@ -13,6 +13,7 @@ permalink: /projects/air-quality/
 
   <div class="aq-head">
     <h1>India Air Quality</h1>
+    <button class="aq-btn aq-btn-primary" id="aqDownloadBtn" type="button"><svg class="aq-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 12.5h11"/></svg>Download</button>
   </div>
 
   <!-- Pollutant strip: selector and six-way comparison in one object -->
@@ -59,7 +60,7 @@ permalink: /projects/air-quality/
       </div>
       <nav class="aq-crumb" id="aqCrumb" aria-label="Zoom"></nav>
       <div class="aq-map" id="aqMap"></div>
-      <p class="aq-hint" id="aqHint">Click a state to zoom, or hold space and scroll</p>
+      <p class="aq-hint" id="aqHint">Click to zoom &middot; space + scroll</p>
       <div class="aq-scale" id="aqScale"></div>
     </div>
 
@@ -106,7 +107,6 @@ permalink: /projects/air-quality/
 
   <div class="aq-actions">
     <button class="aq-btn" id="aqChartBtn" type="button" aria-expanded="false">Period Line Chart</button>
-    <button class="aq-btn" id="aqDownloadBtn" type="button">Download Data</button>
   </div>
 
   <div class="aq-panel" id="aqPanel" hidden>
@@ -118,6 +118,60 @@ permalink: /projects/air-quality/
   </div>
 
 </div>
+
+<dialog class="aq-dl" id="aqDl" aria-labelledby="aqDlTitle">
+  <form method="dialog" class="aq-dl-form">
+    <div class="aq-dl-head">
+      <h2 id="aqDlTitle">Download data</h2>
+      <button class="aq-dl-x" value="cancel" aria-label="Close">&times;</button>
+    </div>
+
+    <fieldset class="aq-dl-group">
+      <legend>Where</legend>
+      <div class="aq-dl-scope">
+        <label><input type="radio" name="aqScope" value="india" checked>
+          <svg class="aq-ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><path d="M2.4 8h11.2M8 2.4c1.5 1.6 2.3 3.5 2.3 5.6S9.5 12 8 13.6C6.5 12 5.7 10.1 5.7 8S6.5 4 8 2.4Z"/></svg>
+          <span>All India</span></label>
+        <label><input type="radio" name="aqScope" value="state">
+          <svg class="aq-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 4.2 6 2.8l4 1.6 3.4-1.4v9L10 13.4l-4-1.6-3.4 1.4Z"/><path d="M6 2.8v9M10 4.4v9"/></svg>
+          <span>State</span></label>
+        <label><input type="radio" name="aqScope" value="city">
+          <svg class="aq-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.4 13.6V7.2l3.6-2.1 3.6 2.1v6.4"/><path d="M9.6 13.6V5.4l2-1.2 2 1.2v8.2M1.4 13.6h13.2"/></svg>
+          <span>City</span></label>
+        <label><input type="radio" name="aqScope" value="station">
+          <svg class="aq-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.2s4.4-4 4.4-7.4A4.4 4.4 0 0 0 8 2.4a4.4 4.4 0 0 0-4.4 4.4C3.6 10.2 8 14.2 8 14.2Z"/><circle cx="8" cy="6.7" r="1.6"/></svg>
+          <span>One station</span></label>
+      </div>
+      <div class="aq-dl-pick" id="aqDlPick" hidden>
+        <input type="search" id="aqDlSearch" autocomplete="off" spellcheck="false" placeholder="Search">
+        <select id="aqDlOptions" size="6" aria-label="Choose a place"></select>
+      </div>
+    </fieldset>
+
+    <fieldset class="aq-dl-group">
+      <legend>When</legend>
+      <div class="aq-dl-dates">
+        <label>From <input type="date" id="aqDlFrom"></label>
+        <label>To <input type="date" id="aqDlTo"></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="aq-dl-group">
+      <legend>A row for each</legend>
+      <div class="aq-dl-rows">
+        <label><input type="radio" name="aqRows" value="station" checked><span>Station</span></label>
+        <label><input type="radio" name="aqRows" value="city"><span>City</span></label>
+      </div>
+    </fieldset>
+
+    <p class="aq-dl-size" id="aqDlSize"></p>
+
+    <div class="aq-dl-actions">
+      <button class="aq-btn" value="cancel">Cancel</button>
+      <button class="aq-btn aq-btn-primary" id="aqDlGo" value="download" type="button"><svg class="aq-ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 12.5h11"/></svg>Download CSV</button>
+    </div>
+  </form>
+</dialog>
 
 <div class="aq-tip" id="aqTip"></div>
 
