@@ -8,18 +8,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css?v=11">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css?v=12">
+  {% if page.url contains "/projects/air-quality/" %}<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/aq.css?v={{ site.time | date: '%s' }}">
+  <link rel="preload" as="fetch" crossorigin="anonymous" href="{{ site.baseurl }}/maps/data/states.topo.json">{% endif %}
   {% if page.url contains "/maps/" %}<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/maps.css?v={{ site.time | date: '%s' }}">
   <link rel="preload" as="fetch" crossorigin="anonymous" href="{{ site.baseurl }}/maps/data/districts.topo.json?v={{ site.time | date: '%s' }}">{% endif %}
 </head>
-<body{% if page.url contains "/maps/" %} class="page-maps"{% endif %}>
+<body{% if page.url contains "/maps/" %} class="page-maps"{% elsif page.url contains "/projects/air-quality/" %} class="page-aq"{% endif %}>
   <header class="site-header">
     <div class="container header-inner">
       <a href="{{ site.baseurl }}/" class="site-title">India Geodata</a>
       <nav class="site-nav">
         <a href="{{ site.baseurl }}/">Home</a>
         <a href="{{ site.baseurl }}/maps/">Map Maker</a>
+        <span class="nav-drop">
+          <a href="{{ site.baseurl }}/projects/">Projects<svg class="nav-caret" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+          <span class="nav-drop-menu">
+            <a href="{{ site.baseurl }}/projects/air-quality/">Air Quality</a>
+          </span>
+        </span>
         <a href="{{ site.baseurl }}/about">About</a>
         <a href="https://github.com/yashveeeeeeer/india-geodata" target="_blank" rel="noopener" class="nav-github">GitHub</a>
       </nav>
