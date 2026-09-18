@@ -41,7 +41,7 @@ def slug(s):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", str(s).lower())).strip("-")
 
 
-def get(key, limit, offset, tries=6):
+def get(key, limit, offset, tries=4, timeout=45.0):
     """One page, retrying on throttling and transient server errors. data.gov.in
     returns 429 readily, and an hourly job must not fall over because of it."""
     q = urllib.parse.urlencode({"api-key": key, "format": "json",
@@ -50,8 +50,13 @@ def get(key, limit, offset, tries=6):
     delay = 3
     for attempt in range(tries):
         try:
-            with urllib.request.urlopen(req, timeout=90) as r:
-                return json.loads(r.read().decode("utf-8"))
+            t0 = time.time()
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                out = json.loads(r.read().decode("utf-8"))
+            if offset == 0:
+                print(f"  first page: {len(out.get('records') or [])} rows "
+                      f"in {time.time() - t0:.1f}s", flush=True)
+            return out
         except urllib.error.HTTPError as e:
             if e.code not in (429, 500, 502, 503, 504) or attempt == tries - 1:
                 raise
@@ -59,24 +64,30 @@ def get(key, limit, offset, tries=6):
             print(f"      HTTP {e.code}, waiting {wait}s", flush=True)
             time.sleep(wait)
             delay = min(delay * 2, 120)
-        except urllib.error.URLError:
+        except (urllib.error.URLError, TimeoutError) as e:
+            print(f"      request timed out or failed ({e}); attempt {attempt + 1} of {tries}",
+                  flush=True)
             if attempt == tries - 1:
-                raise
+                raise SystemExit(
+                    "data.gov.in did not respond. The API answers quickly from a normal "
+                    "connection, so a persistent timeout here usually means the runner's "
+                    "address is being throttled, or the page size is too large. "
+                    "Try a smaller --page.")
             time.sleep(delay)
-            delay = min(delay * 2, 120)
+            delay = min(delay * 2, 60)
 
 
-def fetch_all(key, page=1000, pause=0.0):
+def fetch_all(key, page=100, pause=0.0, timeout=45.0):
     """Page until the reported total is covered. A key with a smaller ceiling than
     `page` simply returns fewer rows, and the page size adapts to what came back."""
-    first = get(key, page, 0)
+    first = get(key, page, 0, timeout=timeout)
     total = int(first.get("total") or 0)
     rows = list(first.get("records") or [])
     if not rows:
         return rows, total
     step = len(rows)
     while len(rows) < total:
-        batch = get(key, step, len(rows))
+        batch = get(key, step, len(rows), timeout=timeout)
         got = batch.get("records") or []
         if not got:
             break
@@ -111,17 +122,40 @@ def city_lookup(cities):
     return exact, bare
 
 
+def _norm(v):
+    return re.sub(r"[^a-z0-9]", "", (v or "").lower())
+
+
+def _without_agency(v):
+    """Drop the trailing " - OPERATOR". The two sources disagree about who runs a
+    monitor — the feed says IITM where our records say IMD for the same physical
+    station — so the operator is not safe to match on."""
+    return _norm((v or "").rsplit(" - ", 1)[0])
+
+
 def station_lookup(stations):
     """The feed names a monitor ("Alipur, Delhi - DPCC") where our records carry an
     id. Both come from CPCB's registry, so the names line up once punctuation and
-    spacing are stripped."""
-    return {re.sub(r"[^a-z0-9]", "", (s.get("name") or "").lower()): s["id"]
-            for s in stations if s.get("name")}
+    spacing are stripped. Falls back to the name without its operator suffix, but
+    only where that is unambiguous."""
+    exact, loose, clash = {}, {}, set()
+    for st in stations:
+        name = st.get("name")
+        if not name:
+            continue
+        exact[_norm(name)] = st["id"]
+        b = _without_agency(name)
+        if b in loose and loose[b] != st["id"]:
+            clash.add(b)
+        loose[b] = st["id"]
+    for b in clash:
+        loose.pop(b, None)
+    return exact, loose
 
 
 def aggregate(rows, cities, stations=None):
     exact, bare = city_lookup(cities)
-    by_name = station_lookup(stations or [])
+    by_name, by_base = station_lookup(stations or [])
     per_station = defaultdict(dict)
     unmatched_stations = set()
     # pollutant -> city id -> [station values]
@@ -143,7 +177,8 @@ def aggregate(rows, cities, stations=None):
             continue
         acc[p][cid].append(v)
         used.add(r.get("station", ""))
-        sid = by_name.get(re.sub(r"[^a-z0-9]", "", (r.get("station") or "").lower()))
+        raw = r.get("station") or ""
+        sid = by_name.get(_norm(raw)) or by_base.get(_without_agency(raw))
         if sid:
             per_station[p][sid] = v
         elif r.get("station"):
@@ -175,7 +210,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--key", default=os.environ.get("DATA_GOV_IN_KEY", SAMPLE_KEY))
     ap.add_argument("--snapshot-dir", default=os.path.join(".aq-snapshots"))
-    ap.add_argument("--page", type=int, default=1000)
+    ap.add_argument("--page", type=int, default=100)
+    ap.add_argument("--timeout", type=float, default=45.0)
     ap.add_argument("--pause", type=float, default=0.0,
                     help="seconds between pages; needed only for rate-limited keys")
     args = ap.parse_args()
@@ -185,7 +221,7 @@ def main():
     cities = json.load(open(os.path.join(data_dir, "cities.json"), encoding="utf-8"))
 
     try:
-        rows, total = fetch_all(args.key, args.page, args.pause)
+        rows, total = fetch_all(args.key, args.page, args.pause, args.timeout)
     except urllib.error.HTTPError as e:
         sys.exit(f"data.gov.in returned HTTP {e.code}")
     if not rows:
