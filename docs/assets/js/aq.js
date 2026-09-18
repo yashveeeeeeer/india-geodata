@@ -190,9 +190,11 @@
     return 0.22 + 0.78 * Math.min(1, (cover || 0) / 60);
   }
 
+  var dailySpan = null;
   function loadDailyIndex() {
     return getJSON(DATA + 'daily/index.json').then(function (j) {
       dailyIndex = j.pollutants || {};
+      dailySpan = (j.from && j.to) ? [j.from, j.to] : null;
       var yrs = dailyIndex[current.pollutant] || [];
       current.year = yrs.length ? yrs[yrs.length - 1] : null;
     }).catch(function () { dailyIndex = null; });
@@ -1405,8 +1407,9 @@
       (dailyIndex[p] || []).forEach(function (y) { if (yrs.indexOf(y) === -1) yrs.push(y); });
     });
     yrs.sort();
-    var min = yrs.length ? yrs[0] + '-01-01' : '';
-    var max = yrs.length ? yrs[yrs.length - 1] + '-12-31' : '';
+    // the span the data actually covers, not the calendar years it touches
+    var min = dailySpan ? dailySpan[0] : (yrs.length ? yrs[0] + '-01-01' : '');
+    var max = dailySpan ? dailySpan[1] : (yrs.length ? yrs[yrs.length - 1] + '-12-31' : '');
     ui.dlFrom.min = min; ui.dlFrom.max = max;
     ui.dlTo.min = min; ui.dlTo.max = max;
     ui.dlFrom.value = (current.range && current.range[0]) || min;
