@@ -1,0 +1,126 @@
+---
+layout: default
+title: "India Air Quality: hourly data from every monitoring station"
+description: "Hourly air quality for India from CPCB's monitoring network. Map PM2.5, PM10, NO2, CO, ozone and ammonia by state, district or city. Chart any period and download the data. Free, no sign-up."
+permalink: /projects/air-quality/
+---
+
+<div class="aq" id="aq"
+     data-maps="{{ site.baseurl }}/maps/data/"
+     data-data="{{ site.baseurl }}/projects/air-quality/data/">
+
+  <noscript><p class="aq-note">This page needs JavaScript.</p></noscript>
+
+  <div class="aq-head">
+    <h1>India Air Quality</h1>
+  </div>
+
+  <!-- Pollutant strip: selector and six-way comparison in one object -->
+  <div class="aq-pollutants" id="aqPollutants" role="tablist" aria-label="Pollutant">
+    <button class="aq-pol is-on" role="tab" aria-selected="true" data-pol="PM2.5">
+      <span class="aq-pol-name">PM2.5</span>
+      <span class="aq-pol-spark"></span>
+      <span class="aq-pol-val"></span>
+    </button>
+    <button class="aq-pol" role="tab" aria-selected="false" data-pol="PM10">
+      <span class="aq-pol-name">PM10</span>
+      <span class="aq-pol-spark"></span>
+      <span class="aq-pol-val"></span>
+    </button>
+    <button class="aq-pol" role="tab" aria-selected="false" data-pol="NO2">
+      <span class="aq-pol-name">NO<sub>2</sub></span>
+      <span class="aq-pol-spark"></span>
+      <span class="aq-pol-val"></span>
+    </button>
+    <button class="aq-pol" role="tab" aria-selected="false" data-pol="CO">
+      <span class="aq-pol-name">CO</span>
+      <span class="aq-pol-spark"></span>
+      <span class="aq-pol-val"></span>
+    </button>
+    <button class="aq-pol" role="tab" aria-selected="false" data-pol="OZONE">
+      <span class="aq-pol-name">O<sub>3</sub></span>
+      <span class="aq-pol-spark"></span>
+      <span class="aq-pol-val"></span>
+    </button>
+    <button class="aq-pol" role="tab" aria-selected="false" data-pol="NH3">
+      <span class="aq-pol-name">NH<sub>3</sub></span>
+      <span class="aq-pol-spark"></span>
+      <span class="aq-pol-val"></span>
+    </button>
+  </div>
+
+  <div class="aq-main">
+
+    <div class="aq-stage">
+      <div class="aq-levels" id="aqLevels" role="tablist" aria-label="Level">
+        <button role="tab" aria-selected="false" data-level="states">State</button>
+        <button role="tab" aria-selected="false" data-level="districts">District</button>
+        <button class="is-on" role="tab" aria-selected="true" data-level="cities">City</button>
+      </div>
+      <nav class="aq-crumb" id="aqCrumb" aria-label="Zoom"></nav>
+      <div class="aq-map" id="aqMap"></div>
+      <p class="aq-hint" id="aqHint">Click a state to zoom, or hold space and scroll</p>
+      <div class="aq-scale" id="aqScale"></div>
+    </div>
+
+    <aside class="aq-rail">
+      <!-- The only way to reach a city without a mouse, and the fastest way with one. -->
+      <div class="aq-find">
+        <input type="search" id="aqFind" autocomplete="off" spellcheck="false"
+               placeholder="Search city" aria-label="Search for a city"
+               role="combobox" aria-expanded="false" aria-controls="aqFindList">
+        <ul class="aq-find-list" id="aqFindList" role="listbox" aria-label="Cities" hidden></ul>
+      </div>
+      <div class="aq-place" id="aqPlace">India</div>
+      <div class="aq-where" id="aqWhere"></div>
+      <div class="aq-reading">
+        <span class="aq-num" id="aqValue">&mdash;</span>
+        <span class="aq-unit" id="aqUnit">&micro;g/m&sup3;</span>
+      </div>
+      <div class="aq-versus" id="aqVersus"></div>
+      <div class="aq-gauge" id="aqGauge"></div>
+      <div class="aq-stats" id="aqStats"></div>
+
+      <!-- Hidden until they have something to draw, so the rail never shows empty boxes. -->
+      <div class="aq-block" id="aqCycleBlock" hidden>
+        <div class="aq-block-label">hour &times; month</div>
+        <div class="aq-cycle" id="aqCycle"></div>
+      </div>
+
+      <div class="aq-block" id="aqExceedBlock" hidden>
+        <div class="aq-block-label">days above NAAQS</div>
+        <div class="aq-exceed" id="aqExceed"></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Time strip: instant selector, full history and range brush in one control -->
+  <div class="aq-time">
+    <button class="aq-step" id="aqPrev" type="button" aria-label="Previous hour">&#9664;</button>
+    <div class="aq-strip" id="aqStrip"></div>
+    <button class="aq-step" id="aqNext" type="button" aria-label="Next hour">&#9654;</button>
+    <span class="aq-when" id="aqWhen"></span>
+    <span class="aq-stamp" id="aqStamp"></span>
+  </div>
+
+  <div class="aq-actions">
+    <button class="aq-btn" id="aqChartBtn" type="button" aria-expanded="false">Period Line Chart</button>
+    <button class="aq-btn" id="aqDownloadBtn" type="button">Download Data</button>
+  </div>
+
+  <div class="aq-panel" id="aqPanel" hidden>
+    <div class="aq-panel-tabs" id="aqPanelTabs" role="tablist">
+      <button class="is-on" role="tab" aria-selected="true" data-view="line">Line</button>
+      <button role="tab" aria-selected="false" data-view="heat">Heatmap</button>
+    </div>
+    <div class="aq-chart" id="aqChart"></div>
+  </div>
+
+</div>
+
+<div class="aq-tip" id="aqTip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous"></script>
+<script src="{{ site.baseurl }}/assets/js/aq.js?v={{ site.time | date: '%s' }}"></script>

@@ -88,6 +88,37 @@ code, pre { font-family: var(--font-mono); }
 }
 .site-nav a:hover { color: #fff; border-bottom-color: var(--color-accent); }
 
+/* Projects dropdown: opens on hover or keyboard focus; on touch the parent link
+   just goes to the Projects page, so nothing is unreachable without JavaScript. */
+.nav-drop { position: relative; display: inline-flex; align-items: center; }
+.nav-drop > a { display: inline-flex; align-items: center; gap: 4px; }
+.nav-caret { transition: transform var(--transition); }
+.nav-drop:hover .nav-caret, .nav-drop:focus-within .nav-caret { transform: rotate(180deg); }
+.nav-drop-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  min-width: 150px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  padding: 4px;
+  display: none;
+  flex-direction: column;
+}
+.nav-drop:hover .nav-drop-menu, .nav-drop:focus-within .nav-drop-menu { display: flex; }
+.nav-drop-menu a {
+  color: var(--color-text);
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  border-bottom: none;
+  white-space: nowrap;
+}
+.nav-drop-menu a:hover { color: var(--color-text); background: var(--color-bg-light); border-bottom-color: transparent; }
+@media (hover: none) { .nav-drop-menu { display: none !important; } }
+
 /* --- Container --- */
 .container { width: 100%; max-width: var(--container-max); margin: 0 auto; padding: 24px; }
 main { flex: 1; }
@@ -424,6 +455,25 @@ main { flex: 1; }
   margin: 8px 0 12px;
 }
 .about-page pre code { color: inherit; }
+
+/* ==========================================================================
+   Projects
+   ========================================================================== */
+.projects-page { max-width: 640px; margin: 0 auto; padding: 40px 24px 60px; }
+.projects-page h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+.projects-intro { color: var(--color-muted); font-size: 0.95rem; margin-bottom: 28px; }
+.project-card {
+  display: block;
+  padding: 18px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  transition: border-color var(--transition);
+}
+.project-card:hover { border-color: var(--color-accent); color: var(--color-text); }
+.project-card h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+.project-card p { font-size: 0.9rem; color: var(--color-text); margin-bottom: 8px; }
+.project-meta { font-size: 0.78rem; color: var(--color-muted); }
 
 /* ==========================================================================
    Responsive

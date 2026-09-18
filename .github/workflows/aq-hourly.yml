@@ -1,0 +1,104 @@
+name: Air quality hourly
+
+# Pulls the current hour of CPCB readings, refreshes what the page reads, and
+# folds the raw rows into the day's Parquet archive.
+#
+# Setup, once: add a free data.gov.in key as the repository secret
+# DATA_GOV_IN_KEY (Settings -> Secrets and variables -> Actions). Without it the
+# job falls back to the published sample key, which is heavily rate limited.
+#
+# The archive is a Release asset, not a committed file: an hourly commit of a
+# growing data file would put gigabytes into git history within a year.
+
+on:
+  schedule:
+    - cron: '20 * * * *'      # every hour; GitHub may run it a few minutes late
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aq-hourly
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install --quiet pandas pyarrow
+
+      - name: Fetch the current hour
+        env:
+          DATA_GOV_IN_KEY: ${{ secrets.DATA_GOV_IN_KEY }}
+        run: python scripts/fetch-aq-latest.py --snapshot-dir .aq-snapshots
+
+      - name: Pull down today's archive, if it exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          day=$(TZ=Asia/Kolkata date +%F)
+          mkdir -p .aq-archive
+          # Distinguish "no archive yet" from "the download failed". Treating a
+          # failed download as an empty day would make the upload below clobber
+          # the whole day's accumulated readings with just this hour's.
+          if ! gh release view aq-live >/dev/null 2>&1; then
+            echo "release aq-live does not exist yet"
+            echo "existing=" >> "$GITHUB_ENV"
+          elif gh release view aq-live --json assets \
+                 --jq '.assets[].name' | grep -qx "aq-$day.parquet"; then
+            echo "archive for $day exists; it must download cleanly before we rewrite it"
+            gh release download aq-live --pattern "aq-$day.parquet" --dir .aq-archive --clobber
+            echo "existing=.aq-archive/aq-$day.parquet" >> "$GITHUB_ENV"
+          else
+            echo "no archive yet for $day"
+            echo "existing=" >> "$GITHUB_ENV"
+          fi
+
+      - name: Fold the snapshot into the archive
+        run: |
+          python scripts/append-aq-archive.py \
+            --snapshot-dir .aq-snapshots \
+            --out .aq-archive \
+            --existing "${existing}"
+
+      - name: Publish the archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          day=$(TZ=Asia/Kolkata date +%F)
+          gh release view aq-live >/dev/null 2>&1 || \
+            gh release create aq-live --title "Air quality, live archive" --notes \
+              "Hourly CPCB readings, one Parquet file per day. Rebuilt by .github/workflows/aq-hourly.yml."
+          gh release upload aq-live ".aq-archive/aq-$day.parquet" --clobber
+          # Only now are the snapshots safe to drop. Deleting them earlier would
+          # lose the hour outright if this upload failed.
+          rm -f .aq-snapshots/aq-*.csv
+
+      - name: Commit the refreshed feed
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/projects/air-quality/data/latest.json
+          if git diff --cached --quiet; then
+            echo "feed unchanged, nothing to commit"
+            exit 0
+          fi
+          git commit -m "Air quality: refresh the hourly feed"
+          # main may have moved while this ran; rebase rather than fail the hour
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            echo "push rejected, rebasing (attempt $attempt)"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          done
+          echo "could not push after 3 attempts" >&2
+          exit 1

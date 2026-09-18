@@ -1,0 +1,51 @@
+{
+  "name": "air-quality-monitor-coverage",
+  "title": "Air Quality Monitor Coverage by State and District",
+  "description": "How well each state and district is covered by India's continuous air quality monitoring network. For every unit: the number of CPCB monitors inside it, the number of monitored cities, and the share of its area lying within 50 km of any monitor. Nationally 36.2% of India's land area is within 50 km of a monitor, and 564 of 785 districts have none at all — the figure behind any claim that a district or state has an air quality reading.",
+  "category": "environment",
+  "level": "district",
+  "coverage": {
+    "spatial": "India (national)",
+    "temporal": "2026",
+    "admin_level": 3
+  },
+  "sources": [
+    {
+      "name": "Continuous Ambient Air Quality Monitoring network",
+      "url": "https://airquality.cpcb.gov.in/",
+      "authority": "Central Pollution Control Board"
+    },
+    {
+      "name": "India Air Quality Database",
+      "url": "https://airquality.xkdr.org/",
+      "authority": "XKDR Forum"
+    },
+    {
+      "name": "Local Government Directory boundaries",
+      "url": "https://lgdirectory.gov.in/",
+      "authority": "Ministry of Panchayati Raj"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "formats": [
+    "csv"
+  ],
+  "coordinate_system": "EPSG:4326",
+  "methodology": "Monitor positions are buffered by 50 km on an equal-area projection (EPSG:6933) and intersected with each unit's geometry. Monitors just outside a border still count toward it, since they inform the air on both sides. Units are keyed by boundary feature id rather than LGD code, because two Jammu & Kashmir districts share the code 0. Rebuild with scripts/build-aq-coverage.py.",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "files": [
+    {
+      "name": "monitor-coverage.csv",
+      "format": "csv",
+      "storage": "repo"
+    }
+  ],
+  "last_updated": "2026-09-18"
+}
