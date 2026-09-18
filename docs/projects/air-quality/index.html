@@ -13,6 +13,7 @@ permalink: /projects/air-quality/
 
   <div class="aq-head">
     <h1>India Air Quality</h1>
+    <button class="aq-btn aq-btn-primary" id="aqDownloadBtn" type="button">Download Data</button>
   </div>
 
   <!-- Pollutant strip: selector and six-way comparison in one object -->
@@ -106,7 +107,6 @@ permalink: /projects/air-quality/
 
   <div class="aq-actions">
     <button class="aq-btn" id="aqChartBtn" type="button" aria-expanded="false">Period Line Chart</button>
-    <button class="aq-btn" id="aqDownloadBtn" type="button">Download Data</button>
   </div>
 
   <div class="aq-panel" id="aqPanel" hidden>
@@ -118,6 +118,48 @@ permalink: /projects/air-quality/
   </div>
 
 </div>
+
+<dialog class="aq-dl" id="aqDl" aria-labelledby="aqDlTitle">
+  <form method="dialog" class="aq-dl-form">
+    <div class="aq-dl-head">
+      <h2 id="aqDlTitle">Download data</h2>
+      <button class="aq-dl-x" value="cancel" aria-label="Close">&times;</button>
+    </div>
+
+    <fieldset class="aq-dl-group">
+      <legend>Where</legend>
+      <label><input type="radio" name="aqScope" value="india" checked> All India</label>
+      <label><input type="radio" name="aqScope" value="state"> State</label>
+      <label><input type="radio" name="aqScope" value="city"> City</label>
+      <label><input type="radio" name="aqScope" value="station"> One monitoring station</label>
+      <div class="aq-dl-pick" id="aqDlPick" hidden>
+        <input type="search" id="aqDlSearch" autocomplete="off" spellcheck="false" placeholder="Search">
+        <select id="aqDlOptions" size="6" aria-label="Choose a place"></select>
+      </div>
+    </fieldset>
+
+    <fieldset class="aq-dl-group">
+      <legend>When</legend>
+      <div class="aq-dl-dates">
+        <label>From <input type="date" id="aqDlFrom"></label>
+        <label>To <input type="date" id="aqDlTo"></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="aq-dl-group">
+      <legend>Rows</legend>
+      <label><input type="radio" name="aqRows" value="station" checked> One per monitoring station</label>
+      <label><input type="radio" name="aqRows" value="city"> One per city</label>
+    </fieldset>
+
+    <p class="aq-dl-size" id="aqDlSize"></p>
+
+    <div class="aq-dl-actions">
+      <button class="aq-btn" value="cancel">Cancel</button>
+      <button class="aq-btn aq-btn-primary" id="aqDlGo" value="download" type="button">Download CSV</button>
+    </div>
+  </form>
+</dialog>
 
 <div class="aq-tip" id="aqTip"></div>
 
