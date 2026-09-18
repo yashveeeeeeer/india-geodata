@@ -1085,7 +1085,18 @@
     }).slice(0, 400);
   }
 
+  // :has() covers current browsers; this keeps the selected state visible on older ones.
+  function markPicked() {
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.aq-dl-scope label, .aq-dl-rows label'),
+      function (l) {
+        var input = l.querySelector('input');
+        l.classList.toggle('is-on', !!(input && input.checked));
+      });
+  }
+
   function refreshChoices() {
+    markPicked();
     var kind = scope();
     ui.dlPick.hidden = kind === 'india';
     if (kind === 'india') { estimate(); return; }
@@ -1120,6 +1131,7 @@
   }
 
   function estimate() {
+    markPicked();
     var sel = selectedStations();
     var days = dayCount();
     var rows;
