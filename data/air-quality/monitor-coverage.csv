@@ -1,0 +1,822 @@
+level,feature_id,lgd_code,name,stations,cities,pct_area_within_50km,area_km2
+state,27,27,Maharashtra,94,30,47.7,307477
+state,9,9,Uttar Pradesh,46,18,41.8,241015
+state,8,8,Rajasthan,41,31,54.4,342210
+state,7,7,Delhi,41,2,100.0,1484
+state,6,6,Haryana,34,23,99.5,44195
+state,10,10,Bihar,33,22,86.8,94154
+state,29,29,Karnataka,29,16,48.2,191796
+state,23,23,Madhya Pradesh,27,13,28.4,308228
+state,19,19,West Bengal,22,7,41.3,85522
+state,33,33,Tamil Nadu,17,9,44.9,130006
+state,21,21,Odisha,17,15,37.4,155547
+state,24,24,Gujarat,16,6,14.8,183734
+state,36,36,Telangana,15,1,14.0,112125
+state,22,22,Chhattisgarh,14,8,25.8,135171
+state,28,28,Andhra Pradesh,12,9,30.7,162947
+state,18,18,Assam,9,6,45.1,78432
+state,3,3,Punjab,7,7,65.2,50371
+state,32,32,Kerala,6,5,53.6,38874
+state,4,4,Chandigarh,4,1,100.0,115
+state,5,5,Uttarakhand,2,2,20.2,53414
+state,34,34,Puducherry,1,1,60.7,497
+state,2,2,Himachal Pradesh,1,1,10.2,55865
+state,20,20,Jharkhand,1,1,23.3,79853
+state,11,11,Sikkim,1,1,63.3,7099
+state,13,13,Nagaland,1,1,39.5,16586
+state,12,12,Arunachal Pradesh,1,1,5.0,82099
+state,17,17,Meghalaya,1,1,38.0,22414
+state,16,16,Tripura,1,1,36.7,10455
+state,15,15,Mizoram,1,1,35.9,21084
+state,31,31,Lakshadweep,0,0,0.0,18
+state,38,38,Dadra & Nagar Haveli and Daman & Diu,0,0,93.6,601
+state,30,30,Goa,0,0,0.0,3698
+state,1,1,Jammu & Kashmir,0,0,0.0,54648
+state,37,37,Ladakh,0,0,0.0,168220
+state,14,14,Manipur,0,0,14.1,22344
+state,35,35,Andaman & Nicobar Islands,0,0,0.0,7739
+district,483,483,Mumbai Suburban,25,1,100.0,430
+district,525,525,Bengaluru Urban,14,1,100.0,2191
+district,497,497,Thane,14,8,92.6,4275
+district,490,490,Pune,14,2,67.5,15654
+district,438,438,Ahmadabad,9,2,55.7,7245
+district,79,79,New Delhi,9,1,100.0,158
+district,568,568,Chennai,7,1,100.0,335
+district,482,482,Mumbai,7,1,100.0,62
+district,80,80,North,7,1,100.0,292
+district,162,162,Lucknow,6,1,100.0,2531
+district,171,171,Moradabad,6,1,100.0,1947
+district,62,62,Gurugram,6,3,100.0,1254
+district,670,670,South East,6,1,100.0,102
+district,212,212,Patna,6,1,100.0,3194
+district,704,704,Paschim Bardhaman,6,2,100.0,1811
+district,315,315,Kolkata,6,1,100.0,185
+district,700,700,Medchal Malkajgiri,5,1,100.0,1074
+district,487,487,Nashik,5,2,81.5,15518
+district,60,60,Faridabad,5,2,100.0,740
+district,102,102,Jaipur,5,1,100.0,2124
+district,118,118,Agra,5,1,97.5,4045
+district,313,313,Howrah,5,1,100.0,1468
+district,618,618,Kamrup Metro,5,2,100.0,962
+district,691,691,Sangareddy,4,1,61.1,4448
+district,507,507,Hyderabad,4,1,100.0,189
+district,387,387,Raipur,4,1,100.0,2905
+district,484,484,Nagpur,4,1,75.9,9900
+district,446,446,Gandhinagar,4,1,100.0,2108
+district,44,44,Chandigarh,4,1,100.0,115
+district,144,144,Gautam Buddha Nagar,4,2,100.0,1412
+district,145,145,Ghaziabad,4,2,100.0,913
+district,77,77,Central,4,2,100.0,106
+district,671,671,Shahdara,4,1,100.0,33
+district,69,69,Mahendragarh,4,1,100.0,1936
+district,407,407,Gwalior,4,1,93.1,4561
+district,410,410,Indore,4,1,100.0,3904
+district,411,411,Jabalpur,4,1,98.6,5095
+district,386,386,Raigarh,4,4,90.2,5552
+district,187,187,Varanasi,4,1,100.0,1531
+district,196,196,Gaya,4,1,99.5,4972
+district,361,361,Kendujhar,4,4,96.7,8304
+district,496,496,Solapur,3,1,37.8,14854
+district,749,749,Ntr,3,1,64.3,3288
+district,378,378,Durg,3,1,100.0,2296
+district,491,491,Raigad,3,2,89.4,6978
+district,469,469,Aurangabad,3,1,68.2,10123
+district,107,107,Jodhpur,3,1,100.0,1551
+district,169,169,Meerut,3,1,100.0,2592
+district,82,82,North West,3,1,100.0,153
+district,85,85,West,3,1,100.0,132
+district,64,64,Jhajjar,3,2,100.0,1857
+district,109,109,Kota,3,1,96.3,5089
+district,396,396,Bhopal,3,1,75.0,2764
+district,425,425,Sagar,3,1,68.8,10262
+district,120,120,Prayagraj,3,1,87.5,5478
+district,373,373,Sundargarh,3,2,89.3,9729
+district,303,303,24 Paraganas North,3,2,70.1,4008
+district,192,192,Bhagalpur,3,2,100.0,2556
+district,208,208,Muzaffarpur,3,1,100.0,3182
+district,565,565,Thiruvananthapuram,2,1,100.0,2193
+district,752,752,Tirupati,2,2,72.2,8488
+district,569,569,Coimbatore,2,1,82.1,4720
+district,518,518,Ranga Reddy,2,1,78.0,4997
+district,473,473,Chandrapur,2,1,58.5,11360
+district,468,468,Amravati,2,1,53.9,12208
+district,665,665,Palghar,2,2,99.4,5273
+district,480,480,Kolhapur,2,1,74.8,7671
+district,536,536,Dharwad,2,2,99.3,4258
+district,403,403,Dhar,2,2,55.0,8152
+district,36,36,Ludhiana,2,2,99.7,3689
+district,157,157,Kanpur Nagar,2,1,94.0,3002
+district,134,134,Bulandshahr,2,2,97.7,3520
+district,84,84,South West,2,1,100.0,282
+district,63,63,Hisar,2,1,100.0,4077
+district,770,770,Khairthal-Tijara,2,1,100.0,2009
+district,83,83,South,2,1,100.0,159
+district,143,143,Firozabad,2,1,100.0,2422
+district,383,383,Korba,2,1,82.4,6600
+district,209,209,Nalanda,2,2,100.0,2367
+district,211,211,Pashchim Champaran,2,2,90.8,5227
+district,365,365,Mayurbhanj,2,2,87.3,10407
+district,362,362,Khordha,2,1,66.6,2883
+district,344,344,Anugul,2,2,79.8,6375
+district,547,547,Shivamogga,1,1,51.8,8475
+district,534,534,Dakshina Kannada,1,1,82.2,4860
+district,555,555,Ernakulam,1,1,88.1,3062
+district,566,566,Thrissur,1,1,96.0,3021
+district,559,559,Kollam,1,1,90.0,2483
+district,594,594,Tuticorin,1,1,79.7,4735
+district,578,578,Madurai,1,1,97.5,3711
+district,582,582,Pudukkottai,1,1,86.5,4654
+district,583,583,Ramanathapuram,1,1,85.2,4098
+district,586,586,Thanjavur,1,1,85.9,3430
+district,600,600,Pondicherry,1,1,100.0,293
+district,589,589,Thiruvallur,1,1,98.8,3223
+district,574,574,Kanchipuram,1,1,64.1,1741
+district,630,630,Chikkaballapura,1,1,89.7,4242
+district,631,631,Ramanagara,1,1,93.2,3514
+district,503,503,Chittoor,1,1,72.0,6703
+district,573,573,Erode,1,1,62.8,5112
+district,545,545,Mysuru,1,1,89.2,6317
+district,541,541,Kodagu,1,1,97.2,4101
+district,557,557,Kannur,1,1,98.3,2969
+district,548,548,Tumakuru,1,1,58.5,10589
+district,532,532,Chikkamagaluru,1,1,81.4,7202
+district,524,524,Bagalkote,1,1,81.9,6560
+district,530,530,Vijayapura,1,1,70.3,10495
+district,538,538,Kalaburagi,1,1,81.0,10958
+district,635,635,Yadgir,1,1,69.6,5278
+district,502,502,Anantapur,1,1,56.5,10188
+district,504,504,Y.S.R.,1,1,58.2,10147
+district,510,510,Krishna,1,1,56.1,3833
+district,505,505,East Godavari,1,1,100.0,2610
+district,506,506,Guntur,1,1,83.5,2420
+district,485,485,Nanded,1,1,44.9,10529
+district,489,489,Parbhani,1,1,89.4,6304
+district,481,481,Latur,1,1,76.3,7206
+district,479,479,Jalna,1,1,70.3,7679
+district,478,478,Jalgaon,1,1,81.5,11794
+district,467,467,Akola,1,1,91.9,5433
+district,474,474,Dhule,1,1,57.6,7189
+district,459,459,Surat,1,1,88.6,4336
+district,442,442,Bharuch,1,1,81.1,4931
+district,462,462,Valsad,1,1,95.1,2947
+district,466,466,Ahmednagar,1,1,48.4,17096
+district,527,527,Belagavi,1,1,47.5,13415
+district,423,423,Ratlam,1,1,79.4,4857
+district,88,88,Banswara,1,1,96.2,4512
+district,99,99,Dungarpur,1,1,97.5,3769
+district,117,117,Udaipur,1,1,87.1,9206
+district,629,629,Pratapgarh,1,1,96.4,4439
+district,92,92,Bhilwara,1,1,78.4,6297
+district,112,112,Rajsamand,1,1,78.9,4634
+district,111,111,Pali,1,1,86.4,9905
+district,104,104,Jalore,1,1,87.0,5811
+district,115,115,Sirohi,1,1,85.1,5135
+district,778,778,Jodhpur Gramin,1,1,54.8,11729
+district,86,86,Ajmer,1,1,95.3,4055
+district,110,110,Nagaur,1,1,68.0,11012
+district,114,114,Sikar,1,1,97.9,5806
+district,96,96,Churu,1,1,44.4,13850
+district,101,101,Hanumangarh,1,1,62.4,9713
+district,93,93,Bikaner,1,1,34.1,26101
+district,103,103,Jaisalmer,1,1,20.4,38448
+district,27,27,Amritsar,1,1,99.9,2676
+district,100,100,Ganganagar,1,1,64.7,6217
+district,28,28,Bathinda,1,1,100.0,3374
+district,74,74,Sirsa,1,1,100.0,4272
+district,61,61,Fatehabad,1,1,100.0,2525
+district,41,41,Patiala,1,1,100.0,3324
+district,30,30,Fatehgarh Sahib,1,1,100.0,1145
+district,42,42,Rupnagar,1,1,100.0,1376
+district,25,25,Solan,1,1,100.0,1935
+district,70,70,Panchkula,1,1,100.0,881
+district,68,68,Kurukshetra,1,1,100.0,1682
+district,66,66,Kaithal,1,1,100.0,2275
+district,67,67,Karnal,1,1,100.0,2475
+district,76,76,Yamunanagar,1,1,100.0,1723
+district,49,49,Dehradun,1,1,75.3,3103
+district,130,130,Bareilly,1,1,96.1,4117
+district,56,56,Udam Singh Nagar,1,1,46.5,2670
+district,619,619,Palwal,1,1,100.0,1358
+district,172,172,Muzaffarnagar,1,1,100.0,2736
+district,124,124,Baghpat,1,1,100.0,1323
+district,71,71,Panipat,1,1,100.0,1302
+district,78,78,East,1,1,100.0,31
+district,75,75,Sonipat,1,1,100.0,2180
+district,65,65,Jind,1,1,100.0,2730
+district,59,59,Bhiwani,1,1,92.9,3292
+district,701,701,Charki Dadri,1,1,100.0,1384
+district,106,106,Jhunjhunu,1,1,98.8,4672
+district,72,72,Rewari,1,1,100.0,1552
+district,97,97,Dausa,1,1,89.4,3420
+district,87,87,Alwar,1,1,98.1,4750
+district,113,113,Sawai Madhopur,1,1,99.4,3661
+district,108,108,Karauli,1,1,99.8,3830
+district,98,98,Dholpur,1,1,100.0,3037
+district,91,91,Bharatpur,1,1,96.0,2895
+district,167,167,Mathura,1,1,100.0,3343
+district,89,89,Baran,1,1,66.3,6996
+district,94,94,Bundi,1,1,96.6,5776
+district,105,105,Jhalawar,1,1,62.5,6340
+district,402,402,Dewas,1,1,52.1,7024
+district,421,421,Raisen,1,1,44.0,8476
+district,413,413,Katni,1,1,66.8,5054
+district,400,400,Damoh,1,1,80.6,7311
+district,426,426,Satna,1,1,79.0,7515
+district,638,638,Singrauli,1,1,73.0,5769
+district,375,375,Bilaspur,1,1,91.2,3543
+district,215,215,Rohtas,1,1,96.5,3846
+district,193,193,Bhojpur,1,1,100.0,2390
+district,189,189,Aurangabad,1,1,100.0,3306
+district,317,317,Medinipur East,1,1,68.3,3957
+district,201,201,Katihar,1,1,99.9,3041
+district,325,325,Dhanbad,1,1,100.0,2036
+district,207,207,Munger,1,1,99.8,1412
+district,216,216,Saharsa,1,1,100.0,1666
+district,203,203,Kishanganj,1,1,100.0,1929
+district,188,188,Araria,1,1,98.7,2790
+district,314,314,Jalpaiguri,1,1,73.1,3434
+district,225,225,Gangtok,1,1,100.0,555
+district,217,217,Samastipur,1,1,100.0,2672
+district,224,224,Vaishali,1,1,100.0,2038
+district,218,218,Saran,1,1,100.0,2642
+district,213,213,Purbi Champaran,1,1,100.0,3971
+district,222,222,Siwan,1,1,100.0,2220
+district,148,148,Gorakhpur,1,1,96.5,3325
+district,245,245,Kohima,1,1,100.0,1010
+district,300,300,Sivasagar,1,1,100.0,1570
+district,298,298,Nalbari,1,1,100.0,1062
+district,766,766,Itanagar capital complex,1,1,100.0,319
+district,297,297,Nagaon,1,1,93.3,2576
+district,282,282,Cachar,1,1,98.9,3785
+district,261,261,Aizawl,1,1,83.7,2592
+district,274,274,East Khasi Hills,1,1,89.4,2874
+district,272,272,West Tripura,1,1,100.0,945
+district,346,346,Baleshwar,1,1,89.8,3722
+district,356,356,Jajapur,1,1,99.6,2892
+district,350,350,Cuttack,1,1,97.0,3852
+district,357,357,Jharsuguda,1,1,96.5,2141
+district,520,520,Visakhapatanam,1,1,100.0,996
+district,549,549,Udupi,0,0,20.5,3588
+district,558,558,Kasaragod,0,0,64.0,1993
+district,553,553,Lakshadweep District,0,0,0.0,13
+district,560,560,Kottayam,0,0,19.1,2202
+district,556,556,Idukki,0,0,5.1,4356
+district,564,564,Pathanamthitta,0,0,18.0,2656
+district,554,554,Alappuzha,0,0,42.4,1420
+district,733,733,Tenkasi,0,0,3.3,2809
+district,597,597,Virudhunagar,0,0,41.2,4242
+district,588,588,Theni,0,0,21.5,2867
+district,572,572,Dindigul,0,0,16.5,6052
+district,585,585,Sivaganga,0,0,65.5,4242
+district,592,592,Tirunelveli,0,0,40.8,3882
+district,575,575,Kanniyakumari,0,0,54.0,1680
+district,590,590,Thiruvarur,0,0,63.6,2262
+district,579,579,Nagapattinam,0,0,0.2,1388
+district,598,598,Karaikal,0,0,0.0,160
+district,735,735,Mayiladuthurai,0,0,1.9,1174
+district,610,610,Ariyalur,0,0,44.8,1936
+district,570,570,Cuddalore,0,0,28.8,3706
+district,593,593,Tiruvannamalai,0,0,0.0,6203
+district,596,596,Villupuram,0,0,69.2,3676
+district,730,730,Chengalpattu,0,0,49.9,2720
+district,731,731,Ranipet,0,0,52.7,1853
+district,753,753,Annamayya,0,0,41.1,8982
+district,754,754,Sri Sathya Sai,0,0,24.8,8946
+district,542,542,Kolar,0,0,43.7,3979
+district,526,526,Bengaluru Rural,0,0,100.0,2306
+district,577,577,Krishnagiri,0,0,40.7,5138
+district,732,732,Tirupathur,0,0,1.5,2112
+district,595,595,Vellore,0,0,70.9,2105
+district,729,729,Kallakurichi,0,0,10.3,3501
+district,581,581,Perambalur,0,0,7.2,1755
+district,591,591,Tiruchirappalli,0,0,48.9,4495
+district,580,580,Namakkal,0,0,32.2,3415
+district,576,576,Karur,0,0,12.6,2903
+district,634,634,Tiruppur,0,0,61.1,5193
+district,584,584,Salem,0,0,8.1,6012
+district,571,571,Dharmapuri,0,0,0.6,4492
+district,531,531,Chamarajanagara,0,0,6.0,5645
+district,563,563,Palakkad,0,0,82.0,4483
+district,587,587,The Nilgiris,0,0,15.9,2427
+district,562,562,Malappuram,0,0,11.8,3556
+district,561,561,Kozhikode,0,0,24.2,2348
+district,599,599,Mahe,0,0,100.0,8
+district,567,567,Wayanad,0,0,10.8,2132
+district,539,539,Hassan,0,0,47.6,6813
+district,544,544,Mandya,0,0,49.3,4955
+district,533,533,Chitradurga,0,0,0.5,8437
+district,535,535,Davangere,0,0,41.3,4487
+district,738,738,Vijayanagar,0,0,0.0,5638
+district,528,528,Ballari,0,0,0.0,4251
+district,546,546,Raichur,0,0,6.8,8442
+district,543,543,Koppal,0,0,5.0,5578
+district,537,537,Gadag,0,0,28.1,4656
+district,529,529,Bidar,0,0,8.0,5451
+district,721,721,Narayanpet,0,0,49.8,2357
+district,693,693,Wanaparthy,0,0,0.0,2224
+district,512,512,Mahabubnagar,0,0,0.0,2803
+district,698,698,Vikarabad,0,0,42.8,3702
+district,513,513,Medak,0,0,53.8,2752
+district,692,692,Siddipet,0,0,22.7,3726
+district,697,697,Yadadri Bhuvanagiri,0,0,67.8,3229
+district,694,694,Nagarkurnool,0,0,0.0,6203
+district,755,755,Nandyal,0,0,0.0,9724
+district,695,695,Jogulamba Gadwal,0,0,0.0,2572
+district,511,511,Kurnool,0,0,0.0,7943
+district,515,515,Spsr Nellore,0,0,2.4,10391
+district,517,517,Prakasam,0,0,0.0,14274
+district,750,750,Bapatla,0,0,12.1,3885
+district,748,748,Eluru,0,0,46.3,6583
+district,523,523,West Godavari,0,0,41.7,2125
+district,747,747,Konaseema,0,0,44.8,2378
+district,746,746,Kakinada,0,0,37.5,3054
+district,601,601,Yanam,0,0,0.0,37
+district,744,744,Anakapalli,0,0,46.0,4025
+district,745,745,Alluri Sitharama Raju,0,0,4.0,12691
+district,690,690,Bhadradri Kothagudem,0,0,0.0,6909
+district,509,509,Khammam,0,0,7.3,4677
+district,696,696,Suryapet,0,0,0.0,3592
+district,751,751,Palnadu,0,0,19.9,7299
+district,514,514,Nalgonda,0,0,0.7,7203
+district,522,522,Warangal,0,0,0.0,1749
+district,688,688,Mahabubabad,0,0,0.0,3543
+district,686,686,Hanumakonda,0,0,0.0,1658
+district,689,689,Jangoan,0,0,0.1,2397
+district,508,508,Karimnagar,0,0,0.0,2004
+district,687,687,Jayashankar Bhupalapally,0,0,0.0,2877
+district,684,684,Mancherial,0,0,0.0,3854
+district,682,682,Peddapalli,0,0,0.0,2193
+district,699,699,Kumuram Bheem Asifabad,0,0,1.3,4538
+district,475,475,Gadchiroli,0,0,0.6,14508
+district,636,636,Bijapur,0,0,0.0,9277
+district,720,720,Mulugu,0,0,0.0,4288
+district,376,376,Dantewada,0,0,0.0,2791
+district,642,642,Sukma,0,0,0.0,5653
+district,364,364,Malkangiri,0,0,0.0,5782
+district,363,363,Koraput,0,0,0.0,8391
+district,366,366,Nabarangpur,0,0,0.0,5457
+district,643,643,Kondagaon,0,0,0.0,5080
+district,374,374,Bastar,0,0,0.0,5224
+district,637,637,Narayanpur,0,0,0.0,3905
+district,381,381,Kanker,0,0,0.0,7184
+district,646,646,Balod,0,0,37.5,3372
+district,377,377,Dhamtari,0,0,17.2,4083
+district,645,645,Gariyaband,0,0,7.9,4846
+district,368,368,Nuapada,0,0,0.0,3848
+district,385,385,Mahasamund,0,0,12.4,4749
+district,644,644,Baloda Bazar,0,0,41.3,3961
+district,650,650,Bemetara,0,0,68.9,2240
+district,759,759,Khairgarh Chhuikhadan Gandai,0,0,35.3,2322
+district,392,392,Balaghat,0,0,0.0,9250
+district,476,476,Gondia,0,0,0.0,5180
+district,388,388,Rajnandgaon,0,0,41.3,3259
+district,761,761,Mohla Manpur Ambagarh Chouki,0,0,0.0,2490
+district,471,471,Bhandara,0,0,5.7,4139
+district,394,394,Betul,0,0,0.0,10054
+district,500,500,Yavatmal,0,0,14.4,13588
+district,498,498,Wardha,0,0,21.3,6305
+district,501,501,Adilabad,0,0,0.9,4000
+district,680,680,Nirmal,0,0,0.3,3715
+district,681,681,Jagitial,0,0,0.0,2886
+district,683,683,Rajanna Sircilla,0,0,0.0,1808
+district,516,516,Nizamabad,0,0,0.0,4213
+district,685,685,Kamareddy,0,0,0.0,3740
+district,477,477,Hingoli,0,0,42.8,4713
+district,488,488,Osmanabad,0,0,35.1,7573
+district,470,470,Beed,0,0,23.5,10608
+district,472,472,Buldhana,0,0,28.1,9744
+district,499,499,Washim,0,0,18.0,5129
+district,397,397,Burhanpur,0,0,0.0,3225
+district,393,393,Barwani,0,0,4.4,5426
+district,444,444,Dang,0,0,0.0,1769
+district,641,641,Tapi,0,0,4.8,3139
+district,486,486,Nandurbar,0,0,0.1,5960
+district,452,452,Narmada,0,0,13.1,2814
+district,443,443,Bhavnagar,0,0,0.0,6766
+district,465,465,Dadra And Nagar Haveli,0,0,100.0,493
+district,463,463,Daman,0,0,100.0,71
+district,453,453,Navsari,0,0,65.5,2202
+district,494,494,Satara,0,0,13.0,10481
+district,493,493,Sangli,0,0,31.5,8606
+district,540,540,Haveri,0,0,11.8,4827
+district,550,550,Uttara Kannada,0,0,12.3,10287
+district,552,552,South Goa,0,0,0.0,1955
+district,551,551,North Goa,0,0,0.0,1742
+district,495,495,Sindhudurg,0,0,3.8,5111
+district,492,492,Ratnagiri,0,0,19.6,8285
+district,675,675,Gir Somnath,0,0,0.0,2643
+district,464,464,Diu,0,0,0.0,39
+district,439,439,Amreli,0,0,0.0,7311
+district,448,448,Junagadh,0,0,0.0,6148
+district,456,456,Porbandar,0,0,0.0,2315
+district,674,674,Devbhumi Dwarka,0,0,0.0,4156
+district,449,449,Kachchh,0,0,0.0,40700
+district,90,90,Barmer,0,0,0.0,18199
+district,779,779,Sanchor,0,0,0.6,4834
+district,455,455,Patan,0,0,0.0,5789
+district,673,673,Morbi,0,0,0.0,4981
+district,447,447,Jamnagar,0,0,0.0,5910
+district,457,457,Rajkot,0,0,0.0,7698
+district,460,460,Surendranagar,0,0,1.3,9176
+district,676,676,Botad,0,0,0.0,2476
+district,451,451,Mahesana,0,0,43.1,4414
+district,672,672,Arvalli,0,0,51.6,3151
+district,669,669,Mahisagar,0,0,2.4,2509
+district,454,454,Panch Mahals,0,0,0.0,3291
+district,450,450,Kheda,0,0,76.2,3442
+district,440,440,Anand,0,0,5.8,3176
+district,461,461,Vadodara,0,0,10.7,4087
+district,668,668,Chhotaudepur,0,0,0.0,3458
+district,639,639,Alirajpur,0,0,0.0,3337
+district,412,412,Jhabua,0,0,25.9,3445
+district,445,445,Dohad,0,0,1.7,3640
+district,777,777,Salumbar,0,0,61.7,2511
+district,416,416,Mandsaur,0,0,49.1,5553
+district,419,419,Neemuch,0,0,12.5,4295
+district,95,95,Chittorgarh,0,0,44.5,7812
+district,780,780,Shahpura,0,0,77.5,3804
+district,458,458,Sabar Kantha,0,0,34.3,4246
+district,441,441,Banas Kantha,0,0,0.0,10760
+district,775,775,Balotra,0,0,21.0,10190
+district,772,772,Phalodi,0,0,0.0,9404
+district,774,774,Beawar,0,0,20.5,4410
+district,781,781,Kekri,0,0,18.3,3871
+district,768,768,Didwana Kuchaman,0,0,27.0,6801
+district,769,769,Dudu,0,0,75.1,2456
+district,776,776,Anoopgarh,0,0,3.2,8860
+district,626,626,Ganderbal,0,0,0.0,1624
+district,623,623,Bandipora,0,0,0.0,4045
+district,0,0,Muzaffarabad,0,0,0.0,4804
+district,8,8,Kupwara,0,0,0.0,2744
+district,3,3,Baramulla,0,0,0.0,2067
+district,10,10,Poonch,0,0,0.0,4246
+district,622,622,Kulgam,0,0,0.0,1265
+district,625,625,Shopian,0,0,0.0,504
+district,2,2,Budgam,0,0,0.0,1248
+district,13,13,Srinagar,0,0,0.0,280
+district,11,11,Pulwama,0,0,0.0,897
+district,1,1,Anantnag,0,0,0.0,2732
+district,14,14,Udhampur,0,0,0.0,2279
+district,621,621,Ramban,0,0,0.0,1290
+district,627,627,Reasi,0,0,0.0,1938
+district,5,5,Jammu,0,0,0.0,2411
+district,624,624,Samba,0,0,0.0,929
+district,32,32,Gurdaspur,0,0,42.5,2607
+district,12,12,Rajouri,0,0,0.0,2636
+district,0-1,0,Mirpur,0,0,0.0,3625
+district,39,39,Sri Muktsar Sahib,0,0,75.4,2641
+district,651,651,Fazilka,0,0,53.1,2876
+district,29,29,Faridkot,0,0,58.1,1460
+district,31,31,Ferozepur,0,0,0.0,2370
+district,609,609,Tarn Taran,0,0,86.3,2414
+district,35,35,Kapurthala,0,0,44.2,1631
+district,38,38,Moga,0,0,29.2,2254
+district,37,37,Mansa,0,0,70.4,2175
+district,43,43,Sangrur,0,0,46.9,2925
+district,605,605,Barnala,0,0,30.2,1428
+district,737,737,Malerkotla,0,0,99.8,680
+district,34,34,Jalandhar,0,0,56.6,2639
+district,40,40,Shahid Bhagat Singh Nagar,0,0,100.0,1264
+district,608,608,S.A.S Nagar,0,0,100.0,1094
+district,58,58,Ambala,0,0,100.0,1510
+district,177,177,Saharanpur,0,0,100.0,3714
+district,50,50,Haridwar,0,0,88.5,2291
+district,52,52,Pauri Garhwal,0,0,20.3,5277
+district,55,55,Tehri Garhwal,0,0,47.0,3911
+district,54,54,Rudra Prayag,0,0,0.0,1986
+district,57,57,Uttar Kashi,0,0,4.9,7980
+district,24,24,Sirmaur,0,0,59.4,2825
+district,23,23,Shimla,0,0,12.4,5124
+district,20,20,Kullu,0,0,0.0,5487
+district,19,19,Kinnaur,0,0,0.0,6502
+district,21,21,Lahul And Spiti,0,0,0.0,13963
+district,22,22,Mandi,0,0,4.7,3949
+district,15,15,Bilaspur,0,0,85.1,1167
+district,17,17,Hamirpur,0,0,5.6,1114
+district,18,18,Kangra,0,0,0.0,5738
+district,26,26,Una,0,0,13.9,1547
+district,33,33,Hoshiarpur,0,0,13.4,3378
+district,662,662,Pathankot,0,0,0.0,950
+district,7,7,Kathua,0,0,0.0,2501
+district,16,16,Chamba,0,0,0.0,6514
+district,4,4,Doda,0,0,0.0,2409
+district,620,620,Kishtwar,0,0,0.0,8175
+district,6,6,Kargil,0,0,0.0,14205
+district,9,9,Leh Ladakh,0,0,0.0,154015
+district,47,47,Chamoli,0,0,0.0,7823
+district,46,46,Bageshwar,0,0,0.0,2234
+district,45,45,Almora,0,0,5.0,3147
+district,53,53,Pithoragarh,0,0,0.0,7235
+district,125,125,Bahraich,0,0,0.0,4950
+district,181,181,Shravasti,0,0,0.0,1930
+district,127,127,Balrampur,0,0,0.0,3341
+district,147,147,Gonda,0,0,0.0,3980
+district,131,131,Basti,0,0,1.8,2784
+district,121,121,Ambedkar Nagar,0,0,0.1,2330
+district,152,152,Jaunpur,0,0,47.9,4032
+district,185,185,Sultanpur,0,0,0.0,2672
+district,140,140,Ayodhya,0,0,0.0,2688
+district,640,640,Amethi,0,0,0.5,2426
+district,174,174,Pratapgarh,0,0,46.8,3710
+district,175,175,Rae Bareli,0,0,17.0,3933
+district,129,129,Barabanki,0,0,75.1,3845
+district,183,183,Sitapur,0,0,12.7,5736
+district,150,150,Hardoi,0,0,10.8,5988
+district,186,186,Unnao,0,0,95.0,4569
+district,142,142,Fatehpur,0,0,14.6,4170
+district,156,156,Kanpur Dehat,0,0,63.8,3158
+district,149,149,Hamirpur,0,0,0.6,3898
+district,151,151,Jalaun,0,0,0.0,4565
+district,122,122,Auraiya,0,0,0.0,2017
+district,155,155,Kannauj,0,0,0.3,2088
+district,141,141,Farrukhabad,0,0,0.0,2180
+district,173,173,Pilibhit,0,0,31.4,3765
+district,180,180,Shahjahanpur,0,0,12.0,4314
+district,159,159,Kheri,0,0,0.0,7694
+district,48,48,Champawat,0,0,0.0,1770
+district,176,176,Rampur,0,0,95.2,2367
+district,51,51,Nainital,0,0,43.1,3992
+district,132,132,Bijnor,0,0,59.5,4600
+district,154,154,Amroha,0,0,99.6,2457
+district,133,133,Budaun,0,0,35.3,4256
+district,633,633,Kasganj,0,0,0.0,1962
+district,659,659,Sambhal,0,0,65.5,2431
+district,119,119,Aligarh,0,0,68.3,3712
+district,661,661,Hapur,0,0,100.0,1118
+district,660,660,Shamli,0,0,100.0,1266
+district,81,81,North East,0,0,100.0,34
+district,73,73,Rohtak,0,0,100.0,1670
+district,773,773,Neem Ka Thana,0,0,70.8,3173
+district,782,782,Kotputli-Behror,0,0,85.7,2921
+district,604,604,Nuh,0,0,99.9,1516
+district,767,767,Deeg,0,0,96.2,2160
+district,783,783,Jaipur Gramin,0,0,86.5,5262
+district,116,116,Tonk,0,0,46.0,6198
+district,771,771,Gangapurcity,0,0,97.7,2551
+district,431,431,Sheopur,0,0,22.7,6613
+district,417,417,Morena,0,0,83.0,4988
+district,163,163,Hathras,0,0,71.0,1779
+district,138,138,Etah,0,0,41.0,2420
+district,166,166,Mainpuri,0,0,21.1,2739
+district,139,139,Etawah,0,0,2.3,2325
+district,395,395,Bhind,0,0,35.1,4463
+district,722,722,Niwari,0,0,0.0,1323
+district,153,153,Jhansi,0,0,0.0,5020
+district,401,401,Datia,0,0,15.1,2684
+district,434,434,Tikamgarh,0,0,0.0,3725
+district,161,161,Lalitpur,0,0,2.2,5048
+district,391,391,Ashoknagar,0,0,0.0,4739
+district,437,437,Vidisha,0,0,5.4,7301
+district,432,432,Shivpuri,0,0,0.0,10287
+district,667,667,Agar Malwa,0,0,4.2,2733
+district,422,422,Rajgarh,0,0,4.6,6168
+district,406,406,Guna,0,0,2.4,6380
+district,427,427,Sehore,0,0,63.2,6569
+district,430,430,Shajapur,0,0,20.1,3461
+district,435,435,Ujjain,0,0,60.2,6101
+district,414,414,Khargone,0,0,28.2,8025
+district,405,405,East Nimar,0,0,0.0,7468
+district,408,408,Harda,0,0,0.0,3342
+district,409,409,Narmadapuram,0,0,2.7,6688
+district,418,418,Narsinghpur,0,0,9.9,5143
+district,399,399,Chhindwara,0,0,0.8,11811
+district,428,428,Seoni,0,0,8.0,8758
+district,415,415,Mandla,0,0,19.9,7509
+district,436,436,Umaria,0,0,12.6,4582
+district,398,398,Chhatarpur,0,0,2.4,8674
+district,165,165,Mahoba,0,0,0.0,3265
+district,128,128,Banda,0,0,0.0,4452
+district,420,420,Panna,0,0,13.6,7105
+district,433,433,Sidhi,0,0,1.1,4777
+district,424,424,Rewa,0,0,19.0,6302
+district,136,136,Chitrakoot,0,0,13.9,3188
+district,158,158,Kaushambi,0,0,66.8,1791
+district,179,179,Bhadohi,0,0,99.9,1013
+district,170,170,Mirzapur,0,0,51.9,4422
+district,384,384,Korea,0,0,9.6,2131
+district,760,760,Manendragarh Chirimiri Bharatpur,0,0,0.2,4469
+district,429,429,Shahdol,0,0,0.0,5679
+district,404,404,Dindori,0,0,4.4,5745
+district,390,390,Anuppur,0,0,0.0,3778
+district,382,382,Kabirdham,0,0,0.0,4194
+district,647,647,Mungeli,0,0,51.6,2779
+district,379,379,Janjgir-Champa,0,0,72.9,2855
+district,734,734,Gaurella Pendra Marwahi,0,0,3.7,1993
+district,762,762,Sakti,0,0,94.2,1635
+district,342,342,Simdega,0,0,37.7,3779
+district,380,380,Jashpur,0,0,16.8,5846
+district,331,331,Gumla,0,0,0.0,5357
+district,335,335,Latehar,0,0,0.0,4245
+district,649,649,Balrampur,0,0,6.1,6292
+district,389,389,Surguja,0,0,4.8,4009
+district,648,648,Surajpur,0,0,11.0,5429
+district,328,328,Garhwa,0,0,0.0,4106
+district,184,184,Sonbhadra,0,0,36.3,6882
+district,146,146,Ghazipur,0,0,19.6,3380
+district,135,135,Chandauli,0,0,81.4,2553
+district,200,200,Kaimur (Bhabua),0,0,69.6,3365
+district,194,194,Buxar,0,0,49.9,1700
+district,338,338,Palamu,0,0,17.5,4417
+district,323,323,Chatra,0,0,11.4,3800
+district,332,332,Hazaribagh,0,0,5.1,4334
+district,334,334,Koderma,0,0,11.0,1638
+district,199,199,Jehanabad,0,0,100.0,942
+district,611,611,Arwal,0,0,99.4,636
+district,210,210,Nawada,0,0,86.9,2490
+district,219,219,Sheikhpura,0,0,99.8,682
+district,191,191,Begusarai,0,0,99.9,1924
+district,204,204,Lakhisarai,0,0,85.0,1219
+district,329,329,Giridih,0,0,26.6,4968
+district,198,198,Jamui,0,0,14.0,3099
+district,322,322,Bokaro,0,0,53.7,2879
+district,321,321,Purulia,0,0,30.3,6260
+district,607,607,Ramgarh,0,0,0.0,1397
+district,336,336,Lohardaga,0,0,0.0,1505
+district,606,606,Khunti,0,0,0.0,2634
+district,339,339,Ranchi,0,0,0.0,4987
+district,343,343,West Singhbhum,0,0,66.8,7223
+district,341,341,Saraikela Kharsawan,0,0,13.4,2660
+district,703,703,Jhargram,0,0,38.9,3097
+district,327,327,East Singhbum,0,0,52.1,3555
+district,305,305,Bankura,0,0,47.3,6886
+district,306,306,Purba Bardhaman,0,0,28.9,5216
+district,312,312,Hooghly,0,0,79.9,3149
+district,318,318,Medinipur West,0,0,6.7,6276
+district,304,304,24 Paraganas South,0,0,62.0,7684
+district,320,320,Nadia,0,0,14.8,3902
+district,319,319,Murshidabad,0,0,0.0,5348
+district,663,663,South West Garo Hills,0,0,0.0,806
+district,310,310,Dinajpur Dakshin,0,0,0.0,2239
+district,340,340,Sahebganj,0,0,24.9,2187
+district,316,316,Maldah,0,0,17.5,3604
+district,307,307,Birbhum,0,0,43.6,4544
+district,337,337,Pakur,0,0,0.0,1801
+district,326,326,Dumka,0,0,2.0,3762
+district,333,333,Jamtara,0,0,99.3,1805
+district,324,324,Deoghar,0,0,13.6,2488
+district,190,190,Banka,0,0,48.1,3027
+district,330,330,Godda,0,0,37.0,2284
+district,202,202,Khagaria,0,0,100.0,1498
+district,205,205,Madhepura,0,0,100.0,1805
+district,223,223,Supaul,0,0,68.9,2422
+district,228,228,Gyalshing,0,0,72.0,899
+district,742,742,Soreng,0,0,71.4,317
+district,309,309,Darjeeling,0,0,89.6,2045
+district,214,214,Purnia,0,0,99.8,3232
+district,311,311,Dinajpur Uttar,0,0,66.9,3142
+district,707,707,South Salmara Mancachar,0,0,0.0,687
+district,285,285,Dhubri,0,0,0.0,1580
+district,664,664,Alipurduar,0,0,0.0,2801
+district,308,308,Coochbehar,0,0,0.2,3375
+district,741,741,Pakyong,0,0,100.0,365
+district,702,702,Kalimpong,0,0,100.0,1094
+district,227,227,Namchi,0,0,100.0,704
+district,226,226,Mangan,0,0,46.9,4259
+district,206,206,Madhubani,0,0,14.9,3501
+district,195,195,Darbhanga,0,0,95.1,2518
+district,221,221,Sitamarhi,0,0,45.5,2193
+district,220,220,Sheohar,0,0,100.0,442
+district,160,160,Kushi Nagar,0,0,66.8,2876
+district,197,197,Gopalganj,0,0,99.0,2038
+district,126,126,Ballia,0,0,56.6,2991
+district,137,137,Deoria,0,0,79.6,2537
+district,168,168,Mau,0,0,0.3,1738
+district,123,123,Azamgarh,0,0,9.2,4215
+district,178,178,Sant Kabeer Nagar,0,0,73.1,1648
+district,164,164,Maharajganj,0,0,34.5,2947
+district,182,182,Siddharth Nagar,0,0,0.0,2896
+district,230,230,Dibang Valley,0,0,0.0,9565
+district,235,235,Lower Dibang Valley,0,0,0.0,3485
+district,678,678,Namsai,0,0,0.0,1177
+district,234,234,Lohit,0,0,0.0,3254
+district,628,628,Anjaw,0,0,0.0,6046
+district,229,229,Changlang,0,0,0.0,5086
+district,302,302,Tinsukia,0,0,0.0,3812
+district,286,286,Dibrugarh,0,0,28.0,3391
+district,284,284,Dhemaji,0,0,9.5,2469
+district,708,708,Charaideo,0,0,72.0,1075
+district,666,666,Longding,0,0,0.0,937
+district,239,239,Tirap,0,0,0.0,1034
+district,736,736,Noklak,0,0,0.0,847
+district,765,765,Shamator,0,0,0.0,130
+district,614,614,Kiphire,0,0,0.0,1143
+district,249,249,Tuensang,0,0,0.0,1166
+district,247,247,Mon,0,0,42.0,2177
+district,615,615,Longleng,0,0,38.5,567
+district,246,246,Mokokchung,0,0,28.7,1615
+district,290,290,Jorhat,0,0,54.0,2050
+district,251,251,Zunheboto,0,0,38.6,1568
+district,757,757,Tseminyu,0,0,100.0,283
+district,764,764,Niuland,0,0,100.0,82
+district,758,758,Chumoukedima,0,0,95.8,699
+district,250,250,Wokha,0,0,27.2,1634
+district,706,706,Majuli,0,0,100.0,1014
+district,295,295,Lakhimpur,0,0,85.7,2992
+district,718,718,Kamle,0,0,0.0,1401
+district,241,241,Upper Subansiri,0,0,0.0,6394
+district,243,243,West Siang,0,0,0.0,1639
+district,719,719,Lower Siang,0,0,0.0,1811
+district,724,724,Leparada,0,0,0.0,768
+district,232,232,East Siang,0,0,0.0,1738
+district,679,679,Siang,0,0,0.0,3089
+district,240,240,Upper Siang,0,0,0.0,6702
+district,725,725,Shi Yomi,0,0,0.0,2617
+district,677,677,Kra Daadi,0,0,0.0,1989
+district,233,233,Kurung Kumey,0,0,0.0,4443
+district,238,238,Tawang,0,0,0.0,2456
+district,280,280,Barpeta,0,0,48.9,1877
+district,281,281,Bongaigaon,0,0,0.0,972
+district,612,612,Chirang,0,0,0.0,2037
+district,294,294,Kokrajhar,0,0,0.0,3112
+district,656,656,North Garo Hills,0,0,0.0,1249
+district,287,287,Goalpara,0,0,0.1,1918
+district,291,291,Kamrup,0,0,90.2,3115
+district,616,616,Baksa,0,0,83.1,1610
+district,739,739,Bajali,0,0,100.0,356
+district,756,756,Tamulpur,0,0,100.0,861
+district,276,276,Ri Bhoi,0,0,100.0,2368
+district,710,710,West Karbi Anglong,0,0,41.5,3071
+district,296,296,Marigaon,0,0,100.0,1542
+district,283,283,Darrang,0,0,83.7,1538
+district,617,617,Udalguri,0,0,25.8,2064
+district,242,242,West Kameng,0,0,0.0,4917
+district,301,301,Sonitpur,0,0,49.6,2777
+district,723,723,Pakke Kessang,0,0,22.2,2028
+district,231,231,East Kameng,0,0,1.8,4292
+district,236,236,Lower Subansiri,0,0,38.9,1782
+district,237,237,Papum Pare,0,0,82.6,3127
+district,705,705,Biswanath,0,0,53.1,2453
+district,288,288,Golaghat,0,0,26.6,3293
+district,709,709,Hojai,0,0,47.5,1455
+district,292,292,Karbi Anglong,0,0,16.7,7332
+district,244,244,Dimapur,0,0,100.0,89
+district,613,613,Peren,0,0,40.9,1722
+district,299,299,Dima Hasao,0,0,19.4,4884
+district,258,258,Tamenglong,0,0,18.9,2976
+district,714,714,Noney,0,0,4.1,1210
+district,254,254,Churachandpur,0,0,0.0,2405
+district,727,727,Saitual,0,0,50.6,1380
+district,715,715,Pherzawl,0,0,10.1,2287
+district,713,713,Jiribam,0,0,100.0,181
+district,293,293,Karimganj,0,0,46.2,1810
+district,289,289,Hailakandi,0,0,62.7,1328
+district,263,263,Kolasib,0,0,49.1,1598
+district,270,270,North Tripura,0,0,13.1,1329
+district,269,269,Dhalai,0,0,0.8,2301
+district,655,655,Unakoti,0,0,0.0,707
+district,657,657,East Jaintia Hills,0,0,31.0,1927
+district,275,275,West Jaintia Hills,0,0,72.0,1883
+district,740,740,Eastern West Khasi Hills,0,0,93.9,1366
+district,658,658,South West Khasi Hills,0,0,12.3,1259
+district,279,279,West Khasi Hills,0,0,6.9,2574
+district,277,277,South Garo Hills,0,0,0.0,1860
+district,273,273,East Garo Hills,0,0,0.0,1606
+district,278,278,West Garo Hills,0,0,0.0,2640
+district,652,652,Khowai,0,0,84.2,1026
+district,654,654,Gomati,0,0,56.7,1584
+district,271,271,South Tripura,0,0,0.0,1501
+district,653,653,Sepahijala,0,0,88.7,1060
+district,264,264,Lawngtlai,0,0,0.0,2451
+district,266,266,Mamit,0,0,85.3,3028
+district,265,265,Lunglei,0,0,5.2,3591
+district,726,726,Hnahthial,0,0,0.0,929
+district,268,268,Serchhip,0,0,44.9,1445
+district,728,728,Khawzawl,0,0,40.2,1224
+district,262,262,Champhai,0,0,0.0,1324
+district,267,267,Saiha,0,0,0.0,1521
+district,253,253,Chandel,0,0,0.0,2071
+district,716,716,Tengnoupal,0,0,0.0,1200
+district,259,259,Thoubal,0,0,0.0,332
+district,711,711,Kakching,0,0,0.0,286
+district,252,252,Bishnupur,0,0,0.0,448
+district,256,256,Imphal West,0,0,0.0,487
+district,712,712,Kangpokpi,0,0,2.9,1674
+district,255,255,Imphal East,0,0,0.0,461
+district,257,257,Senapati,0,0,91.0,1818
+district,260,260,Ukhrul,0,0,18.5,2330
+district,248,248,Phek,0,0,57.4,1858
+district,717,717,Kamjong,0,0,0.0,2181
+district,360,360,Kendrapara,0,0,12.8,2531
+district,348,348,Bhadrak,0,0,53.7,2503
+district,355,355,Jagatsinghapur,0,0,50.5,1733
+district,352,352,Dhenkanal,0,0,99.5,4459
+district,367,367,Nayagarh,0,0,7.9,3896
+district,351,351,Deogarh,0,0,32.7,2953
+district,371,371,Sambalpur,0,0,29.5,6581
+district,763,763,Sarangarh Bilaigarh,0,0,10.1,2200
+district,347,347,Bargarh,0,0,19.8,5839
+district,345,345,Balangir,0,0,0.0,6548
+district,359,359,Kandhamal,0,0,0.0,8020
+district,372,372,Sonepur,0,0,0.0,2363
+district,349,349,Boudh,0,0,2.4,3101
+district,353,353,Gajapati,0,0,0.0,4128
+district,358,358,Kalahandi,0,0,0.0,7898
+district,370,370,Rayagada,0,0,0.0,7344
+district,743,743,Parvathipuram Manyam,0,0,0.0,3597
+district,521,521,Vizianagaram,0,0,25.6,3946
+district,519,519,Srikakulam,0,0,0.0,4436
+district,354,354,Ganjam,0,0,0.0,8400
+district,369,369,Puri,0,0,55.6,3473
+district,603,603,Nicobars,0,0,0.0,1770
+district,632,632,North And Middle Andaman,0,0,0.0,3428
+district,602,602,South Andamans,0,0,0.0,2516
