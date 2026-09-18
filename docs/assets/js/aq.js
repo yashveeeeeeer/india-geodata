@@ -66,7 +66,7 @@
   };
 
   var current = { pollutant: 'PM2.5', level: 'cities', city: null, range: null,
-                 zoomState: null, panelView: 'line', day: null, year: null };
+                 zoomState: null, zoomStateId: null, panelView: 'line', day: null, year: null };
   var cities = [];
   var stations = [];
   var statesFeat = [];
@@ -507,12 +507,28 @@
 
   function zoomToFeature(f) {
     current.zoomState = f.properties.name;
+    // At district level the readings roll up to the state, so name the state in
+    // the trail too — otherwise the crumb says Kasaragod while the rail says Kerala.
+    current.zoomVia = current.level === 'districts' ? (f.properties.state || null) : null;
+    // A district has no series of its own, so the place becomes its state.
+    current.zoomStateId = current.level === 'districts' && f.properties.state_lgd != null
+      ? String(f.properties.state_lgd)
+      : String(f.id);
+    current.city = null;
+    current.range = null;
     zoomToBounds(view.path.bounds(f));
     drawCrumb();
+    render();
+    refreshPlace();
   }
 
   function zoomToIndia() {
     current.zoomState = null;
+    current.zoomStateId = null;
+    current.zoomVia = null;
+    current.city = null;
+    current.range = null;
+    refreshPlace();
     if (view) view.svg.transition().duration(700).ease(d3.easeCubicInOut)
       .call(view.zoom.transform, d3.zoomIdentity);
     drawCrumb();
@@ -523,8 +539,12 @@
     var c = document.getElementById('aqCrumb');
     if (!c) return;
     if (!current.zoomState) { c.innerHTML = ''; return; }
-    c.innerHTML = '<button type="button">India</button><span>›</span><b>' +
-      current.zoomState.replace(/</g, '&lt;') + '</b>';
+    var trail = '<button type="button">India</button>';
+    if (current.zoomVia) {
+      trail += '<span>›</span><i>' + esc(current.zoomVia) + '</i>';
+    }
+    trail += '<span>›</span><b>' + esc(current.zoomState) + '</b>';
+    c.innerHTML = trail;
     c.querySelector('button').addEventListener('click', zoomToIndia);
   }
 
@@ -584,6 +604,58 @@
   }
   function hideTip() { ui.tip.style.display = 'none'; }
 
+
+  // ---------------------------------------------------------------------------
+  //  Current place
+  // ---------------------------------------------------------------------------
+  // One idea the whole right-hand side follows, resolved by falling back: the
+  // city you picked, else the state you zoomed into, else the country. Without
+  // this the strip, the rail and the chart sat empty unless a city dot had been
+  // clicked, which is most of the time.
+  function placeKey() {
+    if (current.city) return current.city.id;
+    if (current.zoomStateId) return 'state-' + current.zoomStateId;
+    return 'india';
+  }
+
+  function placeName() {
+    if (current.city) return current.city.name;
+    var doc = seriesCache[placeKey()];
+    if (doc && doc.name) return doc.name;
+    return current.zoomState || 'All India';
+  }
+
+  function placeSub() {
+    if (current.city) return current.city.state;
+    if (current.zoomStateId) return '';
+    return '';
+  }
+
+  function placeDoc() { return seriesCache[placeKey()]; }
+
+  // Loads whatever the current place needs, then refreshes everything that reads it.
+  function refreshPlace() {
+    var key = placeKey();
+    ui.place.textContent = placeName();
+    ui.where.textContent = placeSub();
+    if (seriesCache[key]) { paintPlace(); return Promise.resolve(); }
+    return getJSON(DATA + 'series/' + key + '.json').then(function (j) {
+      seriesCache[key] = j;
+      if (placeKey() === key) paintPlace();
+    }).catch(function () {
+      if (placeKey() === key) paintPlace();
+    });
+  }
+
+  function paintPlace() {
+    ui.place.textContent = placeName();
+    ui.where.textContent = placeSub();
+    updateRail();
+    updateStrip();
+    drawRailCycles();
+    if (!ui.panel.hidden) drawChart(placeDoc());
+  }
+
   // ---------------------------------------------------------------------------
   //  Selection and rail
   // ---------------------------------------------------------------------------
@@ -592,18 +664,10 @@
     var seq = ++selectSeq;
     current.city = c;
     current.range = null;
-    ui.place.textContent = c.name;
-    ui.where.textContent = c.state;
     render();
-    if (!seriesIndex[c.id]) { showRailFromMap(c); updateStrip(); drawChart(null); return; }
-    loadSeries(c.id).then(function () {
+    refreshPlace().then(function () {
       if (seq !== selectSeq) return;            // a newer selection superseded this one
-      updateRail();
-      drawChart(seriesCache[c.id]);
-    }).catch(function () {
-      if (seq !== selectSeq) return;
-      showRailFromMap(c);
-      drawChart(null);
+      if (!placeDoc()) { showRailFromMap(c); drawChart(null); }
     });
   }
 
@@ -684,7 +748,7 @@
   // The pollutant strip doubles as a six-way comparison: once a city is chosen,
   // each tab carries that city's own sparkline and period mean.
   function updateStrip() {
-    var doc = current.city && seriesCache[current.city.id];
+    var doc = placeDoc();
     [].forEach.call(ui.pollutants.querySelectorAll('.aq-pol'), function (tab) {
       var p = tab.dataset.pol;
       var spark = tab.querySelector('.aq-pol-spark');
@@ -813,7 +877,7 @@
   }
 
   function drawRailCycles() {
-    var doc = current.city && seriesCache[current.city.id];
+    var doc = placeDoc();
     var grid = doc && doc.cycle && doc.cycle[current.pollutant];
     var w = doc && windowed(doc.series[current.pollutant]);
     // Reveal before drawing: a hidden block has no layout, so measuring it first
@@ -825,12 +889,13 @@
   }
 
   function updateRail() {
-    var c = current.city;
-    if (!c) return;
-    var doc = seriesCache[c.id];
+    var doc = placeDoc();
     var s = doc && doc.series[current.pollutant];
     var w = windowed(s);
-    if (!w) { showRailFromMap(c); return; }
+    if (!w) {
+      if (current.city) showRailFromMap(current.city);
+      return;
+    }
     var mean = d3.mean(w.v);
     var over = w.v.filter(function (x) { return x > cfg().naaqs; }).length;
     ui.value.textContent = mean.toFixed(mean < 10 ? 1 : 0);
@@ -1492,8 +1557,7 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       render();
-      if (current.city && seriesCache[current.city.id]) { updateStrip(); drawRailCycles(); }
-      if (!ui.panel.hidden) drawChart(current.city ? seriesCache[current.city.id] : null);
+      paintPlace();
       drawStrip();
     }, 150);
   }
@@ -1530,8 +1594,7 @@
     });
     ensureDaily().then(function () {
       render();
-      if (current.city) updateRail();
-      if (!ui.panel.hidden) drawChart(current.city ? seriesCache[current.city.id] : null);
+      paintPlace();
     });
   });
 
@@ -1619,14 +1682,14 @@
       x.classList.toggle('is-on', on);
       x.setAttribute('aria-selected', on ? 'true' : 'false');
     });
-    drawChart(current.city ? seriesCache[current.city.id] : null);
+    drawChart(placeDoc());
   });
 
   ui.chartBtn.addEventListener('click', function () {
     var open = ui.panel.hidden;
     ui.panel.hidden = !open;
     ui.chartBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (open) drawChart(current.city ? seriesCache[current.city.id] : null);
+    if (open) drawChart(placeDoc());
   });
 
   loadStates()
@@ -1640,7 +1703,7 @@
       ui.stamp.textContent = stampText();
       ui.stamp.classList.toggle('is-stale', !latest || !latest.updated);
       render();
-      drawGauge(null);
+      refreshPlace();
       ensureDaily();
     })
     .catch(function (err) {
