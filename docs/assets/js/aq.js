@@ -49,7 +49,8 @@
     strip: document.getElementById('aqStrip'),
     prev: document.getElementById('aqPrev'),
     next: document.getElementById('aqNext'),
-    download: document.getElementById('aqDownloadBtn')
+    download: document.getElementById('aqDownloadBtn'),
+    gauge: document.getElementById('aqGauge')
   };
 
   var current = { pollutant: 'PM2.5', level: 'cities', city: null, range: null,
@@ -87,6 +88,7 @@
     return b.length;
   }
   function cfg() { return POLLUTANTS[current.pollutant]; }
+  function cfg_() { return POLLUTANTS[current.pollutant]; }
 
   // ---------------------------------------------------------------------------
   //  Data
@@ -98,8 +100,10 @@
     });
   }
 
+  var statesTopo = null;
   function loadStates() {
     return getJSON(MAPS + 'states.topo.json').then(function (topo) {
+      statesTopo = topo;
       statesFeat = topojson.feature(topo, topo.objects.states).features;
     });
   }
@@ -294,6 +298,8 @@
   //  Map
   // ---------------------------------------------------------------------------
   var view = null;   // { svg, g, path, projection, r, zoom, W, H }
+  var spaceHeld = false;
+  var pointerOverMap = false;
 
   function render() {
     if (!statesFeat.length || !cities.length) return;
@@ -316,14 +322,27 @@
 
     var g = svg.append('g');
 
-    // Context only: states stay pale so colour means exactly one thing — the reading.
-    g.append('g').attr('class', 'aq-states').selectAll('path').data(statesFeat).enter().append('path')
+    // Context only: the land stays pale so colour means exactly one thing — the
+    // reading — but it gets a real edge, so the country reads as a shape.
+    var ctx = g.append('g').attr('class', 'aq-states');
+    ctx.selectAll('path').data(statesFeat).enter().append('path')
       .attr('d', path)
-      .attr('fill', '#f1f5f9')
-      .attr('stroke', '#dbe3ec')
-      .attr('stroke-width', 0.7)
+      .attr('fill', '#f4f7fa')
+      .attr('stroke', 'none')
       .style('cursor', 'pointer')
       .on('click', function (e, d) { e.stopPropagation(); zoomToState(d); });
+    if (statesTopo) {
+      ctx.append('path').attr('class', 'aq-inner')
+        .attr('d', path(topojson.mesh(statesTopo, statesTopo.objects.states,
+                                      function (a, b) { return a !== b; })))
+        .attr('fill', 'none').attr('stroke', '#d3dce6').attr('stroke-width', 0.6)
+        .attr('stroke-linejoin', 'round').attr('pointer-events', 'none');
+      ctx.append('path').attr('class', 'aq-outer')
+        .attr('d', path(topojson.mesh(statesTopo, statesTopo.objects.states,
+                                      function (a, b) { return a === b; })))
+        .attr('fill', 'none').attr('stroke', '#9aa9bb').attr('stroke-width', 1.1)
+        .attr('stroke-linejoin', 'round').attr('pointer-events', 'none');
+    }
 
     var p = current.pollutant;
     values = valuesFor(p);
@@ -402,6 +421,16 @@
       .on('pointerleave', hideTip)
       .on('click', function (e, d) { e.stopPropagation(); zoomToFeature(d); });
 
+    // State edges ride over the district fills, so a district is readable as part
+    // of somewhere rather than a loose tile.
+    if (level === 'districts' && statesTopo) {
+      layer.append('path')
+        .attr('d', path(topojson.mesh(statesTopo, statesTopo.objects.states,
+                                      function (a, b) { return a !== b; })))
+        .attr('fill', 'none').attr('stroke', '#94a3b8').attr('stroke-width', 0.8)
+        .attr('stroke-linejoin', 'round').attr('pointer-events', 'none');
+    }
+
     // Thinly covered units get hatching on top, so low confidence is legible even
     // where the colour alone might still look convincing.
     layer.selectAll('path.aq-thin').data(feats.filter(function (d) {
@@ -436,10 +465,15 @@
   }
 
   function finishRender(svg, g, projection, path, W, H, keep, r) {
-    // Wheel needs Ctrl/Cmd so the page still scrolls normally; drag and pinch are free.
+    // Hold space and scroll. Ctrl+scroll is Chrome's own page zoom, so using it
+    // here fights the browser. Drag and pinch need no modifier.
     var zoom = d3.zoom().scaleExtent([1, 40])
+      .wheelDelta(function (e) {
+        // gentler than d3's default, so a trackpad does not jump a whole level
+        return -e.deltaY * (e.deltaMode === 1 ? 0.03 : e.deltaMode ? 1 : 0.0015);
+      })
       .filter(function (e) {
-        if (e.type === 'wheel') return e.ctrlKey || e.metaKey;
+        if (e.type === 'wheel') return spaceHeld;
         return !e.button;
       })
       .on('zoom', function (e) { applyTransform(e.transform); });
@@ -460,7 +494,8 @@
     if (t.k !== 1 && ui.hint) { ui.hint.hidden = true; }
     view.t = t;
     view.g.attr('transform', t);
-    view.g.select('.aq-states').selectAll('path').attr('stroke-width', 0.7 / t.k);
+    view.g.select('.aq-states').select('.aq-inner').attr('stroke-width', 0.6 / t.k);
+    view.g.select('.aq-states').select('.aq-outer').attr('stroke-width', 1.1 / t.k);
     view.g.select('.aq-units').selectAll('path').attr('stroke-width', 0.5 / t.k);
     if (!view.r) return;
     view.g.select('.aq-dots').selectAll('circle')
@@ -477,7 +512,8 @@
     var x = (b[0][0] + b[1][0]) / 2, y = (b[0][1] + b[1][1]) / 2;
     var k = Math.min(40, (pad || 0.9) / Math.max(dx / view.W, dy / view.H));
     var t = d3.zoomIdentity.translate(view.W / 2 - k * x, view.H / 2 - k * y).scale(k);
-    view.svg.transition().duration(600).call(view.zoom.transform, t);
+    view.svg.transition().duration(700).ease(d3.easeCubicInOut)
+      .call(view.zoom.transform, t);
   }
 
   function zoomToState(f) { zoomToFeature(f); }
@@ -490,7 +526,8 @@
 
   function zoomToIndia() {
     current.zoomState = null;
-    if (view) view.svg.transition().duration(600).call(view.zoom.transform, d3.zoomIdentity);
+    if (view) view.svg.transition().duration(700).ease(d3.easeCubicInOut)
+      .call(view.zoom.transform, d3.zoomIdentity);
     drawCrumb();
   }
 
@@ -585,6 +622,50 @@
 
   // Figures read as an aligned row, the same shape the site already uses on the
   // home page, rather than a dot-joined sentence.
+
+  // Where the reading sits against the standard. Bands are equal width rather
+  // than to scale, otherwise the top band swamps the strip; the boundary numbers
+  // carry the real spacing, and the national limit gets its own mark.
+  function drawGauge(value) {
+    var el = ui.gauge;
+    el.innerHTML = '';
+    var W = el.clientWidth, H = 30;
+    if (!W) return;
+    var cfg = cfg_();
+    var svg = d3.select(el).append('svg').attr('width', W).attr('height', H);
+    var n = BAND_COLOUR.length;
+    var bw = W / n;
+
+    for (var i = 0; i < n; i++) {
+      svg.append('rect').attr('x', i * bw).attr('y', 9).attr('width', bw + 0.5).attr('height', 7)
+        .attr('fill', BAND_COLOUR[i]);
+    }
+    cfg.breaks.forEach(function (b, i) {
+      svg.append('text').attr('x', (i + 1) * bw).attr('y', H - 1).attr('text-anchor', 'middle')
+        .attr('font-size', 7.5).attr('fill', '#94a3b8').text(b);
+    });
+
+    // the national 24-hour standard
+    var nb = cfg.breaks.indexOf(cfg.naaqs);
+    var nx = nb >= 0 ? (nb + 1) * bw : null;
+    if (nx != null) {
+      svg.append('line').attr('x1', nx).attr('x2', nx).attr('y1', 6).attr('y2', 19)
+        .attr('stroke', '#0f172a').attr('stroke-width', 1.5);
+    }
+
+    // the current reading
+    if (value != null && isFinite(value)) {
+      var bi = band(value, current.pollutant);
+      var lo = bi === 0 ? 0 : cfg.breaks[bi - 1];
+      var hi = bi < cfg.breaks.length ? cfg.breaks[bi] : cfg.breaks[cfg.breaks.length - 1] * 1.5;
+      var frac = hi > lo ? Math.min(1, Math.max(0, (value - lo) / (hi - lo))) : 0.5;
+      var vx = Math.min(W - 1, bi * bw + frac * bw);
+      svg.append('path')
+        .attr('d', 'M' + vx + ',8 l-4,-6 l8,0 Z')
+        .attr('fill', '#0f172a');
+    }
+  }
+
   function drawStats(rows) {
     ui.stats.innerHTML = rows.map(function (r) {
       return '<span class="aq-stat"><b>' + esc(r[0]) + '</b><i>' + esc(r[1]) + '</i></span>';
@@ -597,6 +678,7 @@
     ui.unit.textContent = cfg().unit;
     ui.versus.textContent = v == null ? '' : (v / cfg().naaqs).toFixed(1) + '× NAAQS';
     ui.versus.style.color = v == null ? '' : BAND_COLOUR[band(v, current.pollutant)];
+    drawGauge(v);
     drawStats([[c.n, c.n === 1 ? 'station' : 'stations']]);
     ui.cycleBlock.hidden = true;
     ui.exceedBlock.hidden = true;
@@ -768,6 +850,7 @@
     ui.unit.textContent = cfg().unit;
     ui.versus.textContent = (mean / cfg().naaqs).toFixed(1) + '× NAAQS';
     ui.versus.style.color = BAND_COLOUR[band(mean, current.pollutant)];
+    drawGauge(mean);
     drawStats([[w.t.length, 'days'], [over, 'over NAAQS'],
                [Math.round(d3.median(w.n)), 'stations']]);
     ui.when.textContent = w.t[0] + ' → ' + w.t[w.t.length - 1];
@@ -1082,7 +1165,26 @@
   // ---------------------------------------------------------------------------
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && current.zoomState) zoomToIndia();
+    if (e.code !== 'Space' && e.key !== ' ') return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'BUTTON') return;
+    spaceHeld = true;
+    document.body.classList.add('aq-zooming');
+    // space scrolls the page by default; suppress that only over the map
+    if (pointerOverMap) e.preventDefault();
   });
+  document.addEventListener('keyup', function (e) {
+    if (e.code === 'Space' || e.key === ' ') {
+      spaceHeld = false;
+      document.body.classList.remove('aq-zooming');
+    }
+  });
+  window.addEventListener('blur', function () {
+    spaceHeld = false;
+    document.body.classList.remove('aq-zooming');
+  });
+  ui.map.addEventListener('pointerenter', function () { pointerOverMap = true; });
+  ui.map.addEventListener('pointerleave', function () { pointerOverMap = false; });
 
   var resizeTimer = null;
   function redraw() {
@@ -1186,6 +1288,7 @@
       ui.stamp.textContent = stampText();
       ui.stamp.classList.toggle('is-mock', mock);
       render();
+      drawGauge(null);
       ensureDaily();
     })
     .catch(function (err) {

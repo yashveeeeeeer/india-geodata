@@ -60,7 +60,9 @@
 }
 
 .aq-stage { position: relative; display: flex; flex-direction: column; min-height: 400px; height: calc(100vh - 340px); }
-.aq-map { flex: 1; min-height: 0; background: var(--color-bg-light); border-radius: var(--radius-sm); }
+.aq-map { flex: 1; min-height: 0; background: #fbfdff; border-radius: var(--radius-sm); }
+/* while space is held the map takes the wheel, so say so */
+body.aq-zooming .aq-map { cursor: zoom-in; }
 
 /* level switch sits on the map, not above it, to save a row */
 .aq-levels { position: absolute; top: 8px; left: 8px; z-index: 2; display: flex; }
@@ -99,6 +101,9 @@
 .aq-num { font-size: 2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
 .aq-unit { font-size: 0.78rem; color: var(--color-muted); }
 .aq-versus { font-size: 0.82rem; font-weight: 600; margin-top: -6px; min-height: 1.1em; }
+/* Where the reading sits against the standard, without a sentence explaining it. */
+.aq-gauge { height: 30px; margin-top: -4px; }
+.aq-gauge svg { display: block; }
 
 /* Figures sit in an aligned row, not a sentence. */
 .aq-stats { display: flex; gap: 18px; flex-wrap: wrap; }
