@@ -89,6 +89,7 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
 .aq-crumb button { color: var(--color-muted); padding: 4px 8px; background: rgba(255,255,255,0.92); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
 .aq-crumb button:hover { color: var(--color-text); border-color: var(--color-accent); }
 .aq-crumb span { color: var(--color-border); }
+.aq-crumb i { font-style: normal; font-weight: 500; color: var(--color-muted); padding: 4px 8px; background: rgba(255,255,255,0.92); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
 .aq-crumb b { font-weight: 600; padding: 4px 8px; background: rgba(255,255,255,0.92); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
 
 /* Shown once, then it gets out of the way for good after the first zoom. */
