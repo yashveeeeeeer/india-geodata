@@ -62,7 +62,6 @@
   var statesFeat = [];
   var values = {};
   var latest = null;
-  var mock = false;
   var seriesIndex = {};      // city id -> true when a built series exists
   var seriesCache = {};
   var coverage = null;
@@ -229,32 +228,16 @@
 
   function loadLatest() {
     return getJSON(DATA + 'latest.json').then(function (j) {
-      latest = j;
-      mock = !(j && j.pollutants);
+      latest = (j && j.pollutants) ? j : null;
     }).catch(function () {
-      latest = null;
-      mock = true;          // pipeline has not run yet; fall back to placeholders
+      latest = null;        // feed not published yet, or unreachable
     });
-  }
-
-  // Placeholders only, until the hourly job has published latest.json. Deterministic
-  // and scaled to each pollutant's standard so banding still looks sensible.
-  function placeholders(p) {
-    var out = {};
-    cities.forEach(function (c) {
-      var seed = 0;
-      for (var i = 0; i < c.id.length; i++) seed = (seed * 31 + c.id.charCodeAt(i)) % 9973;
-      var north = Math.max(0, (c.lat - 8) / 22);        // rises up the Gangetic plain
-      var base = POLLUTANTS[p].naaqs * (0.3 + north * north * 2.5);
-      out[c.id] = Math.round(base * (0.55 + (seed % 100) / 110) * 10) / 10;
-    });
-    return out;
   }
 
   function valuesFor(p) {
     if (current.day) return citiesFromStations(stationValues(p));
     if (latest && latest.pollutants && latest.pollutants[p]) return latest.pollutants[p];
-    return placeholders(p);
+    return {};                 // nothing measured: draw nothing rather than invent it
   }
 
   // Per monitor. Districts need this: Delhi's 41 monitors sit in eleven districts,
@@ -265,21 +248,13 @@
       if (d) return d;
     }
     if (!current.day && latest && latest.byStation && latest.byStation[p]) return latest.byStation[p];
-    var out = {};
-    stations.forEach(function (st) {
-      var seed = 0;
-      for (var i = 0; i < st.id.length; i++) seed = (seed * 31 + st.id.charCodeAt(i)) % 9973;
-      var north = Math.max(0, (st.lat - 8) / 22);
-      var base = POLLUTANTS[p].naaqs * (0.3 + north * north * 2.5);
-      out[st.id] = Math.round(base * (0.55 + (seed % 100) / 110) * 10) / 10;
-    });
-    return out;
+    return {};
   }
 
   // Freshness comes from the data itself, so a stalled pipeline is visible here
   // rather than hidden.
   function stampText() {
-    if (mock || !latest || !latest.updated) return 'map values are placeholders';
+    if (!latest || !latest.updated) return 'no live readings';
     var d = new Date(latest.updated);
     if (isNaN(d)) return '';
     var age = (Date.now() - d.getTime()) / 36e5;
@@ -1375,7 +1350,7 @@
     .then(loadLatest)
     .then(function () {
       ui.stamp.textContent = stampText();
-      ui.stamp.classList.toggle('is-mock', mock);
+      ui.stamp.classList.toggle('is-stale', !latest || !latest.updated);
       render();
       drawGauge(null);
       ensureDaily();

@@ -21,7 +21,7 @@
 .aq-head h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; }
 /* Freshness belongs with the time controls, not beside the title. */
 .aq-stamp { font-size: 0.7rem; color: var(--color-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.aq-stamp.is-mock { color: #b45309; }
+.aq-stamp.is-stale { color: #b45309; }
 
 /* --- Pollutant strip: selector and comparison in one --- */
 .aq-pollutants {
