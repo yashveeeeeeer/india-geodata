@@ -596,17 +596,79 @@
   }
 
   // Breadcrumb doubles as the way back out, so the map needs no reset button.
+  // The trail ends on whatever the rail is describing, and anything past that is
+  // only where the map happens to be framed.
+  //
+  // It used to end on the feature you had clicked, so zooming into a district
+  // gave "India › Punjab › Bathinda" beside a rail reading Punjab's figures:
+  // the two halves of the same screen naming different places. Districts have no
+  // record of their own — the readings roll up to the state — so the state is
+  // what the numbers are, and Bathinda is where you are looking.
+  function stateFeature(id) {
+    for (var i = 0; i < statesFeat.length; i++) {
+      if (String(statesFeat[i].id) === String(id)) return statesFeat[i];
+    }
+    return null;
+  }
+
+  function crumbParts() {
+    var parts = [];
+    if (!current.zoomState && !current.city) return parts;
+    parts.push({ label: 'India', go: zoomToIndia });
+
+    var stateName = current.city ? current.city.state
+      : (current.zoomVia || current.zoomState);
+    // For a city, the state comes from the city itself rather than from whatever
+    // was last framed — otherwise picking a dot off the map gives a step that is
+    // a button after a search and plain text after a click, for no reason a
+    // reader could guess.
+    var stateId = current.zoomStateId;
+    if (current.city && coverage && coverage.cityUnit) {
+      var unit = coverage.cityUnit[current.city.id];
+      if (unit && unit.state) stateId = unit.state;
+    }
+    if (stateName) {
+      parts.push({
+        label: stateName,
+        // Stepping up means describing the state: frame it, drop the city.
+        // The level tabs are left alone — looking at Punjab's districts is a
+        // perfectly good way to be looking at Punjab.
+        go: stateId && (current.city || current.zoomVia) ? function () {
+          var f = stateFeature(stateId);
+          if (f) zoomToFeature(f);
+        } : null
+      });
+    }
+    if (current.city) parts.push({ label: current.city.name });
+    // The district is not a place with readings, so it trails as context.
+    if (current.zoomVia) parts.push({ label: current.zoomState, frame: true });
+    return parts;
+  }
+
   function drawCrumb() {
     var c = document.getElementById('aqCrumb');
     if (!c) return;
-    if (!current.zoomState) { c.innerHTML = ''; return; }
-    var trail = '<button type="button">India</button>';
-    if (current.zoomVia) {
-      trail += '<span>›</span><i>' + esc(current.zoomVia) + '</i>';
-    }
-    trail += '<span>›</span><b>' + esc(current.zoomState) + '</b>';
-    c.innerHTML = trail;
-    c.querySelector('button').addEventListener('click', zoomToIndia);
+    var parts = crumbParts();
+    if (!parts.length) { c.innerHTML = ''; return; }
+
+    // The last part that is not just the frame is the one the rail is naming.
+    var here = -1;
+    parts.forEach(function (p, i) { if (!p.frame) here = i; });
+
+    c.innerHTML = parts.map(function (p, i) {
+      var sep = i ? '<span>›</span>' : '';
+      if (p.frame) return sep + '<i>' + esc(p.label) + '</i>';
+      if (i === here) return sep + '<b>' + esc(p.label) + '</b>';
+      // A step with nowhere to go — a city picked off the map, where no state was
+      // ever framed — reads as plain text rather than a button that does nothing.
+      if (!p.go) return sep + '<i>' + esc(p.label) + '</i>';
+      return sep + '<button type="button" data-i="' + i + '">' + esc(p.label) + '</button>';
+    }).join('');
+
+    [].forEach.call(c.querySelectorAll('button'), function (b) {
+      var p = parts[+b.dataset.i];
+      if (p && p.go) b.addEventListener('click', p.go);
+    });
   }
 
   function markSelection() {
