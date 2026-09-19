@@ -9,7 +9,10 @@ name: Air quality freshness
 
 on:
   schedule:
-    - cron: '40 3 * * *'      # daily, well after the hourly job
+    # Every six hours rather than daily. This is now the only thing that decides
+    # whether a run of missed hours matters, so a whole day is too long to wait
+    # to be told.
+    - cron: '40 */6 * * *'
   workflow_dispatch:
 
 permissions:

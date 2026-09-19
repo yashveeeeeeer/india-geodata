@@ -12,9 +12,14 @@ name: Air quality hourly
 #
 # A single missed hour is not a fault. data.gov.in refuses a burst of requests
 # now and then, and the page carries on showing the hour before. So a failed
-# fetch skips the rest of the run and says so, and the run only turns red once
-# the published feed is more than three hours old — by then it is a fault, and
-# the daily freshness check will have opened an issue about it too.
+# fetch publishes nothing, skips the rest of the run, and says so.
+#
+# It does not decide whether that matters. Judging it here would mean a
+# threshold on how old the feed is, and GitHub runs this schedule every three
+# hours or so rather than every hour, so any threshold tight enough to catch a
+# real outage also fires on an ordinary gap. aq-freshness.yml already answers
+# that question, on its own schedule, and opens an issue — one alarm, in one
+# place, rather than two that disagree.
 
 on:
   schedule:
@@ -31,6 +36,10 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    # The retry budget across thirty-odd pages can reach a couple of hours if
+    # every one of them is slow. Nothing here is worth an hour, let alone three,
+    # and a stalled run would sit in front of the next ones.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -52,24 +61,22 @@ jobs:
             echo "ok=true" >> "$GITHUB_OUTPUT"
           else
             echo "ok=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::the fetch did not finish; leaving the published feed alone"
-            # Nothing was written, so there is nothing half-done to clean up.
+            echo "::warning::the fetch did not finish; publishing nothing this hour"
+            # latest.json is written before the snapshot, so a late failure can
+            # leave it modified. The commit step is skipped either way, and the
+            # runner is thrown away, but drop the half-hour of rows regardless
+            # so nothing downstream can mistake them for a whole one.
             rm -f .aq-snapshots/aq-*.csv
+            git checkout -- docs/projects/air-quality/data/latest.json 2>/dev/null || true
           fi
           exit 0
 
-      - name: Say how bad a missed hour is
+      - name: Say how old the feed is now
         if: steps.fetch.outputs.ok != 'true'
         run: |
-          set +e
-          out=$(python scripts/check-aq-freshness.py --only feed --max-age-hours 3 2>&1)
-          code=$?
-          echo "$out"
-          if [ "$code" -ne 0 ]; then
-            echo "::error::the feed has not refreshed in over three hours"
-            exit 1
-          fi
-          echo "::notice::one hour missed, the published feed is still recent"
+          # Reported, not judged. aq-freshness.yml decides whether this is a
+          # problem, so a missed hour here never turns the run red on its own.
+          python scripts/check-aq-freshness.py --only feed --max-age-hours 99999 || true
 
       - name: Pull down today's archive, if it exists
         if: steps.fetch.outputs.ok == 'true'

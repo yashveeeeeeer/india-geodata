@@ -18,7 +18,7 @@ Get a free key at https://data.gov.in and pass it with --key or DATA_GOV_IN_KEY.
 The published sample key works but returns 10 rows per request, so this pages.
 
 Pages are read down one connection, with a short wait between them. Opening a
-fresh TLS connection for each of twenty-odd pages and firing them back to back
+fresh TLS connection for each of thirty-odd pages and firing them back to back
 reads like a burst, and data.gov.in starts refusing: the first page answers in
 under two seconds and the second is met with a closed door.
 
@@ -37,7 +37,6 @@ import sys
 import time
 import urllib.error
 import urllib.parse
-import urllib.request
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
@@ -107,19 +106,35 @@ def get(key, limit, offset, tries=5, timeout=45.0):
                     _drop_connection()
                     raise SystemExit(f"data.gov.in answered HTTP {resp.status} "
                                      f"for offset {offset}")
-                wait = int(retry_after or 0) or delay
+                try:
+                    wait = int(retry_after or 0) or delay
+                except ValueError:
+                    wait = delay        # an HTTP-date Retry-After; our own backoff will do
                 print(f"      HTTP {resp.status}, waiting {wait}s", flush=True)
                 time.sleep(wait)
                 delay = min(delay * 2, 120)
                 continue
-            out = json.loads(body.decode("utf-8"))
+            if resp.status in (301, 302, 303, 307, 308):
+                # urllib used to follow these for us; http.client does not.
+                raise SystemExit(f"data.gov.in redirected to "
+                                 f"{resp.getheader('Location')!r}; the endpoint has moved")
+            try:
+                out = json.loads(body.decode("utf-8"))
+            except (ValueError, UnicodeDecodeError) as e:
+                # Answered, quickly, with something that is not our JSON. Retrying
+                # will not help and calling it a throttle sends the next person
+                # looking in the wrong place.
+                _drop_connection()
+                raise SystemExit(f"data.gov.in answered HTTP {resp.status} with "
+                                 f"{len(body)} bytes that are not JSON ({e}); "
+                                 f"first 200: {body[:200]!r}")
             if offset == 0:
                 print(f"  first page: {len(out.get('records') or [])} rows "
                       f"in {time.time() - t0:.1f}s", flush=True)
             return out
         except SystemExit:
             raise
-        except (OSError, http.client.HTTPException, ValueError) as e:
+        except (OSError, http.client.HTTPException) as e:
             # A half-used connection is worse than none; start the next try fresh.
             refused = isinstance(e, ConnectionError)
             _drop_connection()
@@ -148,6 +163,7 @@ def fetch_all(key, page=100, pause=0.4, timeout=45.0):
     total = int(first.get("total") or 0)
     rows = list(first.get("records") or [])
     if not rows:
+        _drop_connection()
         return rows, total
     step = len(rows)
     while len(rows) < total:
@@ -274,7 +290,10 @@ def aggregate(rows, cities, stations=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--key", default=os.environ.get("DATA_GOV_IN_KEY", SAMPLE_KEY))
+    # GitHub hands an unset secret through as "", so the usual default does not
+    # fire and we would send an empty api-key and be turned away.
+    ap.add_argument("--key", default=(os.environ.get("DATA_GOV_IN_KEY") or "").strip()
+                    or SAMPLE_KEY)
     ap.add_argument("--snapshot-dir", default=os.path.join(".aq-snapshots"))
     ap.add_argument("--page", type=int, default=100)
     ap.add_argument("--timeout", type=float, default=45.0)
