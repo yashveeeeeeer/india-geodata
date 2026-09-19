@@ -276,15 +276,24 @@
   }
 
   // ...and when it is empty, the map says why rather than looking like clean air.
+  var dayLoading = false;
+
   function updateHint() {
     if (!ui.hint) return;
-    var empty = current.day && !Object.keys(stationValues(current.pollutant)).length;
+    // Silent while the day's readings are still on their way: the map is empty
+    // then too, and saying nothing was measured before we have looked is its own
+    // kind of untruth.
+    var empty = !dayLoading && current.day &&
+      !Object.keys(stationValues(current.pollutant)).length;
     ui.hint.textContent = empty
       ? 'No ' + (current.pollutant === 'OZONE' ? 'ozone' : current.pollutant) +
         ' readings on ' + current.day
       : 'Click to zoom · space + scroll';
     ui.hint.classList.toggle('is-empty', !!empty);
-    if (view && view.t && view.t.k !== 1) ui.hint.hidden = true;
+    // Zooming hides the zoom advice, having taken it — but never the reason the
+    // map is blank. Assigned rather than only ever set true, or the first zoom
+    // of the session would take the explanation away with it for good.
+    ui.hint.hidden = !empty && !!(view && view.t && view.t.k !== 1);
   }
 
   // Freshness comes from the data itself, so a stalled pipeline is visible here
@@ -504,7 +513,7 @@
   // Delhi NCR separates into individual cities instead of growing into one blob.
   function applyTransform(t) {
     if (!view) return;
-    if (t.k !== 1 && ui.hint) { ui.hint.hidden = true; }
+    if (ui.hint) updateHint();
     view.t = t;
     view.g.attr('transform', t);
     view.g.select('.aq-states').select('.aq-inner').attr('stroke-width', 0.6 / t.k);
@@ -1044,12 +1053,32 @@
     if (w && !drawExceed(ui.exceed, w, current.pollutant)) ui.exceedBlock.hidden = true;
   }
 
+  // Nothing to say, said plainly. Returning early used to leave the whole rail —
+  // value, unit, standard, gauge, stats — describing whatever was selected
+  // before, so switching to a pollutant this period has no readings for left
+  // PM2.5's mean sitting under a CO tab, in the wrong unit, against the wrong
+  // standard. Two clicks from the landing view.
+  function blankRail() {
+    ui.value.textContent = '—';
+    ui.unit.textContent = cfg().unit;
+    ui.versus.textContent = '';
+    ui.versus.style.color = '';
+    drawGauge(null);
+    drawStats([]);
+    ui.cycleBlock.hidden = true;
+    ui.exceedBlock.hidden = true;
+    railSpan = '';
+    updateWhen();
+    updateStrip();
+  }
+
   function updateRail() {
     var doc = placeDoc();
     var s = doc && doc.series[current.pollutant];
     var w = windowed(s);
     if (!w) {
       if (current.city) showRailFromMap(current.city);
+      else blankRail();
       return;
     }
     var mean = d3.mean(w.v);
@@ -1169,6 +1198,12 @@
         var d0 = x.invert(mx);
         var i = Math.min(data.length - 1, Math.max(0, bisect(data, d0)));
         var d = data[i];
+        // Inside a gap the chart deliberately left blank, say nothing. Naming a
+        // reading two pixels from where the line was lifted contradicts the
+        // lifting, in the same gesture.
+        if (Math.abs(d.d - d0) / 864e5 > MAX_LINE_GAP_DAYS) {
+          focus.style('display', 'none'); hideTip(); return;
+        }
         focus.style('display', null).attr('transform', 'translate(' + x(d.d) + ',0)');
         focus.select('circle').attr('cy', y(d.v));
         var bi = band(d.v, current.pollutant);
@@ -1695,9 +1730,14 @@
     if (year !== wasYear) {
       current.year = year;
       // the map reads a matrix per pollutant-year, so fetch it before drawing
-      loadDaily(current.pollutant, year).then(function () {
-        updateHint(); render(); drawStrip();
-      }).catch(function () { updateHint(); render(); drawStrip(); });
+      // Clear the map first. Until that year's file lands the dots on screen
+      // belong to the day we just left, and the readout above them already says
+      // the new one.
+      dayLoading = true;
+      updateHint();
+      render();
+      loadDaily(current.pollutant, year).then(done).catch(done);
+      function done() { dayLoading = false; updateHint(); render(); drawStrip(); }
     } else {
       render();
       drawStrip();
