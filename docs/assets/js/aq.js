@@ -518,7 +518,11 @@
 
   function zoomToState(f) { zoomToFeature(f); }
 
-  function zoomToFeature(f) {
+  // keepCity is for the one caller that is framing the map around a city it has
+  // already chosen, rather than choosing the region itself. Without it, searching
+  // for Lucknow zoomed to Uttar Pradesh and then read the whole state's numbers,
+  // because framing the state threw the city away on its way past.
+  function zoomToFeature(f, keepCity) {
     current.zoomState = f.properties.name;
     // At district level the readings roll up to the state, so name the state in
     // the trail too — otherwise the crumb says Kasaragod while the rail says Kerala.
@@ -527,12 +531,17 @@
     current.zoomStateId = current.level === 'districts' && f.properties.state_lgd != null
       ? String(f.properties.state_lgd)
       : String(f.id);
-    current.city = null;
-    current.range = null;
+    if (!keepCity) {
+      current.city = null;
+      current.range = null;
+    }
+    // Redraw first, then animate. The other way round starts the zoom on an svg
+    // that render() is about to throw away, and the transition rides off on a
+    // node that is no longer in the document — so nothing moves.
+    render();
     zoomToBounds(view.path.bounds(f));
     drawCrumb();
-    render();
-    refreshPlace();
+    if (!keepCity) refreshPlace();   // the city's own caller is already loading it
   }
 
   function zoomToIndia() {
@@ -1161,8 +1170,10 @@
     // put the city on screen, otherwise the selection ring is lost among 239 dots
     var unit = coverage && coverage.cityUnit && coverage.cityUnit[c.id];
     if (unit && unit.state && view) {
-      var f = statesFeat.filter(function (x) { return x.id === unit.state; })[0];
-      if (f) zoomToFeature(f);
+      var f = statesFeat.filter(function (x) {
+        return String(x.id) === String(unit.state);
+      })[0];
+      if (f) zoomToFeature(f, true);   // frame the state, keep the city
     }
   }
 
