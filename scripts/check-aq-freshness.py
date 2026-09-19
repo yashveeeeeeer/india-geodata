@@ -21,8 +21,13 @@ Prints a line per check and exits 0 when all are fresh, 1 when something is
 stale, 2 when something is missing or unreadable. Intended for a scheduled
 workflow that opens an issue on a non-zero exit.
 
+--only narrows it to one of those. The hourly job uses --only feed, because it
+has just touched the feed and nothing else, and a stale strip is not its business
+to report on.
+
 Usage:
     python scripts/check-aq-freshness.py [--max-age-hours 6] [--max-record-days 3]
+                                         [--only feed|record|strip|marks]
                                          [--path docs/.../latest.json]
 """
 
@@ -149,6 +154,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-age-hours", type=float, default=6.0)
     ap.add_argument("--max-record-days", type=float, default=3.0)
+    ap.add_argument("--only", choices=("feed", "record", "strip", "marks"),
+                    help="run just one of the checks")
+    ap.add_argument("--report-only", action="store_true",
+                    help="say how things stand without calling it fresh or stale")
     ap.add_argument("--path", default=os.path.join(
         "docs", "projects", "air-quality", "data", "latest.json"))
     args = ap.parse_args()
@@ -157,13 +166,20 @@ def main():
     path = os.path.join(root, args.path)
     data_dir = os.path.dirname(path)
 
-    worst, _ = check_record(data_dir, args.max_record_days)
-    worst = max(worst, check_strip(data_dir))
-    worst = max(worst, check_index(data_dir))
+    want = args.only
+    worst = 0
+    if want in (None, "record"):
+        worst = max(worst, check_record(data_dir, args.max_record_days)[0])
+    if want in (None, "strip"):
+        worst = max(worst, check_strip(data_dir))
+    if want in (None, "marks"):
+        worst = max(worst, check_index(data_dir))
+    if want not in (None, "feed"):
+        return worst
 
     if not os.path.exists(path):
         print("MISSING feed: latest.json has never been published")
-        return max(worst, 2)
+        return worst if args.report_only else max(worst, 2)
     try:
         doc = json.load(open(path, encoding="utf-8"))
     except (OSError, ValueError) as e:
@@ -188,6 +204,11 @@ def main():
     summary = (f"age {age:.1f}h, {stations} monitors, {pollutants} pollutants, "
                f"updated {stamp}")
 
+    if args.report_only:
+        # Called where the answer is not this script's to give. Saying FRESH
+        # under a threshold picked to never trigger is worse than saying nothing.
+        print(f"feed: {summary}")
+        return worst
     if age > args.max_age_hours:
         print(f"STALE feed: {summary}")
         return max(worst, 1)
