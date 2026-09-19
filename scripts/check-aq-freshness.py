@@ -156,6 +156,8 @@ def main():
     ap.add_argument("--max-record-days", type=float, default=3.0)
     ap.add_argument("--only", choices=("feed", "record", "strip", "marks"),
                     help="run just one of the checks")
+    ap.add_argument("--report-only", action="store_true",
+                    help="say how things stand without calling it fresh or stale")
     ap.add_argument("--path", default=os.path.join(
         "docs", "projects", "air-quality", "data", "latest.json"))
     args = ap.parse_args()
@@ -177,7 +179,7 @@ def main():
 
     if not os.path.exists(path):
         print("MISSING feed: latest.json has never been published")
-        return max(worst, 2)
+        return worst if args.report_only else max(worst, 2)
     try:
         doc = json.load(open(path, encoding="utf-8"))
     except (OSError, ValueError) as e:
@@ -202,6 +204,11 @@ def main():
     summary = (f"age {age:.1f}h, {stations} monitors, {pollutants} pollutants, "
                f"updated {stamp}")
 
+    if args.report_only:
+        # Called where the answer is not this script's to give. Saying FRESH
+        # under a threshold picked to never trigger is worse than saying nothing.
+        print(f"feed: {summary}")
+        return worst
     if age > args.max_age_hours:
         print(f"STALE feed: {summary}")
         return max(worst, 1)

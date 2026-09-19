@@ -36,9 +36,10 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    # The retry budget across thirty-odd pages can reach a couple of hours if
-    # every one of them is slow. Nothing here is worth an hour, let alone three,
-    # and a stalled run would sit in front of the next ones.
+    # A backstop only. The fetch keeps its own ten-minute deadline and exits
+    # quietly when it runs out, which is what should normally happen; this is
+    # here for the ways a runner can hang that a script cannot notice, and it is
+    # set well clear of that deadline so it does not pre-empt it.
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +77,7 @@ jobs:
         run: |
           # Reported, not judged. aq-freshness.yml decides whether this is a
           # problem, so a missed hour here never turns the run red on its own.
-          python scripts/check-aq-freshness.py --only feed --max-age-hours 99999 || true
+          python scripts/check-aq-freshness.py --only feed --report-only || true
 
       - name: Pull down today's archive, if it exists
         if: steps.fetch.outputs.ok == 'true'

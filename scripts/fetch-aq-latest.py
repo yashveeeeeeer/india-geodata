@@ -35,7 +35,6 @@ import random
 import re
 import sys
 import time
-import urllib.error
 import urllib.parse
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -149,6 +148,12 @@ def get(key, limit, offset, tries=5, timeout=45.0):
             delay = min(delay * 2, 60)
 
 
+class OutOfTime(SystemExit):
+    """Ran long. Raised as SystemExit so the caller exits 1 like any other giving
+    up — a job-level timeout would cancel the run and mark it failed, which is
+    the one thing this hour is not supposed to do."""
+
+
 def _breathe(pause):
     """A short, uneven wait. Even spacing from a job that runs on the hour still
     arrives as a recognisable pattern; a little jitter does not."""
@@ -156,9 +161,13 @@ def _breathe(pause):
         time.sleep(pause * random.uniform(0.6, 1.4))
 
 
-def fetch_all(key, page=100, pause=0.4, timeout=45.0):
+def fetch_all(key, page=100, pause=0.4, timeout=45.0, deadline=600.0):
     """Page until the reported total is covered. A key with a smaller ceiling than
-    `page` simply returns fewer rows, and the page size adapts to what came back."""
+    `page` simply returns fewer rows, and the page size adapts to what came back.
+
+    Gives up after `deadline` seconds. Thirty-odd pages, each with its own retry
+    budget, can otherwise run for hours against a merely slow endpoint."""
+    started = time.monotonic()
     first = get(key, page, 0, timeout=timeout)
     total = int(first.get("total") or 0)
     rows = list(first.get("records") or [])
@@ -167,6 +176,12 @@ def fetch_all(key, page=100, pause=0.4, timeout=45.0):
         return rows, total
     step = len(rows)
     while len(rows) < total:
+        spent = time.monotonic() - started
+        if spent > deadline:
+            _drop_connection()
+            took = f"{spent / 60:.1f} min" if spent >= 60 else f"{spent:.0f}s"
+            raise OutOfTime(f"gave up after {took} with {len(rows)} of {total} rows; "
+                            f"data.gov.in is answering but slowly. Nothing was published.")
         _breathe(pause)                 # before the request, not after the last one
         batch = get(key, step, len(rows), timeout=timeout)
         got = batch.get("records") or []
@@ -294,6 +309,8 @@ def main():
     # fire and we would send an empty api-key and be turned away.
     ap.add_argument("--key", default=(os.environ.get("DATA_GOV_IN_KEY") or "").strip()
                     or SAMPLE_KEY)
+    ap.add_argument("--deadline", type=float, default=600.0,
+                    help="seconds to spend paging before giving up")
     ap.add_argument("--snapshot-dir", default=os.path.join(".aq-snapshots"))
     ap.add_argument("--page", type=int, default=100)
     ap.add_argument("--timeout", type=float, default=45.0)
@@ -305,10 +322,14 @@ def main():
     data_dir = os.path.join(root, "docs", "projects", "air-quality", "data")
     cities = json.load(open(os.path.join(data_dir, "cities.json"), encoding="utf-8"))
 
-    try:
-        rows, total = fetch_all(args.key, args.page, args.pause, args.timeout)
-    except urllib.error.HTTPError as e:
-        sys.exit(f"data.gov.in returned HTTP {e.code}")
+    if args.key == SAMPLE_KEY:
+        # It works, which is the danger: it caps pages at ten rows and publishes
+        # the same numbers, so a deleted secret would look like a healthy hour
+        # for ever. Say so where a log will catch it.
+        print("::warning::no DATA_GOV_IN_KEY; falling back to the public sample "
+              "key, which returns ten rows a page. Set the secret.", flush=True)
+    rows, total = fetch_all(args.key, args.page, args.pause, args.timeout,
+                            args.deadline)
     if not rows:
         sys.exit("no records returned")
     print(f"  fetched {len(rows)} of {total} rows")
