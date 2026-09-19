@@ -193,6 +193,15 @@
   }
 
   var dailySpan = null;
+  var national = null;   // the national daily mean across every year
+  // One small file holding the national daily mean for the whole record. The
+  // strip is drawn from this, so it can span every year without pulling a
+  // matrix per year just to draw a line.
+  function loadNational() {
+    return getJSON(DATA + 'daily/national.json').then(function (j) { national = j; })
+      .catch(function () { national = null; });
+  }
+
   function loadDailyIndex() {
     return getJSON(DATA + 'daily/index.json').then(function (j) {
       dailyIndex = j.pollutants || {};
@@ -655,11 +664,17 @@
     return [idx.years[idx.years.length - 1]];   // the most recent year by default
   }
 
+  // Only the years being looked at, not every year that happens to be cached —
+  // otherwise scrubbing back to 2009 would leave the chart drawing a line from
+  // 2009 to today across a seventeen-year hole.
   function stitch(key) {
     var idx = placeIndex[key] || {};
     var loaded = placeYears[key] || {};
+    var want = wantedYears(key);
     var series = {};
-    Object.keys(loaded).sort().forEach(function (y) {
+    Object.keys(loaded).sort().filter(function (y) {
+      return want.indexOf(y) !== -1;
+    }).forEach(function (y) {
       Object.keys(loaded[y]).forEach(function (p) {
         var src = loaded[y][p];
         var dst = series[p] || (series[p] = { t: [], v: [], n: [] });
@@ -789,11 +804,16 @@
     ui.exceedBlock.hidden = true;
   }
 
+  // A place's record now spans every year we hold, and more of it arrives as you
+  // scrub about. Without a window the rail would quietly become an all-time
+  // average, so a brushed range wins and otherwise the year on screen does.
   function windowed(s) {
     if (!s) return null;
+    var lo = current.range ? current.range[0] : (current.year || '') + '-01-01';
+    var hi = current.range ? current.range[1] : (current.year || '9999') + '-12-31';
     var t = s.t, v = s.v, n = s.n, i, out = { t: [], v: [], n: [] };
     for (i = 0; i < t.length; i++) {
-      if (current.range && (t[i] < current.range[0] || t[i] > current.range[1])) continue;
+      if (t[i] < lo || t[i] > hi) continue;
       out.t.push(t[i]); out.v.push(v[i]); out.n.push(n[i]);
     }
     return out.t.length ? out : null;
@@ -959,7 +979,8 @@
     drawGauge(mean);
     drawStats([[w.t.length, 'days'], [over, 'over NAAQS'],
                [Math.round(d3.median(w.n)), 'stations']]);
-    ui.when.textContent = w.t[0] + ' → ' + w.t[w.t.length - 1];
+    railSpan = w.t.length > 1 ? w.t[0] + ' → ' + w.t[w.t.length - 1] : w.t[0];
+    updateWhen();
     updateStrip();
     drawRailCycles();
   }
@@ -1502,35 +1523,49 @@
     return m.means;
   }
 
+  function stripSeries() {
+    var s = national && national[current.pollutant];
+    if (s && s.t.length) return s;
+    var m = current.year && dailyCache[current.pollutant + '-' + current.year];
+    if (!m) return null;
+    return { t: m.t, v: nationalMeans(m) };
+  }
+
   function drawStrip() {
     var el = ui.strip;
     el.innerHTML = '';
     var W = el.clientWidth, H = el.clientHeight;
     if (!W || !H) return;
-    var m = current.year && dailyCache[current.pollutant + '-' + current.year];
-    if (!m) return;
+    var s = stripSeries();
+    if (!s) return;
 
-    var means = nationalMeans(m);
     var svg = d3.select(el).append('svg').attr('width', W).attr('height', H);
-    var x = d3.scaleLinear().domain([0, m.t.length - 1]).range([0, W]);
-    var y = d3.scaleLinear().domain([0, d3.max(means) || 1]).range([H - 1, 1]);
+    var x = d3.scaleLinear().domain([0, s.t.length - 1]).range([0, W]);
+    var y = d3.scaleLinear().domain([0, d3.max(s.v) || 1]).range([H - 1, 1]);
 
-    svg.append('path').datum(means.map(function (v, i) { return { i: i, v: v }; })
+    svg.append('path').datum(s.v.map(function (v, i) { return { i: i, v: v }; })
         .filter(function (d) { return d.v != null; }))
       .attr('fill', 'none').attr('stroke', '#94a3b8').attr('stroke-width', 1)
       .attr('d', d3.line().x(function (d) { return x(d.i); }).y(function (d) { return y(d.v); }));
 
-    // month ticks, so a position on the strip reads as a time of year
-    m.t.forEach(function (d, i) {
-      if (d.slice(8) !== '01') return;
+    // Year ticks across a long record, month ticks within a single year, so a
+    // position on the strip always reads as a time.
+    var multiYear = s.t[0].slice(0, 4) !== s.t[s.t.length - 1].slice(0, 4);
+    s.t.forEach(function (d, i) {
+      var mark = multiYear ? (d.slice(5) === '01-01') : (d.slice(8) === '01');
+      if (!mark) return;
       svg.append('line').attr('x1', x(i)).attr('x2', x(i)).attr('y1', H - 4).attr('y2', H)
         .attr('stroke', '#cbd5e1');
+      if (multiYear && d.slice(0, 4) % 4 === 0) {
+        svg.append('text').attr('x', x(i) + 2).attr('y', H - 6).attr('font-size', 7.5)
+          .attr('fill', '#94a3b8').text(d.slice(0, 4));
+      }
     });
 
-    if (current.day && m.index[current.day] != null) {
-      var i = m.index[current.day];
-      svg.append('line').attr('x1', x(i)).attr('x2', x(i)).attr('y1', 0).attr('y2', H)
-        .attr('stroke', 'var(--color-accent)').attr('stroke', '#f59e0b').attr('stroke-width', 1.5);
+    var at = current.day ? s.t.indexOf(current.day) : -1;
+    if (at !== -1) {
+      svg.append('line').attr('x1', x(at)).attr('x2', x(at)).attr('y1', 0).attr('y2', H)
+        .attr('stroke', '#f59e0b').attr('stroke-width', 1.5);
     }
 
     svg.append('rect').attr('width', W).attr('height', H).attr('fill', 'transparent')
@@ -1538,18 +1573,28 @@
       .on('pointerdown pointermove', function (e) {
         if (e.type === 'pointermove' && !e.buttons) return;
         var px = d3.pointer(e, this)[0];
-        var i = Math.max(0, Math.min(m.t.length - 1, Math.round(x.invert(px))));
-        setDay(m.t[i]);
+        var i = Math.max(0, Math.min(s.t.length - 1, Math.round(x.invert(px))));
+        setDay(s.t[i]);
       });
   }
 
   function setDay(day) {
     var wasYear = current.day && current.day.slice(0, 4);
+    var year = day.slice(0, 4);
     current.day = day;
     updateWhen();
-    render();
-    drawStrip();
-    if (day.slice(0, 4) !== wasYear) refreshPlace();
+    if (year !== wasYear) {
+      current.year = year;
+      // the map reads a matrix per pollutant-year, so fetch it before drawing
+      loadDaily(current.pollutant, year).then(function () {
+        render();
+        drawStrip();
+      }).catch(function () { render(); drawStrip(); });
+      refreshPlace();
+    } else {
+      render();
+      drawStrip();
+    }
   }
 
   function clearDay() {
@@ -1560,20 +1605,20 @@
   }
 
   function stepDay(delta) {
-    var m = current.year && dailyCache[current.pollutant + '-' + current.year];
-    if (!m) return;
-    if (!current.day) { setDay(m.t[m.t.length - 1]); return; }
-    var i = m.index[current.day];
-    if (i == null) return;
+    var s = stripSeries();
+    if (!s) return;
+    if (!current.day) { setDay(s.t[s.t.length - 1]); return; }
+    var i = s.t.indexOf(current.day);
+    if (i === -1) return;
     i += delta;
-    if (i < 0 || i >= m.t.length) return;
-    setDay(m.t[i]);
+    if (i < 0 || i >= s.t.length) return;
+    setDay(s.t[i]);
   }
 
+  var railSpan = '';
   function updateWhen() {
     if (!current.day) {
-      ui.when.textContent = latest && latest.updated ? '' : '';
-      ui.when.innerHTML = '';
+      ui.when.textContent = railSpan;
       return;
     }
     ui.when.innerHTML = esc(current.day) +
@@ -1766,6 +1811,7 @@
     .then(loadSeriesIndex)
     .then(loadCoverage)
     .then(loadDailyIndex)
+    .then(loadNational)
     .then(loadLatest)
     .then(function () {
       ui.stamp.textContent = stampText();
