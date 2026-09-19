@@ -258,7 +258,10 @@
   }
 
   function valuesFor(p) {
-    if (current.day) return citiesFromStations(stationValues(p));
+    var byStation = stationValues(p);
+    if (Object.keys(byStation).length) return citiesFromStations(byStation);
+    // Either the day's readings have not arrived yet or that fetch failed. Show
+    // the live hour rather than an empty country, which reads as clean air.
     if (latest && latest.pollutants && latest.pollutants[p]) return latest.pollutants[p];
     return {};                 // nothing measured: draw nothing rather than invent it
   }
@@ -270,7 +273,7 @@
       var d = dayStationValues(p, current.day);
       if (d) return d;
     }
-    if (!current.day && latest && latest.byStation && latest.byStation[p]) return latest.byStation[p];
+    if (latest && latest.byStation && latest.byStation[p]) return latest.byStation[p];
     return {};
   }
 
@@ -668,11 +671,7 @@
     if (w) {
       var a = w[0].slice(0, 4), b = w[1].slice(0, 4);
       var span = idx.years.filter(function (y) { return y >= a && y <= b; });
-      if (current.day) {
-        var dy = current.day.slice(0, 4);   // the map's day may sit outside it
-        if (idx.years.indexOf(dy) !== -1 && span.indexOf(dy) === -1) span.push(dy);
-      }
-      if (span.length) return span.sort();
+      if (span.length) return span;
     }
     if (current.day) {
       var y = current.day.slice(0, 4);
@@ -821,21 +820,18 @@
     ui.exceedBlock.hidden = true;
   }
 
-  // A place's record now spans every year we hold, and more of it arrives as you
-  // scrub about. Without a window the rail would quietly become an all-time
-  // average, so a brushed range wins and otherwise the year on screen does.
   // The period everything reads when nobody has brushed one: the last thirty
   // days of the record. It used to be the calendar year on screen, which is
   // fine in November and absurd in January — landing on a year two days old
   // gave a rail reading "2 DAYS", sparklines with two points each, and a chart
   // with nothing to draw a line between.
   var WINDOW_DAYS = 30;
+  var MAX_LINE_GAP_DAYS = 3;     // further apart than this and the chart breaks the line
 
   function defaultWindow() {
     if (!dailySpan) return null;
-    // Ending on the day the map is showing, not on the end of the record.
-    // Otherwise scrubbing back to 2023 leaves the map in 2023 and the rail
-    // beside it still summarising last month.
+    // Ending on the day the map is showing, not on the end of the record, so
+    // the rail describes the period the map sits at the end of.
     var end = new Date((current.day || dailySpan[1]) + 'T00:00:00');
     if (isNaN(end)) return null;
     var start = new Date(end);
@@ -868,9 +864,10 @@
   // It is the one thing on the page asking a seasonal question, and under a
   // thirty-day window every answer fits in a single bar.
   //
-  // Twelve months that hold readings, not the last twelve on the calendar. The
+  // Twelve months that hold readings, not the last twelve on the calendar: the
   // record has a year-long hole in it where the archive we backfilled from went
-  // quiet, and counting through that hole would show a season made of one month.
+  // quiet. Only months already fetched are visible here, so this is the last
+  // twelve of what is loaded rather than of the whole record.
   function trailingYear(s) {
     if (!s || !s.t.length) return null;
     var months = [], seen = {};
@@ -1108,7 +1105,15 @@
 
     g.append('path').datum(data)
       .attr('fill', 'none').attr('stroke', '#0f172a').attr('stroke-width', 1.1)
-      .attr('d', d3.line().x(function (d) { return x(d.d); }).y(function (d) { return y(d.v); }));
+      .attr('d', d3.line()
+        // Lift the pen across a gap. The record has holes in it — whole months
+        // where a source went quiet — and a line drawn straight over one reads
+        // as a measurement rather than as the absence of any.
+        .defined(function (d, i) {
+          return d.v != null &&
+            (i === 0 || (d.d - data[i - 1].d) / 864e5 <= MAX_LINE_GAP_DAYS);
+        })
+        .x(function (d) { return x(d.d); }).y(function (d) { return y(d.v); }));
 
     g.append('g').attr('transform', 'translate(0,' + ih + ')')
       .call(d3.axisBottom(x).ticks(Math.max(3, Math.floor(iw / 90))).tickSize(0).tickPadding(5))
@@ -1644,6 +1649,9 @@
     var wasYear = current.day && current.day.slice(0, 4);
     var year = day.slice(0, 4);
     current.day = day;
+    // A brushed range belongs to the period you brushed it in. Carrying it along
+    // as you scrub leaves the rail describing one year and the map another.
+    current.range = null;
     updateWhen();
     if (year !== wasYear) {
       current.year = year;
@@ -1652,18 +1660,23 @@
         render();
         drawStrip();
       }).catch(function () { render(); drawStrip(); });
-      refreshPlace();
     } else {
       render();
       drawStrip();
     }
+    // Always, not only when the year changes. The period summarised beside the
+    // map is now the thirty days ending on this day, so moving a day within a
+    // year moves it too — and the rail sat frozen on the old one.
+    refreshPlace();
   }
 
   function clearDay() {
     current.day = null;
+    current.range = null;
     updateWhen();
     render();
     drawStrip();
+    refreshPlace();      // the window moves with the day, so the rail must follow
   }
 
   function stepDay(delta) {
