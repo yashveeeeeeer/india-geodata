@@ -121,24 +121,50 @@ def merge_daily_matrix(path, pollutant, year, rows):
     return len(dates), len(ids)
 
 
-def merge_series(path, name, key, rows):
-    """rows: pollutant -> day -> (value, monitors)."""
-    if os.path.exists(path):
-        doc = json.load(open(path, encoding="utf-8"))
-    else:
-        doc = {"id": key, "name": name, "series": {}, "cycle": {}}
+def merge_series(series_dir, name, key, rows):
+    """rows: pollutant -> day -> (value, monitors). A place is a folder now: an
+    index naming it and listing its years, and one file per year beside it."""
+    folder = os.path.join(series_dir, key)
+    os.makedirs(folder, exist_ok=True)
+
+    by_year = defaultdict(lambda: defaultdict(dict))
     for p, days in rows.items():
-        s = doc["series"].get(p) or {"t": [], "v": [], "n": []}
-        merged = {t: (s["v"][i], s["n"][i]) for i, t in enumerate(s["t"])}
-        merged.update(days)
-        t = sorted(merged)
-        doc["series"][p] = {
-            "t": t,
-            "v": [round(merged[d][0], 1) for d in t],
-            "n": [int(merged[d][1]) for d in t],
-        }
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(doc, f, separators=(",", ":"))
+        for day, val in days.items():
+            by_year[day[:4]][p][day] = val
+
+    for year, pols in by_year.items():
+        path = os.path.join(folder, f"{year}.json")
+        doc = {}
+        if os.path.exists(path):
+            try:
+                doc = json.load(open(path, encoding="utf-8"))
+            except ValueError:
+                doc = {}
+        for p, days in pols.items():
+            cur = doc.get(p) or {"t": [], "v": [], "n": []}
+            merged = {t: (cur["v"][i], cur["n"][i]) for i, t in enumerate(cur["t"])}
+            merged.update(days)
+            t = sorted(merged)
+            doc[p] = {"t": t,
+                      "v": [round(merged[d][0], 1) for d in t],
+                      "n": [int(merged[d][1]) for d in t]}
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(doc, f, separators=(",", ":"))
+
+    # keep the index honest about which years exist, without touching the cycle
+    index_path = os.path.join(folder, "index.json")
+    entry = {"id": key, "name": name, "years": []}
+    if os.path.exists(index_path):
+        try:
+            entry = json.load(open(index_path, encoding="utf-8"))
+        except ValueError:
+            pass
+    entry["id"] = key
+    entry.setdefault("name", name)
+    entry["years"] = sorted({f[:-5] for f in os.listdir(folder)
+                             if f.endswith(".json") and f != "index.json"})
+    with open(index_path, "w", encoding="utf-8") as f:
+        json.dump(entry, f, separators=(",", ":"))
 
 
 def main():
@@ -220,8 +246,7 @@ def main():
 
     for cid, rows in city_rows.items():
         c = city_name.get(cid)
-        merge_series(os.path.join(series_dir, f"{cid}.json"),
-                     c["name"] if c else cid, cid, rows)
+        merge_series(series_dir, c["name"] if c else cid, cid, rows)
     print(f"  {len(city_rows)} city series updated")
 
     for unit, rows in unit_acc.items():
@@ -229,7 +254,7 @@ def main():
         name = "All India" if unit == "india" else state_name.get(str(unit), key)
         flat = {p: {d: (sum(a["vals"]) / len(a["vals"]), a["n"]) for d, a in days.items()}
                 for p, days in rows.items()}
-        merge_series(os.path.join(series_dir, f"{key}.json"), name, key, flat)
+        merge_series(series_dir, name, key, flat)
     print(f"  {len(unit_acc)} unit series updated")
     return 0
 

@@ -1,0 +1,75 @@
+name: Air quality history rebuild
+
+# A one-off, run by hand. It pulls the whole CAAQM record from the archive's bulk
+# files and rebuilds the per-year files the page reads, including the hour-by-hour
+# shape that the daily route cannot reconstruct.
+#
+# Needs AQI_KEY — a free key from airquality.xkdr.org. The bulk files refuse the
+# published demo key for anything but 2024, and a key of your own also lifts the
+# row cap, so this takes downloads rather than tens of thousands of requests.
+#
+# Not on a schedule: the historical record does not change. The hourly job and the
+# daily rebuild keep the recent end current on their own.
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: 'First year to rebuild'
+        default: '2009'
+      end:
+        description: 'Last year to rebuild'
+        default: '2025'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aq-history
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install --quiet pandas pyarrow
+
+      - name: Fetch the bulk archive
+        env:
+          AQI_KEY: ${{ secrets.AQI_KEY }}
+        run: |
+          if [ -z "${AQI_KEY}" ]; then
+            echo "AQI_KEY is not set. Add it under Settings > Secrets and variables > Actions." >&2
+            exit 1
+          fi
+          python scripts/fetch-aq-bulk.py \
+            --start "${{ inputs.start }}" --end "${{ inputs.end }}" \
+            --cache .cache/aq-bulk
+
+      - name: Rebuild the per-year files
+        run: |
+          python scripts/build-aq-hourly-files.py --cache .cache/aq-bulk
+
+      - name: Commit what changed
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/projects/air-quality/data/daily docs/projects/air-quality/data/series
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git commit -m "Air quality: rebuild the record from the bulk archive"
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          done
+          exit 1
