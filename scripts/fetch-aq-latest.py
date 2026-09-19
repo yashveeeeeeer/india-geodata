@@ -35,12 +35,13 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aqi_scale import to_concentration          # noqa: E402
+from aqi_scale import check_covered, to_concentration   # noqa: E402
 
 RESOURCE = "3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69"
 API = f"https://api.data.gov.in/resource/{RESOURCE}"
 SAMPLE_KEY = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"  # public sample
 POLLUTANTS = {"PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"}
+check_covered(POLLUTANTS)
 IST = timezone(timedelta(hours=5, minutes=30))
 NA = {"", "na", "n/a", "nan", "null", "none", "-"}
 

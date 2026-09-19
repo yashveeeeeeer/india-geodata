@@ -34,6 +34,12 @@ ALIAS = {"Ozone": "OZONE"}
 COLUMNS = ["station_id", "parameter_name", "collected_at", "value"]
 
 
+# CO sits near 1 mg/m³ where one decimal is a ten per cent step, so it
+# keeps two. Everything else is µg/m³, where one is plenty.
+def dp(pollutant):
+    return 2 if pollutant == "CO" else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache", default=os.path.join(".cache", "aq-bulk"))
@@ -66,7 +72,7 @@ def main():
                    .mean().reset_index())
         for p, d, sid, v in zip(daily["parameter_name"], daily["day"],
                                 daily["station_id"], daily["value"]):
-            table[(p, d[:4])][d][sid] = round(float(v), 1)
+            table[(p, d[:4])][d][sid] = round(float(v), dp(p))
         print(f"  {os.path.basename(path):<18s} {len(daily):7d} station-days")
 
     index = defaultdict(list)

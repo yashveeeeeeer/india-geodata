@@ -23,7 +23,7 @@ they neither confirm nor deny.
 The sub-index is piecewise linear in concentration, so inverting it is the same
 interpolation run backwards. CPCB's own table starts each band one unit above
 the last; this uses the continuous form instead, which is monotone, invertible
-and within a unit of the published numbers.
+and within an index point of the published numbers.
 
 Concentrations are µg/m³, except CO in mg/m³ — the units the page already uses.
 Above 500 the scale has no defined top, so the last band's slope carries on.
@@ -40,17 +40,31 @@ SCALE = {
 }
 
 
+def check_covered(pollutants):
+    """Fail loudly if a caller has taken on a pollutant this table cannot scale.
+    Without it, adding SO2 to a script's POLLUTANTS would convert to None and the
+    readings would be dropped silently, which reads as "the feed stopped carrying
+    SO2" rather than "nobody wrote its breakpoints"."""
+    missing = sorted(set(pollutants) - set(SCALE))
+    if missing:
+        raise KeyError("no AQI breakpoints for " + ", ".join(missing) +
+                       " — add them to SCALE in scripts/aqi_scale.py")
+
+
 def to_concentration(pollutant, index):
-    """One sub-index value as a concentration. Returns None for anything we
-    cannot place, so a caller can drop the reading rather than invent one."""
-    scale = SCALE.get(pollutant)
-    if scale is None or index is None:
+    """One sub-index value as a concentration. Returns None for a reading we
+    cannot place, so a caller can drop it rather than invent one. An unknown
+    pollutant is a programming error, not a bad reading, so it raises."""
+    if pollutant not in SCALE:
+        raise KeyError("no AQI breakpoints for " + repr(pollutant))
+    scale = SCALE[pollutant]
+    if index is None:
         return None
     try:
         i = float(index)
     except (TypeError, ValueError):
         return None
-    if i != i or i < 0:
+    if i != i or i < 0 or i in (float("inf"), float("-inf")):
         return None
 
     conc, idx = scale

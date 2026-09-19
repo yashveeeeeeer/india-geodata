@@ -38,9 +38,10 @@ from collections import defaultdict
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aqi_scale import to_concentration          # noqa: E402
+from aqi_scale import check_covered, to_concentration   # noqa: E402
 
 POLLUTANTS = ["PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"]
+check_covered(POLLUTANTS)
 
 
 def norm(v):
