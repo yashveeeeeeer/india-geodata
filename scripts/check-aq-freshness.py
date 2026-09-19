@@ -72,7 +72,7 @@ def check_record(data_dir, max_days):
     return 0, newest
 
 
-def check_strip(data_dir, newest):
+def check_strip(data_dir):
     """national.json is a derived file, so the honest question is not whether it
     looks recent but whether it still equals what its source would produce. The
     check rebuilds it in memory and compares.
@@ -112,8 +112,11 @@ def check_strip(data_dir, newest):
               + "; ".join(adrift))
         return 1
 
+    reach = max((s["t"][-1] for s in want.values() if s["t"]), default=None)
+    if not reach:
+        print("UNREADABLE strip: series/india holds no days at all")
+        return 2
     days = max(len(s["t"]) for s in want.values())
-    reach = max(s["t"][-1] for s in want.values() if s["t"])
     print(f"FRESH strip: matches the series, {len(want)} pollutants, "
           f"up to {days} days, reaching {reach}")
     return 0
@@ -131,8 +134,8 @@ def main():
     path = os.path.join(root, args.path)
     data_dir = os.path.dirname(path)
 
-    worst, newest = check_record(data_dir, args.max_record_days)
-    worst = max(worst, check_strip(data_dir, newest))
+    worst, _ = check_record(data_dir, args.max_record_days)
+    worst = max(worst, check_strip(data_dir))
 
     if not os.path.exists(path):
         print("MISSING feed: latest.json has never been published")

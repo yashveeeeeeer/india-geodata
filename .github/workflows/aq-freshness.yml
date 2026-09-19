@@ -34,9 +34,10 @@ jobs:
           # whose body reads FRESH is worse than no issue at all
           out=$(python scripts/check-aq-freshness.py --max-age-hours 6 2>&1)
           code=$?
-          echo "status<<EOF" >> "$GITHUB_OUTPUT"
+          delim="status-$RANDOM-$RANDOM"          # a status line reading EOF would close it early
+          echo "status<<$delim" >> "$GITHUB_OUTPUT"
           echo "$out" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "$delim" >> "$GITHUB_OUTPUT"
           echo "code=$code" >> "$GITHUB_OUTPUT"
           echo "$out"
           exit 0
