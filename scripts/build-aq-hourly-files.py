@@ -36,6 +36,12 @@ ALIAS = {"Ozone": "OZONE"}
 COLUMNS = ["station_id", "parameter_name", "collected_at", "value"]
 
 
+# CO sits near 1 mg/m³ where one decimal is a ten per cent step, so it
+# keeps two. Everything else is µg/m³, where one is plenty.
+def dp(pollutant):
+    return 2 if pollutant == "CO" else 1
+
+
 def write_json(path, payload):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -105,7 +111,7 @@ def main():
                     .mean().reset_index())
             for p, d, sid, v in zip(st["parameter_name"], st["day"],
                                     st["station_id"], st["value"]):
-                day_station[p][d][sid] = round(float(v), 1)
+                day_station[p][d][sid] = round(float(v), dp(p))
 
             sub = df.dropna(subset=["city"])
             if not sub.empty:
@@ -173,7 +179,7 @@ def main():
             for p, days in pols.items():
                 t = sorted(days)
                 series[p] = {"t": t,
-                             "v": [round(days[d][0], 1) for d in t],
+                             "v": [round(days[d][0], dp(p)) for d in t],
                              "n": [int(days[d][1]) for d in t]}
             if series:
                 write_json(os.path.join(series_dir, key, f"{year}.json"), series)
@@ -187,7 +193,7 @@ def main():
             grid = [[None] * 24 for _ in range(12)]
             for (mo, hr), acc in cells.items():
                 if acc["n"]:
-                    grid[mo - 1][hr] = round(acc["s"] / acc["n"], 1)
+                    grid[mo - 1][hr] = round(acc["s"] / acc["n"], dp(p))
             grids[p] = grid
         if grids:
             entry["cycle"] = grids

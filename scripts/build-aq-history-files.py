@@ -29,6 +29,12 @@ POLLUTANTS = {"PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"}
 ALIAS = {"OZONE": "OZONE", "Ozone": "OZONE"}
 
 
+# CO sits near 1 mg/m³ where one decimal is a ten per cent step, so it
+# keeps two. Everything else is µg/m³, where one is plenty.
+def dp(pollutant):
+    return 2 if pollutant == "CO" else 1
+
+
 def read_year(path):
     rows = []
     with open(path, encoding="utf-8") as f:
@@ -129,7 +135,7 @@ def main():
         by_pol = defaultdict(lambda: defaultdict(dict))
         for p, day, sid, v in rows:
             if sid in known:
-                by_pol[p][day][sid] = round(v, 1)
+                by_pol[p][day][sid] = round(v, dp(p))
         for p, days in by_pol.items():
             ids = sorted({s for d in days.values() for s in d})
             dates = sorted(days)
@@ -175,7 +181,7 @@ def main():
             for p, days in pols.items():
                 t = sorted(days)
                 series[p] = {"t": t,
-                             "v": [round(days[d][0], 1) for d in t],
+                             "v": [round(days[d][0], dp(p)) for d in t],
                              "n": [int(days[d][1]) for d in t]}
             if series:
                 write_json(os.path.join(series_dir, key, f"{year}.json"), series)

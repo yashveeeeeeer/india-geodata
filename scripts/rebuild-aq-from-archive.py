@@ -14,6 +14,11 @@ each monitor's daily mean, and merges those days into:
     docs/projects/air-quality/data/series/india.json               national
     docs/projects/air-quality/data/series/state-<id>.json          per state
 
+The archive holds what the feed said, and the feed reports the AQI sub-index
+rather than the concentration, so every reading is converted here — before the
+daily mean, because the sub-index bends at each band edge and averaging first
+would put the kink in the wrong place.
+
 Existing days are replaced, new days appended, so it is safe to run repeatedly.
 Hour-by-month climatology is left alone: it is a long-run average and does not
 move meaningfully day to day.
@@ -27,11 +32,16 @@ import glob
 import json
 import os
 import re
+import sys
 from collections import defaultdict
 
 import pandas as pd
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from aqi_scale import check_covered, to_concentration   # noqa: E402
+
 POLLUTANTS = ["PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"]
+check_covered(POLLUTANTS)
 
 
 def norm(v):
@@ -89,6 +99,10 @@ def station_daily(df, stations):
     df["pollutant_id"] = df["pollutant_id"].str.upper().replace({"OZONE": "OZONE"})
     df = df[df["pollutant_id"].isin(POLLUTANTS)]
     df = df.dropna(subset=["station_id", "avg_value", "collected_at"])
+    # sub-index -> concentration, per reading, before anything is averaged
+    df["avg_value"] = [to_concentration(p, v)
+                       for p, v in zip(df["pollutant_id"], df["avg_value"])]
+    df = df.dropna(subset=["avg_value"])
     df["day"] = pd.to_datetime(df["collected_at"]).dt.strftime("%Y-%m-%d")
     out = (df.groupby(["pollutant_id", "day", "station_id"], observed=True)["avg_value"]
              .mean().reset_index())
@@ -145,8 +159,9 @@ def merge_series(series_dir, name, key, rows):
             merged = {t: (cur["v"][i], cur["n"][i]) for i, t in enumerate(cur["t"])}
             merged.update(days)
             t = sorted(merged)
+            dp = 2 if p == "CO" else 1
             doc[p] = {"t": t,
-                      "v": [round(merged[d][0], 1) for d in t],
+                      "v": [round(merged[d][0], dp) for d in t],
                       "n": [int(merged[d][1]) for d in t]}
         with open(path, "w", encoding="utf-8") as f:
             json.dump(doc, f, separators=(",", ":"))
@@ -197,7 +212,7 @@ def main():
     # --- per-monitor matrices, the ones the map and download read ---
     by_py = defaultdict(lambda: defaultdict(dict))
     for p, day, sid, v in zip(sd["pollutant_id"], sd["day"], sd["station_id"], sd["avg_value"]):
-        by_py[(p, day[:4])][day][sid] = round(float(v), 1)
+        by_py[(p, day[:4])][day][sid] = round(float(v), 2 if p == "CO" else 1)
     for (p, year), rows in sorted(by_py.items()):
         path = os.path.join(daily_dir, f"{p}-{year}.json")
         n_days, n_ids = merge_daily_matrix(path, p, year, rows)
