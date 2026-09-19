@@ -23,7 +23,11 @@ import glob
 import json
 import os
 import shutil
+import sys
 from collections import defaultdict
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from aq_national import write_national               # noqa: E402
 
 POLLUTANTS = {"PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"}
 ALIAS = {"OZONE": "OZONE", "Ozone": "OZONE"}
@@ -205,6 +209,9 @@ def main():
     dsize = sum(os.path.getsize(f) for f in glob.glob(os.path.join(daily_dir, "*.json")))
     print(f"  {len(years_by_place)} places, {n_files} series files, {size/1048576:.1f} MB")
     print(f"  daily matrices {dsize/1048576:.1f} MB, span {span_lo} to {span_hi}")
+
+    n_pol, n_days, _ = write_national(data)
+    print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days")
 
 
 if __name__ == "__main__":

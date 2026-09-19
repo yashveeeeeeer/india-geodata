@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""Write the national daily mean the time strip is drawn from.
+
+The strip spans the whole record — seventeen years — and it has to draw before
+anything else loads, so it cannot pull a matrix per year to do it. It reads one
+small file instead: daily/national.json, the national daily mean per pollutant
+for every day we hold.
+
+That file used to have no writer at all. It was built once by hand, so the strip
+would have frozen on the day it was made while the rest of the page moved on:
+the chart would gain a day, the strip would not, and the two would drift apart
+without anything failing. This makes it a derived file, rebuilt from
+series/india/<year>.json by whatever last touched those, so it cannot go stale
+on its own.
+
+Deriving it rather than accumulating it also means it cannot disagree with the
+chart. Both come from the same numbers.
+
+Usage:
+    python scripts/aq_national.py [--data docs/projects/air-quality/data]
+"""
+
+import argparse
+import glob
+import json
+import os
+import re
+
+
+def write_national(data_dir):
+    """Rebuild daily/national.json from the national per-year series.
+
+    Returns (pollutants, days, path) so a caller can print something useful."""
+    series_dir = os.path.join(data_dir, "series", "india")
+    out = os.path.join(data_dir, "daily", "national.json")
+
+    by_pollutant = {}
+    for path in sorted(glob.glob(os.path.join(series_dir, "*.json"))):
+        year = os.path.basename(path)[:-5]
+        if not re.fullmatch(r"\d{4}", year):
+            continue                       # index.json and anything else
+        try:
+            doc = json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for pollutant, s in doc.items():
+            t, v = s.get("t") or [], s.get("v") or []
+            by_pollutant.setdefault(pollutant, {}).update(zip(t, v))
+
+    payload = {}
+    for pollutant, table in by_pollutant.items():
+        days = sorted(table)
+        payload[pollutant] = {"t": days, "v": [table[d] for d in days]}
+
+    if not payload:
+        return 0, 0, None
+
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(payload, f, separators=(",", ":"))
+    return len(payload), max(len(s["t"]) for s in payload.values()), out
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", default=os.path.join(
+        "docs", "projects", "air-quality", "data"))
+    args = ap.parse_args()
+
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    n_pol, n_days, out = write_national(os.path.join(root, args.data))
+    if not out:
+        print("  no national series to build from")
+        return 1
+    print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days "
+          f"({os.path.getsize(out) / 1024:.0f} KB)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

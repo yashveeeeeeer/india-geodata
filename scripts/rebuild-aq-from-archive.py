@@ -38,6 +38,7 @@ from collections import defaultdict
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from aq_national import write_national                 # noqa: E402
 from aqi_scale import check_covered, to_concentration   # noqa: E402
 
 POLLUTANTS = ["PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"]
@@ -271,6 +272,11 @@ def main():
                 for p, days in rows.items()}
         merge_series(series_dir, name, key, flat)
     print(f"  {len(unit_acc)} unit series updated")
+
+    # the strip reads one file spanning every year; rebuild it from what we just
+    # wrote, so it cannot fall behind the chart beside it
+    n_pol, n_days, _ = write_national(data)
+    print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days")
     return 0
 
 
