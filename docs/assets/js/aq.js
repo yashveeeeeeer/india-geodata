@@ -277,6 +277,7 @@
 
   // ...and when it is empty, the map says why rather than looking like clean air.
   var dayLoading = false;
+  var dayFailed = false;       // we tried to look and could not, which is not absence
   var daySeq = 0;              // which day change is allowed to have the last word
 
   function updateHint() {
@@ -284,12 +285,16 @@
     // Silent while the day's readings are still on their way: the map is empty
     // then too, and saying nothing was measured before we have looked is its own
     // kind of untruth.
-    var empty = !dayLoading && current.day &&
+    var blank = !dayLoading && current.day &&
       !Object.keys(stationValues(current.pollutant)).length;
-    ui.hint.textContent = empty
-      ? 'No ' + (current.pollutant === 'OZONE' ? 'ozone' : current.pollutant) +
-        ' readings on ' + current.day
-      : 'Click to zoom · space + scroll';
+    var empty = blank && !dayFailed;
+    ui.hint.textContent = blank && dayFailed
+      ? 'Could not load the readings for ' + current.day
+      : empty
+        ? 'No ' + (current.pollutant === 'OZONE' ? 'ozone' : current.pollutant) +
+          ' readings on ' + current.day
+        : 'Click to zoom · space + scroll';
+    empty = blank;              // either way the map is bare and says so
     ui.hint.classList.toggle('is-empty', !!empty);
     // Zooming hides the zoom advice, having taken it — but never the reason the
     // map is blank. Assigned rather than only ever set true, or the first zoom
@@ -306,7 +311,8 @@
   function updateStamp() {
     if (!ui.stamp) return;
     var live = stampText();
-    ui.stamp.textContent = current.day && live ? 'live feed ' + live : live;
+    var known = live && live.indexOf('no live') === -1;
+    ui.stamp.textContent = current.day && known ? 'live feed ' + live : live;
   }
 
   function stampText() {
@@ -1741,7 +1747,10 @@
     }
     updateWhen();
     updateHint();
-    if (year !== wasYear) {
+    // Also when the year is the same but its readings are not in hand — after a
+    // failed fetch, staying in that year would otherwise leave the map bare and
+    // the apology on screen with nothing ever trying again.
+    if (year !== wasYear || !dailyCache[current.pollutant + '-' + year]) {
       current.year = year;
       // the map reads a matrix per pollutant-year, so fetch it before drawing
       // Clear the map first. Until that year's file lands the dots on screen
@@ -1754,12 +1763,16 @@
       // was still coming.
       var seq = ++daySeq;
       dayLoading = true;
+      dayFailed = false;
       updateHint();
       render();
-      loadDaily(current.pollutant, year).then(done).catch(done);
-      function done() {
+      loadDaily(current.pollutant, year)
+        .then(function () { done(true); })
+        .catch(function () { done(false); });
+      function done(ok) {
         if (seq !== daySeq) return;          // a newer day supersedes this one
         dayLoading = false;
+        dayFailed = !ok;
         updateHint();
         render();
         drawStrip();
@@ -1893,7 +1906,19 @@
       x.classList.toggle('is-on', on);
       x.setAttribute('aria-selected', on ? 'true' : 'false');
     });
+    // The rail's figures are already in hand — the place's series carries every
+    // pollutant — so repaint it at once rather than leaving the old one's mean,
+    // unit and standard sitting under the new one's tab for the length of a
+    // fetch. The map does need the new matrix, so it clears until that lands.
+    var pollSeq = ++daySeq;
+    dayLoading = true;
+    dayFailed = false;
+    updateHint();
+    render();
+    paintPlace();
     ensureDaily().then(function () {
+      if (pollSeq !== daySeq) return;
+      dayLoading = false;
       updateHint();
       render();
       paintPlace();
@@ -2003,7 +2028,6 @@
     .then(loadNational)
     .then(loadLatest)
     .then(function () {
-      ui.stamp.textContent = stampText();
       updateStamp();
       ui.stamp.classList.toggle('is-stale', !latest || !latest.updated);
       render();
