@@ -9,6 +9,12 @@ name: Air quality hourly
 #
 # The archive is a Release asset, not a committed file: an hourly commit of a
 # growing data file would put gigabytes into git history within a year.
+#
+# A single missed hour is not a fault. data.gov.in refuses a burst of requests
+# now and then, and the page carries on showing the hour before. So a failed
+# fetch skips the rest of the run and says so, and the run only turns red once
+# the published feed is more than three hours old — by then it is a fault, and
+# the daily freshness check will have opened an issue about it too.
 
 on:
   schedule:
@@ -35,11 +41,38 @@ jobs:
       - run: pip install --quiet pandas pyarrow
 
       - name: Fetch the current hour
+        id: fetch
         env:
           DATA_GOV_IN_KEY: ${{ secrets.DATA_GOV_IN_KEY }}
-        run: python scripts/fetch-aq-latest.py --snapshot-dir .aq-snapshots
+        run: |
+          set +e
+          python scripts/fetch-aq-latest.py --snapshot-dir .aq-snapshots
+          code=$?
+          if [ "$code" -eq 0 ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::the fetch did not finish; leaving the published feed alone"
+            # Nothing was written, so there is nothing half-done to clean up.
+            rm -f .aq-snapshots/aq-*.csv
+          fi
+          exit 0
+
+      - name: Say how bad a missed hour is
+        if: steps.fetch.outputs.ok != 'true'
+        run: |
+          set +e
+          out=$(python scripts/check-aq-freshness.py --only feed --max-age-hours 3 2>&1)
+          code=$?
+          echo "$out"
+          if [ "$code" -ne 0 ]; then
+            echo "::error::the feed has not refreshed in over three hours"
+            exit 1
+          fi
+          echo "::notice::one hour missed, the published feed is still recent"
 
       - name: Pull down today's archive, if it exists
+        if: steps.fetch.outputs.ok == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -63,6 +96,7 @@ jobs:
           fi
 
       - name: Fold the snapshot into the archive
+        if: steps.fetch.outputs.ok == 'true'
         run: |
           python scripts/append-aq-archive.py \
             --snapshot-dir .aq-snapshots \
@@ -70,6 +104,7 @@ jobs:
             --existing "${existing}"
 
       - name: Publish the archive
+        if: steps.fetch.outputs.ok == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -84,6 +119,7 @@ jobs:
           rm -f .aq-snapshots/aq-*.csv
 
       - name: Commit the refreshed feed
+        if: steps.fetch.outputs.ok == 'true'
         run: |
           set -euo pipefail
           git config user.name  "github-actions[bot]"

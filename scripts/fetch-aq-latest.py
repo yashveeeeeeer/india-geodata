@@ -17,14 +17,21 @@ Writes:
 Get a free key at https://data.gov.in and pass it with --key or DATA_GOV_IN_KEY.
 The published sample key works but returns 10 rows per request, so this pages.
 
+Pages are read down one connection, with a short wait between them. Opening a
+fresh TLS connection for each of twenty-odd pages and firing them back to back
+reads like a burst, and data.gov.in starts refusing: the first page answers in
+under two seconds and the second is met with a closed door.
+
 Usage:
     python scripts/fetch-aq-latest.py [--key KEY] [--snapshot-dir DIR]
 """
 
 import argparse
 import csv
+import http.client
 import json
 import os
+import random
 import re
 import sys
 import time
@@ -38,7 +45,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from aqi_scale import check_covered, to_concentration   # noqa: E402
 
 RESOURCE = "3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69"
-API = f"https://api.data.gov.in/resource/{RESOURCE}"
+HOST = "api.data.gov.in"
+PATH = f"/resource/{RESOURCE}"
+API = f"https://{HOST}{PATH}"
+UA = "india-geodata-build"
 SAMPLE_KEY = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"  # public sample
 POLLUTANTS = {"PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"}
 check_covered(POLLUTANTS)
@@ -50,43 +60,88 @@ def slug(s):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", str(s).lower())).strip("-")
 
 
-def get(key, limit, offset, tries=4, timeout=45.0):
+# One connection, reused for every page. Kept at module level because the paging
+# loop below has no object to hang it on, and there is only ever one of them.
+_conn = None
+
+
+def _connection(timeout):
+    global _conn
+    if _conn is None:
+        _conn = http.client.HTTPSConnection(HOST, timeout=timeout)
+    return _conn
+
+
+def _drop_connection():
+    global _conn
+    if _conn is not None:
+        try:
+            _conn.close()
+        except Exception:
+            pass
+        _conn = None
+
+
+def get(key, limit, offset, tries=5, timeout=45.0):
     """One page, retrying on throttling and transient server errors. data.gov.in
-    returns 429 readily, and an hourly job must not fall over because of it."""
+    returns 429 readily, and an hourly job must not fall over because of it.
+
+    A refused connection is treated as the throttle it almost always is: the
+    connection is dropped and reopened, and the wait grows faster than for a
+    plain timeout."""
     q = urllib.parse.urlencode({"api-key": key, "format": "json",
                                 "limit": limit, "offset": offset})
-    req = urllib.request.Request(f"{API}?{q}", headers={"User-Agent": "india-geodata-build"})
     delay = 3
     for attempt in range(tries):
         try:
             t0 = time.time()
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                out = json.loads(r.read().decode("utf-8"))
+            conn = _connection(timeout)
+            conn.request("GET", f"{PATH}?{q}", headers={
+                "User-Agent": UA, "Accept": "application/json",
+                "Connection": "keep-alive"})
+            resp = conn.getresponse()
+            body = resp.read()          # always drain, or the socket cannot be reused
+            if resp.status >= 400:
+                retry_after = resp.getheader("Retry-After")
+                if resp.status not in (429, 500, 502, 503, 504) or attempt == tries - 1:
+                    _drop_connection()
+                    raise SystemExit(f"data.gov.in answered HTTP {resp.status} "
+                                     f"for offset {offset}")
+                wait = int(retry_after or 0) or delay
+                print(f"      HTTP {resp.status}, waiting {wait}s", flush=True)
+                time.sleep(wait)
+                delay = min(delay * 2, 120)
+                continue
+            out = json.loads(body.decode("utf-8"))
             if offset == 0:
                 print(f"  first page: {len(out.get('records') or [])} rows "
                       f"in {time.time() - t0:.1f}s", flush=True)
             return out
-        except urllib.error.HTTPError as e:
-            if e.code not in (429, 500, 502, 503, 504) or attempt == tries - 1:
-                raise
-            wait = int(e.headers.get("Retry-After") or 0) or delay
-            print(f"      HTTP {e.code}, waiting {wait}s", flush=True)
-            time.sleep(wait)
-            delay = min(delay * 2, 120)
-        except (urllib.error.URLError, TimeoutError) as e:
-            print(f"      request timed out or failed ({e}); attempt {attempt + 1} of {tries}",
-                  flush=True)
+        except SystemExit:
+            raise
+        except (OSError, http.client.HTTPException, ValueError) as e:
+            # A half-used connection is worse than none; start the next try fresh.
+            refused = isinstance(e, ConnectionError)
+            _drop_connection()
+            print(f"      {'refused' if refused else 'request failed'} ({e}); "
+                  f"attempt {attempt + 1} of {tries}", flush=True)
             if attempt == tries - 1:
                 raise SystemExit(
                     "data.gov.in did not respond. The API answers quickly from a normal "
-                    "connection, so a persistent timeout here usually means the runner's "
-                    "address is being throttled, or the page size is too large. "
-                    "Try a smaller --page.")
-            time.sleep(delay)
+                    "connection, so a persistent refusal here usually means the runner's "
+                    "address is being throttled. Try a longer --pause or a smaller --page.")
+            time.sleep(delay * (2 if refused else 1))
             delay = min(delay * 2, 60)
 
 
-def fetch_all(key, page=100, pause=0.0, timeout=45.0):
+def _breathe(pause):
+    """A short, uneven wait. Even spacing from a job that runs on the hour still
+    arrives as a recognisable pattern; a little jitter does not."""
+    if pause > 0:
+        time.sleep(pause * random.uniform(0.6, 1.4))
+
+
+def fetch_all(key, page=100, pause=0.4, timeout=45.0):
     """Page until the reported total is covered. A key with a smaller ceiling than
     `page` simply returns fewer rows, and the page size adapts to what came back."""
     first = get(key, page, 0, timeout=timeout)
@@ -96,13 +151,13 @@ def fetch_all(key, page=100, pause=0.0, timeout=45.0):
         return rows, total
     step = len(rows)
     while len(rows) < total:
+        _breathe(pause)                 # before the request, not after the last one
         batch = get(key, step, len(rows), timeout=timeout)
         got = batch.get("records") or []
         if not got:
             break
         rows.extend(got)
-        if pause:
-            time.sleep(pause)           # keep under the key's rate limit
+    _drop_connection()
     return rows, total
 
 
@@ -223,8 +278,8 @@ def main():
     ap.add_argument("--snapshot-dir", default=os.path.join(".aq-snapshots"))
     ap.add_argument("--page", type=int, default=100)
     ap.add_argument("--timeout", type=float, default=45.0)
-    ap.add_argument("--pause", type=float, default=0.0,
-                    help="seconds between pages; needed only for rate-limited keys")
+    ap.add_argument("--pause", type=float, default=0.4,
+                    help="seconds to wait between pages, jittered; 0 to page flat out")
     args = ap.parse_args()
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
