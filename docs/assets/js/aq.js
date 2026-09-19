@@ -73,7 +73,9 @@
   var values = {};
   var latest = null;
   var seriesIndex = {};      // city id -> true when a built series exists
-  var seriesCache = {};
+  var seriesCache = {};      // place key -> stitched doc
+  var placeIndex = {};       // place key -> { name, years, cycle }
+  var placeYears = {};       // place key -> year -> { pollutant: {t,v,n} }
   var coverage = null;
   var layerCache = {};
   var dailyCache = {};
@@ -622,8 +624,8 @@
 
   function placeName() {
     if (current.city) return current.city.name;
-    var doc = seriesCache[placeKey()];
-    if (doc && doc.name) return doc.name;
+    var idx = placeIndex[placeKey()];
+    if (idx && idx.name) return idx.name;
     return current.zoomState || 'All India';
   }
 
@@ -635,15 +637,65 @@
 
   function placeDoc() { return seriesCache[placeKey()]; }
 
-  // Loads whatever the current place needs, then refreshes everything that reads it.
+  // A place's record is split by year, so Delhi's whole history is not fetched to
+  // draw one chart. The index says which years exist; the years themselves load
+  // as they are needed and are stitched into the shape the rest of the code reads.
+  function wantedYears(key) {
+    var idx = placeIndex[key];
+    if (!idx || !idx.years.length) return [];
+    if (current.range) {
+      var a = current.range[0].slice(0, 4), b = current.range[1].slice(0, 4);
+      var span = idx.years.filter(function (y) { return y >= a && y <= b; });
+      if (span.length) return span;
+    }
+    if (current.day) {
+      var y = current.day.slice(0, 4);
+      if (idx.years.indexOf(y) !== -1) return [y];
+    }
+    return [idx.years[idx.years.length - 1]];   // the most recent year by default
+  }
+
+  function stitch(key) {
+    var idx = placeIndex[key] || {};
+    var loaded = placeYears[key] || {};
+    var series = {};
+    Object.keys(loaded).sort().forEach(function (y) {
+      Object.keys(loaded[y]).forEach(function (p) {
+        var src = loaded[y][p];
+        var dst = series[p] || (series[p] = { t: [], v: [], n: [] });
+        dst.t = dst.t.concat(src.t);
+        dst.v = dst.v.concat(src.v);
+        dst.n = dst.n.concat(src.n);
+      });
+    });
+    seriesCache[key] = { id: key, name: idx.name || key, series: series, cycle: idx.cycle || {} };
+    return seriesCache[key];
+  }
+
   function refreshPlace() {
     var key = placeKey();
     ui.place.textContent = placeName();
     ui.where.textContent = placeSub();
-    if (seriesCache[key]) { paintPlace(); return Promise.resolve(); }
-    return getJSON(DATA + 'series/' + key + '.json').then(function (j) {
-      seriesCache[key] = j;
-      if (placeKey() === key) paintPlace();
+
+    var haveIndex = placeIndex[key]
+      ? Promise.resolve(placeIndex[key])
+      : getJSON(DATA + 'series/' + key + '/index.json').then(function (j) {
+          placeIndex[key] = j;
+          return j;
+        });
+
+    return haveIndex.then(function () {
+      var years = wantedYears(key);
+      placeYears[key] = placeYears[key] || {};
+      var need = years.filter(function (y) { return !placeYears[key][y]; });
+      return Promise.all(need.map(function (y) {
+        return getJSON(DATA + 'series/' + key + '/' + y + '.json').then(function (j) {
+          placeYears[key][y] = j;
+        }).catch(function () { placeYears[key][y] = {}; });
+      })).then(function () {
+        stitch(key);
+        if (placeKey() === key) paintPlace();
+      });
     }).catch(function () {
       if (placeKey() === key) paintPlace();
     });
@@ -1008,6 +1060,7 @@
       if (restoring) return;                    // programmatic restore, not a user drag
       if (!e.selection) { current.range = null; updateRail(); return; }
       current.range = [isoDay(x.invert(e.selection[0])), isoDay(x.invert(e.selection[1]))];
+      refreshPlace();      // the range may reach into a year not yet fetched
       updateRail();
     });
     var bg = g.append('g').attr('class', 'aq-brush').call(brush);
@@ -1412,7 +1465,17 @@
     var max = dailySpan ? dailySpan[1] : (yrs.length ? yrs[yrs.length - 1] + '-12-31' : '');
     ui.dlFrom.min = min; ui.dlFrom.max = max;
     ui.dlTo.min = min; ui.dlTo.max = max;
-    ui.dlFrom.value = (current.range && current.range[0]) || min;
+    // With the whole record available, defaulting to all of it would hand someone
+    // a multi-hundred-megabyte pull for pressing the obvious button. Start at the
+    // period on screen, else the last month.
+    var lastMonth = '';
+    if (max) {
+      var d = new Date(max + 'T00:00:00');
+      d.setDate(d.getDate() - 29);
+      lastMonth = isoDay(d);
+      if (min && lastMonth < min) lastMonth = min;
+    }
+    ui.dlFrom.value = (current.range && current.range[0]) || lastMonth || min;
     ui.dlTo.value = (current.range && current.range[1]) || max;
 
     if (current.city) {
@@ -1481,10 +1544,12 @@
   }
 
   function setDay(day) {
+    var wasYear = current.day && current.day.slice(0, 4);
     current.day = day;
     updateWhen();
     render();
     drawStrip();
+    if (day.slice(0, 4) !== wasYear) refreshPlace();
   }
 
   function clearDay() {
