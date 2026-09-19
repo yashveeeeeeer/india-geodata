@@ -611,37 +611,62 @@
     return null;
   }
 
+  function stateByName(name) {
+    var want = String(name || '').toLowerCase().replace(/[^a-z]/g, '');
+    if (!want) return null;
+    for (var i = 0; i < statesFeat.length; i++) {
+      var n = String(statesFeat[i].properties.name || '').toLowerCase().replace(/[^a-z]/g, '');
+      if (n === want) return statesFeat[i];
+    }
+    return null;
+  }
+
   function crumbParts() {
     var parts = [];
     if (!current.zoomState && !current.city) return parts;
     parts.push({ label: 'India', go: zoomToIndia });
 
-    var stateName = current.city ? current.city.state
-      : (current.zoomVia || current.zoomState);
-    // For a city, the state comes from the city itself rather than from whatever
-    // was last framed — otherwise picking a dot off the map gives a step that is
-    // a button after a search and plain text after a click, for no reason a
-    // reader could guess.
+    // For a city the state comes from where the city actually sits rather than
+    // from whatever was last framed, so a dot picked off the map gets the same
+    // step as one found by searching.
     var stateId = current.zoomStateId;
     if (current.city && coverage && coverage.cityUnit) {
       var unit = coverage.cityUnit[current.city.id];
       if (unit && unit.state) stateId = unit.state;
     }
+    // Name and destination have to be the same place, or the step reads
+    // Maharashtra and lands in Karnataka — which is what Sangli did, being
+    // listed under one and sitting, by its coordinates, in the other.
+    //
+    // The name wins, because the rail beside it says the same thing and the
+    // whole point here is that the two agree. A city whose coordinates disagree
+    // with its label is a fault in the data, and following the coordinates would
+    // only move the contradiction somewhere harder to see.
+    var stateFeat = null;
+    if (current.city && current.city.state) {
+      stateFeat = stateByName(current.city.state);
+    }
+    if (!stateFeat && stateId) stateFeat = stateFeature(stateId);
+    var stateName = current.city ? current.city.state
+      : (stateFeat ? stateFeat.properties.name
+         : (current.zoomVia || current.zoomState));
+
     if (stateName) {
       parts.push({
         label: stateName,
-        // Stepping up means describing the state: frame it, drop the city.
-        // The level tabs are left alone — looking at Punjab's districts is a
-        // perfectly good way to be looking at Punjab.
-        go: stateId && (current.city || current.zoomVia) ? function () {
-          var f = stateFeature(stateId);
-          if (f) zoomToFeature(f);
-        } : null
+        // Only from a city. From a district the state is already what the rail
+        // names, so it is where you are rather than somewhere to go.
+        go: stateFeat && current.city ? function () { zoomToFeature(stateFeat); } : null
       });
     }
     if (current.city) parts.push({ label: current.city.name });
-    // The district is not a place with readings, so it trails as context.
-    if (current.zoomVia) parts.push({ label: current.zoomState, frame: true });
+    // The district trails as context — it is where the map is framed, not a
+    // place with readings. Not while a city is selected, though: the frame the
+    // city was picked from is nothing to do with the city, and showing both gave
+    // a Punjab district trailing a Tamil Nadu city as if it were one hierarchy.
+    else if (current.zoomVia) {
+      parts.push({ label: current.zoomState, frame: true, fit: stateFeat });
+    }
     return parts;
   }
 
@@ -652,20 +677,39 @@
     if (!parts.length) { c.innerHTML = ''; return; }
 
     // The last part that is not just the frame is the one the rail is naming.
-    var here = -1;
-    parts.forEach(function (p, i) { if (!p.frame) here = i; });
+    var here = -1, fitTo = null;
+    parts.forEach(function (p, i) {
+      if (!p.frame) here = i;
+      else if (p.fit) fitTo = p.fit;        // a frame means the place can be fitted
+    });
 
     c.innerHTML = parts.map(function (p, i) {
       var sep = i ? '<span>›</span>' : '';
-      if (p.frame) return sep + '<i>' + esc(p.label) + '</i>';
-      if (i === here) return sep + '<b>' + esc(p.label) + '</b>';
-      // A step with nowhere to go — a city picked off the map, where no state was
-      // ever framed — reads as plain text rather than a button that does nothing.
+      if (p.frame) {
+        // The separator is marked too, so hiding the frame on a narrow screen
+        // does not leave a chevron pointing at nothing.
+        return '<span class="aq-crumb-frame">›</span>' +
+          '<i class="aq-crumb-frame">' + esc(p.label) +
+          '<span class="aq-sr"> (where the map is)</span></i>';
+      }
+      if (i === here) {
+        // Clickable when the map is framed on something narrower, because then
+        // "Punjab" is both where you are and a way to see all of it.
+        return sep + (fitTo
+          ? '<button type="button" class="aq-crumb-here" aria-current="true" data-fit="1">'
+            + esc(p.label) + '</button>'
+          : '<b aria-current="true">' + esc(p.label) + '</b>');
+      }
+      // A step with nowhere to go reads as plain text, not a dead button.
       if (!p.go) return sep + '<i>' + esc(p.label) + '</i>';
       return sep + '<button type="button" data-i="' + i + '">' + esc(p.label) + '</button>';
     }).join('');
 
     [].forEach.call(c.querySelectorAll('button'), function (b) {
+      if (b.dataset.fit) {
+        b.addEventListener('click', function () { zoomToFeature(fitTo); });
+        return;
+      }
       var p = parts[+b.dataset.i];
       if (p && p.go) b.addEventListener('click', p.go);
     });
@@ -745,7 +789,11 @@
     if (current.city) return current.city.name;
     var idx = placeIndex[placeKey()];
     if (idx && idx.name) return idx.name;
-    return current.zoomState || 'All India';
+    // zoomVia first: at district level zoomState is the district, and a district
+    // is never what the readings describe. Seven states have no series folder at
+    // all, and for their districts this fallback was the only thing speaking —
+    // so the rail announced "South Goa" and then had nothing to say about it.
+    return current.zoomVia || current.zoomState || 'All India';
   }
 
   function placeSub() {
@@ -1383,9 +1431,7 @@
     // put the city on screen, otherwise the selection ring is lost among 239 dots
     var unit = coverage && coverage.cityUnit && coverage.cityUnit[c.id];
     if (unit && unit.state && view) {
-      var f = statesFeat.filter(function (x) {
-        return String(x.id) === String(unit.state);
-      })[0];
+      var f = stateFeature(unit.state);
       if (f) zoomToFeature(f, true);   // frame the state, keep the city
     }
   }
@@ -1906,7 +1952,7 @@
   //  Events and boot
   // ---------------------------------------------------------------------------
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && current.zoomState) zoomToIndia();
+    if (e.key === 'Escape' && (current.zoomState || current.city)) zoomToIndia();
     if (e.code !== 'Space' && e.key !== ' ') return;
     var tag = (document.activeElement && document.activeElement.tagName) || '';
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'BUTTON') return;
