@@ -38,7 +38,7 @@ from collections import defaultdict
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aq_national import write_national                 # noqa: E402
+from aq_national import write_national, write_series_index                 # noqa: E402
 from aqi_scale import check_covered, to_concentration   # noqa: E402
 
 POLLUTANTS = ["PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"]
@@ -281,6 +281,8 @@ def main():
     # wrote, so it cannot fall behind the chart beside it
     n_pol, n_days, _ = write_national(data)
     print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days")
+    n_cities, n_places = write_series_index(data)
+    print(f"  series/index.json -> {n_cities} cities, {n_places} places")
     return 0
 
 

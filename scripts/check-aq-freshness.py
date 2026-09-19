@@ -10,6 +10,7 @@ It watches three things, because they fail separately:
   the feed    latest.json still being refreshed by the hourly job
   the record  the days behind the map and chart still reaching the present
   the strip   national.json still matching what its own source would produce
+  the marks   series/index.json still listing the places that have a series
 
 The third one is here because it has already happened: national.json had no
 writer, so the record moved on and the strip stayed where it was, and nothing
@@ -32,7 +33,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aq_national import build_national                 # noqa: E402
+from aq_national import build_national, build_series_index   # noqa: E402
 
 
 def load(path):
@@ -70,6 +71,28 @@ def check_record(data_dir, max_days):
         return 1, newest
     print(f"FRESH record: {summary}")
     return 0, newest
+
+
+def check_index(data_dir):
+    """series/index.json tells the map which dots have a record behind them. It
+    is the file that started all this: its writer left the pipeline, nothing
+    took over, and it 404ed on every page load for weeks without a murmur."""
+    doc, problem = load(os.path.join(data_dir, "series", "index.json"))
+    if problem:
+        print(f"UNREADABLE marks: series/index.json {problem}")
+        return 2
+    try:
+        want = build_series_index(data_dir)
+    except Exception as e:
+        print(f"UNREADABLE marks: cannot rebuild from series: {e}")
+        return 2
+    if not isinstance(doc, dict) or doc.get("cities") != want["cities"]:
+        got = len((doc or {}).get("cities") or []) if isinstance(doc, dict) else 0
+        print(f"STALE marks: series/index.json lists {got} cities, "
+              f"the series folder holds {len(want['cities'])}")
+        return 1
+    print(f"FRESH marks: {len(want['cities'])} cities, {len(want['places'])} places")
+    return 0
 
 
 def check_strip(data_dir):
@@ -136,6 +159,7 @@ def main():
 
     worst, _ = check_record(data_dir, args.max_record_days)
     worst = max(worst, check_strip(data_dir))
+    worst = max(worst, check_index(data_dir))
 
     if not os.path.exists(path):
         print("MISSING feed: latest.json has never been published")
