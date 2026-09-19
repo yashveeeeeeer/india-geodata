@@ -661,10 +661,18 @@
   function wantedYears(key) {
     var idx = placeIndex[key];
     if (!idx || !idx.years.length) return [];
-    if (current.range) {
-      var a = current.range[0].slice(0, 4), b = current.range[1].slice(0, 4);
+    // Whatever window is in force, including the default one — a trailing month
+    // in early January reaches back into the year before, and the rail would
+    // otherwise summarise the two days that had landed since the first.
+    var w = activeWindow();
+    if (w) {
+      var a = w[0].slice(0, 4), b = w[1].slice(0, 4);
       var span = idx.years.filter(function (y) { return y >= a && y <= b; });
-      if (span.length) return span;
+      if (current.day) {
+        var dy = current.day.slice(0, 4);   // the map's day may sit outside it
+        if (idx.years.indexOf(dy) !== -1 && span.indexOf(dy) === -1) span.push(dy);
+      }
+      if (span.length) return span.sort();
     }
     if (current.day) {
       var y = current.day.slice(0, 4);
@@ -816,16 +824,62 @@
   // A place's record now spans every year we hold, and more of it arrives as you
   // scrub about. Without a window the rail would quietly become an all-time
   // average, so a brushed range wins and otherwise the year on screen does.
-  function windowed(s) {
+  // The period everything reads when nobody has brushed one: the last thirty
+  // days of the record. It used to be the calendar year on screen, which is
+  // fine in November and absurd in January — landing on a year two days old
+  // gave a rail reading "2 DAYS", sparklines with two points each, and a chart
+  // with nothing to draw a line between.
+  var WINDOW_DAYS = 30;
+
+  function defaultWindow() {
+    if (!dailySpan) return null;
+    // Ending on the day the map is showing, not on the end of the record.
+    // Otherwise scrubbing back to 2023 leaves the map in 2023 and the rail
+    // beside it still summarising last month.
+    var end = new Date((current.day || dailySpan[1]) + 'T00:00:00');
+    if (isNaN(end)) return null;
+    var start = new Date(end);
+    start.setDate(start.getDate() - (WINDOW_DAYS - 1));
+    var from = isoDay(start);
+    return [from < dailySpan[0] ? dailySpan[0] : from, current.day || dailySpan[1]];
+  }
+
+  function activeWindow() {
+    return current.range || defaultWindow();
+  }
+
+  function between(s, lo, hi) {
     if (!s) return null;
-    var lo = current.range ? current.range[0] : (current.year || '') + '-01-01';
-    var hi = current.range ? current.range[1] : (current.year || '9999') + '-12-31';
     var t = s.t, v = s.v, n = s.n, i, out = { t: [], v: [], n: [] };
     for (i = 0; i < t.length; i++) {
       if (t[i] < lo || t[i] > hi) continue;
       out.t.push(t[i]); out.v.push(v[i]); out.n.push(n[i]);
     }
     return out.t.length ? out : null;
+  }
+
+  function windowed(s) {
+    var w = activeWindow();
+    return between(s, w ? w[0] : (current.year || '') + '-01-01',
+                      w ? w[1] : (current.year || '9999') + '-12-31');
+  }
+
+  // The month-by-month block keeps its own twelve months whatever is brushed.
+  // It is the one thing on the page asking a seasonal question, and under a
+  // thirty-day window every answer fits in a single bar.
+  //
+  // Twelve months that hold readings, not the last twelve on the calendar. The
+  // record has a year-long hole in it where the archive we backfilled from went
+  // quiet, and counting through that hole would show a season made of one month.
+  function trailingYear(s) {
+    if (!s || !s.t.length) return null;
+    var months = [], seen = {};
+    for (var i = s.t.length - 1; i >= 0 && months.length < 12; i--) {
+      var k = s.t[i].slice(0, 7);
+      if (!seen[k]) { seen[k] = true; months.push(k); }
+    }
+    if (!months.length) return null;
+    return between(s, months[months.length - 1] + '-01', months[0] + '-31');
   }
 
   // The pollutant strip doubles as a six-way comparison: once a city is chosen,
@@ -927,7 +981,10 @@
       if (w.v[i] > naaqs) byMonth[k].over++;
     });
     var keys = Object.keys(byMonth).sort();
-    if (!keys.length) return false;
+    // One bar stretched across the block is not a season. Say nothing until
+    // there is a shape to see — which, where the record has a hole, means the
+    // block stays away rather than implying a year made of one month.
+    if (keys.length < 3) return false;
 
     var svg = d3.select(el).append('svg').attr('width', W).attr('height', H);
     var padB = 9;
@@ -962,7 +1019,7 @@
   function drawRailCycles() {
     var doc = placeDoc();
     var grid = doc && doc.cycle && doc.cycle[current.pollutant];
-    var w = doc && windowed(doc.series[current.pollutant]);
+    var w = doc && trailingYear(doc.series[current.pollutant]);
     // Reveal before drawing: a hidden block has no layout, so measuring it first
     // would report zero width and it would never un-hide.
     ui.cycleBlock.hidden = !grid;
@@ -1500,15 +1557,9 @@
     // With the whole record available, defaulting to all of it would hand someone
     // a multi-hundred-megabyte pull for pressing the obvious button. Start at the
     // period on screen, else the last month.
-    var lastMonth = '';
-    if (max) {
-      var d = new Date(max + 'T00:00:00');
-      d.setDate(d.getDate() - 29);
-      lastMonth = isoDay(d);
-      if (min && lastMonth < min) lastMonth = min;
-    }
-    ui.dlFrom.value = (current.range && current.range[0]) || lastMonth || min;
-    ui.dlTo.value = (current.range && current.range[1]) || max;
+    var w = activeWindow();
+    ui.dlFrom.value = (w && w[0]) || min;
+    ui.dlTo.value = (w && w[1]) || max;
 
     if (current.city) {
       dlSetScope('city');
@@ -1827,9 +1878,17 @@
     .then(function () {
       ui.stamp.textContent = stampText();
       ui.stamp.classList.toggle('is-stale', !latest || !latest.updated);
+      // Open on the newest day we hold rather than on the live hour. The hour is
+      // a partial sweep — mid-collection it covers a third of the network — and
+      // it left the map describing one hour while the rail beside it described a
+      // period, with neither agreeing on how much of India was being measured.
+      if (dailySpan && dailySpan[1]) current.day = dailySpan[1];
+      updateWhen();
       render();
       refreshPlace();
-      ensureDaily();
+      // The map needs that day's matrix to draw anything, and it arrives after
+      // this first paint, so draw again once it is here.
+      ensureDaily().then(function () { render(); });
     })
     .catch(function (err) {
       ui.stamp.textContent = 'Could not load: ' + err.message;
