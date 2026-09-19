@@ -94,6 +94,8 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
 
 /* Shown once, then it gets out of the way for good after the first zoom. */
 .aq-hint { position: absolute; right: 10px; bottom: 30px; font-size: 0.7rem; color: var(--color-muted); pointer-events: none; }
+/* The same slot carries the reason the map is blank, which is worth reading. */
+.aq-hint.is-empty { color: var(--color-text, #0f172a); font-weight: 500; }
 
 /* --- Rail: the number, its yardstick, its evidence, then the cycles --- */
 .aq-rail { display: flex; flex-direction: column; gap: 14px; min-width: 0; }

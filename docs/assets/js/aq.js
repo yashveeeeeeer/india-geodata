@@ -258,23 +258,33 @@
   }
 
   function valuesFor(p) {
-    var byStation = stationValues(p);
-    if (Object.keys(byStation).length) return citiesFromStations(byStation);
-    // Either the day's readings have not arrived yet or that fetch failed. Show
-    // the live hour rather than an empty country, which reads as clean air.
+    if (current.day) return citiesFromStations(stationValues(p));
     if (latest && latest.pollutants && latest.pollutants[p]) return latest.pollutants[p];
     return {};                 // nothing measured: draw nothing rather than invent it
   }
 
   // Per monitor. Districts need this: Delhi's 41 monitors sit in eleven districts,
   // and a single city point would leave ten of them looking unmonitored.
+  // Only the live hour when no day is chosen. Falling back to it for a day that
+  // holds nothing would paint today's readings across an old date, tooltips and
+  // all, and about one day-and-pollutant in nine holds nothing. An empty map
+  // says "not measured"; a borrowed one says something false.
   function stationValues(p) {
-    if (current.day) {
-      var d = dayStationValues(p, current.day);
-      if (d) return d;
-    }
+    if (current.day) return dayStationValues(p, current.day) || {};
     if (latest && latest.byStation && latest.byStation[p]) return latest.byStation[p];
     return {};
+  }
+
+  // ...and when it is empty, the map says why rather than looking like clean air.
+  function updateHint() {
+    if (!ui.hint) return;
+    var empty = current.day && !Object.keys(stationValues(current.pollutant)).length;
+    ui.hint.textContent = empty
+      ? 'No ' + (current.pollutant === 'OZONE' ? 'ozone' : current.pollutant) +
+        ' readings on ' + current.day
+      : 'Click to zoom · space + scroll';
+    ui.hint.classList.toggle('is-empty', !!empty);
+    if (view && view.t && view.t.k !== 1) ui.hint.hidden = true;
   }
 
   // Freshness comes from the data itself, so a stalled pipeline is visible here
@@ -718,12 +728,21 @@
     return haveIndex.then(function () {
       var years = wantedYears(key);
       placeYears[key] = placeYears[key] || {};
-      var need = years.filter(function (y) { return !placeYears[key][y]; });
-      return Promise.all(need.map(function (y) {
-        return getJSON(DATA + 'series/' + key + '/' + y + '.json').then(function (j) {
-          placeYears[key][y] = j;
-        }).catch(function () { placeYears[key][y] = {}; });
-      })).then(function () {
+      // Park the promise, not just the answer, and wait on one already in
+      // flight. The rail follows every day now, so dragging along the strip asks
+      // for the same year on every pointer event, and each ask was its own
+      // request until the first one landed.
+      var jobs = years.map(function (y) {
+        var have = placeYears[key][y];
+        if (have && typeof have.then === 'function') return have;
+        if (have) return Promise.resolve(have);
+        var pending = getJSON(DATA + 'series/' + key + '/' + y + '.json')
+          .then(function (j) { placeYears[key][y] = j; return j; })
+          .catch(function () { placeYears[key][y] = {}; return {}; });
+        placeYears[key][y] = pending;
+        return pending;
+      });
+      return Promise.all(jobs).then(function () {
         stitch(key);
         if (placeKey() === key) paintPlace();
       });
@@ -1103,17 +1122,32 @@
         .attr('font-size', 9).attr('fill', '#0f172a').attr('opacity', 0.6).text('NAAQS ' + cfg().naaqs);
     }
 
-    g.append('path').datum(data)
-      .attr('fill', 'none').attr('stroke', '#0f172a').attr('stroke-width', 1.1)
-      .attr('d', d3.line()
-        // Lift the pen across a gap. The record has holes in it — whole months
-        // where a source went quiet — and a line drawn straight over one reads
-        // as a measurement rather than as the absence of any.
-        .defined(function (d, i) {
-          return d.v != null &&
-            (i === 0 || (d.d - data[i - 1].d) / 864e5 <= MAX_LINE_GAP_DAYS);
-        })
-        .x(function (d) { return x(d.d); }).y(function (d) { return y(d.v); }));
+    // One path per unbroken run, rather than one path with gaps in it. The
+    // record has holes — whole months where a source went quiet — and a line
+    // drawn straight over one reads as a measurement rather than as the absence
+    // of any. Split into runs instead of marking points undefined, because that
+    // drops the first reading after every break; a run of one gets a dot, or it
+    // would be a moveto with nothing after it and would not render at all.
+    var line = d3.line().x(function (d) { return x(d.d); }).y(function (d) { return y(d.v); });
+    var runs = [], run = [];
+    data.forEach(function (d, i) {
+      if (d.v == null) return;
+      if (run.length && (d.d - run[run.length - 1].d) / 864e5 > MAX_LINE_GAP_DAYS) {
+        runs.push(run); run = [];
+      }
+      run.push(d);
+    });
+    if (run.length) runs.push(run);
+    runs.forEach(function (r) {
+      if (r.length === 1) {
+        g.append('circle').attr('cx', x(r[0].d)).attr('cy', y(r[0].v)).attr('r', 1.4)
+          .attr('fill', '#0f172a');
+        return;
+      }
+      g.append('path').datum(r)
+        .attr('fill', 'none').attr('stroke', '#0f172a').attr('stroke-width', 1.1)
+        .attr('d', line);
+    });
 
     g.append('g').attr('transform', 'translate(0,' + ih + ')')
       .call(d3.axisBottom(x).ticks(Math.max(3, Math.floor(iw / 90))).tickSize(0).tickPadding(5))
@@ -1649,17 +1683,21 @@
     var wasYear = current.day && current.day.slice(0, 4);
     var year = day.slice(0, 4);
     current.day = day;
-    // A brushed range belongs to the period you brushed it in. Carrying it along
-    // as you scrub leaves the rail describing one year and the map another.
-    current.range = null;
+    // A brushed range belongs to the period you brushed it in, and carrying it
+    // along as you scrub leaves the rail describing one year and the map
+    // another. Stepping a day within it is not leaving it, though — nudging with
+    // the arrows should not throw away a selection you are still inside.
+    if (current.range && (day < current.range[0] || day > current.range[1])) {
+      current.range = null;
+    }
     updateWhen();
+    updateHint();
     if (year !== wasYear) {
       current.year = year;
       // the map reads a matrix per pollutant-year, so fetch it before drawing
       loadDaily(current.pollutant, year).then(function () {
-        render();
-        drawStrip();
-      }).catch(function () { render(); drawStrip(); });
+        updateHint(); render(); drawStrip();
+      }).catch(function () { updateHint(); render(); drawStrip(); });
     } else {
       render();
       drawStrip();
@@ -1674,6 +1712,7 @@
     current.day = null;
     current.range = null;
     updateWhen();
+    updateHint();
     render();
     drawStrip();
     refreshPlace();      // the window moves with the day, so the rail must follow
@@ -1781,6 +1820,7 @@
       x.setAttribute('aria-selected', on ? 'true' : 'false');
     });
     ensureDaily().then(function () {
+      updateHint();
       render();
       paintPlace();
     });
@@ -1891,17 +1931,18 @@
     .then(function () {
       ui.stamp.textContent = stampText();
       ui.stamp.classList.toggle('is-stale', !latest || !latest.updated);
+      render();
+      refreshPlace();
       // Open on the newest day we hold rather than on the live hour. The hour is
       // a partial sweep — mid-collection it covers a third of the network — and
       // it left the map describing one hour while the rail beside it described a
       // period, with neither agreeing on how much of India was being measured.
-      if (dailySpan && dailySpan[1]) current.day = dailySpan[1];
-      updateWhen();
-      render();
-      refreshPlace();
-      // The map needs that day's matrix to draw anything, and it arrives after
-      // this first paint, so draw again once it is here.
-      ensureDaily().then(function () { render(); });
+      //
+      // Only once that day's readings are in hand, though: the live hour is the
+      // honest thing to show under no date at all, and an empty map is not.
+      ensureDaily().then(function () {
+        if (dailySpan && dailySpan[1]) setDay(dailySpan[1]);
+      });
     })
     .catch(function (err) {
       ui.stamp.textContent = 'Could not load: ' + err.message;
