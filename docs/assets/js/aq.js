@@ -277,6 +277,7 @@
 
   // ...and when it is empty, the map says why rather than looking like clean air.
   var dayLoading = false;
+  var daySeq = 0;              // which day change is allowed to have the last word
 
   function updateHint() {
     if (!ui.hint) return;
@@ -294,10 +295,20 @@
     // map is blank. Assigned rather than only ever set true, or the first zoom
     // of the session would take the explanation away with it for good.
     ui.hint.hidden = !empty && !!(view && view.t && view.t.k !== 1);
+    updateStamp();
   }
 
   // Freshness comes from the data itself, so a stalled pipeline is visible here
   // rather than hidden.
+  // Says which clock it is on. With a day selected the map is historical and
+  // this line is not, and it was the last thing on screen still quietly
+  // reporting the live hour over a map of 2011.
+  function updateStamp() {
+    if (!ui.stamp) return;
+    var live = stampText();
+    ui.stamp.textContent = current.day && live ? 'live feed ' + live : live;
+  }
+
   function stampText() {
     if (!latest || !latest.updated) return 'no live readings';
     var d = new Date(latest.updated);
@@ -513,8 +524,8 @@
   // Delhi NCR separates into individual cities instead of growing into one blob.
   function applyTransform(t) {
     if (!view) return;
-    if (ui.hint) updateHint();
     view.t = t;
+    if (ui.hint) updateHint();     // after the assignment, or it judges the old zoom
     view.g.attr('transform', t);
     view.g.select('.aq-states').select('.aq-inner').attr('stroke-width', 0.6 / t.k);
     view.g.select('.aq-states').select('.aq-outer').attr('stroke-width', 1.1 / t.k);
@@ -1065,7 +1076,10 @@
     ui.versus.style.color = '';
     drawGauge(null);
     drawStats([]);
-    ui.cycleBlock.hidden = true;
+    // The hour-by-month grid stays: it is this pollutant's own long-run shape,
+    // not a figure for the period, so it is not stale here. (drawRailCycles owns
+    // that block and re-shows it regardless — saying otherwise here would only
+    // mislead the next reader.)
     ui.exceedBlock.hidden = true;
     railSpan = '';
     updateWhen();
@@ -1733,11 +1747,23 @@
       // Clear the map first. Until that year's file lands the dots on screen
       // belong to the day we just left, and the readout above them already says
       // the new one.
+      //
+      // Sequenced, because two of these can be in the air at once and they need
+      // not land in order: a fast first and a slow second used to let the first
+      // declare the map empty and the second's day unmeasured while its own file
+      // was still coming.
+      var seq = ++daySeq;
       dayLoading = true;
       updateHint();
       render();
       loadDaily(current.pollutant, year).then(done).catch(done);
-      function done() { dayLoading = false; updateHint(); render(); drawStrip(); }
+      function done() {
+        if (seq !== daySeq) return;          // a newer day supersedes this one
+        dayLoading = false;
+        updateHint();
+        render();
+        drawStrip();
+      }
     } else {
       render();
       drawStrip();
@@ -1763,8 +1789,16 @@
     if (!s) return;
     if (!current.day) { setDay(s.t[s.t.length - 1]); return; }
     var i = s.t.indexOf(current.day);
-    if (i === -1) return;
-    i += delta;
+    if (i === -1) {
+      // The day is not in this pollutant's record — which is exactly when the
+      // map is blank and someone is pressing an arrow to get off it. Step to the
+      // nearest day it does have, rather than refusing to move.
+      var at = 0;
+      while (at < s.t.length && s.t[at] < current.day) at++;
+      i = delta < 0 ? at - 1 : at;
+    } else {
+      i += delta;
+    }
     if (i < 0 || i >= s.t.length) return;
     setDay(s.t[i]);
   }
@@ -1970,6 +2004,7 @@
     .then(loadLatest)
     .then(function () {
       ui.stamp.textContent = stampText();
+      updateStamp();
       ui.stamp.classList.toggle('is-stale', !latest || !latest.updated);
       render();
       refreshPlace();
