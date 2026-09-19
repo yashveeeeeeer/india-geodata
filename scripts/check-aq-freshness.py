@@ -9,7 +9,7 @@ It watches three things, because they fail separately:
 
   the feed    latest.json still being refreshed by the hourly job
   the record  the days behind the map and chart still reaching the present
-  the strip   national.json still agreeing with the record it is drawn from
+  the strip   every pollutant in national.json reaching as far as the record
 
 The third one is here because it has already happened: national.json had no
 writer, so the record moved on and the strip stayed where it was, and nothing
@@ -22,6 +22,7 @@ workflow that opens an issue on a non-zero exit.
 
 Usage:
     python scripts/check-aq-freshness.py [--max-age-hours 6] [--max-record-days 3]
+                                         [--path docs/.../latest.json]
 """
 
 import argparse
@@ -69,23 +70,34 @@ def check_record(data_dir, max_days):
 
 
 def check_strip(data_dir, newest):
-    """national.json is derived from the national series, so its last day should
-    match the record's. Drift means something wrote one and not the other."""
+    """national.json is derived from the national series, so every pollutant in
+    it should reach as far as the record. Judged per pollutant on purpose: the
+    obvious version takes the newest day across all six, and then one healthy
+    pollutant vouches for five frozen ones — which is the very drift this is
+    here to catch."""
     doc, problem = load(os.path.join(data_dir, "daily", "national.json"))
     if problem:
         print(f"UNREADABLE strip: daily/national.json {problem}")
         return 2
-    ends = {p: (s.get("t") or [None])[-1] for p, s in doc.items()}
-    if not ends:
+    if not isinstance(doc, dict) or not doc:
         print("UNREADABLE strip: daily/national.json holds no pollutants")
         return 2
-    reach = max(e for e in ends.values() if e)
-    if newest and reach < newest:
-        adrift = sorted(p for p, e in ends.items() if not e or e < newest)
-        print(f"STALE strip: reaches {reach} where the record reaches {newest} "
-              f"({', '.join(adrift)})")
+
+    ends = {}
+    for p, s in doc.items():
+        days = s.get("t") if isinstance(s, dict) else None
+        ends[p] = days[-1] if days else None
+    if not newest:
+        # the record could not be read, so there is nothing to measure against
+        print("UNKNOWN strip: no record to compare against")
+        return 0
+
+    adrift = sorted(p for p, e in ends.items() if not e or e < newest)
+    if adrift:
+        detail = ", ".join(f"{p} {ends[p] or 'empty'}" for p in adrift)
+        print(f"STALE strip: the record reaches {newest} but {detail}")
         return 1
-    print(f"FRESH strip: reaches {reach}, {len(ends)} pollutants")
+    print(f"FRESH strip: all {len(ends)} pollutants reach {newest}")
     return 0
 
 

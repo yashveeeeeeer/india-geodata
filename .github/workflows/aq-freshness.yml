@@ -30,7 +30,9 @@ jobs:
         id: check
         run: |
           set +e
-          out=$(python scripts/check-aq-freshness.py --max-age-hours 6)
+          # stderr too: a crash writes nothing to stdout, and an issue
+          # whose body reads FRESH is worse than no issue at all
+          out=$(python scripts/check-aq-freshness.py --max-age-hours 6 2>&1)
           code=$?
           echo "status<<EOF" >> "$GITHUB_OUTPUT"
           echo "$out" >> "$GITHUB_OUTPUT"
@@ -46,13 +48,13 @@ jobs:
           STATUS: ${{ steps.check.outputs.status }}
         run: |
           set -euo pipefail
-          title="Air quality feed is stale"
+          title="Air quality data is stale"
           existing=$(gh issue list --state open --search "$title in:title" \
                        --json number --jq '.[0].number // empty')
-          body=$(printf '%s\n\n%s\n\n%s\n' \
-            "The hourly air quality job has not published a fresh reading." \
-            "\`$STATUS\`" \
-            "Checked by .github/workflows/aq-freshness.yml. Look at the most recent run of \"Air quality hourly\": the usual causes are a missing or revoked DATA_GOV_IN_KEY, a change at data.gov.in, or GitHub having disabled the schedule.")
+          body=$(printf '%s\n\n%s\n%s\n%s\n\n%s\n' \
+            "One of the air quality checks came back unhappy." \
+            '```' "$STATUS" '```' \
+            "Checked by .github/workflows/aq-freshness.yml. A stale feed points at the \"Air quality hourly\" run: usually a missing or revoked DATA_GOV_IN_KEY, a change at data.gov.in, or GitHub having disabled the schedule. A stale record or strip points at \"Air quality daily rebuild\" instead, where the feed is fine but nothing is folding it into the published data.")
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body "$body"
           else

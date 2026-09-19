@@ -30,6 +30,10 @@ import re
 def write_national(data_dir):
     """Rebuild daily/national.json from the national per-year series.
 
+    Raises rather than writing a short file. A year that will not parse would
+    otherwise lop its months off the strip while the run still reported success,
+    and the nightly job would commit the truncated version.
+
     Returns (pollutants, days, path) so a caller can print something useful."""
     series_dir = os.path.join(data_dir, "series", "india")
     out = os.path.join(data_dir, "daily", "national.json")
@@ -41,8 +45,9 @@ def write_national(data_dir):
             continue                       # index.json and anything else
         try:
             doc = json.load(open(path, encoding="utf-8"))
-        except (OSError, ValueError):
-            continue
+        except (OSError, ValueError) as e:
+            raise RuntimeError(f"cannot read {os.path.basename(path)} in "
+                               f"series/india: {e}") from e
         for pollutant, s in doc.items():
             t, v = s.get("t") or [], s.get("v") or []
             by_pollutant.setdefault(pollutant, {}).update(zip(t, v))
@@ -53,7 +58,7 @@ def write_national(data_dir):
         payload[pollutant] = {"t": days, "v": [table[d] for d in days]}
 
     if not payload:
-        return 0, 0, None
+        raise RuntimeError(f"nothing to build from in {series_dir}")
 
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
@@ -68,9 +73,10 @@ def main():
     args = ap.parse_args()
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    n_pol, n_days, out = write_national(os.path.join(root, args.data))
-    if not out:
-        print("  no national series to build from")
+    try:
+        n_pol, n_days, out = write_national(os.path.join(root, args.data))
+    except RuntimeError as e:
+        print(f"  {e}")
         return 1
     print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days "
           f"({os.path.getsize(out) / 1024:.0f} KB)")
