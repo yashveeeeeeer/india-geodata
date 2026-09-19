@@ -9,7 +9,7 @@ It watches three things, because they fail separately:
 
   the feed    latest.json still being refreshed by the hourly job
   the record  the days behind the map and chart still reaching the present
-  the strip   every pollutant in national.json reaching as far as the record
+  the strip   national.json still matching what its own source would produce
 
 The third one is here because it has already happened: national.json had no
 writer, so the record moved on and the strip stayed where it was, and nothing
@@ -30,6 +30,9 @@ import json
 import os
 import sys
 from datetime import datetime, timedelta, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from aq_national import build_national                 # noqa: E402
 
 
 def load(path):
@@ -70,11 +73,14 @@ def check_record(data_dir, max_days):
 
 
 def check_strip(data_dir, newest):
-    """national.json is derived from the national series, so every pollutant in
-    it should reach as far as the record. Judged per pollutant on purpose: the
-    obvious version takes the newest day across all six, and then one healthy
-    pollutant vouches for five frozen ones — which is the very drift this is
-    here to catch."""
+    """national.json is a derived file, so the honest question is not whether it
+    looks recent but whether it still equals what its source would produce. The
+    check rebuilds it in memory and compares.
+
+    Asking anything narrower lets the real failure through. Comparing only the
+    last day passes a file that lost a year out of its middle; taking the newest
+    day across all six pollutants lets one healthy pollutant vouch for five
+    frozen ones. Both have already happened here."""
     doc, problem = load(os.path.join(data_dir, "daily", "national.json"))
     if problem:
         print(f"UNREADABLE strip: daily/national.json {problem}")
@@ -83,21 +89,33 @@ def check_strip(data_dir, newest):
         print("UNREADABLE strip: daily/national.json holds no pollutants")
         return 2
 
-    ends = {}
-    for p, s in doc.items():
-        days = s.get("t") if isinstance(s, dict) else None
-        ends[p] = days[-1] if days else None
-    if not newest:
-        # the record could not be read, so there is nothing to measure against
-        print("UNKNOWN strip: no record to compare against")
-        return 0
+    try:
+        want = build_national(data_dir)
+    except Exception as e:                       # the source itself is broken
+        print(f"UNREADABLE strip: cannot rebuild from series/india: {e}")
+        return 2
 
-    adrift = sorted(p for p, e in ends.items() if not e or e < newest)
+    adrift = []
+    for p in sorted(set(want) | set(doc)):
+        expected, got = want.get(p), doc.get(p)
+        if not isinstance(got, dict):
+            adrift.append(f"{p} missing")
+        elif expected is None:
+            adrift.append(f"{p} no longer in the series")
+        elif got.get("t") != expected["t"] or got.get("v") != expected["v"]:
+            n_got = len(got.get("t") or [])
+            n_want = len(expected["t"])
+            adrift.append(f"{p} has {n_got} days, the series has {n_want}"
+                          if n_got != n_want else f"{p} values differ")
     if adrift:
-        detail = ", ".join(f"{p} {ends[p] or 'empty'}" for p in adrift)
-        print(f"STALE strip: the record reaches {newest} but {detail}")
+        print("STALE strip: daily/national.json disagrees with series/india — "
+              + "; ".join(adrift))
         return 1
-    print(f"FRESH strip: all {len(ends)} pollutants reach {newest}")
+
+    days = max(len(s["t"]) for s in want.values())
+    reach = max(s["t"][-1] for s in want.values() if s["t"])
+    print(f"FRESH strip: matches the series, {len(want)} pollutants, "
+          f"up to {days} days, reaching {reach}")
     return 0
 
 

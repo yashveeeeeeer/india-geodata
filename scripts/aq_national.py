@@ -27,16 +27,18 @@ import os
 import re
 
 
-def write_national(data_dir):
-    """Rebuild daily/national.json from the national per-year series.
+def build_national(data_dir):
+    """What daily/national.json should contain, as a dict, without writing it.
 
-    Raises rather than writing a short file. A year that will not parse would
-    otherwise lop its months off the strip while the run still reported success,
-    and the nightly job would commit the truncated version.
+    Kept separate from writing so the freshness check can ask for the same
+    answer and compare: a file that merely disagrees with its own source is
+    exactly the failure this whole thing exists to catch, and it cannot be
+    caught by looking at the file alone.
 
-    Returns (pollutants, days, path) so a caller can print something useful."""
+    Raises rather than returning something short. A year that will not parse
+    would otherwise lop its months off the strip while the run still reported
+    success, and the nightly job would commit the truncated version."""
     series_dir = os.path.join(data_dir, "series", "india")
-    out = os.path.join(data_dir, "daily", "national.json")
 
     by_pollutant = {}
     for path in sorted(glob.glob(os.path.join(series_dir, "*.json"))):
@@ -48,8 +50,16 @@ def write_national(data_dir):
         except (OSError, ValueError) as e:
             raise RuntimeError(f"cannot read {os.path.basename(path)} in "
                                f"series/india: {e}") from e
+        if not isinstance(doc, dict):
+            raise RuntimeError(f"series/india/{year}.json is not an object")
         for pollutant, s in doc.items():
+            if not isinstance(s, dict):
+                raise RuntimeError(f"series/india/{year}.json: {pollutant} is "
+                                   f"not an object")
             t, v = s.get("t") or [], s.get("v") or []
+            if len(t) != len(v):
+                raise RuntimeError(f"series/india/{year}.json: {pollutant} has "
+                                   f"{len(t)} days but {len(v)} values")
             by_pollutant.setdefault(pollutant, {}).update(zip(t, v))
 
     payload = {}
@@ -59,7 +69,13 @@ def write_national(data_dir):
 
     if not payload:
         raise RuntimeError(f"nothing to build from in {series_dir}")
+    return payload
 
+
+def write_national(data_dir):
+    """Write daily/national.json. Returns (pollutants, days, path)."""
+    payload = build_national(data_dir)
+    out = os.path.join(data_dir, "daily", "national.json")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         json.dump(payload, f, separators=(",", ":"))
@@ -75,7 +91,7 @@ def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     try:
         n_pol, n_days, out = write_national(os.path.join(root, args.data))
-    except RuntimeError as e:
+    except (RuntimeError, OSError, TypeError, AttributeError) as e:
         print(f"  {e}")
         return 1
     print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days "

@@ -153,8 +153,12 @@ def merge_series(series_dir, name, key, rows):
         if os.path.exists(path):
             try:
                 doc = json.load(open(path, encoding="utf-8"))
-            except ValueError:
-                doc = {}
+            except ValueError as e:
+                # Starting over would silently drop every day already in the file
+                # and republish the year as whatever the last day or two of
+                # archive happens to hold. Better to stop than to lose months.
+                raise RuntimeError(f"cannot read {key}/{year}.json, "
+                                   f"refusing to rebuild it from scratch: {e}") from e
         for p, days in pols.items():
             cur = doc.get(p) or {"t": [], "v": [], "n": []}
             merged = {t: (cur["v"][i], cur["n"][i]) for i, t in enumerate(cur["t"])}

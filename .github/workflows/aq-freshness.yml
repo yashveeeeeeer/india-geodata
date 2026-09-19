@@ -69,8 +69,12 @@ jobs:
           STATUS: ${{ steps.check.outputs.status }}
         run: |
           set -euo pipefail
-          existing=$(gh issue list --state open --search "Air quality feed is stale in:title" \
+          title="Air quality data is stale"
+          existing=$(gh issue list --state open --search "$title in:title" \
                        --json number --jq '.[0].number // empty')
           if [ -n "$existing" ]; then
-            gh issue close "$existing" --comment "Feed is publishing again: \`$STATUS\`"
+            comment=$(printf '%s\n\n%s\n%s\n%s\n' \
+              "All three checks are happy again." \
+              '```' "$STATUS" '```')
+            gh issue close "$existing" --comment "$comment"
           fi
