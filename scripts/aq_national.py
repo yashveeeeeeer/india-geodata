@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Write the national daily mean the time strip is drawn from.
+"""Write the small files the page reads that are derived from the series folder.
+
+Two of them, both rebuilt from series/ rather than accumulated, so neither can
+drift away from the thing it describes.
 
 The strip spans the whole record — seventeen years — and it has to draw before
 anything else loads, so it cannot pull a matrix per year to do it. It reads one
@@ -15,6 +18,12 @@ on its own.
 
 Deriving it rather than accumulating it also means it cannot disagree with the
 chart. Both come from the same numbers.
+
+The second is series/index.json, the list of places whose series exist. The map
+gives those cities a darker rim, so you can tell at a glance which dot has a
+record behind it. The script that used to write it left the pipeline, and
+nothing took it over — so the file 404ed on every page load, seriesIndex stayed
+empty, and every dot looked alike.
 
 Usage:
     python scripts/aq_national.py [--data docs/projects/air-quality/data]
@@ -82,6 +91,36 @@ def write_national(data_dir):
     return len(payload), max(len(s["t"]) for s in payload.values()), out
 
 
+def build_series_index(data_dir):
+    """The places that have a series, so the map can mark them.
+
+    Read off the folders rather than kept as a separate tally: a place has a
+    record exactly when there is a folder holding one. Separate from writing for
+    the same reason as build_national — the check needs the same answer."""
+    series_dir = os.path.join(data_dir, "series")
+    if not os.path.isdir(series_dir):
+        raise RuntimeError(f"no series folder at {series_dir}")
+
+    places = sorted(name for name in os.listdir(series_dir)
+                    if os.path.isfile(os.path.join(series_dir, name, "index.json")))
+    if not places:
+        raise RuntimeError(f"no places with a series in {series_dir}")
+
+    # The map only marks city dots, but the state and country rollups live here
+    # too and cost a few bytes, so anything that wants them has them.
+    cities = [p for p in places if not p.startswith("state-") and p != "india"]
+    return {"cities": cities, "places": places}
+
+
+def write_series_index(data_dir):
+    """Write series/index.json. Returns (cities, places)."""
+    payload = build_series_index(data_dir)
+    out = os.path.join(data_dir, "series", "index.json")
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(payload, f, separators=(",", ":"))
+    return len(payload["cities"]), len(payload["places"])
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=os.path.join(
@@ -96,6 +135,8 @@ def main():
         return 1
     print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days "
           f"({os.path.getsize(out) / 1024:.0f} KB)")
+    n_cities, n_places = write_series_index(os.path.join(root, args.data))
+    print(f"  series/index.json -> {n_cities} cities, {n_places} places")
     return 0
 
 
