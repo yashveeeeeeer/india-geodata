@@ -5,6 +5,11 @@ Source: data.gov.in resource 3b01bcb8 ("Real time Air Quality Index from various
 locations"), published by CPCB. It is a snapshot with no history, so this runs
 hourly and the archive is accumulated from the snapshots.
 
+The feed reports the AQI sub-index, not the concentration, so every reading is
+converted before it is published (see scripts/aqi_scale.py). The snapshot keeps
+the feed's own numbers untouched, because it is the record of what the API said;
+the rebuild converts them on the way to the page.
+
 Writes:
     docs/projects/air-quality/data/latest.json   city means per pollutant, for the map
     <snapshot dir>/aq-<UTC timestamp>.csv        the raw rows, for the archive step
@@ -28,6 +33,9 @@ import urllib.parse
 import urllib.request
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from aqi_scale import to_concentration          # noqa: E402
 
 RESOURCE = "3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69"
 API = f"https://api.data.gov.in/resource/{RESOURCE}"
@@ -166,7 +174,8 @@ def aggregate(rows, cities, stations=None):
         p = (r.get("pollutant_id") or "").strip().upper()
         if p not in POLLUTANTS:
             continue
-        v = to_float(r.get("avg_value"))
+        # the feed's value is a sub-index; the page reads concentrations
+        v = to_concentration(p, to_float(r.get("avg_value")))
         if v is None:
             continue
         cid = (exact.get(slug(f"{r.get('city','')}-{r.get('state','')}"))
@@ -180,7 +189,7 @@ def aggregate(rows, cities, stations=None):
         raw = r.get("station") or ""
         sid = by_name.get(_norm(raw)) or by_base.get(_without_agency(raw))
         if sid:
-            per_station[p][sid] = v
+            per_station[p][sid] = round(v, 2 if p == "CO" else 1)
         elif r.get("station"):
             unmatched_stations.add(r["station"])
         if r.get("last_update"):
@@ -188,7 +197,8 @@ def aggregate(rows, cities, stations=None):
 
     pollutants = {}
     for p, byc in acc.items():
-        pollutants[p] = {cid: round(sum(vs) / len(vs), 1) for cid, vs in byc.items()}
+        dp = 2 if p == "CO" else 1          # CO sits near 1 mg/m³, so keep two
+        pollutants[p] = {cid: round(sum(vs) / len(vs), dp) for cid, vs in byc.items()}
 
     # the feed stamps every row with its own refresh time; the newest is the snapshot
     updated = None
