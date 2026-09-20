@@ -1,11 +1,20 @@
 name: Air quality freshness
 
-# The hourly job can fail quietly — a revoked key, a changed endpoint, GitHub
-# disabling the schedule. The page would keep rendering plausible but frozen
-# numbers. This notices instead, and opens an issue so it cannot pass unseen.
+# The hourly job can fail quietly — a revoked key, a changed endpoint. The page
+# would keep rendering plausible but frozen numbers. This notices instead, and
+# opens an issue so it cannot pass unseen.
 #
-# It also counts as repository activity, which keeps GitHub from disabling the
-# scheduled workflows after 60 days of quiet.
+# This comment used to claim the job also counts as repository activity, and so
+# keeps GitHub from disabling the scheduled workflows after 60 days of quiet.
+# It does not. The job holds contents: read and never pushes anything; all it
+# produces is issues, and GitHub's documentation says only that schedules are
+# disabled "when no repository activity has occurred in 60 days" without ever
+# saying that an issue is repository activity. What actually keeps this
+# repository awake is the hourly job's own commits, which stop precisely when
+# something is wrong — so the claim was not merely unproven, it was backwards.
+#
+# Rather than argue about what counts, aq-watchdog.yml asks GitHub whether the
+# hourly workflow is still active, and says so if it is not.
 
 on:
   schedule:
@@ -61,7 +70,7 @@ jobs:
           body=$(printf '%s\n\n%s\n%s\n%s\n\n%s\n' \
             "One of the air quality checks came back unhappy." \
             '```' "$STATUS" '```' \
-            "Checked by .github/workflows/aq-freshness.yml. A stale feed points at the \"Air quality hourly\" run: usually a missing or revoked DATA_GOV_IN_KEY, a change at data.gov.in, or GitHub having disabled the schedule. A stale record or strip points at \"Air quality daily rebuild\" instead, where the feed is fine but nothing is folding it into the published data.")
+            "Checked by .github/workflows/aq-freshness.yml. This says the data is old; it does not say why, because age alone cannot tell. If \"Air quality hourly has stopped running\" is open as well, that is the reason, and this will clear when it does. If it is not, the runs are happening and coming back with nothing: usually a missing or revoked DATA_GOV_IN_KEY, or a change at data.gov.in. A stale record or strip points at \"Air quality daily rebuild\" instead, where the feed is fine but nothing is folding it into the published data.")
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body "$body"
           else

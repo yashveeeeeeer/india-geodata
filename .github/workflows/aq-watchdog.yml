@@ -1,0 +1,149 @@
+name: Air quality watchdog
+
+# Everything else here asks how old the published data is. That question cannot
+# tell a dead source from a dead schedule — both age the files at the same rate
+# — and it is worst exactly where it matters most: GitHub disables scheduled
+# workflows in repositories that have gone quiet, and when it does, the only
+# symptom is data getting older. The stale-data issue then blames the feed for
+# a run that never happened, and the threshold gets tightened again.
+#
+# So this asks a different question: did the hourly workflow actually run.
+# scripts/check-aq-runs.py puts it to the Actions API, which answers with the
+# workflow's state and with its list of scheduled runs. The state field settles
+# the disabled case outright — GitHub says so in a field, with no threshold to
+# tune and nothing to infer.
+#
+# It keeps its own issue, apart from the stale-data one on purpose. Which of
+# the two is open is the diagnosis:
+#
+#   this one alone      the runs have stopped, before the data has aged out
+#   the stale one alone the runs are happening, so the fetch or data.gov.in
+#   both                the runs stopped, and the data aged out behind them
+
+on:
+  schedule:
+    # Hourly, for a job that is two API calls. GitHub honours a fraction of any
+    # cron it is handed — aq-hourly.yml asks every hour and gets roughly every
+    # three, aq-freshness.yml asks every six hours and has gone seventeen
+    # between runs — so asking often is the only way to get a useful worst case
+    # out of a scheduler that drops most of what it is told.
+    - cron: '35 * * * *'
+  # And again as soon as the hourly workflow finishes, which catches a run that
+  # breaks without waiting on a cron GitHub may well drop.
+  workflow_run:
+    workflows: ["Air quality hourly"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read            # the workflow's state, and its runs
+  issues: write
+
+concurrency:
+  # The two triggers can land together. Without this, both could look, both
+  # could see no open issue, and both could open one.
+  group: aq-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Ask whether the hourly workflow is being run
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          # stderr as well: a crash that only wrote to stderr would leave an
+          # issue whose body says nothing at all.
+          out=$(python scripts/check-aq-runs.py 2>&1)
+          code=$?
+          delim="status-$RANDOM-$RANDOM"   # a status line reading EOF would close it early
+          echo "status<<$delim" >> "$GITHUB_OUTPUT"
+          echo "$out" >> "$GITHUB_OUTPUT"
+          echo "$delim" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "$out"
+          exit 0
+
+      - name: Open or update an issue when the runs have stopped
+        if: steps.check.outputs.code == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ steps.check.outputs.status }}
+        run: |
+          set -euo pipefail
+          title="Air quality hourly has stopped running"
+          body=$(printf '%s\n\n%s\n%s\n%s\n\n%s\n' \
+            "GitHub is not running the hourly air quality workflow, or is running it and the job is not finishing." \
+            '```' "$STATUS" '```' \
+            "Checked by .github/workflows/aq-watchdog.yml, which asks the Actions API rather than reading the data. DISABLED means the workflow needs switching back on in the Actions tab; nothing will run until somebody does. SILENT means GitHub still calls it active but has not dispatched it for longer than the schedule has ever gone quiet before. FAILING means it is being dispatched and the job itself is breaking, and the linked run holds the log. If \"Air quality data is stale\" is open too, it is this problem's shadow rather than a second one, and it should clear once this does.")
+          existing=$(gh issue list --state open --search "$title in:title" \
+                       --json number --jq '.[0].number // empty')
+          if [ -z "$existing" ]; then
+            gh issue create --title "$title" --body "$body" --label "data" || \
+              gh issue create --title "$title" --body "$body"
+            exit 0
+          fi
+          # Say it again, but not every hour. This runs far more often than the
+          # six-hourly data check does, and an outage nobody has got to yet does
+          # not need another twenty copies of the same paragraph. Six hours is
+          # about noise, not about noticing: the noticing already happened.
+          last=$(gh issue view "$existing" --json createdAt,comments \
+                   --jq '(.comments[-1].createdAt) // .createdAt')
+          # A timestamp that is missing, will not parse, or is somehow in the
+          # future falls through and comments. Erring towards saying it twice
+          # beats a date bug that silences an outage — and date reads an empty
+          # string as the present moment, which would do exactly that.
+          said=0
+          if [ -n "$last" ]; then
+            said=$(date -u -d "$last" +%s 2>/dev/null || echo 0)
+          fi
+          since=$(( $(date -u +%s) - said ))
+          if [ "$said" -gt 0 ] && [ "$since" -ge 0 ] && [ "$since" -lt 21600 ]; then
+            echo "issue #$existing already says so, $((since / 60))m ago; not repeating"
+            exit 0
+          fi
+          gh issue comment "$existing" --body "$body"
+
+      - name: Close the issue once the runs come back
+        if: steps.check.outputs.code == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ steps.check.outputs.status }}
+        run: |
+          set -euo pipefail
+          title="Air quality hourly has stopped running"
+          existing=$(gh issue list --state open --search "$title in:title" \
+                       --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            comment=$(printf '%s\n\n%s\n%s\n%s\n' \
+              "The hourly workflow is being run again." \
+              '```' "$STATUS" '```')
+            gh issue close "$existing" --comment "$comment"
+          fi
+
+      - name: Go red when the API could not be read
+        if: steps.check.outputs.code != '0' && steps.check.outputs.code != '1'
+        env:
+          # Through the environment, not interpolated into the script. The
+          # status carries strings GitHub gave us, and a workflow name with a
+          # backtick in it would otherwise be run rather than printed.
+          STATUS: ${{ steps.check.outputs.status }}
+        run: |
+          # This is the watcher failing, not the thing it watches, and an issue
+          # saying so would be crying wolf — the pipeline may be perfectly
+          # well. A red run is its own notification and leaves nothing to tidy
+          # up afterwards. The check retries a failing API three times before
+          # it gives up, so this is not a single blip.
+          echo "::error::could not ask GitHub whether the hourly workflow ran"
+          echo "$STATUS"
+          exit 1
