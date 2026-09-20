@@ -38,7 +38,7 @@ from collections import defaultdict
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aq_national import write_national, write_series_index                 # noqa: E402
+from aq_national import write_national, write_series_index, write_summary                 # noqa: E402
 from aqi_scale import check_covered, to_concentration   # noqa: E402
 
 POLLUTANTS = ["PM2.5", "PM10", "NO2", "CO", "OZONE", "NH3"]
@@ -283,6 +283,9 @@ def main():
     print(f"  daily/national.json -> {n_pol} pollutants, up to {n_days} days")
     n_cities, n_places = write_series_index(data)
     print(f"  series/index.json -> {n_cities} cities, {n_places} places")
+    summary = write_summary(data, root)
+    print(f"  _data/air_quality.json -> {summary['stations']} stations, "
+          f"{summary['cities']} cities, {summary['from']} to {summary['to']}")
     return 0
 
 

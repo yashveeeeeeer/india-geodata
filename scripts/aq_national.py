@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Write the small files the page reads that are derived from the series folder.
 
-Two of them, both rebuilt from series/ rather than accumulated, so neither can
-drift away from the thing it describes.
+Three of them, each rebuilt from what it describes rather than accumulated, so
+none can drift away from it.
 
 The strip spans the whole record — seventeen years — and it has to draw before
 anything else loads, so it cannot pull a matrix per year to do it. It reads one
@@ -24,6 +24,12 @@ gives those cities a darker rim, so you can tell at a glance which dot has a
 record behind it. The script that used to write it left the pipeline, and
 nothing took it over — so the file 404ed on every page load, seriesIndex stayed
 empty, and every dot looked alike.
+
+The third is _data/air_quality.json, the handful of figures the Projects card
+prints. It used to be typed into the page — "6 pollutants, 558 stations" — and
+558 was never a number this project held: there are 496 monitors on the roster
+and around 450 reporting in a given hour. A figure nobody recomputes is a figure
+that drifts, so this one is counted.
 
 Usage:
     python scripts/aq_national.py [--data docs/projects/air-quality/data]
@@ -121,6 +127,49 @@ def write_series_index(data_dir):
     return len(payload["cities"]), len(payload["places"])
 
 
+def build_summary(data_dir):
+    """What the Projects card says about this project, counted rather than typed."""
+    def load(name):
+        with open(os.path.join(data_dir, name), encoding="utf-8") as f:
+            return json.load(f)
+
+    try:
+        stations = load("stations.json")
+        cities = load("cities.json")
+        index = load(os.path.join("daily", "index.json"))
+    except (OSError, ValueError) as e:
+        raise RuntimeError(f"cannot read what the card counts: {e}") from e
+
+    # Shapes, not just emptiness. A string where a list belongs would otherwise
+    # be counted by its characters and published as a station count.
+    if not isinstance(stations, list) or not isinstance(cities, list):
+        raise RuntimeError("stations.json and cities.json should each be a list")
+    if not isinstance(index, dict):
+        raise RuntimeError("daily/index.json should be an object")
+    pollutants = sorted(index.get("pollutants") or {})
+    if not (stations and cities and pollutants):
+        raise RuntimeError("cannot count the project without stations, cities and days")
+    if not index.get("from") or not index.get("to"):
+        raise RuntimeError("daily/index.json carries no span, and the card prints it")
+    return {
+        "pollutants": len(pollutants),
+        "stations": len(stations),
+        "cities": len(cities),
+        "from": index.get("from"),
+        "to": index.get("to"),
+    }
+
+
+def write_summary(data_dir, root):
+    """Write docs/_data/air_quality.json, which the Projects card reads."""
+    payload = build_summary(data_dir)
+    out = os.path.join(root, "docs", "_data", "air_quality.json")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=1, sort_keys=True)
+    return payload
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=os.path.join(
@@ -137,6 +186,10 @@ def main():
           f"({os.path.getsize(out) / 1024:.0f} KB)")
     n_cities, n_places = write_series_index(os.path.join(root, args.data))
     print(f"  series/index.json -> {n_cities} cities, {n_places} places")
+    summary = write_summary(os.path.join(root, args.data), root)
+    print(f"  _data/air_quality.json -> {summary['pollutants']} pollutants, "
+          f"{summary['stations']} stations, {summary['cities']} cities, "
+          f"{summary['from']} to {summary['to']}")
     return 0
 
 
