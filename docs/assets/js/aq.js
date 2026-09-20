@@ -1033,6 +1033,35 @@
                       w ? w[1] : (current.year || '9999') + '-12-31');
   }
 
+  // How much a period's figures rest on. Two ways of resting on very little:
+  // the window asks for thirty days and the record answers with three, or the
+  // days are all there and two monitors made them.
+  //
+  // Both are judged against the place itself rather than an absolute. One
+  // monitor is the whole of a one-monitor town's network and there is nothing
+  // thin about it; two monitors standing in for four hundred is the same figure
+  // meaning something else entirely.
+  var THIN_DAYS = 0.5;
+  var THIN_STATIONS = 0.25;
+
+  function spanDays(w) {
+    if (!w) return 0;
+    var a = new Date(w[0] + 'T00:00:00'), b = new Date(w[1] + 'T00:00:00');
+    if (isNaN(a) || isNaN(b)) return 0;
+    return Math.round((b - a) / 864e5) + 1;
+  }
+
+  function evidence(s, w) {
+    var span = spanDays(activeWindow());
+    var peak = (s && s.n.length && d3.max(s.n)) || 0;
+    var med = (w && w.n.length) ? d3.median(w.n) : 0;
+    var e = { span: span, days: w ? w.t.length : 0, stations: Math.round(med), peak: peak };
+    e.fewDays = span > 1 && e.days < span * THIN_DAYS;
+    e.fewStations = peak > 1 && med < peak * THIN_STATIONS;
+    e.thin = e.fewDays || e.fewStations;
+    return e;
+  }
+
   // The month-by-month block keeps its own twelve months whatever is brushed.
   // It is the one thing on the page asking a seasonal question, and under a
   // thirty-day window every answer fits in a single bar.
@@ -1064,23 +1093,73 @@
       val.textContent = '';
       var s = doc && doc.series[p];
       var w = s && windowed(s);
-      if (!w) { tab.classList.remove('has-data'); return; }
+      if (!w) { tab.classList.remove('has-data', 'is-thin'); return; }
       tab.classList.add('has-data');
 
       var mean = d3.mean(w.v);
+      var colour = BAND_COLOUR[band(mean, p)];
+      var ev = evidence(s, w);
       val.textContent = mean.toFixed(mean < 10 ? 1 : 0);
-      val.style.color = BAND_COLOUR[band(mean, p)];
+      val.style.color = colour;
+      tab.classList.toggle('is-thin', ev.thin);
+
+      // The line is drawn on the period the rail is summarising, not on its own
+      // point count. Three days of a thirty-day window used to be stretched the
+      // full width of the box, where three points make a near-straight line and
+      // a straight line reads as years of stable air. On a date axis they are
+      // three days of ink at the right-hand end, and the empty nine tenths is
+      // the honest part of the picture.
+      //
+      // Runs break at the gap the chart breaks at, so a hole in the record is a
+      // hole in both places rather than a line here and a lifted pen there.
+      var win = activeWindow();
+      var t0 = dayMs(win ? win[0] : w.t[0]);
+      var t1 = dayMs(win ? win[1] : w.t[w.t.length - 1]);
+      if (!(t1 > t0)) { t0 = dayMs(w.t[0]); t1 = t0 + 864e5; }
 
       var W = spark.clientWidth || 90, H = 18;
-      var x = d3.scaleLinear().domain([0, w.v.length - 1]).range([0, W]);
-      var y = d3.scaleLinear().domain([0, d3.max(w.v)]).range([H - 1, 1]);
-      d3.select(spark).append('svg').attr('width', W).attr('height', H)
-        .append('path').datum(w.v)
-        .attr('fill', 'none')
-        .attr('stroke', BAND_COLOUR[band(mean, p)])
-        .attr('stroke-width', 1)
-        .attr('d', d3.line().x(function (d, i) { return x(i); }).y(function (d) { return y(d); }));
+      var x = d3.scaleLinear().domain([t0, t1]).range([0.5, W - 0.5]);
+      var y = d3.scaleLinear().domain([0, d3.max(w.v) || 1]).range([H - 1, 1]);
+      var svg = d3.select(spark).append('svg').attr('width', W).attr('height', H);
+      var line = d3.line().x(function (d) { return x(d.t); }).y(function (d) { return y(d.v); });
+
+      // When the readings do not fill the period, a hairline says where the
+      // period was. Otherwise a stub of line at one end could be read as a small
+      // chart rather than as most of a month with nothing in it.
+      if (ev.fewDays) {
+        svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', H - 0.5).attr('y2', H - 0.5)
+          .attr('stroke', '#cbd5e1').attr('stroke-width', 1);
+      }
+
+      runsOf(w).forEach(function (r) {
+        if (r.length === 1) {
+          svg.append('circle').attr('cx', x(r[0].t)).attr('cy', y(r[0].v)).attr('r', 1.2)
+            .attr('fill', colour);
+          return;
+        }
+        svg.append('path').datum(r)
+          .attr('fill', 'none').attr('stroke', colour).attr('stroke-width', 1)
+          .attr('d', line);
+      });
     });
+  }
+
+  function dayMs(iso) { return new Date(iso + 'T00:00:00').getTime(); }
+
+  // Unbroken stretches of a windowed series, split wherever the record skips
+  // more than the chart is willing to draw across.
+  function runsOf(w) {
+    var runs = [], run = [];
+    w.t.forEach(function (t, i) {
+      if (w.v[i] == null) return;
+      var d = { t: dayMs(t), v: w.v[i] };
+      if (run.length && (d.t - run[run.length - 1].t) / 864e5 > MAX_LINE_GAP_DAYS) {
+        runs.push(run); run = [];
+      }
+      run.push(d);
+    });
+    if (run.length) runs.push(run);
+    return runs;
   }
 
 
