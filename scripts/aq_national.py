@@ -31,6 +31,10 @@ prints. It used to be typed into the page — "6 pollutants, 558 stations" — a
 and around 450 reporting in a given hour. A figure nobody recomputes is a figure
 that drifts, so this one is counted.
 
+It carries the span of the record and, beside it, how many pollutants hold every
+year of that span. The span on its own reads as a record all six have kept since
+2009: PM10 only starts in 2011 and skips 2012, and four of them hold no 2025.
+
 Usage:
     python scripts/aq_national.py [--data docs/projects/air-quality/data]
 """
@@ -127,8 +131,32 @@ def write_series_index(data_dir):
     return len(payload["cities"]), len(payload["places"])
 
 
+def span_years(index):
+    """First and last year of the record, off the two dates daily/index.json
+    carries. The card slices the year out of both, so a date it cannot slice is
+    a date that reaches the page as four characters of nonsense."""
+    edges = []
+    for edge in ("from", "to"):
+        value = index.get(edge)
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            raise RuntimeError(f"daily/index.json: {edge} is {value!r}, and the "
+                               f"card prints the year out of it")
+        edges.append(int(value[:4]))
+    first, last = edges
+    if first > last:
+        raise RuntimeError(f"daily/index.json runs from {first} back to {last}")
+    return first, last
+
+
 def build_summary(data_dir):
-    """What the Projects card says about this project, counted rather than typed."""
+    """What the Projects card says about this project, counted rather than typed.
+
+    The span is the outer envelope of everything we hold, and printed on its own
+    it promises something the record does not keep: PM10 only starts in 2011 and
+    skips 2012, and four of the six hold no 2025 at all. One earliest year read
+    as if every pollutant had it is the overstatement this counts against — the
+    card gets the number of pollutants that really do hold every year of the
+    span, off the same index the span itself comes from."""
     def load(name):
         with open(os.path.join(data_dir, name), encoding="utf-8") as f:
             return json.load(f)
@@ -146,17 +174,37 @@ def build_summary(data_dir):
         raise RuntimeError("stations.json and cities.json should each be a list")
     if not isinstance(index, dict):
         raise RuntimeError("daily/index.json should be an object")
-    pollutants = sorted(index.get("pollutants") or {})
+    held = index.get("pollutants")
+    if held and not isinstance(held, dict):
+        raise RuntimeError("daily/index.json should give each pollutant the years it holds")
+    pollutants = sorted(held or {})
     if not (stations and cities and pollutants):
         raise RuntimeError("cannot count the project without stations, cities and days")
-    if not index.get("from") or not index.get("to"):
-        raise RuntimeError("daily/index.json carries no span, and the card prints it")
+
+    first, last = span_years(index)
+    record = {str(y) for y in range(first, last + 1)}
+    whole = 0
+    for pollutant in pollutants:
+        years = held[pollutant]
+        if not isinstance(years, list):
+            raise RuntimeError(f"daily/index.json: {pollutant} should carry a "
+                               f"list of the years it holds")
+        if not years:
+            raise RuntimeError(f"daily/index.json: {pollutant} holds no years, "
+                               f"and the card counts the years each one holds")
+        if any(not isinstance(y, str) or not re.fullmatch(r"\d{4}", y) for y in years):
+            raise RuntimeError(f"daily/index.json: {pollutant} lists something "
+                               f"that is not a year")
+        if record <= set(years):
+            whole += 1
+
     return {
         "pollutants": len(pollutants),
         "stations": len(stations),
         "cities": len(cities),
         "from": index.get("from"),
         "to": index.get("to"),
+        "unbroken": whole,
     }
 
 
@@ -189,7 +237,8 @@ def main():
     summary = write_summary(os.path.join(root, args.data), root)
     print(f"  _data/air_quality.json -> {summary['pollutants']} pollutants, "
           f"{summary['stations']} stations, {summary['cities']} cities, "
-          f"{summary['from']} to {summary['to']}")
+          f"{summary['from']} to {summary['to']}, {summary['unbroken']} of "
+          f"{summary['pollutants']} holding every year of that")
     return 0
 
 
