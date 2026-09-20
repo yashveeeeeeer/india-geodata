@@ -62,7 +62,8 @@
     dlTo: document.getElementById('aqDlTo'),
     dlGo: document.getElementById('aqDlGo'),
     find: document.getElementById('aqFind'),
-    findList: document.getElementById('aqFindList')
+    findList: document.getElementById('aqFindList'),
+    rail: document.querySelector('.aq-rail')
   };
 
   var current = { pollutant: 'PM2.5', level: 'cities', city: null, range: null,
@@ -192,6 +193,18 @@
     return 0.22 + 0.78 * Math.min(1, (cover || 0) / 60);
   }
 
+  // The same idea in time rather than space: a mark made out of one monitor of
+  // forty-one is drawn faint, whatever the reading says. Full reporting leaves
+  // a symbol exactly as solid as it has always been, so an ordinary day looks
+  // unchanged and only a thin one gives itself away.
+  var THIN_SHARE = 0.5;          // below this a unit is hatched as well as washed out
+  function dotOpacity(share) {
+    return share == null ? 0.82 : 0.25 + 0.57 * Math.min(1, share);
+  }
+  function shareFade(share) {
+    return share == null ? 1 : 0.35 + 0.65 * Math.min(1, share);
+  }
+
   var dailySpan = null;
   var national = null;   // the national daily mean across every year
   // One small file holding the national daily mean for the whole record. The
@@ -232,6 +245,55 @@
       if (row[j] != null) out[m.stations[j]] = row[j];
     }
     return out;
+  }
+
+  // Which monitors this pollutant-year ever heard from. The only fair yardstick
+  // for how many spoke on one day: the network of 2011 is not the network of
+  // 2024, and judging an old day against today's monitor count would wash the
+  // whole early record out as though it were a fault.
+  function liveStations(m) {
+    if (m.live) return m.live;
+    var live = {};
+    for (var j = 0; j < m.stations.length; j++) {
+      for (var i = 0; i < m.t.length; i++) {
+        if (m.v[i][j] != null) { live[m.stations[j]] = true; break; }
+      }
+    }
+    m.live = live;
+    return live;
+  }
+
+  // Of the monitors a place had working this year, how many reported on the day
+  // being shown. Static coverage cannot answer this — it says where monitors
+  // are, not whether they spoke — and on the days the feed thinned to a handful
+  // it was the only thing the map was listening to.
+  function dayShare(p, key) {
+    var m = current.day && dailyCache[p + '-' + current.day.slice(0, 4)];
+    if (!m || !coverage || !coverage.stationUnit) return null;
+    var live = liveStations(m);
+    var sv = stationValues(p);
+    var had = {}, now = {};
+    function tally(sid, into) {
+      var u = coverage.stationUnit[sid];
+      if (u && u[key]) into[u[key]] = (into[u[key]] || 0) + 1;
+    }
+    Object.keys(live).forEach(function (sid) { tally(sid, had); });
+    Object.keys(sv).forEach(function (sid) { tally(sid, now); });
+    return {
+      had: had,
+      now: now,
+      of: function (id) { var h = had[id]; return h ? (now[id] || 0) / h : null; }
+    };
+  }
+
+  // The same question asked of the whole country at once.
+  var THIN_DAY = 0.25;
+  function thinDay(p) {
+    var m = current.day && dailyCache[p + '-' + current.day.slice(0, 4)];
+    if (!m) return false;
+    var had = Object.keys(liveStations(m)).length;
+    if (!had) return false;
+    return Object.keys(stationValues(p)).length < had * THIN_DAY;
   }
 
   // Monitors rolled up to cities, so the symbol map and the historical view are
@@ -280,6 +342,10 @@
   var dayFailed = false;       // we tried to look and could not, which is not absence
   var daySeq = 0;              // which day change is allowed to have the last word
 
+  function polWord() {
+    return current.pollutant === 'OZONE' ? 'ozone' : current.pollutant;
+  }
+
   function updateHint() {
     if (!ui.hint) return;
     // Silent while the day's readings are still on their way: the map is empty
@@ -288,18 +354,26 @@
     var blank = !dayLoading && current.day &&
       !Object.keys(stationValues(current.pollutant)).length;
     var empty = blank && !dayFailed;
+    // Two dots over India can mean the country was clean or that two monitors
+    // were listening, and the map alone cannot tell you which. Same slot, same
+    // sentence shape as the empty day — this is that day one notch weaker. The
+    // count itself stays in the rail's stat row, where figures live.
+    var thin = !blank && !dayLoading && current.day && thinDay(current.pollutant);
     ui.hint.textContent = blank && dayFailed
       ? 'Could not load the readings for ' + current.day
       : empty
-        ? 'No ' + (current.pollutant === 'OZONE' ? 'ozone' : current.pollutant) +
-          ' readings on ' + current.day
-        : 'Click to zoom · space + scroll';
+        ? 'No ' + polWord() + ' readings on ' + current.day
+        : thin
+          ? 'Only a handful of ' + polWord() + ' monitors reported on ' + current.day
+          : 'Click to zoom · space + scroll';
     empty = blank;              // either way the map is bare and says so
     ui.hint.classList.toggle('is-empty', !!empty);
+    ui.hint.classList.toggle('is-thin', !!thin);
     // Zooming hides the zoom advice, having taken it — but never the reason the
-    // map is blank. Assigned rather than only ever set true, or the first zoom
-    // of the session would take the explanation away with it for good.
-    ui.hint.hidden = !empty && !!(view && view.t && view.t.k !== 1);
+    // map is blank, nor the warning that what is on it rests on almost nothing.
+    // Assigned rather than only ever set true, or the first zoom of the session
+    // would take the explanation away with it for good.
+    ui.hint.hidden = !empty && !thin && !!(view && view.t && view.t.k !== 1);
     updateStamp();
   }
 
@@ -399,10 +473,15 @@
       return;
     }
 
+    var share = dayShare(p, 'city');
     var pts = [];
     cities.forEach(function (c) {
       var xy = projection([c.lon, c.lat]);
-      if (xy && values[c.id] != null) pts.push({ c: c, x: xy[0], y: xy[1], v: values[c.id] });
+      if (xy && values[c.id] != null) {
+        pts.push({ c: c, x: xy[0], y: xy[1], v: values[c.id],
+                   share: share && share.of(c.id),
+                   now: share && (share.now[c.id] || 0), had: share && share.had[c.id] });
+      }
     });
 
     // Symbols must stay small enough that clustered cities read as separate marks
@@ -420,7 +499,7 @@
       .attr('r', function (d) { return r(d.v); })
       .attr('data-city', function (d) { return d.c.id; })
       .attr('fill', function (d) { return BAND_COLOUR[band(d.v, p)]; })
-      .attr('fill-opacity', 0.82)
+      .attr('fill-opacity', function (d) { return dotOpacity(d.share); })
       // a darker rim marks cities whose series is built, so the map shows what is clickable
       .attr('stroke', function (d) { return seriesIndex[d.c.id] ? '#0f172a' : '#ffffff'; })
       .attr('stroke-width', function (d) { return seriesIndex[d.c.id] ? 1.2 : 0.6; })
@@ -438,6 +517,7 @@
     var level = current.level;
     var feats = layerCache[level] || [];
     var uv = unitValues(level, p);
+    var share = dayShare(p, level === 'states' ? 'state' : 'district');
 
     var layer = g.append('g').attr('class', 'aq-units');
     layer.selectAll('path').data(feats).enter().append('path')
@@ -447,16 +527,18 @@
         var e = uv[d.id];
         return e ? BAND_COLOUR[band(e.v, p)] : '#f1f5f9';
       })
+      // Two kinds of doubt multiply: how much of the unit has a monitor near it
+      // at all, and how many of those monitors spoke on the day being shown.
       .attr('fill-opacity', function (d) {
         var e = uv[d.id];
         if (!e) return 1;
         var m = unitMeta(level, d.id);
-        return coverOpacity(m && m.cover);
+        return coverOpacity(m && m.cover) * shareFade(share && share.of(d.id));
       })
       .attr('stroke', '#cbd5e1')
       .attr('stroke-width', 0.5)
       .style('cursor', 'pointer')
-      .on('pointerenter pointermove', function (e, d) { unitTip(e, d, uv, level, p); })
+      .on('pointerenter pointermove', function (e, d) { unitTip(e, d, uv, level, p, share); })
       .on('pointerleave', hideTip)
       .on('click', function (e, d) { e.stopPropagation(); zoomToFeature(d); });
 
@@ -471,10 +553,14 @@
     }
 
     // Thinly covered units get hatching on top, so low confidence is legible even
-    // where the colour alone might still look convincing.
+    // where the colour alone might still look convincing. A unit most of whose
+    // monitors said nothing today is thin in exactly the same way, and gets the
+    // same mark — the reading is real, the shape it is painted over is not.
     layer.selectAll('path.aq-thin').data(feats.filter(function (d) {
+      if (!uv[d.id]) return false;
       var m = unitMeta(level, d.id);
-      return uv[d.id] && m && m.cover < 25;
+      var f = share && share.of(d.id);
+      return (m && m.cover < 25) || (f != null && f < THIN_SHARE);
     })).enter().append('path')
       .attr('class', 'aq-thin')
       .attr('d', path)
@@ -482,7 +568,7 @@
       .attr('pointer-events', 'none');
   }
 
-  function unitTip(e, d, uv, level, p) {
+  function unitTip(e, d, uv, level, p, share) {
     var entry = uv[d.id];
     var m = unitMeta(level, d.id);
     var name = (m && m.name) || d.properties.name || '';
@@ -493,12 +579,19 @@
       return;
     }
     var bi = band(entry.v, p);
+    // How many monitors spoke, not how many exist. The second was what this
+    // line used to say, and on a day one monitor in forty-one reported it read
+    // as forty-one monitors' worth of agreement.
+    var had = share && share.had[d.id];
+    var backing = had
+      ? (share.now[d.id] || 0) + ' of ' + had + ' monitors reported'
+      : (m ? m.stations : '?') + (m && m.stations === 1 ? ' monitor' : ' monitors') +
+        ' in ' + entry.cities + (entry.cities === 1 ? ' city' : ' cities');
     ui.tip.innerHTML =
       '<b>' + esc(name) + '</b>' +
       '<u>' + entry.v.toFixed(entry.v < 10 ? 1 : 0) + ' <s>' + POLLUTANTS[p].unit + '</s></u>' +
       '<em style="color:' + BAND_COLOUR[bi] + '">' + BAND_NAME[bi] + '</em>' +
-      '<i>' + (m ? m.stations : '?') + (m && m.stations === 1 ? ' monitor' : ' monitors') + ' in ' + entry.cities +
-      (entry.cities === 1 ? ' city' : ' cities') + '</i>' +
+      '<i>' + esc(backing) + '</i>' +
       '<i>' + (m ? m.cover : '?') + '% of area within reach</i>';
     placeTip(e);
   }
@@ -768,7 +861,8 @@
       '<i>' + esc(d.c.state) + '</i>' +
       '<u>' + d.v + ' <s>' + cfg().unit + '</s></u>' +
       '<em style="color:' + BAND_COLOUR[i] + '">' + BAND_NAME[i] + '</em>' +
-      '<i>' + (d.v / cfg().naaqs).toFixed(1) + '× NAAQS</i>';
+      '<i>' + (d.v / cfg().naaqs).toFixed(1) + '× NAAQS</i>' +
+      (d.had ? '<i>' + d.now + ' of ' + d.had + ' monitors reported</i>' : '');
     placeTip(e);
   }
 
@@ -935,7 +1029,7 @@
   // Where the reading sits against the standard. Bands are equal width rather
   // than to scale, otherwise the top band swamps the strip; the boundary numbers
   // carry the real spacing, and the national limit gets its own mark.
-  function drawGauge(value) {
+  function drawGauge(value, thin) {
     var el = ui.gauge;
     el.innerHTML = '';
     var W = el.clientWidth, H = 30;
@@ -948,6 +1042,17 @@
     for (var i = 0; i < n; i++) {
       svg.append('rect').attr('x', i * bw).attr('y', 9).attr('width', bw + 0.5).attr('height', 7)
         .attr('fill', BAND_COLOUR[i]);
+    }
+    // The map's own mark for a reading it cannot stand behind, carried over so
+    // the page says "thin" in one language rather than two.
+    if (thin) {
+      var pat = svg.append('defs').append('pattern').attr('id', 'aqGaugeHatch')
+        .attr('width', 4).attr('height', 4).attr('patternUnits', 'userSpaceOnUse')
+        .attr('patternTransform', 'rotate(45)');
+      pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 4)
+        .attr('stroke', '#ffffff').attr('stroke-width', 2);
+      svg.append('rect').attr('x', 0).attr('y', 9).attr('width', W).attr('height', 7)
+        .attr('fill', 'url(#aqGaugeHatch)');
     }
     cfg.breaks.forEach(function (b, i) {
       svg.append('text').attr('x', (i + 1) * bw).attr('y', H - 1).attr('text-anchor', 'middle')
@@ -962,7 +1067,7 @@
         .attr('stroke', '#0f172a').attr('stroke-width', 1.5);
     }
 
-    // the current reading
+    // the current reading — hollow when there is little behind it
     if (value != null && isFinite(value)) {
       var bi = band(value, current.pollutant);
       var lo = bi === 0 ? 0 : cfg.breaks[bi - 1];
@@ -971,14 +1076,23 @@
       var vx = Math.min(W - 1, bi * bw + frac * bw);
       svg.append('path')
         .attr('d', 'M' + vx + ',8 l-4,-6 l8,0 Z')
-        .attr('fill', '#0f172a');
+        .attr('fill', thin ? '#ffffff' : '#0f172a')
+        .attr('stroke', '#0f172a')
+        .attr('stroke-width', thin ? 1 : 0);
     }
   }
 
+  // A third element marks the figure the rail is being cautious about, so the
+  // eye lands on the reason rather than having to go looking for it.
   function drawStats(rows) {
     ui.stats.innerHTML = rows.map(function (r) {
-      return '<span class="aq-stat"><b>' + esc(r[0]) + '</b><i>' + esc(r[1]) + '</i></span>';
+      return '<span class="aq-stat' + (r[2] ? ' is-thin' : '') + '"><b>' + esc(r[0]) +
+        '</b><i>' + esc(r[1]) + '</i></span>';
     }).join('');
+  }
+
+  function setThin(on) {
+    if (ui.rail) ui.rail.classList.toggle('is-thin', !!on);
   }
 
   function showRailFromMap(c) {
@@ -987,6 +1101,7 @@
     ui.unit.textContent = cfg().unit;
     ui.versus.textContent = v == null ? '' : (v / cfg().naaqs).toFixed(1) + '× NAAQS';
     ui.versus.style.color = v == null ? '' : BAND_COLOUR[band(v, current.pollutant)];
+    setThin(false);
     drawGauge(v);
     drawStats([[c.n, c.n === 1 ? 'station' : 'stations']]);
     ui.cycleBlock.hidden = true;
@@ -1287,6 +1402,7 @@
     ui.unit.textContent = cfg().unit;
     ui.versus.textContent = '';
     ui.versus.style.color = '';
+    setThin(false);
     drawGauge(null);
     drawStats([]);
     // The hour-by-month grid stays: it is this pollutant's own long-run shape,
@@ -1310,13 +1426,19 @@
     }
     var mean = d3.mean(w.v);
     var over = w.v.filter(function (x) { return x > cfg().naaqs; }).length;
+    // What the headline rests on, worked out before it is written: a mean of
+    // three days, or of two monitors standing in for a country, is still a
+    // mean, and the page should not read it out in the same voice as a month of
+    // four hundred.
+    var ev = evidence(s, w);
     ui.value.textContent = mean.toFixed(mean < 10 ? 1 : 0);
     ui.unit.textContent = cfg().unit;
     ui.versus.textContent = (mean / cfg().naaqs).toFixed(1) + '× NAAQS';
     ui.versus.style.color = BAND_COLOUR[band(mean, current.pollutant)];
-    drawGauge(mean);
-    drawStats([[w.t.length, 'days'], [over, 'over NAAQS'],
-               [Math.round(d3.median(w.n)), 'stations']]);
+    setThin(ev.thin);
+    drawGauge(mean, ev.thin);
+    drawStats([[ev.days, 'days', ev.fewDays], [over, 'over NAAQS'],
+               [ev.stations, 'stations', ev.fewStations]]);
     railSpan = w.t.length > 1 ? w.t[0] + ' → ' + w.t[w.t.length - 1] : w.t[0];
     updateWhen();
     updateStrip();
