@@ -103,7 +103,12 @@ def check_index(data_dir):
 
 def check_card(data_dir, root):
     """The Projects card prints these. It said 558 stations, a number this project
-    has never held, because it was typed in rather than counted."""
+    has never held, because it was typed in rather than counted.
+
+    Every key the summary carries is compared, so a figure added to the card is
+    covered the moment build_summary starts counting it — including the count of
+    pollutants that hold every year of the span, which is what keeps the span
+    from reading as a record all six have kept since 2009."""
     path = os.path.join(root, "docs", "_data", "air_quality.json")
     doc, problem = load(path)
     if problem:
@@ -127,7 +132,8 @@ def check_card(data_dir, root):
         print("STALE card: _data/air_quality.json disagrees on " + ", ".join(off))
         return 1
     print(f"FRESH card: {want['pollutants']} pollutants, {want['stations']} stations, "
-          f"from {want['from']}")
+          f"{want['cities']} cities, {want['from'][:4]} to {want['to'][:4]}, "
+          f"{want['unbroken']} of {want['pollutants']} holding every year of that")
     return 0
 
 

@@ -499,7 +499,8 @@ main { flex: 1; }
 /* Figures read as an aligned row rather than dot-joined into a sentence. Its
    own rules rather than the home page's, whose label colour is set for the dark
    hero it sits on. */
-.project-stats { display: flex; gap: 22px; margin-top: 10px; }
+.project-stats { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 10px; }
+.project-stat { white-space: nowrap; }
 .project-stat b { display: block; font-size: 1.05rem; font-weight: 600; color: var(--color-text); line-height: 1.2; }
 .project-stat i { display: block; font-style: normal; font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
 
