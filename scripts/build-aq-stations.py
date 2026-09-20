@@ -10,6 +10,11 @@ small JSON files the page loads once:
 Values are not included here; they come from the hourly feed. This file only
 answers "where are the monitors, and how many does each city have".
 
+A city point is the mean of its monitors, so a monitor with bad coordinates drags
+its whole city onto the map in the wrong place. build-aq-coverage.py checks every
+city and station against the state boundaries afterwards and refuses to write if
+any of them disagrees with its own label, so run that next.
+
 Usage:
     python scripts/build-aq-stations.py [--key KEY] [--out DIR]
 """
