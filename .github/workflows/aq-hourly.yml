@@ -132,7 +132,7 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/projects/air-quality/data/latest.json
+          git add docs/projects/air-quality/data/latest.json docs/_data/air_quality.json
           if git diff --cached --quiet; then
             echo "feed unchanged, nothing to commit"
             exit 0

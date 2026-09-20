@@ -5,7 +5,7 @@ A feed that quietly stops updating is worse than one that is obviously missing:
 the page keeps rendering, the numbers keep looking plausible, and nobody notices
 for months. This is the check that makes that impossible to miss.
 
-It watches three things, because they fail separately:
+It watches these, because they fail separately:
 
   the feed    latest.json still being refreshed by the hourly job
   the record  the days behind the map and chart still reaching the present
@@ -28,7 +28,7 @@ to report on.
 
 Usage:
     python scripts/check-aq-freshness.py [--max-age-hours 6] [--max-record-days 3]
-                                         [--only feed|record|strip|marks]
+                                         [--only feed|record|strip|marks|card]
                                          [--path docs/.../latest.json]
 """
 
@@ -102,8 +102,8 @@ def check_index(data_dir):
 
 
 def check_card(data_dir, root):
-    """The Projects card prints these. It said 558 stations for months, a number
-    this project has never held, because it was typed in rather than counted."""
+    """The Projects card prints these. It said 558 stations, a number this project
+    has never held, because it was typed in rather than counted."""
     path = os.path.join(root, "docs", "_data", "air_quality.json")
     doc, problem = load(path)
     if problem:
@@ -114,9 +114,16 @@ def check_card(data_dir, root):
     except Exception as e:
         print(f"UNREADABLE card: cannot count the project: {e}")
         return 2
-    if doc != want:
-        off = sorted(k for k in set(want) | set(doc or {})
-                     if (doc or {}).get(k) != want.get(k))
+    if not isinstance(doc, dict):
+        print("UNREADABLE card: _data/air_quality.json is not an object")
+        return 2
+    # Compared by type as well as value, because 496.0 equals 496 in Python and
+    # renders as "496.0" on the card.
+    def same(a, b):
+        return type(a) is type(b) and a == b
+    off = sorted(k for k in set(want) | set(doc)
+                 if not same(doc.get(k), want.get(k)))
+    if off:
         print("STALE card: _data/air_quality.json disagrees on " + ", ".join(off))
         return 1
     print(f"FRESH card: {want['pollutants']} pollutants, {want['stations']} stations, "

@@ -496,9 +496,9 @@ main { flex: 1; }
 .project-card:hover { border-color: var(--color-accent); color: var(--color-text); }
 .project-card h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
 .project-card p { font-size: 0.9rem; color: var(--color-text); margin-bottom: 8px; }
-.project-meta { font-size: 0.78rem; color: var(--color-muted); }
-/* Figures read as an aligned row, the same shape the home page uses, rather
-   than dot-joined into a sentence. */
+/* Figures read as an aligned row rather than dot-joined into a sentence. Its
+   own rules rather than the home page's, whose label colour is set for the dark
+   hero it sits on. */
 .project-stats { display: flex; gap: 22px; margin-top: 10px; }
 .project-stat b { display: block; font-size: 1.05rem; font-weight: 600; color: var(--color-text); line-height: 1.2; }
 .project-stat i { display: block; font-style: normal; font-size: 0.7rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
