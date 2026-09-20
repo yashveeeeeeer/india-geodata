@@ -26,6 +26,19 @@ import urllib.request
 API = "https://airquality.xkdr.org/v1/stations?format=csv"
 DEMO_KEY = "aqi_demo_wbf92Qx21zX-Wa_Tg8Dx1nXe"   # published on airquality.xkdr.org
 
+# Coordinates the source gets wrong, keyed by station id. A monitor's own
+# registered address is the better evidence: the board that runs it named the
+# place. Each entry says which address it was taken from so it can be rechecked.
+CORRECTED = {
+    # CPCB publishes 16.5038, 74.3623 for this one, which falls in Belagavi
+    # district, Karnataka, 46 km southwest of the address it is registered at:
+    # "Collector Office Premises, Near District Court, Sangli Miraj Road, Vijay
+    # Nagar, Sangli". MPCB is Maharashtra's board and runs no monitors in
+    # Karnataka. Uncorrected, Sangli's readings become part of Karnataka's state
+    # average while every label on the page still reads Maharashtra.
+    "site_5774": (16.84269, 74.60926, "Sangli collector office, Sangli-Miraj Road"),
+}
+
 
 def slug(s):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", str(s).lower())).strip("-")
@@ -75,6 +88,9 @@ def build(rows):
         lat, lon = num(r.get("latitude")), num(r.get("longitude"))
         if lat is None or lon is None:
             continue                          # decommissioned monitors carry no coordinates
+        if r["station_id"] in CORRECTED:
+            lat, lon, why = CORRECTED[r["station_id"]]
+            print(f"  moved {r['station_id']} to its registered address ({why})")
         city = (r.get("city_name") or "").strip()
         state = states.get((r.get("state_name") or "").strip(),
                            (r.get("state_name") or "").strip())
