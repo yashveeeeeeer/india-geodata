@@ -12,6 +12,13 @@ permalink: /projects/
   <a class="project-card" href="{{ site.baseurl }}/projects/air-quality/">
     <h2>India Air Quality</h2>
     <p>Hourly readings from every station in CPCB's monitoring network, mapped and charted by state, district and city.</p>
-    <span class="project-meta">6 pollutants &middot; 558 stations &middot; updated hourly</span>
+    {%- assign aq = site.data.air_quality -%}
+    {%- if aq -%}
+    <div class="project-stats">
+      <div class="project-stat"><b>{{ aq.pollutants }}</b><i>Pollutants</i></div>
+      <div class="project-stat"><b>{{ aq.stations }}</b><i>Stations</i></div>
+      <div class="project-stat"><b>{{ aq.from | slice: 0, 4 }}</b><i>Since</i></div>
+    </div>
+    {%- endif -%}
   </a>
 </div>

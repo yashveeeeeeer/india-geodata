@@ -19,6 +19,12 @@ on its own.
 Deriving it rather than accumulating it also means it cannot disagree with the
 chart. Both come from the same numbers.
 
+The third is _data/air_quality.json, the handful of figures the Projects card
+prints. It used to be typed into the page — "6 pollutants, 558 stations" — and
+558 was never a number this project held: there are 496 monitors on the map and
+about 450 reporting on a given hour. A figure nobody recomputes is a figure that
+drifts, so this one is counted from the files themselves.
+
 The second is series/index.json, the list of places whose series exist. The map
 gives those cities a darker rim, so you can tell at a glance which dot has a
 record behind it. The script that used to write it left the pipeline, and
@@ -121,6 +127,37 @@ def write_series_index(data_dir):
     return len(payload["cities"]), len(payload["places"])
 
 
+def build_summary(data_dir):
+    """What the Projects card says about this project, counted rather than typed."""
+    def load(name):
+        with open(os.path.join(data_dir, name), encoding="utf-8") as f:
+            return json.load(f)
+
+    stations = load("stations.json")
+    cities = load("cities.json")
+    index = load(os.path.join("daily", "index.json"))
+    pollutants = sorted(index.get("pollutants") or {})
+    if not (stations and cities and pollutants):
+        raise RuntimeError("cannot count the project without stations, cities and days")
+    return {
+        "pollutants": len(pollutants),
+        "stations": len(stations),
+        "cities": len(cities),
+        "from": index.get("from"),
+        "to": index.get("to"),
+    }
+
+
+def write_summary(data_dir, root):
+    """Write docs/_data/air_quality.json, which the Projects card reads."""
+    payload = build_summary(data_dir)
+    out = os.path.join(root, "docs", "_data", "air_quality.json")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=1, sort_keys=True)
+    return payload
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=os.path.join(
@@ -137,6 +174,10 @@ def main():
           f"({os.path.getsize(out) / 1024:.0f} KB)")
     n_cities, n_places = write_series_index(os.path.join(root, args.data))
     print(f"  series/index.json -> {n_cities} cities, {n_places} places")
+    summary = write_summary(os.path.join(root, args.data), root)
+    print(f"  _data/air_quality.json -> {summary['pollutants']} pollutants, "
+          f"{summary['stations']} stations, {summary['cities']} cities, "
+          f"{summary['from']} to {summary['to']}")
     return 0
 
 

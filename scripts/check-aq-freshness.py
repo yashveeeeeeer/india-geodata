@@ -11,6 +11,7 @@ It watches three things, because they fail separately:
   the record  the days behind the map and chart still reaching the present
   the strip   national.json still matching what its own source would produce
   the marks   series/index.json still listing the places that have a series
+  the card    _data/air_quality.json still counting what the project holds
 
 The third one is here because it has already happened: national.json had no
 writer, so the record moved on and the strip stayed where it was, and nothing
@@ -38,7 +39,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aq_national import build_national, build_series_index   # noqa: E402
+from aq_national import build_national, build_series_index, build_summary  # noqa: E402
 
 
 def load(path):
@@ -100,6 +101,29 @@ def check_index(data_dir):
     return 0
 
 
+def check_card(data_dir, root):
+    """The Projects card prints these. It said 558 stations for months, a number
+    this project has never held, because it was typed in rather than counted."""
+    path = os.path.join(root, "docs", "_data", "air_quality.json")
+    doc, problem = load(path)
+    if problem:
+        print(f"UNREADABLE card: _data/air_quality.json {problem}")
+        return 2
+    try:
+        want = build_summary(data_dir)
+    except Exception as e:
+        print(f"UNREADABLE card: cannot count the project: {e}")
+        return 2
+    if doc != want:
+        off = sorted(k for k in set(want) | set(doc or {})
+                     if (doc or {}).get(k) != want.get(k))
+        print("STALE card: _data/air_quality.json disagrees on " + ", ".join(off))
+        return 1
+    print(f"FRESH card: {want['pollutants']} pollutants, {want['stations']} stations, "
+          f"from {want['from']}")
+    return 0
+
+
 def check_strip(data_dir):
     """national.json is a derived file, so the honest question is not whether it
     looks recent but whether it still equals what its source would produce. The
@@ -154,7 +178,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-age-hours", type=float, default=6.0)
     ap.add_argument("--max-record-days", type=float, default=3.0)
-    ap.add_argument("--only", choices=("feed", "record", "strip", "marks"),
+    ap.add_argument("--only", choices=("feed", "record", "strip", "marks", "card"),
                     help="run just one of the checks")
     ap.add_argument("--report-only", action="store_true",
                     help="say how things stand without calling it fresh or stale")
@@ -174,6 +198,8 @@ def main():
         worst = max(worst, check_strip(data_dir))
     if want in (None, "marks"):
         worst = max(worst, check_index(data_dir))
+    if want in (None, "card"):
+        worst = max(worst, check_card(data_dir, root))
     if want not in (None, "feed"):
         return worst
 
