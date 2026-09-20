@@ -90,7 +90,31 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
 .aq-crumb button:hover { color: var(--color-text); border-color: var(--color-accent); }
 .aq-crumb span { color: var(--color-border); }
 .aq-crumb i { font-style: normal; font-weight: 500; color: var(--color-muted); padding: 4px 8px; background: rgba(255,255,255,0.92); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
-.aq-crumb b { font-weight: 600; padding: 4px 8px; background: rgba(255,255,255,0.92); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.aq-crumb b, .aq-crumb .aq-crumb-here { font-weight: 600; color: var(--color-text); padding: 4px 8px; background: rgba(255,255,255,0.92); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.aq-crumb .aq-crumb-here:hover { border-color: var(--color-accent); }
+/* One line, however deep the trail. A four-part chain used to wrap into a
+   three-row slab across the top of the map on a phone. */
+/* Shrink only when there is no room. A fixed character cap cut a quarter of
+   the state names short on a desktop with most of the map still empty, and cut
+   the two longest ones to the same prefix. */
+.aq-crumb { max-width: calc(100% - 16px); }
+.aq-crumb button, .aq-crumb i, .aq-crumb b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+/* The way home never shrinks. "I…" is no use to anybody, and it is five
+   characters — whatever is crowding the trail, it is not this. */
+.aq-crumb > button:first-child { flex: none; }
+/* Where you are gets the next call on the space, and the step between gives way
+   first, since the rail says the state anyway. */
+.aq-crumb > [aria-current] { flex: 0 1 auto; min-width: 5ch; }
+@media (max-width: 560px) {
+  /* The frame is the least of the three things here, and the first to go —
+     chevron included, or it points at nothing. And the trail stops short of the
+     level tabs rather than being painted over them. */
+  .aq-crumb { max-width: calc(100% - 170px); }
+  .aq-crumb .aq-crumb-frame { display: none; }
+  .aq-crumb button, .aq-crumb i, .aq-crumb b { padding: 3px 6px; }
+}
+/* Said to a screen reader, where weight and colour say nothing. */
+.aq-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* Shown once, then it gets out of the way for good after the first zoom. */
 .aq-hint { position: absolute; right: 10px; bottom: 30px; font-size: 0.7rem; color: var(--color-muted); pointer-events: none; }
