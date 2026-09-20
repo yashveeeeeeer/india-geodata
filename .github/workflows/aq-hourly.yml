@@ -17,9 +17,11 @@ name: Air quality hourly
 # It does not decide whether that matters. Judging it here would mean a
 # threshold on how old the feed is, and GitHub runs this schedule every three
 # hours or so rather than every hour, so any threshold tight enough to catch a
-# real outage also fires on an ordinary gap. aq-freshness.yml already answers
-# that question, on its own schedule, and opens an issue — one alarm, in one
-# place, rather than two that disagree.
+# real outage also fires on an ordinary gap. That judgement is made elsewhere,
+# on its own schedule: aq-freshness.yml asks whether the published data has
+# stopped moving, and aq-watchdog.yml asks whether this workflow is still being
+# run at all. Two questions, not two opinions on the same one — and between
+# them they say which of the two it is.
 
 on:
   schedule:
