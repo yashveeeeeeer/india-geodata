@@ -645,6 +645,10 @@
     var stateFeat = null;
     if (current.city && current.city.state) {
       stateFeat = stateByName(current.city.state);
+      // A spelling the map does not know — "Orissa", say. Falling back to the
+      // coordinates here would restore the split this is here to close: a step
+      // labelled one state and aimed at another. Better to offer no step.
+      if (!stateFeat) stateId = null;
     }
     if (!stateFeat && stateId) stateFeat = stateFeature(stateId);
     var stateName = current.city ? current.city.state
@@ -673,6 +677,12 @@
   function drawCrumb() {
     var c = document.getElementById('aqCrumb');
     if (!c) return;
+    // Rewriting the trail destroys whatever was focused in it, which dropped a
+    // keyboard user back to the top of the page on every step.
+    var hadFocus = c.contains(document.activeElement)
+      ? [].indexOf.call(c.querySelectorAll('button'),
+                        document.activeElement)
+      : -1;
     var parts = crumbParts();
     if (!parts.length) { c.innerHTML = ''; return; }
 
@@ -689,20 +699,22 @@
         // The separator is marked too, so hiding the frame on a narrow screen
         // does not leave a chevron pointing at nothing.
         return '<span class="aq-crumb-frame">›</span>' +
-          '<i class="aq-crumb-frame">' + esc(p.label) +
+          '<i class="aq-crumb-frame" title="' + esc(p.label) + '">' + esc(p.label) +
           '<span class="aq-sr"> (where the map is)</span></i>';
       }
       if (i === here) {
         // Clickable when the map is framed on something narrower, because then
         // "Punjab" is both where you are and a way to see all of it.
         return sep + (fitTo
-          ? '<button type="button" class="aq-crumb-here" aria-current="true" data-fit="1">'
-            + esc(p.label) + '</button>'
-          : '<b aria-current="true">' + esc(p.label) + '</b>');
+          ? '<button type="button" class="aq-crumb-here" aria-current="true" data-fit="1"' +
+            ' title="' + esc(p.label) + '">' + esc(p.label) +
+            '<span class="aq-sr"> — fit the map to it</span></button>'
+          : '<b aria-current="true" title="' + esc(p.label) + '">' + esc(p.label) + '</b>');
       }
       // A step with nowhere to go reads as plain text, not a dead button.
-      if (!p.go) return sep + '<i>' + esc(p.label) + '</i>';
-      return sep + '<button type="button" data-i="' + i + '">' + esc(p.label) + '</button>';
+      if (!p.go) return sep + '<i title="' + esc(p.label) + '">' + esc(p.label) + '</i>';
+      return sep + '<button type="button" data-i="' + i + '" title="' + esc(p.label) + '">' +
+        esc(p.label) + '</button>';
     }).join('');
 
     [].forEach.call(c.querySelectorAll('button'), function (b) {
@@ -713,6 +725,12 @@
       var p = parts[+b.dataset.i];
       if (p && p.go) b.addEventListener('click', p.go);
     });
+
+    if (hadFocus > -1) {
+      var buttons = c.querySelectorAll('button');
+      var back = buttons[Math.min(hadFocus, buttons.length - 1)];
+      if (back) back.focus();
+    }
   }
 
   function markSelection() {
@@ -1431,7 +1449,9 @@
     // put the city on screen, otherwise the selection ring is lost among 239 dots
     var unit = coverage && coverage.cityUnit && coverage.cityUnit[c.id];
     if (unit && unit.state && view) {
-      var f = stateFeature(unit.state);
+      // By name, the same way the trail resolves it, so one click does not
+      // answer "which state is this city in" two different ways.
+      var f = stateByName(c.state) || stateFeature(unit.state);
       if (f) zoomToFeature(f, true);   // frame the state, keep the city
     }
   }
@@ -1952,9 +1972,13 @@
   //  Events and boot
   // ---------------------------------------------------------------------------
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && (current.zoomState || current.city)) zoomToIndia();
-    if (e.code !== 'Space' && e.key !== ' ') return;
     var tag = (document.activeElement && document.activeElement.tagName) || '';
+    // Escape belongs to whatever is focused first. In the search box it closes
+    // the suggestions, and this handler used to take the same keystroke and
+    // throw the selection away with it.
+    if (e.key === 'Escape' && tag !== 'INPUT' && tag !== 'TEXTAREA' &&
+        (current.zoomState || current.city)) zoomToIndia();
+    if (e.code !== 'Space' && e.key !== ' ') return;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'BUTTON') return;
     spaceHeld = true;
     document.body.classList.add('aq-zooming');
