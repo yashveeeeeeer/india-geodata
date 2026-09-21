@@ -18,10 +18,15 @@ name: Air quality freshness
 
 on:
   schedule:
-    # Every six hours rather than daily. This is now the only thing that decides
-    # whether a run of missed hours matters, so a whole day is too long to wait
-    # to be told.
-    - cron: '40 */6 * * *'
+    # Hourly. GitHub honours only a fraction of any cron, so a sparse schedule
+    # gets checked far less often than it reads: the six-hourly cron this used to
+    # carry was dispatched about once in five tries and once went 17h between
+    # runs, which meant the eight-hour age threshold below was really only tested
+    # every seventeen. Asking every hour buys enough honoured runs to make that
+    # threshold bite. The issue step below keeps its own six-hour quiet period,
+    # so the extra frequency does not turn one stale spell into a wall of
+    # identical comments.
+    - cron: '40 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -65,18 +70,37 @@ jobs:
         run: |
           set -euo pipefail
           title="Air quality data is stale"
-          existing=$(gh issue list --state open --limit 200 --json number,title \
-                       --jq "map(select(.title == \"$title\")) | .[0].number // empty")
           body=$(printf '%s\n\n%s\n%s\n%s\n\n%s\n' \
             "One of the air quality checks came back unhappy." \
             '```' "$STATUS" '```' \
             "Checked by .github/workflows/aq-freshness.yml. This says the data is old; it does not say why, because age alone cannot tell. If \"Air quality hourly has stopped running\" is open as well, that is the reason, and this will clear when it does. If it is not, the runs are happening and coming back with nothing: usually a missing or revoked DATA_GOV_IN_KEY, or a change at data.gov.in. A stale record or strip points at \"Air quality daily rebuild\" instead, where the feed is fine but nothing is folding it into the published data.")
-          if [ -n "$existing" ]; then
-            gh issue comment "$existing" --body "$body"
-          else
+          existing=$(gh issue list --state open --search "$title in:title" \
+                       --json number --jq '.[0].number // empty')
+          if [ -z "$existing" ]; then
             gh issue create --title "$title" --body "$body" --label "data" || \
               gh issue create --title "$title" --body "$body"
+            exit 0
           fi
+          # Say it again, but not every hour. Now that this runs hourly, a stale
+          # spell nobody has got to yet does not need a fresh comment every hour
+          # until it clears. Six hours is about noise, not about noticing: the
+          # issue is already open, and its first comment already said so.
+          last=$(gh issue view "$existing" --json createdAt,comments \
+                   --jq '(.comments[-1].createdAt) // .createdAt')
+          # A timestamp that is missing, will not parse, or is somehow in the
+          # future falls through and comments. Erring towards saying it twice
+          # beats a date bug that silences a real staleness — and date reads an
+          # empty string as the present moment, which would do exactly that.
+          said=0
+          if [ -n "$last" ]; then
+            said=$(date -u -d "$last" +%s 2>/dev/null || echo 0)
+          fi
+          since=$(( $(date -u +%s) - said ))
+          if [ "$said" -gt 0 ] && [ "$since" -ge 0 ] && [ "$since" -lt 21600 ]; then
+            echo "issue #$existing already says so, $((since / 60))m ago; not repeating"
+            exit 0
+          fi
+          gh issue comment "$existing" --body "$body"
 
       - name: Close the issue once the feed recovers
         if: steps.check.outputs.code == '0'
@@ -86,8 +110,8 @@ jobs:
         run: |
           set -euo pipefail
           title="Air quality data is stale"
-          existing=$(gh issue list --state open --limit 200 --json number,title \
-                       --jq "map(select(.title == \"$title\")) | .[0].number // empty")
+          existing=$(gh issue list --state open --search "$title in:title" \
+                       --json number --jq '.[0].number // empty')
           if [ -n "$existing" ]; then
             comment=$(printf '%s\n\n%s\n%s\n%s\n' \
               "All three checks are happy again." \

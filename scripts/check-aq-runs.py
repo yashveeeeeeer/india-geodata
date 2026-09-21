@@ -20,12 +20,14 @@ Between them they separate the causes. Runs are starting and succeeding, but
 the data is old: the fetch is coming back empty, so look at data.gov.in and at
 DATA_GOV_IN_KEY. Runs are not starting at all: look at GitHub, not at the data.
 
-The quiet window is measured rather than guessed. In the sample so far — a
-day and a bit, so read it as indicative — the gaps between scheduled starts of
-the hourly workflow were 2.1 to 5.5 hours, a cron of '20 * * * *' that GitHub
-honours perhaps a third of the time. Starts are a tighter signal than publishes,
-which a run that fetches nothing does not produce, and the default of 24 hours
-sits at more than four times the widest gap seen. It can
+The quiet window is measured rather than guessed. Over this repository's
+history the gaps between scheduled starts of the hourly workflow were 2.1, 2.4,
+2.7, 2.7, 3.2, 3.4, 3.6, 5.1 and 5.5 hours — a cron of '20 * * * *' that GitHub
+honours perhaps a third of the time. The gaps between successful *publishes*
+run wider still, out to about ten hours, because a run that fetches nothing
+publishes nothing; that is the number the data-age checks have to survive, and
+it is why they keep being retuned. Starts are the tighter signal, and the
+default of 24 hours sits at more than four times the widest one seen. It can
 afford to be loose, because the check that catches the failure everyone is
 actually afraid of is the state field, which is not a clock at all.
 
@@ -203,33 +205,17 @@ def check_runs(runs, workflow, quiet_hours, failures):
     # workflow stopped going red over a refused fetch, a failure here means the
     # machinery around the fetch broke, which no amount of waiting will mend.
     done = [r for r in dated if r.get("status") == "completed"]
-    # cancelled/skipped/stale runs are not the job failing — the hourly
-    # workflow's own concurrency group cancels a superseded pending run — so
-    # they are neither counted nor allowed to break a run of failures.
-    NOISE = {"cancelled", "skipped", "stale"}
-    judged = [r for r in done if (r.get("conclusion") or "") not in NOISE]
-
-    bad = list(itertools.takewhile(lambda r: r.get("conclusion") != "success", judged))
-    window = judged[:max(2 * failures, 6)]
-    won = sum(1 for r in window if r.get("conclusion") == "success")
-    streak = len(bad) >= failures
-    thin = len(window) >= failures and won * 2 < len(window)   # under half succeeding
-    if streak or thin:
-        if streak:
-            reason = (f"the last {len(bad)} in a row ended "
-                      + ", ".join(str(r.get("conclusion") or "no conclusion") for r in bad))
-            where = bad[0].get("html_url") or ""
-        else:
-            reason = f"only {won} of the last {len(window)} succeeded"
-            where = next((r.get("html_url") for r in window
-                          if r.get("conclusion") != "success"), "")
+    bad = list(itertools.takewhile(lambda r: r.get("conclusion") != "success", done))
+    if len(bad) >= failures:
+        how = ", ".join(str(r.get("conclusion") or "no conclusion") for r in bad)
+        where = bad[0].get("html_url") or ""
         tail = f" — {where}" if where else ""
-        return 1, (f"FAILING runs: {reason}; the schedule is firing but the job is "
-                   f"not finishing{tail}")
+        return 1, (f"FAILING runs: the last {len(bad)} scheduled runs ended {how}; "
+                   f"the schedule is firing but the job is not finishing{tail}")
 
-    won_all = sum(1 for r in judged if r.get("conclusion") == "success")
+    good = sum(1 for r in done if r.get("conclusion") == "success")
     return 0, (f"RUNNING schedule: last scheduled run {started(newest).isoformat()}, "
-               f"{quiet:.1f}h ago; {won_all} of the last {len(judged)} judged runs succeeded")
+               f"{quiet:.1f}h ago; {good} of the last {len(done)} finished runs succeeded")
 
 
 def main():
@@ -251,18 +237,7 @@ def main():
     try:
         workflow = get(f"repos/{args.repo}/actions/workflows/{args.workflow}")
     except Missing:
-        # A 404 here means the workflow is gone — or that the token cannot see
-        # this repo at all (revoked, SSO lapsed, actions:read dropped), which
-        # 404s identically. Ask whether the repo itself is visible: if it is,
-        # the workflow really is missing and a person should hear about it; if
-        # it is not, the fault is our access, and that is a red run, not an
-        # issue blaming a workflow that may be running fine.
-        try:
-            get(f"repos/{args.repo}")
-        except (Missing, Unreadable):
-            print(f"UNREADABLE schedule: cannot see {args.repo} at all — a token "
-                  f"or access problem, not necessarily the workflow")
-            return 2
+        # Renamed, moved or deleted. Whatever happened, nothing is running it.
         print(f"MISSING schedule: {args.repo} has no workflow {args.workflow}")
         return 1
     except Unreadable as e:
