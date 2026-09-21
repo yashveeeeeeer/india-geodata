@@ -1,8 +1,8 @@
 {
  "cities": 239,
+ "covered": 52,
  "from": "2009-01-01",
  "pollutants": 6,
  "stations": 496,
- "to": "2026-09-20",
- "unbroken": 1
+ "to": "2026-09-20"
 }

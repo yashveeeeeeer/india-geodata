@@ -19,7 +19,7 @@ permalink: /projects/
       <div class="project-stat"><b>{{ aq.stations }}</b><i>Stations</i></div>
       <div class="project-stat"><b>{{ aq.cities }}</b><i>Cities</i></div>
       <div class="project-stat"><b>{{ aq.from | slice: 0, 4 }}&ndash;{{ aq.to | slice: 0, 4 }}</b><i>Record</i></div>
-      <div class="project-stat"><b>{{ aq.unbroken }} of {{ aq.pollutants }}</b><i>All years</i></div>
+      <div class="project-stat" title="Days with a full network of 25 or more stations reporting. The rest are the thin early years and a 2025 source gap."><b>{{ aq.covered }}%</b><i>Well covered</i></div>
     </div>
     {%- endif -%}
   </a>

@@ -133,7 +133,7 @@ def check_card(data_dir, root):
         return 1
     print(f"FRESH card: {want['pollutants']} pollutants, {want['stations']} stations, "
           f"{want['cities']} cities, {want['from'][:4]} to {want['to'][:4]}, "
-          f"{want['unbroken']} of {want['pollutants']} holding every year of that")
+          f"{want['covered']}% of days well covered")
     return 0
 
 

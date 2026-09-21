@@ -148,6 +148,34 @@ def span_years(index):
     return first, last
 
 
+MIN_COVERED_STATIONS = 25   # a day is "covered" when at least this many monitors reported
+
+
+def covered_days(data_dir, first, last):
+    """How many days in the span rest on a real network, and how many days the
+    span holds. A day is covered when the national mean of any pollutant that
+    day stood on at least MIN_COVERED_STATIONS monitors — so the sparse early
+    years and the 2025 source collapse, which leave one or two, do not count."""
+    import datetime
+    span = (datetime.date(last, 12, 31) - datetime.date(first, 1, 1)).days + 1
+    good = set()
+    series = os.path.join(data_dir, "series", "india")
+    for year in range(first, last + 1):
+        path = os.path.join(series, f"{year}.json")
+        if not os.path.exists(path):
+            continue
+        try:
+            doc = json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for s in doc.values():
+            t, n = s.get("t") or [], s.get("n") or []
+            for day, count in zip(t, n):
+                if isinstance(count, (int, float)) and count >= MIN_COVERED_STATIONS:
+                    good.add(day)
+    return len(good), span
+
+
 def build_summary(data_dir):
     """What the Projects card says about this project, counted rather than typed.
 
@@ -186,8 +214,6 @@ def build_summary(data_dir):
         raise RuntimeError(f"the record spans a single year ({first}); the card "
                            f"describes a range, so this is almost certainly a "
                            f"half-built rebuild rather than the real span")
-    record = {str(y) for y in range(first, last + 1)}
-    whole = 0
     for pollutant in pollutants:
         years = held[pollutant]
         if not isinstance(years, list):
@@ -199,8 +225,7 @@ def build_summary(data_dir):
         if any(not isinstance(y, str) or not re.fullmatch(r"\d{4}", y) for y in years):
             raise RuntimeError(f"daily/index.json: {pollutant} lists something "
                                f"that is not a year")
-        if record <= set(years):
-            whole += 1
+    covered, total = covered_days(data_dir, first, last)
 
     return {
         "pollutants": len(pollutants),
@@ -208,7 +233,7 @@ def build_summary(data_dir):
         "cities": len({c.get("id") for c in cities}),
         "from": index.get("from"),
         "to": index.get("to"),
-        "unbroken": whole,
+        "covered": round(100 * covered / total) if total else 0,
     }
 
 
@@ -241,8 +266,8 @@ def main():
     summary = write_summary(os.path.join(root, args.data), root)
     print(f"  _data/air_quality.json -> {summary['pollutants']} pollutants, "
           f"{summary['stations']} stations, {summary['cities']} cities, "
-          f"{summary['from']} to {summary['to']}, {summary['unbroken']} of "
-          f"{summary['pollutants']} holding every year of that")
+          f"{summary['from']} to {summary['to']}, {summary['covered']}% of days "
+          f"well covered")
     return 0
 
 
