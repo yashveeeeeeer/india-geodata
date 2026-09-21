@@ -1205,33 +1205,37 @@
 
   // The pollutant strip doubles as a six-way comparison: once a city is chosen,
   // each tab carries that city's own sparkline and period mean.
-  // A pollutant's line as month means over every year we hold, so the little
+  // A pollutant's line as week means over every year we hold, so the little
   // chart in the selector shows the real rise and fall rather than whatever few
   // days the current window happens to catch. For All India the whole record is
   // already in hand as national.json; for a place it is whatever years have
-  // loaded. Month means keep it to a couple of hundred points however long the
-  // record, and break where a month is missing so a gap stays a gap.
+  // loaded. Week means keep it light while still showing the real movement,
+  // and break where a fortnight is missing so a gap stays a gap.
   function historySeries(p) {
     if (placeKey() === 'india' && national && national[p]) return national[p];
     var doc = placeDoc();
     return doc && doc.series[p];
   }
 
-  function monthly(series) {
+  var WEEK = 7 * 864e5;
+
+  function weekly(series) {
     if (!series || !series.t || !series.t.length) return [];
-    var bucket = {}, order = [];
+    var bucket = {};
     series.t.forEach(function (d, i) {
       var v = series.v[i];
       if (v == null) return;
-      var k = d.slice(0, 7);
-      if (!bucket[k]) { bucket[k] = { s: 0, n: 0 }; order.push(k); }
-      bucket[k].s += v; bucket[k].n += 1;
+      var wk = Math.floor(dayMs(d) / WEEK);          // fixed 7-day grid
+      var b = bucket[wk] || (bucket[wk] = { s: 0, n: 0 });
+      b.s += v; b.n += 1;
     });
-    order.sort();
-    var pts = order.map(function (k) { return { t: dayMs(k + '-15'), v: bucket[k].s / bucket[k].n }; });
+    var weeks = Object.keys(bucket).map(Number).sort(function (a, b) { return a - b; });
+    var pts = weeks.map(function (wk) {
+      return { t: wk * WEEK + WEEK / 2, v: bucket[wk].s / bucket[wk].n };
+    });
     var runs = [], run = [];
     pts.forEach(function (d) {
-      if (run.length && (d.t - run[run.length - 1].t) > 46 * 864e5) { runs.push(run); run = []; }
+      if (run.length && (d.t - run[run.length - 1].t) > 2 * WEEK) { runs.push(run); run = []; }
       run.push(d);
     });
     if (run.length) runs.push(run);
@@ -1258,11 +1262,11 @@
       val.style.color = colour;
       tab.classList.toggle('is-thin', ev.thin);
 
-      // The line is the pollutant's whole history as month means, not the few
+      // The line is the pollutant's whole history as week means, not the few
       // days the current window catches — three recent days made a flat stub
       // that read as years of stable air. The number above stays the current
       // reading; the line is the long trend it sits at the end of.
-      var runs = monthly(historySeries(p));
+      var runs = weekly(historySeries(p));
       var W = spark.clientWidth || 90, H = 18;
       var lo = Infinity, hi = -Infinity, top = 0;
       runs.forEach(function (r) { r.forEach(function (d) {
