@@ -1212,93 +1212,30 @@
 
   // The pollutant strip doubles as a six-way comparison: once a city is chosen,
   // each tab carries that city's own sparkline and period mean.
-  // A pollutant's line as week means over every year we hold, so the little
-  // chart in the selector shows the real rise and fall rather than whatever few
-  // days the current window happens to catch. For All India the whole record is
-  // already in hand as national.json; for a place it is whatever years have
-  // loaded. Week means keep it light while still showing the real movement,
-  // and break where a fortnight is missing so a gap stays a gap.
-  var fullHist = {};      // place key -> stitched {pollutant: {t, v}} over every year
-  var histLoading = {};
+  // The little chart in each header tab is the last running week of that place's
+  // readings — the recent trend at a glance, nothing more. The long record lives
+  // in the period line chart below, not up here. It is drawn on its own few
+  // days' span so those days fill the box and read as a line, rather than a dot
+  // stranded in an empty frame, which is what a wide axis did to a short record.
+  var STRIP_DAYS = 7;
 
-  // The whole history of the current place, for the selector line. All India has
-  // it already as national.json; a place has only the year the window needed, so
-  // its line collapsed to a dot. Pull the rest of its years once, in the
-  // background, and redraw when they land.
-  function ensureHistory(key) {
-    if (key === 'india' || fullHist[key] || histLoading[key]) return;
-    var idx = placeIndex[key];
-    if (!idx || !idx.years || !idx.years.length) return;
-    histLoading[key] = true;
-    placeYears[key] = placeYears[key] || {};
-    Promise.all(idx.years.map(function (y) {
-      var have = placeYears[key][y];
-      if (have) return have;                 // data or an in-flight promise
-      var pending = getJSON(DATA + 'series/' + key + '/' + y + '.json')
-        .then(function (j) { placeYears[key][y] = j; return j; })
-        .catch(function () { placeYears[key][y] = {}; return {}; });
-      placeYears[key][y] = pending;
-      return pending;
-    })).then(function () {
-      var stitched = {};
-      idx.years.slice().sort().forEach(function (y) {
-        var yr = placeYears[key][y];
-        if (!yr || typeof yr.then === 'function') return;
-        Object.keys(yr).forEach(function (p) {
-          var src = yr[p];
-          if (!src || !src.t) return;
-          var dst = stitched[p] || (stitched[p] = { t: [], v: [] });
-          dst.t = dst.t.concat(src.t);
-          dst.v = dst.v.concat(src.v);
-        });
-      });
-      histLoading[key] = false;
-      // Only remember a history that has readings in it. If every year came back
-      // empty — a transient network failure — leave it unset so the next draw
-      // tries again, rather than settling the place on a dot for good.
-      if (Object.keys(stitched).length) {
-        fullHist[key] = stitched;
-        if (placeKey() === key) updateStrip();
-      }
-    });
-  }
-
-  function historySeries(p) {
-    var key = placeKey();
-    if (key === 'india' && national && national[p]) return national[p];
-    if (fullHist[key] && fullHist[key][p]) return fullHist[key][p];
-    var doc = placeDoc();
-    return doc && doc.series[p];             // stopgap until the full history lands
-  }
-
-  var WEEK = 7 * 864e5;
-
-  function weekly(series) {
-    if (!series || !series.t || !series.t.length) return [];
-    var bucket = {};
-    series.t.forEach(function (d, i) {
-      var v = series.v[i];
-      if (v == null) return;
-      var wk = Math.floor(dayMs(d) / WEEK);          // fixed 7-day grid
-      var b = bucket[wk] || (bucket[wk] = { s: 0, n: 0 });
-      b.s += v; b.n += 1;
-    });
-    var weeks = Object.keys(bucket).map(Number).sort(function (a, b) { return a - b; });
-    var pts = weeks.map(function (wk) {
-      return { t: wk * WEEK + WEEK / 2, v: bucket[wk].s / bucket[wk].n };
-    });
-    var runs = [], run = [];
-    pts.forEach(function (d) {
-      if (run.length && (d.t - run[run.length - 1].t) > 2 * WEEK) { runs.push(run); run = []; }
-      run.push(d);
-    });
-    if (run.length) runs.push(run);
-    return runs;
+  function lastWeek(s) {
+    if (!s || !s.t || !s.t.length) return [];
+    var anchor = current.day || (dailySpan && dailySpan[1]) || s.t[s.t.length - 1];
+    var end = new Date(anchor + 'T00:00:00');
+    if (isNaN(end)) return [];
+    var start = new Date(end);
+    start.setDate(start.getDate() - (STRIP_DAYS - 1));
+    var lo = isoDay(start), hi = isoDay(end), out = [];
+    for (var i = 0; i < s.t.length; i++) {
+      if (s.t[i] < lo || s.t[i] > hi || s.v[i] == null) continue;
+      out.push({ t: dayMs(s.t[i]), v: s.v[i] });
+    }
+    return out;
   }
 
   function updateStrip() {
     var doc = placeDoc();
-    ensureHistory(placeKey());
     [].forEach.call(ui.pollutants.querySelectorAll('.aq-pol'), function (tab) {
       var p = tab.dataset.pol;
       var spark = tab.querySelector('.aq-pol-spark');
@@ -1307,52 +1244,33 @@
       val.textContent = '';
       var s = doc && doc.series[p];
       var w = s && windowed(s);
+      if (!w) { tab.classList.remove('has-data', 'is-thin'); return; }
+      tab.classList.add('has-data');
 
-      // The line is the pollutant's whole history as week means. It is drawn
-      // from the record itself, not from the current window, so a place still
-      // shows its trend on an old date or after it stops reporting — cases where
-      // the window holds nothing and the whole tab used to go blank. The number
-      // above is the current reading and shows only when the window has one.
-      var runs = weekly(historySeries(p));
+      var mean = d3.mean(w.v);
+      var colour = BAND_COLOUR[band(mean, p)];
+      var ev = evidence(s, w);
+      val.textContent = mean.toFixed(mean < 10 ? 1 : 0);
+      val.style.color = colour;
+      tab.classList.toggle('is-thin', ev.thin);
 
-      if (w) {
-        tab.classList.add('has-data');
-        var mean = d3.mean(w.v);
-        var ev = evidence(s, w);
-        val.textContent = mean.toFixed(mean < 10 ? 1 : 0);
-        tab.classList.toggle('is-thin', ev.thin);
-      } else {
-        tab.classList.remove('has-data', 'is-thin');
-      }
-
-      if (!runs.length) return;
-
-      // The line's colour follows the reading it ends at: the current window
-      // mean when there is one, otherwise the last point of the history.
-      var last = runs[runs.length - 1];
-      var colour = BAND_COLOUR[band(w ? d3.mean(w.v) : last[last.length - 1].v, p)];
-      if (w) val.style.color = colour;
-
+      // Just the last running week, on its own data's span.
+      var pts = lastWeek(s);
+      if (!pts.length) return;
       var W = spark.clientWidth || 90, H = 18;
-      var lo = Infinity, hi = -Infinity, top = 0;
-      runs.forEach(function (r) { r.forEach(function (d) {
-        if (d.t < lo) lo = d.t; if (d.t > hi) hi = d.t; if (d.v > top) top = d.v;
-      }); });
-      if (!isFinite(lo)) return;
+      var lo = pts[0].t, hi = pts[pts.length - 1].t;
+      var top = d3.max(pts, function (d) { return d.v; });
       var x = d3.scaleLinear().domain([lo, hi > lo ? hi : lo + 864e5]).range([0.5, W - 0.5]);
       var y = d3.scaleLinear().domain([0, top || 1]).range([H - 1, 1]);
       var svg = d3.select(spark).append('svg').attr('width', W).attr('height', H);
-      var line = d3.line().x(function (d) { return x(d.t); }).y(function (d) { return y(d.v); });
-      runs.forEach(function (r) {
-        if (r.length === 1) {
-          svg.append('circle').attr('cx', x(r[0].t)).attr('cy', y(r[0].v)).attr('r', 1.2)
-            .attr('fill', colour);
-          return;
-        }
-        svg.append('path').datum(r)
+      if (pts.length === 1) {
+        svg.append('circle').attr('cx', x(pts[0].t)).attr('cy', y(pts[0].v)).attr('r', 1.2)
+          .attr('fill', colour);
+      } else {
+        svg.append('path').datum(pts)
           .attr('fill', 'none').attr('stroke', colour).attr('stroke-width', 1)
-          .attr('d', line);
-      });
+          .attr('d', d3.line().x(function (d) { return x(d.t); }).y(function (d) { return y(d.v); }));
+      }
     });
   }
 
