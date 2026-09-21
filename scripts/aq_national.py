@@ -182,6 +182,10 @@ def build_summary(data_dir):
         raise RuntimeError("cannot count the project without stations, cities and days")
 
     first, last = span_years(index)
+    if last - first < 1:
+        raise RuntimeError(f"the record spans a single year ({first}); the card "
+                           f"describes a range, so this is almost certainly a "
+                           f"half-built rebuild rather than the real span")
     record = {str(y) for y in range(first, last + 1)}
     whole = 0
     for pollutant in pollutants:
@@ -200,8 +204,8 @@ def build_summary(data_dir):
 
     return {
         "pollutants": len(pollutants),
-        "stations": len(stations),
-        "cities": len(cities),
+        "stations": len({s.get("id") for s in stations}),
+        "cities": len({c.get("id") for c in cities}),
         "from": index.get("from"),
         "to": index.get("to"),
         "unbroken": whole,
