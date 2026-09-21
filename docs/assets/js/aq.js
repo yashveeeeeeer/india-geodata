@@ -1246,9 +1246,14 @@
           dst.v = dst.v.concat(src.v);
         });
       });
-      fullHist[key] = stitched;
       histLoading[key] = false;
-      if (placeKey() === key) updateStrip();
+      // Only remember a history that has readings in it. If every year came back
+      // empty — a transient network failure — leave it unset so the next draw
+      // tries again, rather than settling the place on a dot for good.
+      if (Object.keys(stitched).length) {
+        fullHist[key] = stitched;
+        if (placeKey() === key) updateStrip();
+      }
     });
   }
 
@@ -1296,21 +1301,32 @@
       val.textContent = '';
       var s = doc && doc.series[p];
       var w = s && windowed(s);
-      if (!w) { tab.classList.remove('has-data', 'is-thin'); return; }
-      tab.classList.add('has-data');
 
-      var mean = d3.mean(w.v);
-      var colour = BAND_COLOUR[band(mean, p)];
-      var ev = evidence(s, w);
-      val.textContent = mean.toFixed(mean < 10 ? 1 : 0);
-      val.style.color = colour;
-      tab.classList.toggle('is-thin', ev.thin);
-
-      // The line is the pollutant's whole history as week means, not the few
-      // days the current window catches — three recent days made a flat stub
-      // that read as years of stable air. The number above stays the current
-      // reading; the line is the long trend it sits at the end of.
+      // The line is the pollutant's whole history as week means. It is drawn
+      // from the record itself, not from the current window, so a place still
+      // shows its trend on an old date or after it stops reporting — cases where
+      // the window holds nothing and the whole tab used to go blank. The number
+      // above is the current reading and shows only when the window has one.
       var runs = weekly(historySeries(p));
+
+      if (w) {
+        tab.classList.add('has-data');
+        var mean = d3.mean(w.v);
+        var ev = evidence(s, w);
+        val.textContent = mean.toFixed(mean < 10 ? 1 : 0);
+        tab.classList.toggle('is-thin', ev.thin);
+      } else {
+        tab.classList.remove('has-data', 'is-thin');
+      }
+
+      if (!runs.length) return;
+
+      // The line's colour follows the reading it ends at: the current window
+      // mean when there is one, otherwise the last point of the history.
+      var last = runs[runs.length - 1];
+      var colour = BAND_COLOUR[band(w ? d3.mean(w.v) : last[last.length - 1].v, p)];
+      if (w) val.style.color = colour;
+
       var W = spark.clientWidth || 90, H = 18;
       var lo = Infinity, hi = -Infinity, top = 0;
       runs.forEach(function (r) { r.forEach(function (d) {
