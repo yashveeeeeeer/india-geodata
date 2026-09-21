@@ -1205,6 +1205,39 @@
 
   // The pollutant strip doubles as a six-way comparison: once a city is chosen,
   // each tab carries that city's own sparkline and period mean.
+  // A pollutant's line as month means over every year we hold, so the little
+  // chart in the selector shows the real rise and fall rather than whatever few
+  // days the current window happens to catch. For All India the whole record is
+  // already in hand as national.json; for a place it is whatever years have
+  // loaded. Month means keep it to a couple of hundred points however long the
+  // record, and break where a month is missing so a gap stays a gap.
+  function historySeries(p) {
+    if (placeKey() === 'india' && national && national[p]) return national[p];
+    var doc = placeDoc();
+    return doc && doc.series[p];
+  }
+
+  function monthly(series) {
+    if (!series || !series.t || !series.t.length) return [];
+    var bucket = {}, order = [];
+    series.t.forEach(function (d, i) {
+      var v = series.v[i];
+      if (v == null) return;
+      var k = d.slice(0, 7);
+      if (!bucket[k]) { bucket[k] = { s: 0, n: 0 }; order.push(k); }
+      bucket[k].s += v; bucket[k].n += 1;
+    });
+    order.sort();
+    var pts = order.map(function (k) { return { t: dayMs(k + '-15'), v: bucket[k].s / bucket[k].n }; });
+    var runs = [], run = [];
+    pts.forEach(function (d) {
+      if (run.length && (d.t - run[run.length - 1].t) > 46 * 864e5) { runs.push(run); run = []; }
+      run.push(d);
+    });
+    if (run.length) runs.push(run);
+    return runs;
+  }
+
   function updateStrip() {
     var doc = placeDoc();
     [].forEach.call(ui.pollutants.querySelectorAll('.aq-pol'), function (tab) {
@@ -1225,35 +1258,22 @@
       val.style.color = colour;
       tab.classList.toggle('is-thin', ev.thin);
 
-      // The line is drawn on the period the rail is summarising, not on its own
-      // point count. Three days of a thirty-day window used to be stretched the
-      // full width of the box, where three points make a near-straight line and
-      // a straight line reads as years of stable air. On a date axis they are
-      // three days of ink at the right-hand end, and the empty nine tenths is
-      // the honest part of the picture.
-      //
-      // Runs break at the gap the chart breaks at, so a hole in the record is a
-      // hole in both places rather than a line here and a lifted pen there.
-      var win = activeWindow();
-      var t0 = dayMs(win ? win[0] : w.t[0]);
-      var t1 = dayMs(win ? win[1] : w.t[w.t.length - 1]);
-      if (!(t1 > t0)) { t0 = dayMs(w.t[0]); t1 = t0 + 864e5; }
-
+      // The line is the pollutant's whole history as month means, not the few
+      // days the current window catches — three recent days made a flat stub
+      // that read as years of stable air. The number above stays the current
+      // reading; the line is the long trend it sits at the end of.
+      var runs = monthly(historySeries(p));
       var W = spark.clientWidth || 90, H = 18;
-      var x = d3.scaleLinear().domain([t0, t1]).range([0.5, W - 0.5]);
-      var y = d3.scaleLinear().domain([0, d3.max(w.v) || 1]).range([H - 1, 1]);
+      var lo = Infinity, hi = -Infinity, top = 0;
+      runs.forEach(function (r) { r.forEach(function (d) {
+        if (d.t < lo) lo = d.t; if (d.t > hi) hi = d.t; if (d.v > top) top = d.v;
+      }); });
+      if (!isFinite(lo)) return;
+      var x = d3.scaleLinear().domain([lo, hi > lo ? hi : lo + 864e5]).range([0.5, W - 0.5]);
+      var y = d3.scaleLinear().domain([0, top || 1]).range([H - 1, 1]);
       var svg = d3.select(spark).append('svg').attr('width', W).attr('height', H);
       var line = d3.line().x(function (d) { return x(d.t); }).y(function (d) { return y(d.v); });
-
-      // When the readings do not fill the period, a hairline says where the
-      // period was. Otherwise a stub of line at one end could be read as a small
-      // chart rather than as most of a month with nothing in it.
-      if (ev.fewDays) {
-        svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', H - 0.5).attr('y2', H - 0.5)
-          .attr('stroke', '#cbd5e1').attr('stroke-width', 1);
-      }
-
-      runsOf(w).forEach(function (r) {
+      runs.forEach(function (r) {
         if (r.length === 1) {
           svg.append('circle').attr('cx', x(r[0].t)).attr('cy', y(r[0].v)).attr('r', 1.2)
             .attr('fill', colour);
