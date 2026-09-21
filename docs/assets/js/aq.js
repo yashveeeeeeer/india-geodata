@@ -1212,10 +1212,52 @@
   // already in hand as national.json; for a place it is whatever years have
   // loaded. Week means keep it light while still showing the real movement,
   // and break where a fortnight is missing so a gap stays a gap.
+  var fullHist = {};      // place key -> stitched {pollutant: {t, v}} over every year
+  var histLoading = {};
+
+  // The whole history of the current place, for the selector line. All India has
+  // it already as national.json; a place has only the year the window needed, so
+  // its line collapsed to a dot. Pull the rest of its years once, in the
+  // background, and redraw when they land.
+  function ensureHistory(key) {
+    if (key === 'india' || fullHist[key] || histLoading[key]) return;
+    var idx = placeIndex[key];
+    if (!idx || !idx.years || !idx.years.length) return;
+    histLoading[key] = true;
+    placeYears[key] = placeYears[key] || {};
+    Promise.all(idx.years.map(function (y) {
+      var have = placeYears[key][y];
+      if (have) return have;                 // data or an in-flight promise
+      var pending = getJSON(DATA + 'series/' + key + '/' + y + '.json')
+        .then(function (j) { placeYears[key][y] = j; return j; })
+        .catch(function () { placeYears[key][y] = {}; return {}; });
+      placeYears[key][y] = pending;
+      return pending;
+    })).then(function () {
+      var stitched = {};
+      idx.years.slice().sort().forEach(function (y) {
+        var yr = placeYears[key][y];
+        if (!yr || typeof yr.then === 'function') return;
+        Object.keys(yr).forEach(function (p) {
+          var src = yr[p];
+          if (!src || !src.t) return;
+          var dst = stitched[p] || (stitched[p] = { t: [], v: [] });
+          dst.t = dst.t.concat(src.t);
+          dst.v = dst.v.concat(src.v);
+        });
+      });
+      fullHist[key] = stitched;
+      histLoading[key] = false;
+      if (placeKey() === key) updateStrip();
+    });
+  }
+
   function historySeries(p) {
-    if (placeKey() === 'india' && national && national[p]) return national[p];
+    var key = placeKey();
+    if (key === 'india' && national && national[p]) return national[p];
+    if (fullHist[key] && fullHist[key][p]) return fullHist[key][p];
     var doc = placeDoc();
-    return doc && doc.series[p];
+    return doc && doc.series[p];             // stopgap until the full history lands
   }
 
   var WEEK = 7 * 864e5;
@@ -1245,6 +1287,7 @@
 
   function updateStrip() {
     var doc = placeDoc();
+    ensureHistory(placeKey());
     [].forEach.call(ui.pollutants.querySelectorAll('.aq-pol'), function (tab) {
       var p = tab.dataset.pol;
       var spark = tab.querySelector('.aq-pol-spark');
