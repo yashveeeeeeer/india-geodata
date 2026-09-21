@@ -1117,6 +1117,12 @@
   var WINDOW_DAYS = 30;
   var MAX_LINE_GAP_DAYS = 3;     // further apart than this and the chart breaks the line
 
+  // CO before 2017 reads far too high at a handful of stations — a per-analyser
+  // calibration fault in the source, not a unit we can convert away. The call is
+  // to keep the numbers and mark them, not delete them, so the chart shades this
+  // stretch when CO is on and says why.
+  var CO_SUSPECT_TO = '2017-01-01';
+
   function defaultWindow() {
     if (!dailySpan) return null;
     // Ending on the day the map is showing, not on the end of the record, so
@@ -1582,6 +1588,24 @@
         .attr('fill', BAND_COLOUR[i]);
       lo = hi;
     });
+
+    // The suspect early-CO stretch, drawn under the line so the readings still
+    // show but sit on a marked ground. Only when CO is on and the chart reaches
+    // back into it.
+    if (current.pollutant === 'CO') {
+      var cut = new Date(CO_SUSPECT_TO + 'T00:00:00');
+      if (x.domain()[0] < cut) {
+        var xc = Math.min(iw, x(cut));
+        g.append('rect').attr('x', 0).attr('y', 0).attr('width', Math.max(0, xc)).attr('height', ih)
+          .attr('fill', '#f59e0b').attr('opacity', 0.08);
+        g.append('line').attr('x1', xc).attr('x2', xc).attr('y1', 0).attr('y2', ih)
+          .attr('stroke', '#f59e0b').attr('stroke-width', 1).attr('stroke-dasharray', '2 2').attr('opacity', 0.55);
+        if (xc > 90) {
+          g.append('text').attr('x', 4).attr('y', 10).attr('font-size', 9).attr('fill', '#b45309')
+            .text('pre-2017 CO: likely miscalibrated at some stations');
+        }
+      }
+    }
 
     // NAAQS line, labelled at the left where the data is thinnest
     if (cfg().naaqs <= yMax) {

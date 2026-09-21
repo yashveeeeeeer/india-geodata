@@ -36,6 +36,14 @@
   ],
   "coordinate_system": "EPSG:4326",
   "methodology": "Monitor positions are buffered by 50 km on an equal-area projection (EPSG:6933) and intersected with each unit's geometry. Monitors just outside a border still count toward it, since they inform the air on both sides. Units are keyed by boundary feature id rather than LGD code, because two Jammu & Kashmir districts share the code 0. Rebuild with scripts/build-aq-coverage.py.",
+  "known_issues": [
+    {
+      "field": "CO",
+      "period": "2009-01-01/2016-12-31",
+      "summary": "Carbon monoxide readings before 2017 run far above plausible levels at a small set of stations. Thirteen sites account for 93.5% of pre-2017 CO station-days above 5 mg/m3, six of them in Delhi. The daily shape is a normal CO cycle but the values are multiplied by a factor that differs from station to station, roughly 12 to 33 times, and stations step in and out of the fault over time. That points to a per-analyser span or data-logger misconfiguration at the source, not a unit error, so no single conversion corrects it. The values are published unchanged and left visible, and the interactive chart shades the pre-2017 CO period as suspect. Treat pre-2017 CO at these stations as unreliable; later years and all other pollutants are unaffected.",
+      "resolution": "kept, flagged as suspect"
+    }
+  ],
   "storage": {
     "repo_files": true,
     "release_tag": null
@@ -47,5 +55,5 @@
       "storage": "repo"
     }
   ],
-  "last_updated": "2026-09-20"
+  "last_updated": "2026-09-21"
 }
