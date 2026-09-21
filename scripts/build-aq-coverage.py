@@ -22,6 +22,8 @@ import argparse
 import json
 import os
 import csv
+import re
+import sys
 from datetime import datetime, timezone
 
 import geopandas as gpd
@@ -30,6 +32,22 @@ from shapely.geometry import Point
 
 EQUAL_AREA = "EPSG:6933"          # metres, equal area — required for area shares
 WGS84 = "EPSG:4326"
+
+# The source and the boundary file spell a handful of units differently.
+STATE_ALIAS = {
+    "orissa": "odisha",
+    "pondicherry": "puducherry",
+    "uttaranchal": "uttarakhand",
+    "nctofdelhi": "delhi",
+    "newdelhi": "delhi",
+    "dadraandnagarhaveli": "dadraandnagarhavelianddamananddiu",
+    "damananddiu": "dadraandnagarhavelianddamananddiu",
+    "andamanandnicobar": "andamanandnicobarislands",
+}
+
+
+def fold(name):
+    return re.sub(r"[^a-z0-9]", "", str(name).lower().replace("&", "and"))
 
 
 def decode_topology(path, obj_name):
@@ -92,9 +110,57 @@ def coverage_for(units, key_field, points, reach, label_field="name"):
     return out
 
 
+def disagreements(pts, placed, states, slack_km):
+    """Where a point and its own label name different states.
+
+    Every city and station arrives with a state name from the source and a state
+    of its own implied by its coordinates. When those two disagree the dot is
+    drawn in the wrong state, and — the part nobody sees — its readings are added
+    to the wrong state's average while every label on the page still says
+    otherwise. Borders here are generalised and a few monitors genuinely stand on
+    one, so a point a few hundred metres outside its own state is noise; further
+    than that is a mistake.
+
+    Returns (real, borderline, unknown_labels).
+    """
+    fid_of = {fold(n): f for f, n in zip(states["fid"], states["name"])}
+    geom_of = dict(zip(states["fid"], states.geometry))
+    name_of = dict(zip(states["fid"], states["name"]))
+    real, borderline, unknown = [], [], set()
+    for _, row in pts.iterrows():
+        key = fold(row["state"])
+        want = fid_of.get(STATE_ALIAS.get(key, key))
+        if want is None:
+            unknown.add(row["state"])
+            continue
+        got = placed.get(row["id"])
+        if got == want:
+            continue
+        km = geom_of[want].distance(row.geometry) / 1000.0
+        entry = (row["id"], row.get("name", ""), row["state"],
+                 name_of.get(got, "no state at all"), km)
+        (borderline if km <= slack_km else real).append(entry)
+    real.sort(key=lambda e: -e[4])
+    return real, borderline, sorted(unknown)
+
+
+def report(kind, pts, placed, states, slack_km):
+    real, borderline, unknown = disagreements(pts, placed, states, slack_km)
+    for name in unknown:
+        print(f"  ! {kind} state {name!r} is not in the boundary file, so not checked")
+    for cid, label, said, found, km in borderline:
+        print(f"  ~ {label} ({cid}) labelled {said}, {km:.1f} km outside it, on the border")
+    for cid, label, said, found, km in real:
+        print(f"  x {label} ({cid}) labelled {said} but falls in {found}, "
+              f"{km:.1f} km past the border")
+    return real
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--radius", type=float, default=50.0, help="km a monitor is taken to inform")
+    ap.add_argument("--border-slack", type=float, default=2.0,
+                    help="km a point may fall outside its own state before it counts as misplaced")
     args = ap.parse_args()
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -163,6 +229,17 @@ def main():
         }
     dplaced = sum(1 for v in station_unit.values() if v["district"])
     print(f"  {dplaced} of {len(stations)} monitors placed in a district")
+
+    # Nothing downstream can tell that a city's readings are being added to the
+    # wrong state, so this is the last place to catch it.
+    misplaced = (report("city", cpts, {k: v["state"] for k, v in city_unit.items()},
+                        states, args.border_slack)
+                 + report("station", spts, {k: v["state"] for k, v in station_unit.items()},
+                          states, args.border_slack))
+    if misplaced:
+        sys.exit(f"  {len(misplaced)} labelled in one state and placed in another; "
+                 "correct the coordinates in build-aq-stations.py, or raise "
+                 "--border-slack if the border really did move")
 
     # city counts per unit, so the page can say how many cities back a number
     for unit_key, table in (("state", st_cov), ("district", di_cov)):

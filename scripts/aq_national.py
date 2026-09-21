@@ -31,6 +31,10 @@ prints. It used to be typed into the page — "6 pollutants, 558 stations" — a
 and around 450 reporting in a given hour. A figure nobody recomputes is a figure
 that drifts, so this one is counted.
 
+It carries the span of the record and, beside it, how many pollutants hold every
+year of that span. The span on its own reads as a record all six have kept since
+2009: PM10 only starts in 2011 and skips 2012, and four of them hold no 2025.
+
 Usage:
     python scripts/aq_national.py [--data docs/projects/air-quality/data]
 """
@@ -127,8 +131,60 @@ def write_series_index(data_dir):
     return len(payload["cities"]), len(payload["places"])
 
 
+def span_years(index):
+    """First and last year of the record, off the two dates daily/index.json
+    carries. The card slices the year out of both, so a date it cannot slice is
+    a date that reaches the page as four characters of nonsense."""
+    edges = []
+    for edge in ("from", "to"):
+        value = index.get(edge)
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            raise RuntimeError(f"daily/index.json: {edge} is {value!r}, and the "
+                               f"card prints the year out of it")
+        edges.append(int(value[:4]))
+    first, last = edges
+    if first > last:
+        raise RuntimeError(f"daily/index.json runs from {first} back to {last}")
+    return first, last
+
+
+MIN_COVERED_STATIONS = 25   # a day is "covered" when at least this many monitors reported
+
+
+def covered_days(data_dir, first, last):
+    """How many days in the span rest on a real network, and how many days the
+    span holds. A day is covered when the national mean of any pollutant that
+    day stood on at least MIN_COVERED_STATIONS monitors — so the sparse early
+    years and the 2025 source collapse, which leave one or two, do not count."""
+    import datetime
+    span = (datetime.date(last, 12, 31) - datetime.date(first, 1, 1)).days + 1
+    good = set()
+    series = os.path.join(data_dir, "series", "india")
+    for year in range(first, last + 1):
+        path = os.path.join(series, f"{year}.json")
+        if not os.path.exists(path):
+            continue
+        try:
+            doc = json.load(open(path, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for s in doc.values():
+            t, n = s.get("t") or [], s.get("n") or []
+            for day, count in zip(t, n):
+                if isinstance(count, (int, float)) and count >= MIN_COVERED_STATIONS:
+                    good.add(day)
+    return len(good), span
+
+
 def build_summary(data_dir):
-    """What the Projects card says about this project, counted rather than typed."""
+    """What the Projects card says about this project, counted rather than typed.
+
+    The span is the outer envelope of everything we hold, and printed on its own
+    it promises something the record does not keep: PM10 only starts in 2011 and
+    skips 2012, and four of the six hold no 2025 at all. One earliest year read
+    as if every pollutant had it is the overstatement this counts against — the
+    card gets the number of pollutants that really do hold every year of the
+    span, off the same index the span itself comes from."""
     def load(name):
         with open(os.path.join(data_dir, name), encoding="utf-8") as f:
             return json.load(f)
@@ -146,17 +202,38 @@ def build_summary(data_dir):
         raise RuntimeError("stations.json and cities.json should each be a list")
     if not isinstance(index, dict):
         raise RuntimeError("daily/index.json should be an object")
-    pollutants = sorted(index.get("pollutants") or {})
+    held = index.get("pollutants")
+    if held and not isinstance(held, dict):
+        raise RuntimeError("daily/index.json should give each pollutant the years it holds")
+    pollutants = sorted(held or {})
     if not (stations and cities and pollutants):
         raise RuntimeError("cannot count the project without stations, cities and days")
-    if not index.get("from") or not index.get("to"):
-        raise RuntimeError("daily/index.json carries no span, and the card prints it")
+
+    first, last = span_years(index)
+    if last - first < 1:
+        raise RuntimeError(f"the record spans a single year ({first}); the card "
+                           f"describes a range, so this is almost certainly a "
+                           f"half-built rebuild rather than the real span")
+    for pollutant in pollutants:
+        years = held[pollutant]
+        if not isinstance(years, list):
+            raise RuntimeError(f"daily/index.json: {pollutant} should carry a "
+                               f"list of the years it holds")
+        if not years:
+            raise RuntimeError(f"daily/index.json: {pollutant} holds no years, "
+                               f"and the card counts the years each one holds")
+        if any(not isinstance(y, str) or not re.fullmatch(r"\d{4}", y) for y in years):
+            raise RuntimeError(f"daily/index.json: {pollutant} lists something "
+                               f"that is not a year")
+    covered, total = covered_days(data_dir, first, last)
+
     return {
         "pollutants": len(pollutants),
-        "stations": len(stations),
-        "cities": len(cities),
+        "stations": len({s.get("id") for s in stations}),
+        "cities": len({c.get("id") for c in cities}),
         "from": index.get("from"),
         "to": index.get("to"),
+        "covered": round(100 * covered / total) if total else 0,
     }
 
 
@@ -189,7 +266,8 @@ def main():
     summary = write_summary(os.path.join(root, args.data), root)
     print(f"  _data/air_quality.json -> {summary['pollutants']} pollutants, "
           f"{summary['stations']} stations, {summary['cities']} cities, "
-          f"{summary['from']} to {summary['to']}")
+          f"{summary['from']} to {summary['to']}, {summary['covered']}% of days "
+          f"well covered")
     return 0
 
 

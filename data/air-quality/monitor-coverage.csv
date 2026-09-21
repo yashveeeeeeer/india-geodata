@@ -1,11 +1,11 @@
 level,feature_id,lgd_code,name,stations,cities,pct_area_within_50km,area_km2
-state,27,27,Maharashtra,94,30,47.7,307477
+state,27,27,Maharashtra,95,31,48.1,307477
 state,9,9,Uttar Pradesh,46,18,41.8,241015
 state,8,8,Rajasthan,41,31,54.4,342210
 state,7,7,Delhi,41,2,100.0,1484
 state,6,6,Haryana,34,23,99.5,44195
 state,10,10,Bihar,33,22,86.8,94154
-state,29,29,Karnataka,29,16,48.2,191796
+state,29,29,Karnataka,28,15,48.1,191796
 state,23,23,Madhya Pradesh,27,13,28.4,308228
 state,19,19,West Bengal,22,7,41.3,85522
 state,33,33,Tamil Nadu,17,9,44.9,130006
@@ -101,7 +101,7 @@ district,518,518,Ranga Reddy,2,1,78.0,4997
 district,473,473,Chandrapur,2,1,58.5,11360
 district,468,468,Amravati,2,1,53.9,12208
 district,665,665,Palghar,2,2,99.4,5273
-district,480,480,Kolhapur,2,1,74.8,7671
+district,480,480,Kolhapur,2,1,61.0,7671
 district,536,536,Dharwad,2,2,99.3,4258
 district,403,403,Dhar,2,2,55.0,8152
 district,36,36,Ludhiana,2,2,99.7,3689
@@ -160,7 +160,7 @@ district,459,459,Surat,1,1,88.6,4336
 district,442,442,Bharuch,1,1,81.1,4931
 district,462,462,Valsad,1,1,95.1,2947
 district,466,466,Ahmednagar,1,1,48.4,17096
-district,527,527,Belagavi,1,1,47.5,13415
+district,493,493,Sangli,1,1,58.4,8606
 district,423,423,Ratlam,1,1,79.4,4857
 district,88,88,Banswara,1,1,96.2,4512
 district,99,99,Dungarpur,1,1,97.5,3769
@@ -397,7 +397,7 @@ district,465,465,Dadra And Nagar Haveli,0,0,100.0,493
 district,463,463,Daman,0,0,100.0,71
 district,453,453,Navsari,0,0,65.5,2202
 district,494,494,Satara,0,0,13.0,10481
-district,493,493,Sangli,0,0,31.5,8606
+district,527,527,Belagavi,0,0,47.3,13415
 district,540,540,Haveri,0,0,11.8,4827
 district,550,550,Uttara Kannada,0,0,12.3,10287
 district,552,552,South Goa,0,0,0.0,1955
