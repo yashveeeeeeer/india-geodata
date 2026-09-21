@@ -1158,6 +1158,8 @@
   // meaning something else entirely.
   var THIN_DAYS = 0.5;
   var THIN_STATIONS = 0.25;
+  var FEW_STATIONS = 6;         // a figure resting on fewer monitors than this is thin,
+                                // unless that few is all the place has ever had
 
   function spanDays(w) {
     if (!w) return 0;
@@ -1172,7 +1174,12 @@
     var med = (w && w.n.length) ? d3.median(w.n) : 0;
     var e = { span: span, days: w ? w.t.length : 0, stations: Math.round(med), peak: peak };
     e.fewDays = span > 1 && e.days < span * THIN_DAYS;
-    e.fewStations = peak > 1 && med < peak * THIN_STATIONS;
+    // Thin either when the window runs well below the place's own norm, or when
+    // it rests on just a handful of monitors — the second catches the sparse
+    // early years, where a national mean on one or two monitors slipped past
+    // the ratio (its own peak was low too) and the headline stayed confident
+    // while the map corner already called the day thin.
+    e.fewStations = (med < peak * THIN_STATIONS) || (med < FEW_STATIONS && med < peak);
     e.thin = e.fewDays || e.fewStations;
     return e;
   }
