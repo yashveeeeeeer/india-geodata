@@ -227,6 +227,9 @@ body.aq-zooming .aq-map { cursor: zoom-in; }
   line-height: 1;
 }
 .aq-step:hover { color: var(--color-text); background: var(--color-bg-light); }
+/* The play control stands apart from the grey step arrows beside it. */
+.aq-play { color: var(--color-accent); font-size: 0.72rem; }
+.aq-play.is-playing { color: var(--color-accent); }
 .aq-strip { flex: 1; height: 34px; background: var(--color-bg-light); border-radius: 2px; min-width: 0; }
 .aq-strip svg { display: block; }
 /* Appears only while a past day is pinned, and is the way back to the latest reading. */

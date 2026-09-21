@@ -47,6 +47,7 @@
     panelTabs: document.getElementById('aqPanelTabs'),
     levels: document.getElementById('aqLevels'),
     strip: document.getElementById('aqStrip'),
+    play: document.getElementById('aqPlay'),
     prev: document.getElementById('aqPrev'),
     next: document.getElementById('aqNext'),
     download: document.getElementById('aqDownloadBtn'),
@@ -2047,6 +2048,42 @@
     return { t: m.t, v: nationalMeans(m) };
   }
 
+  // ---------------------------------------------------------------------------
+  //  Playback: walk the day forward through the record, everything following it
+  // ---------------------------------------------------------------------------
+  var playing = false, playTimer = null;
+  var PLAY_MS = 130, PLAY_FRAMES = 200;   // the whole record in about 25 seconds
+
+  function paintPlay() {
+    if (!ui.play) return;
+    ui.play.innerHTML = playing ? '&#10074;&#10074;' : '&#9654;';
+    ui.play.classList.toggle('is-playing', playing);
+    ui.play.setAttribute('aria-label', playing ? 'Pause' : 'Play through time');
+  }
+
+  function stopPlay() {
+    if (playTimer) { clearTimeout(playTimer); playTimer = null; }
+    if (playing) { playing = false; paintPlay(); }
+  }
+
+  function startPlay() {
+    var s = stripSeries();
+    if (!s || !s.t.length) return;
+    var n = s.t.length;
+    var stride = Math.max(1, Math.ceil(n / PLAY_FRAMES));
+    var i = current.day ? s.t.indexOf(current.day) : -1;
+    if (i < 0 || i >= n - 1) i = -1;        // at or past the end, or no day: from the start
+    playing = true; paintPlay();
+    (function frame() {
+      i += stride;
+      if (i >= n) { setDay(s.t[n - 1]); stopPlay(); return; }
+      setDay(s.t[i]);
+      playTimer = setTimeout(frame, PLAY_MS);
+    })();
+  }
+
+  function togglePlay() { if (playing) stopPlay(); else startPlay(); }
+
   function drawStrip() {
     var el = ui.strip;
     el.innerHTML = '';
@@ -2055,9 +2092,14 @@
     var s = stripSeries();
     if (!s) return;
 
+    // A band along the bottom holds the year ticks and their labels; the line
+    // lives above it. They used to share the space and the labels sat on top of
+    // the line, which is what made the years hard to read.
+    var BAND = 11;
+    var lineH = Math.max(1, H - BAND);
     var svg = d3.select(el).append('svg').attr('width', W).attr('height', H);
     var x = d3.scaleLinear().domain([0, s.t.length - 1]).range([0, W]);
-    var y = d3.scaleLinear().domain([0, d3.max(s.v) || 1]).range([H - 1, 1]);
+    var y = d3.scaleLinear().domain([0, d3.max(s.v) || 1]).range([lineH - 1, 1]);
 
     svg.append('path').datum(s.v.map(function (v, i) { return { i: i, v: v }; })
         .filter(function (d) { return d.v != null; }))
@@ -2070,10 +2112,10 @@
     s.t.forEach(function (d, i) {
       var mark = multiYear ? (d.slice(5) === '01-01') : (d.slice(8) === '01');
       if (!mark) return;
-      svg.append('line').attr('x1', x(i)).attr('x2', x(i)).attr('y1', H - 4).attr('y2', H)
+      svg.append('line').attr('x1', x(i)).attr('x2', x(i)).attr('y1', lineH).attr('y2', lineH + 3)
         .attr('stroke', '#cbd5e1');
       if (multiYear && d.slice(0, 4) % 4 === 0) {
-        svg.append('text').attr('x', x(i) + 2).attr('y', H - 6).attr('font-size', 7.5)
+        svg.append('text').attr('x', x(i) + 2).attr('y', H - 2).attr('font-size', 8)
           .attr('fill', '#94a3b8').text(d.slice(0, 4));
       }
     });
@@ -2088,6 +2130,7 @@
       .style('cursor', 'ew-resize')
       .on('pointerdown pointermove', function (e) {
         if (e.type === 'pointermove' && !e.buttons) return;
+        if (e.type === 'pointerdown') stopPlay();   // a hand on the strip takes over
         var px = d3.pointer(e, this)[0];
         var i = Math.max(0, Math.min(s.t.length - 1, Math.round(x.invert(px))));
         setDay(s.t[i]);
@@ -2148,6 +2191,7 @@
   }
 
   function clearDay() {
+    stopPlay();
     current.day = null;
     current.range = null;
     updateWhen();
@@ -2342,8 +2386,9 @@
   document.getElementById('aqDlCancel').addEventListener('click', function () { ui.dl.close(); });
   document.getElementById('aqDlClose').addEventListener('click', function () { ui.dl.close(); });
 
-  ui.prev.addEventListener('click', function () { stepDay(-1); });
-  ui.next.addEventListener('click', function () { stepDay(1); });
+  ui.prev.addEventListener('click', function () { stopPlay(); stepDay(-1); });
+  ui.next.addEventListener('click', function () { stopPlay(); stepDay(1); });
+  if (ui.play) ui.play.addEventListener('click', togglePlay);
 
   ui.levels.addEventListener('click', function (e) {
     var b = e.target.closest('[data-level]');
