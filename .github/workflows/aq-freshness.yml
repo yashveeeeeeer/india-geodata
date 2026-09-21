@@ -65,8 +65,8 @@ jobs:
         run: |
           set -euo pipefail
           title="Air quality data is stale"
-          existing=$(gh issue list --state open --search "$title in:title" \
-                       --json number --jq '.[0].number // empty')
+          existing=$(gh issue list --state open --limit 200 --json number,title \
+                       --jq "map(select(.title == \"$title\")) | .[0].number // empty")
           body=$(printf '%s\n\n%s\n%s\n%s\n\n%s\n' \
             "One of the air quality checks came back unhappy." \
             '```' "$STATUS" '```' \
@@ -86,8 +86,8 @@ jobs:
         run: |
           set -euo pipefail
           title="Air quality data is stale"
-          existing=$(gh issue list --state open --search "$title in:title" \
-                       --json number --jq '.[0].number // empty')
+          existing=$(gh issue list --state open --limit 200 --json number,title \
+                       --jq "map(select(.title == \"$title\")) | .[0].number // empty")
           if [ -n "$existing" ]; then
             comment=$(printf '%s\n\n%s\n%s\n%s\n' \
               "All three checks are happy again." \

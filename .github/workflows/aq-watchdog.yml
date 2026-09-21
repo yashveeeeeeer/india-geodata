@@ -17,16 +17,16 @@ name: Air quality watchdog
 # the two is open is the diagnosis:
 #
 #   this one alone      the runs have stopped, before the data has aged out
-#   the stale one alone the runs are happening, so the fetch or data.gov.in
+#   the stale one alone the runs are succeeding, so the fetch is coming
+#                       back empty — look at data.gov.in, not at GitHub
 #   both                the runs stopped, and the data aged out behind them
 
 on:
   schedule:
     # Hourly, for a job that is two API calls. GitHub honours a fraction of any
     # cron it is handed — aq-hourly.yml asks every hour and gets roughly every
-    # three, aq-freshness.yml asks every six hours and has gone seventeen
-    # between runs — so asking often is the only way to get a useful worst case
-    # out of a scheduler that drops most of what it is told.
+    # three — so asking often is the only way to get a useful worst case out
+    # of a scheduler that drops most of what it is told.
     - cron: '35 * * * *'
   # And again as soon as the hourly workflow finishes, which catches a run that
   # breaks without waiting on a cron GitHub may well drop.
@@ -86,8 +86,8 @@ jobs:
             "GitHub is not running the hourly air quality workflow, or is running it and the job is not finishing." \
             '```' "$STATUS" '```' \
             "Checked by .github/workflows/aq-watchdog.yml, which asks the Actions API rather than reading the data. DISABLED means the workflow needs switching back on in the Actions tab; nothing will run until somebody does. SILENT means GitHub still calls it active but has not dispatched it for longer than the schedule has ever gone quiet before. FAILING means it is being dispatched and the job itself is breaking, and the linked run holds the log. If \"Air quality data is stale\" is open too, it is this problem's shadow rather than a second one, and it should clear once this does.")
-          existing=$(gh issue list --state open --search "$title in:title" \
-                       --json number --jq '.[0].number // empty')
+          existing=$(gh issue list --state open --limit 200 --json number,title \
+                       --jq "map(select(.title == \"$title\")) | .[0].number // empty")
           if [ -z "$existing" ]; then
             gh issue create --title "$title" --body "$body" --label "data" || \
               gh issue create --title "$title" --body "$body"
@@ -122,8 +122,8 @@ jobs:
         run: |
           set -euo pipefail
           title="Air quality hourly has stopped running"
-          existing=$(gh issue list --state open --search "$title in:title" \
-                       --json number --jq '.[0].number // empty')
+          existing=$(gh issue list --state open --limit 200 --json number,title \
+                       --jq "map(select(.title == \"$title\")) | .[0].number // empty")
           if [ -n "$existing" ]; then
             comment=$(printf '%s\n\n%s\n%s\n%s\n' \
               "The hourly workflow is being run again." \
