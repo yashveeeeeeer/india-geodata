@@ -41,7 +41,7 @@ Browse and download at **[india-geodata](https://yashveeeeeeer.github.io/india-g
 | [Postal](data/postal/) | Pincode boundaries | Shapefile, Parquet, PMTiles | ~700 MB |
 | [Police](data/police/) | Station jurisdictions (select states), Station locations | Parquet, PMTiles, GeoJSON | ~101 MB |
 | [Survey of India](data/survey-of-india/) | Index maps, Outline maps, Reference boundaries | Shapefile, PDF | ~119 MB |
-| [Remote Sensing](data/remote-sensing/) | VIIRS nighttime lights (2012–2024), Population density (WorldPop 2020) | CSV, GeoJSON, GeoTIFF | ~370 MB |
+| [Remote Sensing](data/remote-sensing/) | VIIRS nighttime lights (2012–2024), DMSP + VIIRS harmonized nighttime lights (1992–2025), Population density (WorldPop 2020) | CSV, GeoJSON, GeoTIFF | ~370 MB |
 | [External Datasets](data/external/) | SHRUG: socioeconomic data for 500K+ villages | CSV, Stata, Shapefile | [DDL portal](https://www.devdatalab.org/shrug_download/) |
 
 Total: approximately 1,800+ files across 14 aggregated source collections and curated external links.
@@ -104,7 +104,8 @@ data/
   postal/             Pincode boundaries
   police/             Police station jurisdictions, Station locations
   survey-of-india/    SOI index maps and reference boundaries
-  remote-sensing/     Nighttime lights (VIIRS), Population density (WorldPop)
+  remote-sensing/     Nighttime lights (VIIRS; DMSP + VIIRS harmonized),
+                      Population density (WorldPop)
   external/           Curated links to SHRUG and other platforms
 
 docs/                 GitHub Pages source
@@ -131,6 +132,8 @@ This repository consolidates data from the following open-data projects and gove
 | [datameet/Municipal_Spatial_Data](https://github.com/datameet/Municipal_Spatial_Data) | DataMeet | CC BY 4.0 | Municipal ward boundaries for 28 cities |
 | [NOAA VIIRS DNB](https://eogdata.mines.edu/products/vnl/) | NOAA / EOG | Public domain | Nighttime light satellite imagery |
 | [india-district-nightlights-viirs](https://github.com/yashveeeeeeer/india-district-nightlights-viirs) | yashveeeeeeer | MIT | District-level nightlight statistics pipeline |
+| [Li et al. harmonized DMSP/VIIRS](https://doi.org/10.6084/m9.figshare.9828827.v10) | Li, Zhou, Zhao & Zhao | CC BY 4.0 | Nighttime lights 1992–2024 on the DMSP scale |
+| [Chen et al. NPP-VIIRS-like](https://doi.org/10.7910/DVN/YGIVCD) | Chen, Yu et al. | CC0 1.0 | Nighttime lights 1992–2025 on the VIIRS scale |
 | [SHRUG](https://www.devdatalab.org/shrug) | Development Data Lab | CC BY-NC-SA 4.0 | Socioeconomic data for 500K+ villages (external link) |
 | [indian_transport](https://github.com/ramSeraph/indian_transport) | ramSeraph | CC0 1.0 / ODbL / GODL | Roads (SOI, NIC, PMGSY, MoRTH, Urban, ML), Railways, Inland Waterways |
 | [INDIAN-SHAPEFILES](https://github.com/datta07/INDIAN-SHAPEFILES) | datta07 | — | Energy plants, Police stations, Railways, National highways (GeoJSON) |

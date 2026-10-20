@@ -4351,6 +4351,29 @@
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.shx.zip
   release_url: https://github.com/yashveeeeeeer/india-geodata/releases/tag/postal/boundaries
+- name: nightlights-dmsp-viirs
+  title: District-Level Nighttime Lights, DMSP + VIIRS Harmonized (1992–2025)
+  description: 'A long district-by-year panel of nighttime lights for 641 Census 2011
+    districts, 1992-2025, joining the DMSP-OLS and VIIRS satellites. Two published
+    harmonized series side by side: VIIRS converted to the DMSP scale (Li et al. 2020,
+    1992-2024) and DMSP converted to the VIIRS scale (Chen et al. 2021, Version 2,
+    1992-2025).'
+  category: remote-sensing
+  level: district
+  formats:
+  - csv
+  license_id: CC-BY-4.0
+  storage: repo
+  release_tag: null
+  url: data/remote-sensing/nightlights-dmsp-viirs
+  files:
+  - name: nightlights_dmsp_viirs_district_panel.csv
+    format: csv
+    size: 2.4 MB
+    storage: repo
+    description: Panel dataset — 21,794 rows (641 districts x 34 years, 1992-2025)
+      with both harmonized series
+    download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/remote-sensing/nightlights-dmsp-viirs/nightlights_dmsp_viirs_district_panel.csv
 - name: nightlights-viirs
   title: District-Level Nighttime Lights (VIIRS)
   description: Annual district-level nighttime light statistics for 641 Indian districts
