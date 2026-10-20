@@ -13,10 +13,10 @@ Two published datasets do this, in opposite directions. This panel puts both sid
 
 ## Which one to use
 
-- **`dmsp_like`** — the early years are real observations. But it is coarse, and bright city centres hit the 63 ceiling, so growth in big cities is understated.
-- **`viirs_like`** — finer, no ceiling, and it reaches 2025. But 1992–2012 are model estimates of what VIIRS would have seen, not measurements.
+- **`viirs_like`** — finer, no ceiling, and it reaches 2025. From 2013 it follows real VIIRS closely. But 1992–2012 are model estimates of what VIIRS would have seen, not measurements, and they break sharply from 2013 (see below).
+- **`dmsp_like`** — the years up to 2013 are real observations. But it is coarse, bright city centres hit the 63 ceiling, so growth in big cities is understated, and the converted years from 2014 jump around more from year to year.
 
-Running both and checking that a result holds in each is the safest use.
+For a panel that is mostly 2013 or later, `viirs_like` is the better main series. Either way, run results in both, and treat anything that rests on the years before 2013 at district level with care.
 
 ## Files
 
@@ -62,7 +62,8 @@ Compared with this repository's own [VIIRS panel](../nightlights/), which is bui
 
 - **District averages match.** For 2013–2024, `viirs_like_mean` and the VIIRS panel's `mean` correlate at 0.998–0.999 across districts, every year. Hyderabad, for example, is 48.4 here and 47.4 there in 2019.
 - **District sums differ, as they should.** `viirs_like_sum` adds up 500 m pixels, four for every 1 km pixel in the VIIRS panel. The VIIRS panel also keeps a faint glow in unlit pixels, which this source sets to zero; in large dark districts such as Leh that glow adds up.
-- **The two series here agree with each other.** The log of `dmsp_like_sum_gt7` and the log of `viirs_like_sum` correlate at 0.90–0.95 across districts in most years.
+- **The two series agree on which districts are bright.** The log of `dmsp_like_sum_gt7` and the log of `viirs_like_sum` correlate at 0.90–0.95 across districts in most years.
+- **They agree much less on how each district changed.** For growth from 2011 to 2024 the correlation between them is about 0.2. From 2013, `viirs_like` follows the VIIRS panel's district changes more closely than `dmsp_like` does (2013–2024 growth: 0.80 against 0.55).
 
 ## Known steps in the series
 
@@ -70,8 +71,9 @@ Where a method changes, some districts jump. Check results that hinge on these y
 
 | Series | Years | What happens |
 |---|---|---|
-| `viirs_like` | 2012 → 2013 | The model hands over to real VIIRS. Most districts move little, but the brightest cities jump, because DMSP saturates there and the model cannot see how bright they really are. Kolkata's mean goes from 23.7 to 42.1. |
-| `dmsp_like` | 2013 → 2014 | Real DMSP hands over to converted VIIRS. Use `dmsp_like_sum_gt7` here, not `dmsp_like_sum`. |
+| `viirs_like` | 2010 → 2011 | A large break inside the modelled years. |
+| `viirs_like` | 2012 → 2013 | The model hands over to real VIIRS, and this is the biggest break in the series. In one year, the typical district in the dimmest third falls by about 40%, and in the brightest third rises by almost 30%. Bright cities rise because DMSP saturates there, so the model cannot see how bright they really are: Kolkata's mean goes from 23.7 to 42.1. |
+| `dmsp_like` | 2013 → 2014 | Real DMSP hands over to converted VIIRS; the noisiest year-to-year change in the series. Use `dmsp_like_sum_gt7` here, not `dmsp_like_sum`. |
 | all VIIRS-based | 2016 → 2017 | A sharp one-year rise: the median district goes up by about a quarter in `viirs_like` and by more in `dmsp_like`. The VIIRS panel in this repository shows it too, so it comes from the VIIRS input data, not from either conversion. |
 
 ## Rebuild
