@@ -1,0 +1,70 @@
+{
+  "name": "nightlights-dmsp-viirs",
+  "title": "District-Level Nighttime Lights, DMSP + VIIRS Harmonized (1992–2025)",
+  "description": "A long district-by-year panel of nighttime lights for 641 Census 2011 districts, 1992-2025, joining the DMSP-OLS and VIIRS satellites. Two published harmonized series side by side: VIIRS converted to the DMSP scale (Li et al. 2020, 1992-2024) and DMSP converted to the VIIRS scale (Chen et al. 2021, Version 2, 1992-2025).",
+  "category": "remote-sensing",
+  "level": "district",
+  "coverage": {
+    "spatial": "India — 641 districts, 35 states/UTs",
+    "temporal": "1992–2025 (annual)",
+    "admin_level": "district (Census 2011 boundaries)"
+  },
+  "sources": [
+    {
+      "name": "Harmonization of DMSP and VIIRS nighttime light data, 1992-2024 (Li, Zhou, Zhao & Zhao 2020, v10)",
+      "url": "https://doi.org/10.6084/m9.figshare.9828827.v10",
+      "authority": "Li et al., Scientific Data 7, 168 (2020)"
+    },
+    {
+      "name": "Global NPP-VIIRS-like nighttime light data, Version 2, 1992-2025 (Chen et al.)",
+      "url": "https://doi.org/10.7910/DVN/YGIVCD",
+      "authority": "Chen et al., Earth System Science Data 13, 889-906 (2021)"
+    },
+    {
+      "name": "DataMeet District Boundaries (Census 2011)",
+      "url": "https://github.com/datameet/maps",
+      "authority": "DataMeet community"
+    }
+  ],
+  "license": {
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "formats": ["csv"],
+  "coordinate_system": "EPSG:4326",
+  "storage": {
+    "repo_files": true,
+    "release_tag": null
+  },
+  "files": [
+    {
+      "filename": "nightlights_dmsp_viirs_district_panel.csv",
+      "format": "csv",
+      "size": "2.4 MB",
+      "storage": "repo",
+      "description": "Panel dataset — 21,794 rows (641 districts x 34 years, 1992-2025) with both harmonized series"
+    }
+  ],
+  "attributes": [
+    {"name": "district_id", "type": "integer", "description": "Census 2011 district code (same as the VIIRS nightlights panel)"},
+    {"name": "district_name", "type": "string", "description": "District name"},
+    {"name": "state_name", "type": "string", "description": "State or Union Territory name"},
+    {"name": "year", "type": "integer", "description": "Year (1992-2025)"},
+    {"name": "dmsp_like_source", "type": "string", "description": "dmsp (1992-2013, inter-calibrated DMSP) or viirs_converted (2014 on, VIIRS put on the DMSP scale)"},
+    {"name": "dmsp_like_sum", "type": "integer", "description": "Sum of DMSP-scale digital numbers (0-63) over the district's pixels"},
+    {"name": "dmsp_like_sum_gt7", "type": "integer", "description": "Sum of digital numbers over pixels above 7, the threshold the source recommends; consistent across the 2013/2014 join"},
+    {"name": "dmsp_like_mean", "type": "float", "description": "Mean digital number per pixel"},
+    {"name": "dmsp_like_max", "type": "integer", "description": "Highest digital number in the district (the top of the scale, 59-63 by satellite, is saturated)"},
+    {"name": "dmsp_like_lit_share_gt7", "type": "float", "description": "Share of the district's pixels above digital number 7"},
+    {"name": "dmsp_like_pixels", "type": "integer", "description": "Number of ~1 km pixels whose centre falls in the district"},
+    {"name": "viirs_like_source", "type": "string", "description": "dmsp_reconstructed (1992-2012, modelled from DMSP) or viirs (2013 on)"},
+    {"name": "viirs_like_sum", "type": "float", "description": "Sum of VIIRS-like radiance (nW/cm²/sr) over the district's pixels"},
+    {"name": "viirs_like_mean", "type": "float", "description": "Mean radiance per pixel (nW/cm²/sr)"},
+    {"name": "viirs_like_median", "type": "float", "description": "Median radiance per pixel (nW/cm²/sr)"},
+    {"name": "viirs_like_max", "type": "float", "description": "Highest pixel radiance in the district (nW/cm²/sr)"},
+    {"name": "viirs_like_pixels", "type": "integer", "description": "Number of ~500 m pixels whose centre falls in the district"}
+  ],
+  "last_updated": "2026-10-20",
+  "build_script": "scripts/build-nightlights-dmsp-viirs.py"
+}

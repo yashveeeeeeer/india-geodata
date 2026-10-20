@@ -274,6 +274,8 @@
   });
 
   // --- Hash routing ---
+  // #<category> filters the list; #<dataset name> opens that one card, so a
+  // single dataset can be shared as a link.
   function handleHash() {
     var hash = window.location.hash.replace('#', '').trim();
     if (hash) {
@@ -283,6 +285,20 @@
         pills.forEach(function (p) { p.classList.remove('active'); });
         matchingPill.classList.add('active');
         applyFilters();
+        return;
+      }
+      var card = document.getElementById(hash);
+      if (card && card.classList.contains('dataset-card')) {
+        activeCategory = card.dataset.category;
+        pills.forEach(function (p) {
+          p.classList.toggle('active', p.dataset.category === activeCategory);
+        });
+        applyFilters();
+        collapseAllExcept(card);
+        card.classList.add('expanded');
+        var btn = card.querySelector('.expand-card-btn');
+        if (btn) btn.textContent = 'Download ▴';
+        card.scrollIntoView({ block: 'start' });
         return;
       }
     }

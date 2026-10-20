@@ -76,6 +76,7 @@ gh release download remote-sensing/nightlights
 
 ## Related resources
 
+- [DMSP + VIIRS harmonized panel](../nightlights-dmsp-viirs/) — the same 641 districts back to 1992, with DMSP and VIIRS put on one scale.
 - [Development Data Lab's SHRUG](https://www.devdatalab.org/shrug_download/) — provides pre-built nightlight data (DMSP 1992–2013 and VIIRS 2012–2021) across 500,000+ villages and 8,000 towns.
 
 ## License
