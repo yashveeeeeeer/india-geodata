@@ -8,7 +8,7 @@ Building footprint polygons for India derived from Google Research Open Building
 |------|---------|
 | **Assets** | 47 files |
 | **Total size** | ~66 GB |
-| **Formats** | GeoJSONL (.7z), Parquet, PMTiles |
+| **Formats** | Parquet, PMTiles |
 
 **External download:** Data is not hosted in this repository. Download from the source release.
 
