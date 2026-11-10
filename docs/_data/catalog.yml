@@ -297,7 +297,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: admin/habitations
@@ -4276,7 +4275,6 @@
   - pmtiles
   - geojsonl.7z
   - shapefile
-  - csv
   license_id: CC0-1.0 / CC-BY-4.0
   storage: both
   release_tag: postal/boundaries
@@ -5241,6 +5239,7 @@
   category: urban
   level: buildings-microsoft
   formats:
+  - geojsonl.7z
   - parquet
   - pmtiles
   license_id: ODbL-1.0

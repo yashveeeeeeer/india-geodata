@@ -12,7 +12,7 @@ Building footprint polygon datasets for India — ML-detected and survey-derived
 
 ## Formats
 
-All datasets are available as GeoJSONL (.7z), Parquet, and PMTiles. Data is distributed via [ramSeraph/indian_buildings](https://github.com/ramSeraph/indian_buildings) releases — not hosted in this repository.
+All datasets are available as Parquet and PMTiles. Microsoft and the urban footprints also come as GeoJSONL (.7z); Microsoft's is split into parts (`.7z.001`, `.7z.002`, ...). Data is distributed via [ramSeraph/indian_buildings](https://github.com/ramSeraph/indian_buildings) releases — not hosted in this repository.
 
 ## Sources
 

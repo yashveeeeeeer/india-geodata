@@ -173,6 +173,8 @@ Government data sources include: Survey of India, Local Government Directory (Mo
 - **`.7z` files must be unzipped first.** On Windows use [7-Zip](https://www.7-zip.org/).
   On Mac the built-in Archive Utility may not open them; use
   [Keka](https://www.keka.io/) or The Unarchiver. On Linux run `7z x file.7z`.
+  A download split into parts (`.7z.001`, `.7z.002`, ...) needs every part in
+  one folder; open the `.001` file.
 - **`.geojsonl`** (inside the `.7z`) has one GeoJSON feature per line. Drag it
   into QGIS, or read it with `ogr2ogr`, GeoPandas or DuckDB. Big files are slow:
   `FSI_Beats.geojsonl` (1.3 GB unzipped) takes about two minutes to open in QGIS.
