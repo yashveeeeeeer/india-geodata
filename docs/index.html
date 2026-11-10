@@ -41,6 +41,7 @@ description: "Browse and download 55+ open-licensed GIS datasets for India — a
   </div>
 
 
+  {% capture open_help %}<p class="file-help"><strong>Opening these files:</strong> <code>.parquet</code> files open straight in QGIS 3.28 or newer, with no unzipping. A <code>.7z</code> file has to be unzipped first: use 7-Zip on Windows, Keka or The Unarchiver on Mac (the built-in Archive Utility cannot open it), or <code>7z x</code> on Linux. Inside is a <code>.geojsonl</code> file with one shape per line; drag it into QGIS to open it. Files over 1 GB take a while to load.</p>{% endcapture %}
   <div id="datasetList">
     {% for cat in cats %}
       {% assign cat_items = site.data.catalog | where: "category", cat %}
@@ -114,6 +115,7 @@ description: "Browse and download 55+ open-licensed GIS datasets for India — a
             {% if item.release_url %}
             <p class="release-link"><a href="{{ item.release_url }}" target="_blank" rel="noopener">View all files on GitHub Releases &rarr;</a></p>
             {% endif %}
+            {% if item.formats contains "geojsonl.7z" %}{{ open_help }}{% endif %}
             {% else %}
               {% if item.release_url %}
               <div class="release-download-box">
@@ -121,7 +123,8 @@ description: "Browse and download 55+ open-licensed GIS datasets for India — a
                 <div class="release-download-actions">
                   <a href="{{ item.release_url }}" class="btn btn-download" target="_blank" rel="noopener">Go to Release Page</a>
                 </div>
-                <p class="release-hint">The release page lists all available file formats (Parquet, GeoJSON, Shapefile, etc.) for direct download.</p>
+                <p class="release-hint">The release page lists every file for this dataset.</p>
+                {% if item.formats contains "geojsonl.7z" %}{{ open_help }}{% endif %}
               </div>
               {% else %}
               <div class="release-download-box">

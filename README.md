@@ -156,13 +156,24 @@ Government data sources include: Survey of India, Local Government Directory (Mo
 |---|---|---|
 | **Parquet** | `.parquet` | Columnar analysis in Python, R, DuckDB, QGIS |
 | **PMTiles** | `.pmtiles` | Browser-based map viewing, cloud-optimized tiles |
-| **GeoJSONL** | `.geojsonl.7z` | Streaming GeoJSON processing (7z compressed) |
+| **GeoJSONL** | `.geojsonl.7z` | One GeoJSON feature per line, 7z compressed. Unzip first (see below) |
 | **Shapefile** | `.shp` `.dbf` `.shx` `.prj` | Legacy GIS software (QGIS, ArcGIS, MapInfo) |
 | **GeoJSON** | `.geojson` | Web mapping, GitHub preview, lightweight analysis |
 | **TopoJSON** | `.topo.json` | Compact web maps with topology preservation |
 | **KML** | `.kml` | Google Earth, Google Maps |
 | **CSV** | `.csv` | Tabular data, spreadsheets |
 | **GeoTIFF** | `.tif` | Raster analysis in QGIS, Python (rasterio), R |
+
+### Opening the files
+
+- **Parquet** is the easiest: it opens straight in QGIS 3.28 or newer (drag it
+  in), and in Python, R and DuckDB. No unzipping.
+- **`.7z` files must be unzipped first.** On Windows use [7-Zip](https://www.7-zip.org/).
+  On Mac the built-in Archive Utility cannot open them; use
+  [Keka](https://www.keka.io/) or The Unarchiver. On Linux run `7z x file.7z`.
+- **`.geojsonl`** (inside the `.7z`) has one GeoJSON feature per line. Drag it
+  into QGIS, or read it with `ogr2ogr`, GeoPandas or DuckDB. Big files take a
+  while to open: `FSI_Beats.geojsonl` is 1.3 GB unzipped.
 
 ---
 
