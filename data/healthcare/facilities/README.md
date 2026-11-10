@@ -13,7 +13,7 @@ Point locations of public health facilities across India — primary health cent
 **Download:**
 
 ```bash
-gh release download healthcare/facilities --repo yashveeeeeer/india-geodata
+gh release download healthcare/facilities --repo yashveeeeeeer/india-geodata
 ```
 
 ## Attributes

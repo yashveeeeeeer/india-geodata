@@ -21,7 +21,7 @@ All files are distributed via GitHub Releases.
 ## Download
 
 ```bash
-gh release download infra/national-highways --repo yashveeeeeer/india-geodata
+gh release download infra/national-highways --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

@@ -19,7 +19,7 @@ Point and polygon locations of schools, colleges, universities, and kindergarten
 **Download:**
 
 ```bash
-gh release download education/facilities --repo yashveeeeeer/india-geodata
+gh release download education/facilities --repo yashveeeeeeer/india-geodata
 ```
 
 ## Attributes

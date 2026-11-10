@@ -34,7 +34,7 @@ Each dataset (except the GeoJSON) is available in Parquet, PMTiles, and GeoJSONL
 ## Download
 
 ```bash
-gh release download infra/railways --repo yashveeeeeer/india-geodata
+gh release download infra/railways --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources
