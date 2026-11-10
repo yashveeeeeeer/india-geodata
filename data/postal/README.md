@@ -81,7 +81,8 @@ PIN code only 78% of the time.
 What to use:
 
 - For PIN code areas across India, use `Datagov_Pincode_Boundaries` (19,312 PIN
-  codes) or `DataMeet_Pincodes`.
+  codes) or `DataMeet_Pincodes`. The data.gov.in file covers all of India's
+  official boundary, Jammu & Kashmir and Ladakh included.
 - To keep only the pincode shapes from this file, filter on `PIN_CODE != 0`
   (16,867 rows). In QGIS, right-click the layer, choose Filter… and enter
   `"PIN_CODE" != 0`.
