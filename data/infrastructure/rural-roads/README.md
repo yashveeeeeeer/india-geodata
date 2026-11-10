@@ -34,6 +34,12 @@ State-level road network files exceeding 50 MB are distributed via GitHub Releas
 gh release download infra/rural-roads-large --repo <owner>/india-geodata
 ```
 
+Karnataka's road network is `Karnataka.zip` in the release, like the other five
+states. It used to come only in two parts: `Karnataka-split.z01` in the release
+and `Karnataka-split.zip` in `road-network/`. Either part alone won't open. Both
+parts are still there for old links, and together they unzip to the same
+`Karnataka.zip` (159,648 roads).
+
 ## Source
 
 **Ministry of Rural Development, Government of India** -- via GeoSadak portal
