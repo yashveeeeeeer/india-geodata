@@ -7,6 +7,14 @@ name: Air quality hourly
 # data.gov.in adapter remains available for manual comparison with --source
 # data-gov and DATA_GOV_IN_KEY, but is not the scheduled ingestion dependency.
 #
+# Since 16 October 2026 CPCB and data.gov.in refuse GitHub's hosted runners
+# (Linux, Windows and macOS all time out or are refused), so this job runs and
+# publishes nothing. The hour is published instead by scripts/aq-hourly-local.py,
+# run hourly on a computer in India (scripts/install-aq-hourly-task.ps1). This
+# job stays on: if the block lifts it publishes again by itself. If both publish
+# in the same hour, the archive step de-duplicates the readings, and whichever
+# pushes latest.json second gives way to the first.
+#
 # The archive is a Release asset, not a committed file: an hourly commit of a
 # growing data file would put gigabytes into git history within a year.
 #
