@@ -1685,11 +1685,21 @@
         var data = JSON.parse(fr.result);
         if (!data || data.app !== 'india-map-maker') { setStatus('That file is not a saved map project.'); return; }
         localStorage.setItem(STORE_KEY, JSON.stringify(data));
+        // A pending autosave must not overwrite the imported project before reload.
+        clearTimeout(saveTimer);
+        clearTimeout(renderTimer);
         location.reload();
       } catch (e) { setStatus('Could not open ' + file.name + ': ' + e.message); }
     };
     fr.readAsText(file);
   }
+
+  $('openProject').addEventListener('click', function () { $('projectInput').click(); });
+  $('projectInput').addEventListener('change', function () {
+    var file = this.files[0];
+    this.value = ''; // Allow reopening the same project after editing the map.
+    if (file) openProject(file);
+  });
 
   document.querySelectorAll('[data-export]').forEach(function (btn) {
     btn.addEventListener('click', function () {

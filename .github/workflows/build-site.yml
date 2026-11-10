@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: node --test tests/map-layers.test.js tests/core.test.js
+      - run: node --test tests/map-layers.test.js tests/core.test.js tests/map-project.test.js
       - run: python scripts/generate-catalog.py
       # Counted at build time as well as committed, so the card cannot be
       # wrong even if something forgets to commit it.
