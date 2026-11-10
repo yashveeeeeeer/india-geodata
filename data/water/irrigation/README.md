@@ -34,12 +34,13 @@ Each dataset is available in Parquet, PMTiles, and GeoJSONL.7z formats.
 
 **Total:** ~1.2 GB
 
-### Known problem: WRIS_LIFT_Stations
+### Repaired: WRIS_LIFT_Stations
 
-35 of the 905 lift stations have latitude and longitude the wrong way round, so
-they show up in the Arctic, near 80°N 16°E. Swap the two back and they land in
-India. Or drop them by keeping only points between 68°E and 98°E (in QGIS:
-Processing → Extract/clip by extent).
+35 of the 905 lift stations had latitude and longitude the wrong way round, so
+they showed up in the Arctic, near 80°N 16°E. The files were repaired in
+November 2026: the two are swapped back, and all 35 now sit in their own state.
+Nothing else in the files changed. The fix is
+[`scripts/repair-points-outside-india.py`](../../../scripts/repair-points-outside-india.py).
 
 ## Download
 
