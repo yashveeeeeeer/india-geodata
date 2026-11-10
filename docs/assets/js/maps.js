@@ -82,8 +82,8 @@
 
   // Colour presets swapped in when the background flips between light and dark.
   var PRESETS = {
-    light: { textColour: '#111111', labelColour: '#111111', borderColour: '#333333', outlineColour: '#333333', noData: '#e5e7eb', frameColour: '#111111' },
-    dark: { textColour: '#f1f5f9', labelColour: '#f1f5f9', borderColour: '#94a3b8', outlineColour: '#cbd5e1', noData: '#334155', frameColour: '#f1f5f9' }
+    light: { textColour: '#111111', labelColour: '#111111', labelHaloColour: '#ffffff', borderColour: '#333333', outlineColour: '#333333', noData: '#e5e7eb', frameColour: '#111111' },
+    dark: { textColour: '#f1f5f9', labelColour: '#f1f5f9', labelHaloColour: '#0f172a', borderColour: '#94a3b8', outlineColour: '#cbd5e1', noData: '#334155', frameColour: '#f1f5f9' }
   };
 
   // Text assets: each one is added, styled and removed on its own.
