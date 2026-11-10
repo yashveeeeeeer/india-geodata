@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Build the DataMeet pincode release files, filled out to India's official boundary.
+"""Build the DataMeet pincode release files, with Kashmir filled out to India's official boundary.
 
 DataMeet's pincode shapes stop where India Post stops, so Pakistan-occupied
 Kashmir, Gilgit-Baltistan and Aksai Chin are empty: India's official map
 includes them, but they have no PIN codes. This script keeps every DataMeet
-shape as it is and adds one extra shape per state (Jammu & Kashmir, Ladakh)
-covering the part of that state, as drawn by the Survey of India, that no
-pincode shape covers. Those rows have an empty pincode and say "No PIN code".
+shape as it is and adds one extra shape per territory (Jammu & Kashmir, Ladakh)
+covering the part of it, as drawn by the Survey of India, that no pincode shape
+covers. Those rows have an empty pincode and say "No PIN code". Only these two
+are filled: elsewhere the gaps between DataMeet's lines and the Survey of India's
+are coastline and border strips around places that do have PIN codes.
 
 Inputs:
     data/postal/pincodes-datameet/   the split DataMeet shapefile in this repo
@@ -47,13 +49,13 @@ NAME = "DataMeet_Pincodes"
 # Survey of India state name -> the spelling DataMeet's own rows use
 STATES = {"JAMMU AND KASHMIR": "Jammu & Kashmir", "LADAKH": "Ladakh"}
 # Uncovered pieces smaller than this are line-drawing slivers between the two
-# sources, not places without PIN codes.
-MIN_PIECE_KM2 = 1.0
+# sources, not places without PIN codes. The largest dropped piece is 4.9 km2.
+MIN_PIECE_KM2 = 5.0
 EQUAL_AREA = "EPSG:6933"
 
 
 def find_7z(given):
-    for cand in [given, "7z", "7za", r"C:\Program Files\7-Zip\7z.exe"]:
+    for cand in [given, "7z", "7zz", "7za", r"C:\Program Files\7-Zip\7z.exe"]:
         if cand and shutil.which(cand):
             return shutil.which(cand)
     sys.exit("7-Zip not found; install it or pass --sevenzip")
@@ -66,10 +68,15 @@ def read_datameet(sevenzip, tmp):
             subprocess.run([sevenzip, "x", "-y", "-o" + tmp, os.path.join(DATAMEET_DIR, name)],
                            check=True, stdout=subprocess.DEVNULL)
     shp = os.path.join(tmp, "india_pincodes.shp")
-    gdf = gpd.read_file(shp)
-    if gdf.crs is None or gdf.crs.to_epsg() != 4326:
-        gdf = gdf.set_crs(4326, allow_override=True)   # the .prj is plain GCS_WGS_1984
-    return gdf
+    return to_wgs84(gpd.read_file(shp))
+
+
+def to_wgs84(gdf):
+    if gdf.crs is None:
+        return gdf.set_crs(4326)
+    if gdf.crs.equals("OGC:CRS84") or gdf.crs.to_epsg() == 4326:
+        return gdf.set_crs(4326, allow_override=True)   # same datum and lon/lat order: a relabel, not a move
+    return gdf.to_crs(4326)
 
 
 def read_soi_states(cache):
@@ -77,10 +84,9 @@ def read_soi_states(cache):
     if not os.path.exists(path):
         os.makedirs(cache, exist_ok=True)
         print("downloading", SOI_STATES_URL)
-        urllib.request.urlretrieve(SOI_STATES_URL, path)
-    states = gpd.read_parquet(path)
-    if states.crs is None or states.crs.to_epsg() != 4326:
-        states = states.set_crs(4326, allow_override=True)   # stored as OGC:CRS84, same axes as 4326 here
+        urllib.request.urlretrieve(SOI_STATES_URL, path + ".part")   # a broken download must not be cached
+        os.replace(path + ".part", path)
+    states = to_wgs84(gpd.read_parquet(path))
     states["geometry"] = shapely.make_valid(states.geometry.values)
     return states
 
@@ -133,7 +139,8 @@ def main():
     for ext in (".geojsonl", ".geojsonl.7z", ".shp.zip"):
         if os.path.exists(base + ext):
             os.remove(base + ext)
-    out.to_file(base + ".geojsonl", driver="GeoJSONSeq", engine="pyogrio")
+    # GDAL rounds GeoJSON to 7 decimals by default; keep every coordinate as published
+    out.to_file(base + ".geojsonl", driver="GeoJSONSeq", engine="pyogrio", COORDINATE_PRECISION=15)
     subprocess.run([sevenzip, "a", "-t7z", "-mx=9", base + ".geojsonl.7z", base + ".geojsonl"],
                    check=True, stdout=subprocess.DEVNULL)
     os.remove(base + ".geojsonl")
