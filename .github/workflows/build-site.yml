@@ -7,6 +7,12 @@ on:
       - 'docs/**'
       - 'data/**/metadata.json'
   workflow_dispatch:
+  # GITHUB_TOKEN commits do not trigger push workflows. Deploy refreshed data
+  # after the trusted main-branch ingestion workflows finish successfully.
+  workflow_run:
+    workflows: ['Air quality hourly', 'Air quality daily rebuild', 'Air quality history rebuild']
+    types: [completed]
+    branches: [main]
 
 permissions:
   pages: write
@@ -18,9 +24,16 @@ concurrency:
 
 jobs:
   build:
+    # Never deploy code or artifacts from an untrusted workflow branch.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
