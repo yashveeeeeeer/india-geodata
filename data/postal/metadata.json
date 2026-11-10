@@ -1,7 +1,7 @@
 {
   "name": "postal-pincodes",
   "title": "Postal PIN Code Boundaries",
-  "description": "Approximate polygon boundaries and point locations for India's 6-digit postal PIN codes. From DataMeet and data.gov.in.",
+  "description": "Approximate polygon boundaries and point locations for India's 6-digit postal PIN codes. From DataMeet, data.gov.in, India Post's PostalGIS and GSDL.",
   "category": "postal",
   "level": "pincode",
   "coverage": {
@@ -24,6 +24,11 @@
       "name": "Geo-Spatial Delhi Limited (GSDL)",
       "url": "https://gsdl.org.in/",
       "authority": "Delhi Government"
+    },
+    {
+      "name": "India Post PostalGIS, via ramSeraph/indian_admin_boundaries",
+      "url": "https://github.com/ramSeraph/indian_admin_boundaries/releases/tag/postal",
+      "authority": "Department of Posts"
     }
   ],
   "license": {
