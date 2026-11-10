@@ -19,6 +19,11 @@ Each ZIP contains shapefile components for a subset of pincodes.
 | Datagov_Pincode_Boundaries | data.gov.in pincode boundaries | Parquet, PMTiles, GeoJSONL.7z |
 | GSDL_Pincodes | Geospatial Delhi pincode boundaries | Parquet, PMTiles, GeoJSONL.7z |
 
+QGIS labels a layer by the first column with "name" in it, so the DataMeet and
+data.gov.in files show post office names when labels are turned on. To show PIN
+codes, set the label Value to `pincode` (DataMeet) or `Pincode` (data.gov.in).
+The DataMeet folder ships `india_pincodes.qml`, which does this for you.
+
 ### Download
 
 ```bash
