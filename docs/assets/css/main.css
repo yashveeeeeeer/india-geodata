@@ -415,6 +415,8 @@ main { flex: 1; }
 .release-download-box p { margin-bottom: 8px; }
 .release-download-actions { margin: 10px 0; }
 .release-hint { font-size: 0.8rem; color: var(--color-muted); margin-top: 4px; }
+.file-help { margin-top: 10px; font-size: 0.82rem; line-height: 1.5; color: var(--color-muted); }
+.file-help code { font-size: 0.78rem; }
 
 /* --- Footer --- */
 .site-footer {
