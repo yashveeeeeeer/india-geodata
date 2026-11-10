@@ -3,7 +3,15 @@
 Pincode (postal code) boundaries for India from DataMeet. A single comprehensive
 shapefile covering all postal codes, distributed as a split ZIP archive.
 
-Reassemble all `.zip` and `.z01`-`.z05` parts before extracting.
+Reassemble all `.zip` and `.z01`-`.z05` parts before extracting: put them in one
+folder and open `india_pincodes.shp.zip` with 7-Zip, Keka or The Unarchiver.
+
+This is the file exactly as DataMeet published it, so Pakistan-occupied Kashmir,
+Gilgit-Baltistan and Aksai Chin are blank: they have no PIN codes. The
+`DataMeet_Pincodes` files in the `postal/boundaries` release are the same data as
+single files (Shapefile, Parquet, GeoJSONL), with those areas filled in as
+"No PIN code" shapes so the map shows India's official boundary. See
+[the postal README](../README.md#datameet_pincodes-and-indias-official-boundary).
 
 - **Format:** Shapefile (`india_pincodes.shp` and associated files), split ZIP
 - **Source:** DataMeet
