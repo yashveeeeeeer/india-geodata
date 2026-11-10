@@ -57,9 +57,12 @@ permalink: /maps/
           <textarea id="paste" aria-label="Paste names and values" placeholder="Name&#9;Value&#10;Kerala&#9;94&#10;Bihar&#9;61" spellcheck="false"></textarea>
           <label class="file-drop" id="fileDrop">
             <span class="file-drop-btn">Upload CSV or Excel</span>
-            <span class="file-drop-hint">or drop a file here</span>
+            <span class="file-drop-hint">or drop a data or saved project file here</span>
             <input type="file" id="fileInput" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm,.ods,.json,text/csv,text/comma-separated-values,text/tab-separated-values,text/plain,application/json,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.oasis.opendocument.spreadsheet">
           </label>
+          <button class="btn-plain secondary" id="openProject" type="button">Open project</button>
+          <input type="file" id="projectInput" accept=".json,application/json" hidden>
+          <p class="hint">Resume a saved map by opening its .mapmaker.json file. This replaces the current map.</p>
           <div class="row" id="sourcePick" hidden>
             <div class="field" id="sheetField" hidden><label for="sheetPick">Sheet</label><select id="sheetPick"></select></div>
             <div class="field" id="colField" hidden><label for="colPick">Value column</label><select id="colPick"></select></div>
@@ -268,7 +271,7 @@ permalink: /maps/
             <button class="btn-plain secondary" data-export="svg" type="button">SVG</button>
             <button class="btn-plain secondary" data-export="pdf" type="button">PDF</button>
             <button class="btn-plain secondary" data-export="copy" id="copyImage" type="button" hidden>Copy image</button>
-            <button class="btn-plain secondary" data-export="project" type="button" title="Save everything on this page as a file you can open again with Upload">Save project</button>
+            <button class="btn-plain secondary" data-export="project" type="button" title="Save your map as a .mapmaker.json file; resume it with Open project">Save project</button>
           </div>
           <p class="hint" id="saveNote" hidden>Saved in this browser</p>
           <p class="hint"><a id="reportLink" href="https://github.com/yashveeeeeeer/india-geodata/issues/new" target="_blank" rel="noopener">Report a problem</a></p>

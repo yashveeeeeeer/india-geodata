@@ -1,0 +1,23 @@
+name: Test Map Maker
+
+on:
+  pull_request:
+    paths:
+      - 'docs/assets/js/**'
+      - 'docs/maps/**'
+      - 'tests/*.test.js'
+      - '.github/workflows/test-map-maker.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node --check docs/assets/js/maps.js
+      - run: node --test tests/map-layers.test.js tests/core.test.js tests/map-project.test.js
