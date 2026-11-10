@@ -20,6 +20,13 @@ All files are distributed via GitHub Releases under the tag **`admin/panchayats`
 
 **Total**: 9 files (~4.2 GB)
 
+### Known problem: egramswaraj_activities
+
+182 of the 7,360,307 activity points sit outside India: 4 at 0°N 0°E, off the
+coast of Africa, and 178 just outside India's border or coast. The 0°N 0°E
+points make "Zoom to layer" in QGIS take in Africa. To drop those four, keep
+only points east of 68°E (in QGIS: Processing → Extract/clip by extent).
+
 ### Download
 
 ```bash

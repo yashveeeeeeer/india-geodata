@@ -30,7 +30,7 @@ Each dataset is available in Parquet, PMTiles, and GeoJSONL.7z formats.
 ## Download
 
 ```bash
-gh release download infra/soi-roads --repo yashveeeeeer/india-geodata
+gh release download infra/soi-roads --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

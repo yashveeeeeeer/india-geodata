@@ -27,7 +27,7 @@ Each dataset is available in Parquet, PMTiles, and GeoJSONL.7z formats. NCOG_SOI
 ## Download
 
 ```bash
-gh release download water/rivers --repo yashveeeeeer/india-geodata
+gh release download water/rivers --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

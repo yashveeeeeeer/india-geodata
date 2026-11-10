@@ -13,7 +13,7 @@
 **Download:**
 
 ```bash
-gh release download remote-sensing/population-density --repo yashveeeeeer/india-geodata
+gh release download remote-sensing/population-density --repo yashveeeeeeer/india-geodata
 ```
 
 ## Technical details

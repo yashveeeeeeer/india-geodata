@@ -31,10 +31,18 @@ Each dataset (except the GeoJSON) is available in Parquet, PMTiles, and GeoJSONL
 
 **Total:** ~1.5 GB
 
+### Known problem: IR_Track_POIs
+
+1,009 of the 698,972 points sit far outside India, as far off as 19°S or 119°N.
+933 of them are SEJ points, and 701 are on East Central Railway. Because of
+them, "Zoom to layer" in QGIS zooms out far beyond India. To drop them, keep only
+points between 68°E and 98°E and between 6°N and 38°N (in QGIS: Processing →
+Extract/clip by extent).
+
 ## Download
 
 ```bash
-gh release download infra/railways --repo yashveeeeeer/india-geodata
+gh release download infra/railways --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

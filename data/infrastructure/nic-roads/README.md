@@ -19,7 +19,7 @@ All files are distributed via GitHub Releases.
 ## Download
 
 ```bash
-gh release download infra/nic-roads --repo yashveeeeeer/india-geodata
+gh release download infra/nic-roads --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

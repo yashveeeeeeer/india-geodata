@@ -20,7 +20,7 @@ All files are distributed via GitHub Releases.
 ## Download
 
 ```bash
-gh release download infra/ml-roads --repo yashveeeeeer/india-geodata
+gh release download infra/ml-roads --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

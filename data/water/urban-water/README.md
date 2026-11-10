@@ -25,7 +25,7 @@ Each dataset is available in Parquet, PMTiles, and GeoJSONL.7z formats.
 ## Download
 
 ```bash
-gh release download water/urban-water --repo yashveeeeeer/india-geodata
+gh release download water/urban-water --repo yashveeeeeeer/india-geodata
 ```
 
 ## Sources

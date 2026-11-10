@@ -42,7 +42,7 @@ Point locations of police stations across India.
 
 ```bash
 # Jurisdiction boundaries (release)
-gh release download police/jurisdictions --repo yashveeeeeer/india-geodata
+gh release download police/jurisdictions --repo yashveeeeeeer/india-geodata
 
 # Station locations (in repo)
 # Browse at data/police/stations/
