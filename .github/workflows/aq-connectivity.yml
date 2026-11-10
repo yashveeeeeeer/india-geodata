@@ -11,7 +11,12 @@ permissions:
 
 jobs:
   probe:
-    runs-on: ubuntu-latest
+    # Public publisher routing can differ between hosted runner networks.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     steps:
       # No credentials, checkout, data publication or network configuration.
@@ -21,7 +26,7 @@ jobs:
         run: |
           for host in airquality.cpcb.gov.in api.data.gov.in; do
             echo "DNS: $host"
-            getent ahosts "$host" || true
+            nslookup "$host" || true
           done
           for url in \
             'https://airquality.cpcb.gov.in/caaqms/iit_rss_feed_with_coordinates' \
