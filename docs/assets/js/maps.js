@@ -61,6 +61,7 @@
     showNames: $('showNames'), showValues: $('showValues'), showLegend: $('showLegend'),
     labelSize: $('labelSize'), decimals: $('decimals'), numberStyle: $('numberStyle'), prefix: $('prefix'), suffix: $('suffix'),
     legendTitle: $('legendTitle'), legendPos: $('legendPos'), legendSize: $('legendSize'), labelColour: $('labelColour'), textColour: $('textColour'),
+    labelHalo: $('labelHalo'), labelHaloColour: $('labelHaloColour'), labelHaloField: $('labelHaloField'),
     assetList: $('assetList'), selTools: $('selTools'), selDelete: $('selDelete'),
     unmatchedBadge: $('unmatchedBadge'), regionList: $('regionList'), learnedList: $('learnedList'), learnedBox: $('learnedBox'),
     bucketsField: $('bucketsField'), stageLoading: $('stageLoading'), startOver: $('startOver'), copyImage: $('copyImage'), reportLink: $('reportLink'), exportRow: $('exportRow'),
@@ -71,7 +72,7 @@
   var SETTING_IDS = ['level', 'ramp', 'scaleMode', 'colourLow', 'colourHigh', 'buckets', 'noData', 'reverse',
     'borderColour', 'borderStyle', 'borderWidth', 'outlineColour', 'outlineStyle', 'outlineWidth', 'background', 'canvas',
     'frameStyle', 'frameColour', 'showNames', 'showValues', 'showLegend', 'northArrow', 'northPos', 'northSize',
-    'labelSize', 'decimals', 'numberStyle', 'prefix', 'suffix', 'legendTitle', 'legendPos', 'legendSize', 'labelColour', 'textColour'];
+    'labelSize', 'decimals', 'numberStyle', 'prefix', 'suffix', 'legendTitle', 'legendPos', 'legendSize', 'labelColour', 'textColour', 'labelHalo', 'labelHaloColour'];
 
   var SCALE_HINTS = {
     quantile: 'Equal counts per colour. Good for skewed data like population or income.',
@@ -1275,14 +1276,19 @@
     // --- labels: when the size is automatic, step it down until most labels fit ---
     if (ui.showNames.checked || ui.showValues.checked) {
       var boxes = featureBoxes();
-      var halo = bg === 'transparent' ? '#ffffff' : bg;
+      // the outline behind each label: the background by default, a chosen colour, or none
+      var halo = ui.labelHalo.value === 'none' ? null
+        : ui.labelHalo.value === 'custom' ? ui.labelHaloColour.value
+        : bg === 'transparent' ? '#ffffff' : bg;
       var ls = +ui.labelSize.value;
       var wanted = drawFeats.filter(function (d) { return ui.showNames.checked || has(vals[d.id]); }).length;
-      for (var attempt = 0; attempt < 4; attempt++) {
-        var lg = layer.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle')
-          .attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
+      // Step down one size at a time until most labels fit or the size reaches 7. The last
+      // try is always kept: dropping it left the map with no labels at all.
+      for (;;) {
+        var lg = layer.append('g').attr('font-size', ls).attr('fill', ui.labelColour.value).attr('text-anchor', 'middle');
+        if (halo) lg.attr('paint-order', 'stroke').attr('stroke', halo).attr('stroke-width', ls * 0.25).attr('stroke-linejoin', 'round');
         var placedCount = placeLabels(lg, ls);
-        if (!labelSizeAuto || placedCount >= wanted * 0.8 || ls <= 7) break;
+        if (!labelSizeAuto || placedCount >= wanted * 0.8 || !(ls > 7)) break;
         lg.remove(); ls = Math.max(7, ls - 1);
       }
       if (labelSizeAuto && String(ls) !== ui.labelSize.value) ui.labelSize.value = ls;
@@ -1911,6 +1917,7 @@
 
   function syncUi() {
     ui.customColours.hidden = ui.ramp.value !== 'custom';
+    ui.labelHaloField.hidden = ui.labelHalo.value !== 'custom';
     ui.northField.hidden = !ui.northArrow.checked;
     ui.bucketsField.hidden = ui.scaleMode.value === 'continuous';
     ui.scaleHint.textContent = SCALE_HINTS[ui.scaleMode.value] || '';

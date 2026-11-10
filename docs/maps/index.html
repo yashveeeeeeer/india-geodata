@@ -166,6 +166,12 @@ permalink: /maps/
             <div class="field"><label for="labelColour">Colour</label><input type="color" id="labelColour" value="#111111"></div>
           </div>
           <div class="row">
+            <div class="field"><label for="labelHalo">Text outline</label>
+              <select id="labelHalo"><option value="auto" selected>Same as background</option><option value="custom">Pick a colour</option><option value="none">None</option></select>
+            </div>
+            <div class="field" id="labelHaloField" hidden><label for="labelHaloColour">Outline colour</label><input type="color" id="labelHaloColour" value="#ffffff"></div>
+          </div>
+          <div class="row">
             <div class="field"><label for="numberStyle">Number format</label>
               <select id="numberStyle"><option value="plain">Plain</option><option value="indian" selected>12,34,567</option><option value="lakh">Lakh / Crore</option><option value="metric">K / M / B</option></select>
             </div>
