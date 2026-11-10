@@ -41,7 +41,7 @@ description: "Browse and download 55+ open-licensed GIS datasets for India — a
   </div>
 
 
-  {% capture open_help %}<p class="file-help"><strong>Opening these files:</strong> <code>.parquet</code> files need no unzipping, but QGIS needs a GDAL build with Parquet support. If your installation cannot open them, use the GeoJSONL download instead. A <code>.7z</code> file has to be unzipped first: use 7-Zip on Windows, Keka or The Unarchiver on Mac (the built-in Archive Utility cannot open it), or <code>7z x</code> on Linux. Inside is a <code>.geojsonl</code> file with one shape per line; drag it into QGIS to open it. Files over 1 GB take a while to load.</p>{% endcapture %}
+  {% capture open_help %}<p class="file-help"><strong>Opening these files:</strong> <code>.parquet</code> files need no unzipping, but QGIS needs a GDAL build with Parquet support. If your installation cannot open them, use the GeoJSONL download instead. A <code>.7z</code> file has to be unzipped first: use 7-Zip on Windows, Keka or The Unarchiver on Mac (the built-in Archive Utility may not open it), or <code>7z x</code> on Linux. Inside is a <code>.geojsonl</code> file with one shape per line; drag it into QGIS to open it. Files over 1 GB can take a few minutes to open in QGIS; the Parquet file is faster where it works.</p>{% endcapture %}
   <div id="datasetList">
     {% for cat in cats %}
       {% assign cat_items = site.data.catalog | where: "category", cat %}

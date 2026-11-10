@@ -8,7 +8,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: admin/blocks
@@ -460,7 +459,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: admin/panchayats
@@ -564,7 +562,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: admin/subdistricts
@@ -611,7 +608,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: admin/villages
@@ -704,7 +700,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0 / CC-BY-NC-SA-4.0
   storage: release
   release_tag: census/2011
@@ -1998,7 +1993,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: environment/coastal
@@ -2215,7 +2209,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: environment/forests
@@ -4243,7 +4236,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: police/jurisdictions
@@ -4998,7 +4990,6 @@
   category: urban
   level: buildings-google
   formats:
-  - geojsonl.7z
   - parquet
   - pmtiles
   license_id: CC-BY-4.0
@@ -5250,7 +5241,6 @@
   category: urban
   level: buildings-microsoft
   formats:
-  - geojsonl.7z
   - parquet
   - pmtiles
   license_id: ODbL-1.0
@@ -5761,7 +5751,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: urban/boundaries
@@ -6744,7 +6733,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: urban/boundaries
@@ -7001,7 +6989,6 @@
   - parquet
   - pmtiles
   - geojsonl.7z
-  - shapefile
   license_id: CC0-1.0
   storage: release
   release_tag: urban/boundaries

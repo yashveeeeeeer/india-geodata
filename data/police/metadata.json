@@ -24,8 +24,7 @@
   "formats": [
     "parquet",
     "pmtiles",
-    "geojsonl.7z",
-    "shapefile"
+    "geojsonl.7z"
   ],
   "coordinate_system": "EPSG:4326",
   "storage": {
