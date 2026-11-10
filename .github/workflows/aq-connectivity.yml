@@ -1,0 +1,34 @@
+name: Diagnose air quality connectivity
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/aq-connectivity.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # No credentials, checkout, data publication or network configuration.
+      # Record connection stages so timeouts are not mistaken for bad data.
+      - name: Check public publisher connectivity
+        shell: bash
+        run: |
+          for host in airquality.cpcb.gov.in api.data.gov.in; do
+            echo "DNS: $host"
+            getent ahosts "$host" || true
+          done
+          for url in \
+            'https://airquality.cpcb.gov.in/caaqms/iit_rss_feed_with_coordinates' \
+            'https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?format=json&limit=1'; do
+            echo "Endpoint: $url"
+            curl --silent --show-error --location --connect-timeout 20 --max-time 60 \
+              --output /dev/null \
+              --write-out 'status=%{http_code} dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total}\n' \
+              "$url" || echo "curl exit=$?"
+          done
