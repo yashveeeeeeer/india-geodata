@@ -3,15 +3,15 @@ name: Air quality hourly
 # Pulls the current hour of CPCB readings, refreshes what the page reads, and
 # folds the raw rows into the day's Parquet archive.
 #
-# Setup, once: add a free data.gov.in key as the repository secret
-# DATA_GOV_IN_KEY (Settings -> Secrets and variables -> Actions). Without it the
-# job falls back to the published sample key, which is heavily rate limited.
+# Fetch directly from CPCB's public station feed; no key is required. The
+# data.gov.in adapter remains available for manual comparison with --source
+# data-gov and DATA_GOV_IN_KEY, but is not the scheduled ingestion dependency.
 #
 # The archive is a Release asset, not a committed file: an hourly commit of a
 # growing data file would put gigabytes into git history within a year.
 #
-# A single missed hour is not a fault. data.gov.in refuses a burst of requests
-# now and then, and the page carries on showing the hour before. So a failed
+# A single missed hour is not a fault. The publisher can be unavailable
+# temporarily, and the page carries on showing the hour before. So a failed
 # fetch publishes nothing, skips the rest of the run, and says so.
 #
 # It does not decide whether that matters. Judging it here would mean a
@@ -54,8 +54,6 @@ jobs:
 
       - name: Fetch the current hour
         id: fetch
-        env:
-          DATA_GOV_IN_KEY: ${{ secrets.DATA_GOV_IN_KEY }}
         run: |
           set +e
           python scripts/fetch-aq-latest.py --snapshot-dir .aq-snapshots
