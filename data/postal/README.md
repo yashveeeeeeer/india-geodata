@@ -21,8 +21,9 @@ Each ZIP contains shapefile components for a subset of pincodes.
 
 QGIS labels a layer by the first column with "name" in it, so the DataMeet and
 data.gov.in files show post office names when labels are turned on. To show PIN
-codes, set the label Value to `pincode` (DataMeet) or `Pincode` (data.gov.in).
-The DataMeet folder ships `india_pincodes.qml`, which does this for you.
+codes, set the label Value to `pincode` (DataMeet) or `Pincode` (data.gov.in
+Parquet and GeoJSONL; PMTiles layers have no such setting). The DataMeet folder
+ships `india_pincodes.qml`, which does this for you.
 
 ### Download
 

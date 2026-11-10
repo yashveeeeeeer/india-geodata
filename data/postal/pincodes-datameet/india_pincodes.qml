@@ -2,7 +2,7 @@
 <qgis styleCategories="Labeling|MapTips" labelsEnabled="1" version="3.34.1-Prizren">
   <labeling type="simple">
     <settings calloutType="simple">
-      <text-style fontSize="8" fontWordSpacing="0" fontUnderline="0" fontItalic="0" allowHtml="0" previewBkgrdColor="255,255,255,255" namedStyle="" capitalization="0" useSubstitutions="0" fieldName="pincode" forcedBold="0" textOrientation="horizontal" textColor="17,17,17,255" fontKerning="1" multilineHeightUnit="Percentage" fontLetterSpacing="0" forcedItalic="0" blendMode="0" fontSizeUnit="Point" isExpression="0" fontFamily="Arial" textOpacity="1" fontStrikeout="0" legendString="Aa" fontWeight="50" multilineHeight="1" fontSizeMapUnitScale="3x:0,0,0,0,0,0">
+      <text-style fontSize="8" fontWordSpacing="0" fontUnderline="0" fontItalic="0" allowHtml="0" previewBkgrdColor="255,255,255,255" namedStyle="" capitalization="0" useSubstitutions="0" fieldName="pincode" forcedBold="0" textOrientation="horizontal" textColor="17,17,17,255" fontKerning="1" multilineHeightUnit="Percentage" fontLetterSpacing="0" forcedItalic="0" blendMode="0" fontSizeUnit="Point" isExpression="0" textOpacity="1" fontStrikeout="0" legendString="Aa" fontWeight="50" multilineHeight="1" fontSizeMapUnitScale="3x:0,0,0,0,0,0">
         <families/>
         <text-buffer bufferSizeUnits="MM" bufferJoinStyle="128" bufferDraw="1" bufferNoFill="1" bufferBlendMode="0" bufferSize="0.80000000000000004" bufferColor="255,255,255,255" bufferOpacity="1" bufferSizeMapUnitScale="3x:0,0,0,0,0,0"/>
         <text-mask maskOpacity="1" maskEnabled="0" maskedSymbolLayers="" maskSizeUnits="MM" maskSize="1.5" maskType="0" maskSizeMapUnitScale="3x:0,0,0,0,0,0" maskJoinStyle="128"/>
