@@ -4305,6 +4305,11 @@
     size: 295 B
     storage: repo
     download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.prj.zip
+  - name: pincodes-datameet/india_pincodes.qml
+    format: qml
+    size: 11 KB
+    storage: repo
+    download_url: https://github.com/yashveeeeeeer/india-geodata/raw/main/data/postal/pincodes-datameet/india_pincodes.qml
   - name: pincodes-datameet/india_pincodes.sbn.zip
     format: zip
     size: 111 KB
