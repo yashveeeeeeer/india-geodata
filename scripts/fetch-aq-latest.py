@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Fetch the current hour of CPCB readings and write what the page needs.
 
-Source: data.gov.in resource 3b01bcb8 ("Real time Air Quality Index from various
-locations"), published by CPCB. It is a snapshot with no history, so this runs
-hourly and the archive is accumulated from the snapshots.
+Source: CPCB's public station RSS JSON feed. It is a snapshot with no history,
+so this runs hourly and the archive is accumulated from the snapshots.
+The data.gov.in mirror remains available explicitly with --source data-gov.
 
 The feed reports the AQI sub-index, not the concentration, so every reading is
 converted before it is published (see scripts/aqi_scale.py). The snapshot keeps
@@ -14,13 +14,9 @@ Writes:
     docs/projects/air-quality/data/latest.json   city means per pollutant, for the map
     <snapshot dir>/aq-<UTC timestamp>.csv        the raw rows, for the archive step
 
-Get a free key at https://data.gov.in and pass it with --key or DATA_GOV_IN_KEY.
-The published sample key works but returns 10 rows per request, so this pages.
-
-Pages are read down one connection, with a short wait between them. Opening a
-fresh TLS connection for each of thirty-odd pages and firing them back to back
-reads like a burst, and data.gov.in starts refusing: the first page answers in
-under two seconds and the second is met with a closed door.
+The default CPCB feed is public and needs no API key. The optional data.gov.in
+mirror uses DATA_GOV_IN_KEY; its published sample key is capped to ten rows per
+request. Both routes preserve the source observation times and AQI sub-indices.
 
 Usage:
     python scripts/fetch-aq-latest.py [--key KEY] [--snapshot-dir DIR]
@@ -36,12 +32,14 @@ import re
 import sys
 import time
 import urllib.parse
+import urllib.request
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from aqi_scale import check_covered, to_concentration   # noqa: E402
 
+CPCB_RSS = "https://airquality.cpcb.gov.in/caaqms/iit_rss_feed_with_coordinates"
 RESOURCE = "3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69"
 HOST = "api.data.gov.in"
 PATH = f"/resource/{RESOURCE}"
@@ -192,6 +190,84 @@ def fetch_all(key, page=100, pause=0.4, timeout=45.0, deadline=600.0):
     return rows, total
 
 
+def parse_cpcb(payload):
+    """Flatten the publisher's station feed into the existing raw archive schema.
+
+    avg/min/max are pollutant sub-indices, as in the data.gov.in mirror.
+    Hourly_sub_index is a different statistic and must not replace avg.
+    """
+    try:
+        if payload["countryId"] != "India" or not isinstance(payload["country"], list):
+            raise ValueError("expected India's station list")
+        rows, seen = [], set()
+        for state in payload["country"]:
+            for city in state["citiesInState"]:
+                for station in city["stationsInCity"]:
+                    stamp = station["lastUpdate"]
+                    datetime.strptime(stamp, "%d-%m-%Y %H:%M:%S")
+                    name = station["stationName"]
+                    if not name or not state["stateId"] or not city["cityId"]:
+                        raise ValueError("missing station geography")
+                    lat, lon = float(station["latitude"]), float(station["longitude"])
+                    if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+                        raise ValueError("invalid station coordinates")
+                    for pollutant in station["pollutants"]:
+                        identity = (state["stateId"], city["cityId"], name,
+                                    pollutant["indexId"])
+                        if identity in seen:
+                            raise ValueError("duplicate station pollutant")
+                        seen.add(identity)
+                        rows.append({
+                            "country": "India", "state": state["stateId"],
+                            "city": city["cityId"], "station": name,
+                            "last_update": stamp, "latitude": lat, "longitude": lon,
+                            "pollutant_id": pollutant["indexId"],
+                            "min_value": pollutant["min"],
+                            "max_value": pollutant["max"],
+                            "avg_value": pollutant["avg"],
+                        })
+        if not rows:
+            raise ValueError("empty station feed")
+        return rows
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError(f"invalid CPCB station feed: {exc}") from exc
+
+
+def fetch_cpcb(timeout=45.0):
+    """Read the public publisher endpoint with normal certificate verification."""
+    request = urllib.request.Request(CPCB_RSS, headers={
+        "User-Agent": UA, "Accept": "application/json"})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        payload = json.load(response)
+    rows = parse_cpcb(payload)
+    return rows, len(rows)
+
+
+def fresh_rows(rows, now=None):
+    """Exclude old station observations from both aggregation and the archive.
+
+    A feed can contain several observation times. Its newest station cannot
+    establish freshness for the others. Invalid or future times fail the fetch;
+    legitimately older observations are omitted, never relabelled as current.
+    """
+    now = now or datetime.now(timezone.utc)
+    fresh = []
+    for row in rows:
+        try:
+            stamp = datetime.strptime(row["last_update"], "%d-%m-%Y %H:%M:%S")
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("source has a missing or malformed observation timestamp") from exc
+        stamp = stamp.replace(tzinfo=IST)
+        age = (now - stamp).total_seconds() / 3600
+        if age < -1:
+            raise ValueError(f"source observation is in the future: {row['last_update']}")
+        if age <= 6:
+            fresh.append(row)
+    if not fresh:
+        raise ValueError("source has no observations within the last six hours")
+    return fresh
+
+
 def to_float(v):
     if v is None or str(v).strip().lower() in NA:
         return None
@@ -305,6 +381,7 @@ def aggregate(rows, cities, stations=None):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--source", choices=("cpcb", "data-gov"), default="cpcb")
     # GitHub hands an unset secret through as "", so the usual default does not
     # fire and we would send an empty api-key and be turned away.
     ap.add_argument("--key", default=(os.environ.get("DATA_GOV_IN_KEY") or "").strip()
@@ -320,21 +397,38 @@ def main():
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     data_dir = os.path.join(root, "docs", "projects", "air-quality", "data")
-    cities = json.load(open(os.path.join(data_dir, "cities.json"), encoding="utf-8"))
+    with open(os.path.join(data_dir, "cities.json"), encoding="utf-8") as f:
+        cities = json.load(f)
 
-    if args.key == SAMPLE_KEY:
+    if args.source == "data-gov" and args.key == SAMPLE_KEY:
         # It works, which is the danger: it caps pages at ten rows and publishes
         # the same numbers, so a deleted secret would look like a healthy hour
         # for ever. Say so where a log will catch it.
         print("::warning::no DATA_GOV_IN_KEY; falling back to the public sample "
               "key, which returns ten rows a page. Set the secret.", flush=True)
-    rows, total = fetch_all(args.key, args.page, args.pause, args.timeout,
-                            args.deadline)
+    try:
+        if args.source == "cpcb":
+            rows, total = fetch_cpcb(args.timeout)
+        else:
+            rows, total = fetch_all(args.key, args.page, args.pause, args.timeout,
+                                    args.deadline)
+            if len(rows) != total:
+                raise ValueError(f"incomplete response: {len(rows)} of {total} rows")
+    except (OSError, ValueError) as exc:
+        sys.exit(f"{args.source} fetch failed: {exc}")
     if not rows:
         sys.exit("no records returned")
     print(f"  fetched {len(rows)} of {total} rows")
+    fetched = len(rows)
+    try:
+        rows = fresh_rows(rows)
+    except ValueError as exc:
+        sys.exit(str(exc))
+    if len(rows) != fetched:
+        print(f"  omitted {fetched - len(rows)} observations older than six hours")
 
-    stations = json.load(open(os.path.join(data_dir, "stations.json"), encoding="utf-8"))
+    with open(os.path.join(data_dir, "stations.json"), encoding="utf-8") as f:
+        stations = json.load(f)
     (pollutants, per_station, updated, unknown,
      n_stations, unmatched_st) = aggregate(rows, cities, stations)
     if not pollutants:
@@ -343,7 +437,8 @@ def main():
     payload = {
         "updated": updated,
         "fetched": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source": "Central Pollution Control Board, via data.gov.in",
+        "source": ("Central Pollution Control Board" if args.source == "cpcb"
+                   else "Central Pollution Control Board, via data.gov.in"),
         "stations": n_stations,
         "pollutants": pollutants,
         "byStation": per_station,
