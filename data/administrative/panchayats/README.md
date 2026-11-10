@@ -20,12 +20,21 @@ All files are distributed via GitHub Releases under the tag **`admin/panchayats`
 
 **Total**: 9 files (~4.2 GB)
 
-### Known problem: egramswaraj_activities
+### Repaired: egramswaraj_activities
 
-182 of the 7,360,307 activity points sit outside India: 4 at 0°N 0°E, off the
-coast of Africa, and 178 just outside India's border or coast. The 0°N 0°E
-points make "Zoom to layer" in QGIS take in Africa. To drop those four, keep
-only points east of 68°E (in QGIS: Processing → Extract/clip by extent).
+5 of the 7,360,307 activities had 1 or 2 of their points at 0°N 0°E, off the
+coast of Africa, which made "Zoom to layer" in QGIS take in Africa. The files
+were repaired in November 2026: those 6 points are gone, and the 5 activities
+keep their other points, which are in India. Nothing else in the files changed.
+The fix is
+[`scripts/repair-points-outside-india.py`](../../../scripts/repair-points-outside-india.py).
+
+### Known problem: points just outside India
+
+About 1,500 points, in about 900 activities, still sit outside India's outline.
+Most are within a kilometre of the border or coast. About 280 are more than 5 km
+out, some in neighbouring countries, and are probably wrong. They are left as
+they are, because nothing in the row says where they should be.
 
 ### Download
 
