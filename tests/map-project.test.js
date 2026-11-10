@@ -26,7 +26,7 @@ function reader({ contents, storageError, readError } = {}) {
     location: { reload() { calls.reloads++; } },
     setStatus(message) { calls.status = message; },
     clearTimeout(timer) { calls.cleared.push(timer); },
-    STORE_KEY: 'igd-mapmaker-v1', saveTimer: 12, renderTimer: 34
+    STORE_KEY: 'igd-mapmaker-v1', saveTimer: 12, renderTimer: 34, projectOpening: false
   };
   vm.createContext(context);
   const start = source.indexOf('  function openProject(file) {');
@@ -34,6 +34,7 @@ function reader({ contents, storageError, readError } = {}) {
   assert.ok(start !== -1 && end > start);
   vm.runInContext(source.slice(start, end), context);
   context.openProject({ name: 'saved.mapmaker.json' });
+  calls.opening = context.projectOpening;
   return calls;
 }
 
@@ -45,6 +46,38 @@ test('project import preserves settings and data and cancels pending autosaves',
   assert.equal(calls.writes[0].key, 'igd-mapmaker-v1');
   assert.deepEqual(calls.cleared, [12, 34]);
   assert.equal(calls.reloads, 1);
+  assert.equal(calls.opening, true, 'autosave is switched off until the reload');
+});
+
+test('very long pasted text is left out, as the autosave does, so a big project still opens', () => {
+  const project = { app: 'india-map-maker', version: 1, paste: 'x'.repeat(500000), values: { states: { 32: 94 } } };
+  const calls = reader({ contents: JSON.stringify(project) });
+  const stored = JSON.parse(calls.writes[0].value);
+  assert.equal(stored.paste, '');
+  assert.deepEqual(stored.values, project.values);
+  assert.equal(calls.reloads, 1);
+});
+
+test('a file that is not JSON gets a plain message, not a parser error', () => {
+  const calls = reader({ contents: '{invalid' });
+  assert.equal(calls.status, 'That file is not a saved map project.');
+});
+
+test('nothing autosaves once a project is being opened', () => {
+  const start = source.indexOf('  function save() {');
+  const end = source.indexOf('  function restore() {', start);
+  assert.ok(start !== -1 && end > start);
+  const timers = [];
+  const context = { projectOpening: true, saveTimer: null, clearTimeout() {}, setTimeout(fn) { timers.push(fn); return 1; } };
+  vm.createContext(context);
+  vm.runInContext(source.slice(start, end), context);
+  context.save();
+  assert.equal(timers.length, 0, 'no save is scheduled while opening');
+  context.projectOpening = false;
+  context.save();
+  assert.equal(timers.length, 1);
+  context.projectOpening = true;   // a save scheduled just before opening must not write either
+  assert.doesNotThrow(() => timers[0]());
 });
 
 for (const contents of ['{}', 'null', '{invalid']) {
@@ -59,7 +92,7 @@ for (const contents of ['{}', 'null', '{invalid']) {
 
 test('storage failure reports the problem without reloading or cancelling autosave', () => {
   const calls = reader({ contents: '{"app":"india-map-maker","version":1}', storageError: true });
-  assert.match(calls.status, /Storage unavailable/);
+  assert.match(calls.status, /would not save it/);
   assert.equal(calls.reloads, 0);
   assert.equal(calls.cleared.length, 0);
 });

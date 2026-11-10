@@ -1681,15 +1681,18 @@
     var fr = new FileReader();
     fr.onerror = function () { setStatus('Could not read ' + file.name + '.'); };
     fr.onload = function () {
-      try {
-        var data = JSON.parse(fr.result);
-        if (!data || data.app !== 'india-map-maker') { setStatus('That file is not a saved map project.'); return; }
-        localStorage.setItem(STORE_KEY, JSON.stringify(data));
-        // A pending autosave must not overwrite the imported project before reload.
-        clearTimeout(saveTimer);
-        clearTimeout(renderTimer);
-        location.reload();
-      } catch (e) { setStatus('Could not open ' + file.name + ': ' + e.message); }
+      var data = null;
+      try { data = JSON.parse(fr.result); } catch (e) { /* not JSON: reported below */ }
+      if (!data || data.app !== 'india-map-maker') { setStatus('That file is not a saved map project.'); return; }
+      // the autosave leaves out very long pasted text to stay inside the browser's storage; do the same here
+      if (typeof data.paste === 'string' && data.paste.length >= 500000) data.paste = '';
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+      catch (e) { setStatus('Could not open ' + file.name + ': this browser would not save it. It may be too big, or saving may be turned off.'); return; }
+      // From here on nothing may save the old map over the opened one before the page reloads.
+      projectOpening = true;
+      clearTimeout(saveTimer);
+      clearTimeout(renderTimer);
+      location.reload();
     };
     fr.readAsText(file);
   }
@@ -1716,10 +1719,12 @@
   // ---------------------------------------------------------------------------
   //  Persistence
   // ---------------------------------------------------------------------------
-  var saveTimer = null, saveFailed = false;
+  var saveTimer = null, saveFailed = false, projectOpening = false;
   function save() {
+    if (projectOpening) return;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () {
+      if (projectOpening) return;
       var settings = {};
       SETTING_IDS.forEach(function (id) { var el = ui[id]; settings[id] = el.type === 'checkbox' ? el.checked : el.value; });
       try {
