@@ -166,8 +166,10 @@ Government data sources include: Survey of India, Local Government Directory (Mo
 
 ### Opening the files
 
-- **Parquet** is the easiest: it opens straight in QGIS 3.28 or newer (drag it
-  in), and in Python, R and DuckDB. No unzipping.
+- **Parquet** needs no unzipping. QGIS can open it when its GDAL build includes
+  the [Parquet driver](https://gdal.org/en/stable/drivers/vector/parquet.html).
+  Availability depends on the installation, not just the QGIS version. If it
+  is unsupported, extract the GeoJSONL download instead.
 - **`.7z` files must be unzipped first.** On Windows use [7-Zip](https://www.7-zip.org/).
   On Mac the built-in Archive Utility cannot open them; use
   [Keka](https://www.keka.io/) or The Unarchiver. On Linux run `7z x file.7z`.
