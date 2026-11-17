@@ -36,13 +36,14 @@ All files are distributed via GitHub Releases under the tag **`admin/habitations
 
 **Total**: 29 files (~11.7 GB) -- includes additional variants not listed above.
 
-### Known problem: PMGSY_Habitations
+### Repaired: PMGSY_Habitations
 
-74 of the 1,045,426 habitations sit outside India. 39 have latitude and
-longitude the wrong way round. The other 35 have unusable coordinates, some of
-them infinite, which can make tools fail when they work out the layer's extent.
-To drop them, keep only points between 68°E and 98°E and between 6°N and 38°N
-(in QGIS: Processing → Extract/clip by extent).
+72 of the 1,045,426 habitations sat outside India. The files were repaired in
+November 2026. 39 had latitude and longitude the wrong way round: they are
+swapped back, and all 39 now sit in their own state. The other 33 had unusable
+coordinates, some of them near-infinite, so they now have no geometry; their
+other columns are kept. Nothing else in the files changed. The fix is
+[`scripts/repair-points-outside-india.py`](../../../scripts/repair-points-outside-india.py).
 
 ### Download
 
